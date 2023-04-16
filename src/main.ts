@@ -1,34 +1,62 @@
-/**
- * Some predefined delay values (in milliseconds).
- */
-export enum Delays {
-  Short = 500,
-  Medium = 2000,
-  Long = 5000,
-}
 
-/**
- * Returns a Promise<string> that resolves after a given time.
- *
- * @param {string} name - A name.
- * @param {number=} [delay=Delays.Medium] - A number of milliseconds to delay resolution of the Promise.
- * @returns {Promise<string>}
- */
-function delayedHello(
-  name: string,
-  delay: number = Delays.Medium,
-): Promise<string> {
-  return new Promise((resolve: (value?: string) => void) =>
-    setTimeout(() => resolve(`Hello, ${name}`), delay),
-  );
-}
 
-// Please see the comment in the .eslintrc.json file about the suppressed rule!
-// Below is an example of how to use ESLint errors suppression. You can read more
-// at https://eslint.org/docs/latest/user-guide/configuring/rules#disabling-rules
+import axios from  'axios';
+import cheerio from 'cheerio';
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export async function greeter(name: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
-  // The name parameter should be of type string. Any is used only to trigger the rule.
-  return await delayedHello(name, Delays.Long);
-}
+const url = 'https://news.ycombinator.com/';
+
+
+axios(url).then(response => {
+
+
+    const html = response.data;
+    const $ = cheerio.load(html);
+    const items = $('.athing');
+
+    const scores = $('.subline .score');
+
+    const out = []
+
+    let i = 0;
+    items.each(function(){
+
+     const title = $(this).find('.titleline').text();
+
+     const url = $(this).find('.titleline a').attr("href");
+
+     out[i] = [,title,url]
+
+     i++;
+
+    })
+
+    let j = 0;
+    scores.each(function(){
+
+     const score = $(this).text();
+
+     out[j][0] = score 
+
+     j++;
+
+    })
+
+
+    console.log(out)
+
+    // items.each(function(){
+    //     const nomeJogador = $(this).find('.jogador-nome').text();
+    //     const posicaoJogador = $(this).find('.jogador-posicao').text();
+    //     const numeroGols = $(this).find('.jogador-gols').text();
+    //     const timeJogador = $(this).find('.jogador-escudo > img').attr('alt');
+    //     tabelaJogador.push({
+    //         nomeJogador,
+    //         posicaoJogador,
+    //         numeroGols,
+    //         timeJogador
+    //     });
+    // });
+    // console.log(tabelaJogador);
+
+
+}).catch(console.error);
