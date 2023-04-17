@@ -1,86 +1,109 @@
 
 
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import cheerio from 'cheerio';
 import fs from "fs"
 
-export async function reddit(channel: string) {
-	console.log("processing channel", channel)
-	const url = `https://old.reddit.com/r/${channel}/.rss`;
+const axiosReq = async (url: string): Promise<{ ok: false, err: string } | { ok: true, response: AxiosResponse<any, any> }> => new Promise(resolve => {
 
-	const response = await axios(url);
+	return axios(url).then(response => {
+		resolve({ ok: true, response })
+	}).catch(err => {
+		resolve({ ok: false, err })
+	})
 
-	const rss = response.data;
-	const $ = cheerio.load(rss);
+})
 
-	const entries = $('entry').toArray();
 
-	const output: { [x: string]: { title: string, link: string, published: string }[] } = {}
 
-	entries.forEach(entry => {
+export const reddit = (channel: string) =>
+	new Promise(async resolve => {
 
-		const title = $(entry).find('title').text();
+		console.log("processing channel", channel)
+		const url = `https://old.reddit.com/r/${channel}/.rss`;
 
-		const link = $(entry).find('link').attr('href');
+		const result = await axiosReq(url);
 
-		const published = $(entry).find('published').text();
-
-		const date = new Date(published)
-
-		const formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() + 1}`
-
-		if (!output[formattedDate]) {
-			output[formattedDate] = []
+		if (!result.ok) {
+			console.log("error fetching", url)
+			resolve(null)
+			return
 		}
 
-		output[formattedDate].push({ title, link, published })
+		const rss = result.response.data;
+		const $ = cheerio.load(rss);
 
-	});
+		const entries = $('entry').toArray();
 
-	Object.entries(output).forEach(([date, items]) => {
+		const output: { [x: string]: { title: string, link: string, published: string }[] } = {}
 
-		const fileName = `./data/reddit-${channel}/${date}.json`;
+		entries.forEach(entry => {
 
-		fs.readFile(fileName, (err, fileContent) => {
+			const title = $(entry).find('title').text();
 
-			if (err) {
-				if (err.code == "ENOENT") {
-					console.log("creating dir", `./data/reddit-${channel}`)
-					fs.mkdirSync(`./data/reddit-${channel}`, { recursive: true })
-				} else {
-					console.log(err)
-					return
-				}
+			const link = $(entry).find('link').attr('href');
 
-				write(fileName, items)
-				return
-			} else {
-				console.log("file exists", fileName)
-				const fileData = JSON.parse(fileContent.toString())
+			const published = $(entry).find('published').text();
 
-				const newItems = []
+			const date = new Date(published)
 
-				for (let i = 0; i < items.length; i++) {
+			const formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() + 1}`
 
-					if (fileData.find((item: { link: string; }) => item.link === items[i].link)) {
-						continue
-					}
-
-					newItems.push(items[i])
-
-				}
-
-				const newData = [...fileData, ...newItems]
-
-				write(fileName, newData)
+			if (!output[formattedDate]) {
+				output[formattedDate] = []
 			}
 
+			output[formattedDate].push({ title, link, published })
 
 		});
 
+		Object.entries(output).forEach(([date, items]) => {
+
+			const fileName = `./data/reddit-${channel}/${date}.json`;
+
+			fs.readFile(fileName, (err, fileContent) => {
+
+				if (err) {
+					if (err.code == "ENOENT") {
+						console.log("creating dir", `./data/reddit-${channel}`)
+						fs.mkdirSync(`./data/reddit-${channel}`, { recursive: true })
+					} else {
+						console.log(err)
+						return
+					}
+
+					write(fileName, items)
+					return
+				} else {
+					console.log("file exists", fileName)
+					const fileData = JSON.parse(fileContent.toString())
+
+					const newItems = []
+
+					for (let i = 0; i < items.length; i++) {
+
+						if (fileData.find((item: { link: string; }) => item.link === items[i].link)) {
+							continue
+						}
+
+						newItems.push(items[i])
+
+					}
+
+					const newData = [...fileData, ...newItems]
+
+					write(fileName, newData)
+				}
+
+
+			});
+
+		})
+
+		resolve(null)
+
 	})
 
-}
 
 function write(fileName: string, items: { title: string; link: string; published: string; }[]) {
 	fs.writeFile(fileName, JSON.stringify(items), (err) => {
