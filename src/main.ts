@@ -1,62 +1,82 @@
 
 
-import axios from  'axios';
+import axios from 'axios';
 import cheerio from 'cheerio';
+import fs from "fs"
 
-const url = 'https://news.ycombinator.com/';
+const url = 'https://old.reddit.com/r/programming/.rss';
+
+const response = await axios(url)
+
+const rss = response.data;
+const $ = cheerio.load(rss);
+
+const entries = $('entry').toArray();
+
+const output: { [x: string]: { title: string, link: string, published: string }[] } = {}
+
+entries.forEach(entry => {
+
+  const title = $(entry).find('title').text();
+
+  const link = $(entry).find('link').attr('href');
+
+  const published = $(entry).find('published').text();
+
+  const date = new Date(published)
+
+  const formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() + 1}`
+
+  if (!output[formattedDate]) {
+    output[formattedDate] = []
+  }
+
+  output[formattedDate].push({ title, link, published })
+
+});
+
+Object.entries(output).forEach(([date, items]) => {
+
+  const fileName = `./data/${date}.json`;
+
+  fs.readFile(fileName, (err, fileContent) => {
+
+    if (err) {
+      console.log("handling err")
+      write(fileName, items)
+      return
+    } else {
+      const fileData = JSON.parse(fileContent.toString())
+
+      const newItems = []
+
+      for (let i = 0; i < items.length; i++) {
+
+        if (fileData.find((item: { link: string; }) => item.link === items[i].link)) {
+          continue
+        }
+
+        newItems.push(items[i])
+
+      }
+
+      const newData = [...fileData, ...newItems]
+
+      write(fileName, newData)
+    }
 
 
-axios(url).then(response => {
+  });
+
+})
+
+function write(fileName: string, items: { title: string; link: string; published: string; }[]) {
+  fs.writeFile(fileName, JSON.stringify(items), (err) => {
+    if (err) {
+      console.error(err);
+    }
+  });
+}
 
 
-    const html = response.data;
-    const $ = cheerio.load(html);
-    const items = $('.athing');
 
-    const scores = $('.subline .score');
-
-    const out = []
-
-    let i = 0;
-    items.each(function(){
-
-     const title = $(this).find('.titleline').text();
-
-     const url = $(this).find('.titleline a').attr("href");
-
-     out[i] = [,title,url]
-
-     i++;
-
-    })
-
-    let j = 0;
-    scores.each(function(){
-
-     const score = $(this).text();
-
-     out[j][0] = score 
-
-     j++;
-
-    })
-
-
-    console.log(out)
-
-    // items.each(function(){
-    //     const nomeJogador = $(this).find('.jogador-nome').text();
-    //     const posicaoJogador = $(this).find('.jogador-posicao').text();
-    //     const numeroGols = $(this).find('.jogador-gols').text();
-    //     const timeJogador = $(this).find('.jogador-escudo > img').attr('alt');
-    //     tabelaJogador.push({
-    //         nomeJogador,
-    //         posicaoJogador,
-    //         numeroGols,
-    //         timeJogador
-    //     });
-    // });
-    // console.log(tabelaJogador);
-
-
-}).catch(console.error);
