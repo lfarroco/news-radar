@@ -1,114 +1,90 @@
-
-
 import axios, { AxiosResponse } from 'axios';
 import cheerio from 'cheerio';
-import fs from "fs"
+import pg from 'pg';
 
-const axiosReq = async (url: string): Promise<{ ok: false, err: string } | { ok: true, response: AxiosResponse<any, any> }> => new Promise(resolve => {
+const dbClient = new pg.Client({
+  password: 'root',
+  user: 'root',
+  host: 'postgres',
+});
 
-	return axios(url).then(response => {
-		resolve({ ok: true, response })
-	}).catch(err => {
-		resolve({ ok: false, err })
-	})
+const restrictedDomains = [
+  'youtube.com',
+  'youtu.be',
+  'twitter.com',
+  'instagram.com',
+  'facebook.com',
+  'tiktok.com',
+  'tiktok',
+  'v.redd.it',
+  'vimeo.com',
+  'gfycat.com',
+  'streamable.com',
+  'reddit.com',
+  'redd.it',
+];
 
-})
-
-
+const axiosReq = async (
+  url: string,
+): Promise<
+  { ok: false; err: string } | { ok: true; response: AxiosResponse<any, any> }
+> =>
+  new Promise((resolve) => {
+    return axios(url)
+      .then((response) => {
+        resolve({ ok: true, response });
+      })
+      .catch((err) => {
+        resolve({ ok: false, err });
+      });
+  });
 
 export const reddit = (channel: string) =>
-	new Promise(async resolve => {
+  new Promise(async (resolve) => {
+    await dbClient.connect();
 
-		console.log("processing channel", channel)
-		const url = `https://old.reddit.com/r/${channel}/.rss`;
+    console.log('processing channel', channel);
+    const url = `https://old.reddit.com/r/${channel}`;
 
-		const result = await axiosReq(url);
+    const result = await axiosReq(url);
 
-		if (!result.ok) {
-			console.log("error fetching", url)
-			resolve(null)
-			return
-		}
+    if (!result.ok) {
+      console.log('error fetching', url);
+      resolve(null);
+      return;
+    }
 
-		const rss = result.response.data;
-		const $ = cheerio.load(rss);
+    const rss = result.response.data;
+    const $ = cheerio.load(rss);
 
-		const entries = $('entry').toArray();
+    const entries = $('.thing:not(.promoted)').toArray();
 
-		const output: { [x: string]: { title: string, link: string, published: string }[] } = {}
+    entries.forEach((entry) => {
+      const title = $(entry).find('a.title.outbound').text();
+      const link = $(entry).find('.title a').attr('href');
+      const published = $(entry).find('.tagline time').attr('datetime');
+      const date = new Date(published);
 
-		entries.forEach(entry => {
+      const isRestricted = restrictedDomains.some((domain) =>
+        link.includes(domain),
+      );
 
-			const title = $(entry).find('title').text();
+      if (isRestricted) {
+        return;
+      }
 
-			const link = $(entry).find('link').attr('href');
+      dbClient
+        .query(
+          `INSERT INTO info 
+           (title, link, source, content, date, status)
+           VALUES
+           ($1::text, $2::text, $3::varchar(32), $4::text, $5::date, $6::varchar(32))
+           ON CONFLICT (link) DO NOTHING;
+          `,
 
-			const published = $(entry).find('published').text();
+          [title, link, 'reddit', '', date, 'pending'],
+        )
+    });
 
-			const date = new Date(published)
-
-			const formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() + 1}`
-
-			if (!output[formattedDate]) {
-				output[formattedDate] = []
-			}
-
-			output[formattedDate].push({ title, link, published })
-
-		});
-
-		Object.entries(output).forEach(([date, items]) => {
-
-			const fileName = `./data/reddit-${channel}/${date}.json`;
-
-			fs.readFile(fileName, (err, fileContent) => {
-
-				if (err) {
-					if (err.code == "ENOENT") {
-						console.log("creating dir", `./data/reddit-${channel}`)
-						fs.mkdirSync(`./data/reddit-${channel}`, { recursive: true })
-					} else {
-						console.log(err)
-						return
-					}
-
-					write(fileName, items)
-					return
-				} else {
-					console.log("file exists", fileName)
-					const fileData = JSON.parse(fileContent.toString())
-
-					const newItems = []
-
-					for (let i = 0; i < items.length; i++) {
-
-						if (fileData.find((item: { link: string; }) => item.link === items[i].link)) {
-							continue
-						}
-
-						newItems.push(items[i])
-
-					}
-
-					const newData = [...fileData, ...newItems]
-
-					write(fileName, newData)
-				}
-
-
-			});
-
-		})
-
-		resolve(null)
-
-	})
-
-
-function write(fileName: string, items: { title: string; link: string; published: string; }[]) {
-	fs.writeFile(fileName, JSON.stringify(items), (err) => {
-		if (err) {
-			console.error("Error saving file: ", err);
-		}
-	});
-}
+    resolve(null);
+  });
