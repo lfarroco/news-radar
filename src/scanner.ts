@@ -1,6 +1,6 @@
 import { reddit } from './reddit.js';
 
-[
+const operations = [
   // general subs
   'programming',
   // "functionalprogramming",
@@ -33,7 +33,8 @@ import { reddit } from './reddit.js';
   // "gatsbyjs",
   // "nuxtjs",
   // "reactnative",
-].reduce(
-  (promise, channel) => promise.then(() => reddit(channel)),
-  Promise.resolve(null),
-);
+].map( (channel) =>  reddit(channel))
+
+await Promise.all(operations)
+
+process.exit(0)

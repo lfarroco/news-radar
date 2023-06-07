@@ -46,8 +46,6 @@ export const articleScrapper = (url: string): Promise<string> =>
     resolve(textCleaned);
   });
 
-await scrapper();
-
 export async function scrapper() {
   console.log('scrapper started:');
 
@@ -60,7 +58,10 @@ export async function scrapper() {
     ['approved'],
   );
 
-  console.log('articles', articles);
+  console.log(
+    'articles',
+    articles.rows.map((a) => a.title),
+  );
 
   const urls = articles.rows.map((item: any) => item.link);
 
@@ -73,29 +74,37 @@ export async function scrapper() {
     }),
   );
 
-  texts.forEach(({ link, article }) => {
-    // if the article is too small, mark as failed to scrape
-    if (article.length < 1000) {
-      console.log('article too small:', link);
-      dbClient.query(
-        'UPDATE info SET status = $1::varchar(32) WHERE link = $2::varchar(512);',
-        ['failed-too-small', link],
-      );
-    }
-    // cancel if too big
-    else if (article.length > 20000) {
-      console.log('article too big:', link);
-      dbClient.query(
-        'UPDATE info SET status = $1::varchar(32) WHERE link = $2::varchar(512);',
-        ['failed-too-big', link],
-      );
-    } else {
-      //store the result
-      console.log('article scraped:', link);
-      dbClient.query(
-        'UPDATE info SET status = $1::varchar(32), original = $2::text WHERE link = $3::varchar(512);',
-        ['scraped', article, link],
-      );
-    }
-  });
+  const results = texts.map(
+    ({ link, article }) =>
+      new Promise(async (resolve) => {
+        // if the article is too small, mark as failed to scrape
+        if (article.length < 500) {
+          console.log('article too small:', link);
+          await dbClient.query(
+            'UPDATE info SET status = $1::varchar(32) WHERE link = $2::varchar(512);',
+            ['failed-too-small', link],
+          );
+        } else {
+          //store the result
+          console.log('article scraped:', link);
+
+          const submittedArticle = article.length > 5000 ? article.slice(0, 5000) : article;
+
+          await dbClient.query(
+            'UPDATE info SET status = $1::varchar(32), original = $2::text WHERE link = $3::varchar(512);',
+            ['scraped', submittedArticle, link],
+          );
+        }
+
+        resolve(null);
+      }),
+  );
+
+  await Promise.all(results);
 }
+
+await scrapper();
+
+console.log('scrapper finished');
+
+process.exit(0);

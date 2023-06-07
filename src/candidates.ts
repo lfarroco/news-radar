@@ -14,7 +14,9 @@ export const filterCandidates = async (): Promise<
     await dbClient.connect();
 
     dbClient
-      .query('SELECT * from info WHERE status = $1::varchar(32) LIMIT 10;', ['pending'])
+      .query('SELECT * from info WHERE status = $1::varchar(32) LIMIT 10;', [
+        'pending',
+      ])
       .then((result: { rows: any[] }) => {
         resolve(result.rows);
       });
@@ -30,25 +32,39 @@ const result = await priority(titles);
 
 const parsed: { id: number; topics: string[] }[] = JSON.parse(result);
 
-parsed.forEach((item) => {
-  const topics = JSON.stringify(item.topics);
-  console.log(`updating item ${item.id} with topics ${topics}`);
-  dbClient.query(
-    'UPDATE info SET status = $1::varchar(32), topics = $2::varchar(32) WHERE id = $3::int;',
-    ['approved', topics, item.id],
-  );
-});
+const approved = parsed.map(
+  (item) =>
+    new Promise((resolve) => {
+      const topics = JSON.stringify(item.topics);
+      console.log(`updating item ${item.id} with topics ${topics}`);
+      dbClient.query(
+        'UPDATE info SET status = $1::varchar(32), topics = $2::varchar(32) WHERE id = $3::int;',
+        ['approved', topics, item.id],
+      );
+      resolve(null);
+    }),
+);
+
+await Promise.all(approved);
 
 //reject the rest
 
-items.forEach((item: any) => {
-  const found = parsed.find((p) => p.id === item.id);
+const rejected = items.map(
+  (item: any) =>
+    new Promise(async (resolve) => {
+      const found = parsed.find((p) => p.id === item.id);
 
-  if (!found) {
-    console.log(`rejecting item ${item.id}`);
-    dbClient.query(
-      'UPDATE info SET status = $1::varchar(32) WHERE id = $2::int;',
-      ['rejected', item.id],
-    );
-  }
-});
+      if (!found) {
+        console.log(`rejecting item ${item.id}`);
+        await dbClient.query(
+          'UPDATE info SET status = $1::varchar(32) WHERE id = $2::int;',
+          ['rejected', item.id],
+        );
+      }
+      resolve(null);
+    }),
+);
+
+await Promise.all(rejected);
+
+process.exit(0);

@@ -59,7 +59,7 @@ export const reddit = (channel: string) =>
 
     const entries = $('.thing:not(.promoted)').toArray();
 
-    entries.forEach((entry) => {
+    entries.map((entry) => new Promise(async (done) => {
       const title = $(entry).find('a.title.outbound').text();
       const link = $(entry).find('.title a').attr('href');
       const published = $(entry).find('.tagline time').attr('datetime');
@@ -73,18 +73,27 @@ export const reddit = (channel: string) =>
         return;
       }
 
-      dbClient
+      console.log('inserting', title, link, date);
+
+      await dbClient
         .query(
           `INSERT INTO info 
-           (title, link, source, content, date, status)
+           (title, link, source, date, status)
            VALUES
-           ($1::text, $2::text, $3::varchar(32), $4::text, $5::date, $6::varchar(32))
+           ($1::text, $2::text, $3::varchar(32), $4::date, $5::varchar(32))
            ON CONFLICT (link) DO NOTHING;
           `,
 
-          [title, link, 'reddit', '', date, 'pending'],
+          [title, link, 'reddit', date, 'pending'],
         )
-    });
+
+      done(null);
+    }));
+
+    await Promise.all(entries);
+
+    console.log('done processing', channel);
 
     resolve(null);
+
   });

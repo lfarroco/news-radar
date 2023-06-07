@@ -1,4 +1,3 @@
-
 docker-build:
 	docker build . -t radar-server
 
@@ -23,8 +22,14 @@ scan:
 candidates:
 	docker exec news-radar_app_1 node build/src/candidates.js
 
-article-scrapper:
+scrape:
 	docker exec news-radar_app_1 node build/src/scrapper.js
+
+write:
+	docker exec news-radar_app_1 node build/src/writer.js
+
+publish:
+	docker exec news-radar_app_1 node build/src/publisher.js
 
 dump-db:
 	docker exec -it news-radar_postgres_1 pg_dump -U root -t info > seed.sql
