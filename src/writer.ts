@@ -30,7 +30,7 @@ console.log(
 );
 
 const articles = items.map((article) =>
-  write(article.id, article.title, article.original),
+  write(article.id, article.title, article.original.length > 1400 ? article.original.substring(0, 1400) : article.original),
 );
 
 const results = await Promise.all(articles);

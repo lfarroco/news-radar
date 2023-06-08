@@ -1,0 +1,58 @@
+/* a clean and minilistic css design */
+
+body{
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  background-color: #fff;
+}
+.disclaimer{
+  font-size: 12px;
+  color: #999;
+  text-align: center;
+  margin: 20px 0;
+  background: #eee;
+  border: 1px solid #ccc;
+}
+article{
+  max-width: 960px;
+  margin: 20px auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  padding: 20px;
+}
+h1, h2, h3, h4, h5, h6{
+  margin: 0 0 20px 0;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+}
+p{
+  margin: 0 0 20px 0;
+}
+pre{
+  background-color: #eee;
+  padding: 10px;
+  border-radius: 5px;
+  overflow-x: auto;
+}
+.language-bash{
+  color: #333;
+}
+
+header{
+  margin-bottom: 20px;
+}
+header nav{
+  text-align: center;
+}
+header nav a {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #eee;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #333;
+  margin: 0 5px;
+}
+

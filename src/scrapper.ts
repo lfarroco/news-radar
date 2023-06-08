@@ -74,31 +74,22 @@ export async function scrapper() {
     }),
   );
 
-  const results = texts.map(
-    ({ link, article }) =>
-      new Promise(async (resolve) => {
-        // if the article is too small, mark as failed to scrape
-        if (article.length < 500) {
-          console.log('article too small:', link);
-          await dbClient.query(
-            'UPDATE info SET status = $1::varchar(32) WHERE link = $2::varchar(512);',
-            ['failed-too-small', link],
-          );
-        } else {
-          //store the result
-          console.log('article scraped:', link);
+  const results = texts.map(({ link, article }) => {
+    //store the result
+    console.log('article scraped:', link);
 
-          const submittedArticle = article.length > 5000 ? article.slice(0, 5000) : article;
+    if (!article) {
+      return dbClient.query(
+        'UPDATE info SET status = $1::varchar(32), original = $2::text WHERE link = $3::varchar(512);',
+        ['error-scraping', 'error', link],
+      );
+    }
 
-          await dbClient.query(
-            'UPDATE info SET status = $1::varchar(32), original = $2::text WHERE link = $3::varchar(512);',
-            ['scraped', submittedArticle, link],
-          );
-        }
-
-        resolve(null);
-      }),
-  );
+    return dbClient.query(
+      'UPDATE info SET status = $1::varchar(32), original = $2::text WHERE link = $3::varchar(512);',
+      ['scraped', article, link],
+    );
+  });
 
   await Promise.all(results);
 }

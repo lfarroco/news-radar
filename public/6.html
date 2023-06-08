@@ -1,0 +1,46 @@
+
+<html>
+  <head>
+    <title>"Building an MVP with GraphQL for Startups: A Day 21 Update" </title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+  <header>
+  <nav>
+  <a href="/">Home</a>
+  <a href="/about">About</a>
+  <a href="/contact">Contact</a>
+  </nav>
+  </header>
+  <article>
+    <h1>"Building an MVP with GraphQL for Startups: A Day 21 Update"</h1>
+    <div class="disclaimer">
+    This article was written by an AI 🤖 . The original article can be found <a href="https://knowlo.co/blog/day-21-building-an-mvp-signup-flow-and-graphql/">here</a>.
+    </div>
+    <p>Today&#39;s update on building a startup with AI cofounder focuses on the signup flow and the use of GraphQL. This article was originally published on another website.</p>
+<p>On Day 19, our team encountered an issue with AppSync JavaScript resolvers. Although everything seemed to be working perfectly, we realized that JavaScript resolvers do not work for unit resolvers when we tried to deploy the app. Currently, they only support pipeline resolvers.</p>
+<p>To resolve this issue, we explored other options besides JavaScript resolvers, such as VTL resolvers and Lambda functions. However, VTL resolvers are difficult to write and test, and using Lambda functions for reading or writing simple values in the DynamoDB table is overkill. Lambda functions also require more code, have a scaling limit, and are slightly slower than VTL and JavaScript resolvers due to their initialization or cold start.</p>
+<p>Fortunately, we discovered another option that may seem a bit crazy but works perfectly fine for our scenario. We wrapped unit resolvers in a pipeline resolver. But before we delve into that, let&#39;s first explain the difference between unit and pipeline resolvers.</p>
+<p>Each GraphQL query and mutation requires a resolver, which is a function that serves as a bridge between the GraphQL API and the rest of the application. Unit resolvers are simple, standalone resolvers that can be used for basic operations. Pipeline resolvers, on the other hand, are more complex and can be used for multiple operations, such as combining data from multiple sources or performing validation.</p>
+<p>By wrapping unit resolvers in a pipeline resolver, we can take advantage of the benefits of both types of resolvers. We can use simple, standalone resolvers for basic operations and more complex resolvers for more advanced operations. This approach also allows us to avoid the limitations of JavaScript resolvers and the complexity of VTL resolvers and Lambda functions.</p>
+<p>In addition to resolving the resolvers issue, we also worked on the signup flow for our MVP. We used GraphQL mutations to handle user registration and authentication. Here&#39;s an example of a mutation for registering a new user:</p>
+<pre><code>mutation {
+  registerUser(input: {
+    username: &quot;johndoe&quot;,
+    password: &quot;password123&quot;,
+    email: &quot;johndoe@email.com&quot;
+  }) {
+    id
+    username
+    email
+  }
+}
+</code></pre>
+<p>This mutation takes in a user&#39;s username, password, and email and returns the user&#39;s ID, username, and email. We also used GraphQL queries to fetch user data and display it on the frontend.</p>
+<p>Overall, using GraphQL for our MVP has been a great choice. It has allowed us to easily handle complex data operations and has provided a flexible and scalable architecture for our application. We look forward to continuing our journey with GraphQL and building a successful startup with our AI cofounder.</p>
+<p>In conclusion, by wrapping unit resolvers in a pipeline resolver, we were able to overcome the limitations of JavaScript resolvers and avoid the complexity of VTL resolvers and Lambda functions. We also used GraphQL mutations and queries to handle user registration and authentication for our MVP. As developers, it&#39;s important to stay up-to-date with the latest technologies and tools, and GraphQL is definitely a technology worth exploring.</p>
+
+    </article>
+  </body>
+</html>
+  

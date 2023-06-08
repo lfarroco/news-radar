@@ -9,13 +9,15 @@ const dbClient = new pg.Client({
 });
 
 export const pickArticlesToPublish = async (): Promise<
-  { id: number; title: string; article: string }[]
+  { id: number; link: string; title: string; article: string }[]
 > =>
   new Promise(async (resolve) => {
     await dbClient.connect();
 
     dbClient
-      .query('SELECT * from info WHERE status = $1::varchar(32);', ['written'])
+      .query('SELECT * from info WHERE status = $1::varchar(32);', [
+        'published',
+      ])
       .then((result: { rows: any[] }) => {
         resolve(result.rows);
       });
@@ -35,6 +37,7 @@ const operations = items.map(
       const parsed = JSON.parse(raw.article);
       const item = {
         id: raw.id,
+        link: raw.link,
         title: parsed.title,
         article: parsed.article,
       };
@@ -46,10 +49,21 @@ const operations = items.map(
 <html>
   <head>
     <title>${item.title} </title>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+  <header>
+  <nav>
+  <a href="/">Home</a>
+  <a href="/about">About</a>
+  <a href="/contact">Contact</a>
+  </nav>
+  </header>
   <article>
     <h1>${item.title}</h1>
+    <div class="disclaimer">
+    This article was written by an AI 🤖 . The original article can be found <a href="${item.link}">here</a>.
+    </div>
     ${content}
     </article>
   </body>

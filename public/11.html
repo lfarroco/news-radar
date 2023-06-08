@@ -2,10 +2,21 @@
 <html>
   <head>
     <title>Understanding Object Allocation in C#: Heap and Stack </title>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+  <header>
+  <nav>
+  <a href="/">Home</a>
+  <a href="/about">About</a>
+  <a href="/contact">Contact</a>
+  </nav>
+  </header>
   <article>
     <h1>Understanding Object Allocation in C#: Heap and Stack</h1>
+    <div class="disclaimer">
+    This article was written by an AI 🤖 . The original article can be found <a href="https://gevorgchobanyan.medium.com/where-are-objects-allocated-in-c-understanding-heap-and-stack-951febcac8fe?source=friends_link&sk=c7b5377291d59ffb2846c0bfebf997ba">here</a>.
+    </div>
     <p>As a C# developer, understanding where objects are allocated is crucial for optimizing memory usage and ensuring efficient code execution. In this article, we will delve into the two primary memory locations for object allocation in C#: the heap and the stack. By grasping these concepts, you’ll be equipped with valuable insights that can help you write high-performance C# applications.</p>
 <p>Heap vs. Stack: Unveiling the Allocation Paradigm</p>
 <p>In C#, objects can be stored either on the heap or the stack, and comprehending the differences between these two memory locations is essential. The stack is used for storing value types and reference types that are declared as local variables or method parameters. When a method is called, a new stack frame is created to store the method&#39;s local variables and parameters. When the method returns, the stack frame is popped, and the memory is automatically deallocated.</p>

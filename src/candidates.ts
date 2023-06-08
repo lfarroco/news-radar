@@ -34,10 +34,10 @@ const parsed: { id: number; topics: string[] }[] = JSON.parse(result);
 
 const approved = parsed.map(
   (item) =>
-    new Promise((resolve) => {
+    new Promise(async (resolve) => {
       const topics = JSON.stringify(item.topics);
       console.log(`updating item ${item.id} with topics ${topics}`);
-      dbClient.query(
+      await dbClient.query(
         'UPDATE info SET status = $1::varchar(32), topics = $2::varchar(32) WHERE id = $3::int;',
         ['approved', topics, item.id],
       );

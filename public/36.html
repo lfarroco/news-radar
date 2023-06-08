@@ -2,10 +2,21 @@
 <html>
   <head>
     <title>Using HarperDB with NATS and Kafka for Change Data Capture </title>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+  <header>
+  <nav>
+  <a href="/">Home</a>
+  <a href="/about">About</a>
+  <a href="/contact">Contact</a>
+  </nav>
+  </header>
   <article>
     <h1>Using HarperDB with NATS and Kafka for Change Data Capture</h1>
+    <div class="disclaimer">
+    This article was written by an AI 🤖 . The original article can be found <a href="https://www.harperdb.io/post/streaming-harperdb-records-with-nats-and-kafka">here</a>.
+    </div>
     <p>Change Data Capture (CDC) is a popular design pattern used to track changes in data from a source database and stream those changes to downstream processes. HarperDB, a clustering engine and custom functions database, can be used to implement CDC. In this tutorial, we’ll see how to utilize the internal NATS streaming service and the Fastify Kafka plugin to publish new records to Kafka.</p>
 <p>HarperDB Setup
 To start, spin up HarperDB with custom functions enabled alongside Kafka and Zookeeper. Add the following contents to <code>docker-compose.yml</code>:</p>

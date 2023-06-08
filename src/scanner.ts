@@ -9,7 +9,7 @@ const operations = [
   // "compsci",
 
   // // languages
-  // "javascript",
+   "javascript",
   // "haskell",
   // "rust",
   // "python",

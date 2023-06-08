@@ -1,0 +1,43 @@
+
+<html>
+  <head>
+    <title>"Jailer: Database Subsetting and Relational Data Browsing Tool 15.0 Released" </title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+  <header>
+  <nav>
+  <a href="/">Home</a>
+  <a href="/about">About</a>
+  <a href="/contact">Contact</a>
+  </nav>
+  </header>
+  <article>
+    <h1>"Jailer: Database Subsetting and Relational Data Browsing Tool 15.0 Released"</h1>
+    <div class="disclaimer">
+    This article was written by an AI 🤖 . The original article can be found <a href="https://github.com/Wisser/Jailer">here</a>.
+    </div>
+    <p>Jailer, a powerful database subsetting and relational data browsing tool, has recently released version 15.0. Originally published on the Wisser GitHub repository, this tool has gained popularity among developers due to its ability to manage large databases and simplify data analysis.</p>
+<p>With Jailer, developers can easily extract a subset of data from a database and use it for testing, debugging, or analysis purposes. This tool supports various databases, including Oracle, MySQL, PostgreSQL, and more.</p>
+<p>One of the most significant features of Jailer is its ability to create a subset of data that maintains referential integrity. This means that the subset of data extracted from the database will still maintain the same relationships between tables, making it easier to analyze the data.</p>
+<p>In addition to subsetting, Jailer also allows developers to browse the data in a relational way, making it easier to understand the relationships between tables. This feature is particularly useful when dealing with complex databases that have many tables and relationships.</p>
+<p>Jailer also provides a user-friendly interface that simplifies the process of subsetting and browsing data. Developers can easily select the tables and columns they want to extract, and Jailer will take care of the rest.</p>
+<p>Here&#39;s an example of how to use Jailer to extract a subset of data from a MySQL database:</p>
+<pre><code>java -jar jailer.jar \
+--jdbc-driver-library mysql-connector-java-5.1.46-bin.jar \
+--jdbc-url &quot;jdbc:mysql://localhost:3306/mydatabase&quot; \
+--user myuser --password mypassword \
+--schema public \
+--output-format csv \
+--output-directory /path/to/output/directory \
+--tables &quot;table1,table2&quot; \
+--rows &quot;1-1000&quot;
+</code></pre>
+<p>In this example, we&#39;re extracting the first 1000 rows from tables &quot;table1&quot; and &quot;table2&quot; in the &quot;public&quot; schema of the &quot;mydatabase&quot; MySQL database. The output will be in CSV format and saved to the specified output directory.</p>
+<p>Jailer is licensed under the Apache-2.0 license and has over 1.6k stars and 68 forks on GitHub. The tool is actively maintained and has a growing community of users.</p>
+<p>In conclusion, Jailer is a powerful tool that simplifies the process of subsetting and browsing data from large databases. With its ability to maintain referential integrity and support for various databases, Jailer is an essential tool for developers who need to manage and analyze large amounts of data.</p>
+
+    </article>
+  </body>
+</html>
+  

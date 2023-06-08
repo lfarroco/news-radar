@@ -43,7 +43,7 @@ If there are no articles that you want to publish, reply with an empty array: []
 
     const engine = 'gpt-3.5-turbo';
 
-    console.log(`calling openai with prompt: ${prompt}`);
+    console.log(`calling openai, prompt length: ${prompt.length}`);
     openai
       .createChatCompletion({
         model: engine,
@@ -69,17 +69,22 @@ export const write = (id: number, title: string, article: string) =>
 You are an editor for a magazine called "Dev Radar" that focuses on programming languages, frameworks and news related to them.
 Our intention is to be a "radar" for developers to keep up with the latest news in the industry.
 
-I am going to provide you a scraped article from a website.
+I am going to provide you a scraped article from a website as reference.
 The article might contain some noise, so you can ignore it.
 The article is about a programming language or framework.
 Your job is to write a new version of the article that is suitable for our magazine.
 You are free to add more relevant information about the subject.
 You can also correct any mistakes in the article.
+If the article is incomplete, you can add more information about the subject.
 As our target audience are developers, you can include code snippets in the article.
 Hightlight informations that are relevant for developers that want to keep up with the latest news in the industry.
+The generated article should have between 500 and 1000 words.
 Your response should have the following structure:
 - The first line wil be the generated article's title
 - The second line will be the generated article's content (without the title)
+Example:
+Rust 1.0 released
+Rust, a language that...
 Here's the article: 
 ${title}
 ${article}
@@ -87,7 +92,7 @@ ${article}
 
     const engine = 'gpt-3.5-turbo';
 
-    console.log(`calling openai with prompt: ${prompt}`);
+    console.log(`calling openai with prompt of length: ${prompt.length}`);
     openai
       .createChatCompletion({
         model: engine,
@@ -103,10 +108,6 @@ ${article}
         // log total tokens in response
         console.log(`total tokens: ${JSON.stringify(response.data.usage)}`);
 
-        console.log(
-          'openai response::::::;: ',
-          response.data.choices[0].message.content,
-        );
         resolve({
           id,
           title: response.data.choices[0].message.content.split('\n')[0],
