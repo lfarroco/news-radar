@@ -27,7 +27,7 @@ const channels = [
 
   // // frameworks
    "reactjs",
-   "vuejs",
+   // "vuejs", // using blackout protest posts
    "angular",
   // "flutter",
   // "svelte",

@@ -2,7 +2,7 @@ import { priority } from './openai.js';
 import { dbClient } from './db.js';
 import { Article } from './models.js';
 
-const BATCH_SIZE = 10;
+const BATCH_SIZE = 20;
 
 export const filterCandidates = async (): Promise<Article[]> =>
   new Promise(async (resolve) => {

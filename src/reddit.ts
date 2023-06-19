@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from 'axios';
-import cheerio from 'cheerio';
 import { dbClient } from './db.js';
 
 const MAX_REDDIT_ITEMS = 5;
@@ -17,6 +16,7 @@ const restrictedDomains = [
   'streamable.com',
   'reddit.com',
   'redd.it',
+  '/r/'
 ];
 
 const axiosReq = async (
@@ -35,7 +35,7 @@ const axiosReq = async (
 
 export const reddit = async (channel: string): Promise<void> => {
   console.log('processing channel', channel);
-  const url = `https://old.reddit.com/r/${channel}`;
+  const url = `https://old.reddit.com/r/${channel}/top/.json?sort=top&t=week`;
 
   const result = await axiosReq(url);
 
@@ -44,32 +44,26 @@ export const reddit = async (channel: string): Promise<void> => {
     return;
   }
 
-  const rss = result.response.data;
-  const $ = cheerio.load(rss);
+  const json = result.response.data;
 
-  const entries = $('.thing:not(.promoted)').toArray().slice(0, MAX_REDDIT_ITEMS);
+  const entries = json.data.children.slice(0, MAX_REDDIT_ITEMS);
 
-  await entries.reduce(async (prev, entry) => {
-    await prev;
-    const title = $(entry).find('a.title.outbound').text();
-    const link = $(entry).find('.title a').attr('href');
-    const published = $(entry).find('.tagline time').attr('datetime');
-    const date = new Date(published);
+  const ops = entries.map(async (entry:any) => {
+    const title = entry.data.title;
+    const link = entry.data.url;
+    const date = new Date(entry.data.created_utc * 1000);
+
+    console.log('inserting', title, link, date);
 
     const isRestricted = restrictedDomains.some((domain) =>
       link.includes(domain),
     );
 
-    if (!title || !link || !published) {
-      console.log('missing data', { title, link, published });
-      return;
-    }
-
     if (isRestricted) {
       return;
     }
 
-    console.log('inserting', title, link, date);
+    console.log('inserting', {title, link, date});
 
     await dbClient.query(
       `INSERT INTO info 
@@ -81,7 +75,9 @@ export const reddit = async (channel: string): Promise<void> => {
 
       [title, link, 'reddit', date, 'pending'],
     );
-  }, Promise.resolve());
+  });
+
+  await Promise.all(ops);
 
   console.log('done processing', channel);
 };
