@@ -1,6 +1,10 @@
 import { reddit } from './reddit.js';
+import { dbClient } from './db.js';
+import {batch} from './utils.js';
 
-const operations = [
+await dbClient.connect();
+
+const channels = [
   // general subs
   'programming',
   // "functionalprogramming",
@@ -9,23 +13,22 @@ const operations = [
   // "compsci",
 
   // // languages
-   "javascript",
-  // "haskell",
-  // "rust",
-  // "python",
-  // "golang",
-  // "java",
+  'javascript',
+  'haskell',
+  'rust',
+  'python',
+  'golang',
+   "java",
   // "csharp",
   // "kotlin",
-  // "php",
-  // "csharp",
-  // "purescript",
+   "php",
+  "csharp",
+   "purescript",
 
   // // frameworks
-  // "reactjs",
-  // "vuejs",
-  // "angular",
-  // "elm",
+   "reactjs",
+   "vuejs",
+   "angular",
   // "flutter",
   // "svelte",
   // "emberjs",
@@ -33,8 +36,12 @@ const operations = [
   // "gatsbyjs",
   // "nuxtjs",
   // "reactnative",
-].map( (channel) =>  reddit(channel))
+]
+  //.map((channel) => reddit(channel));
+//
 
-await Promise.all(operations)
+console.log('processing channels...');
 
-process.exit(0)
+await batch(channels, 1, reddit);
+
+process.exit(0);

@@ -3,9 +3,7 @@
 
 Steps:
 
-1 - Scanner
-Collects top items in a given URL
-Results are stored in a database and each item is marked as "pending"
+1 - Scanner Collects top items in a given URL Results are stored in a database and each item is marked as "pending"
 
 2 - Filter candidates
 Picks "pending" items asks chatgpt to identify what 

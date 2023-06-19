@@ -30,3 +30,8 @@ build/
 # Misc
 .DS_Store
 data/
+
+
+public/articles/
+public/categories/
+public/index.html

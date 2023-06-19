@@ -1,22 +1,15 @@
-import pg from 'pg';
 import { priority } from './openai.js';
+import { dbClient } from './db.js';
+import { Article } from './models.js';
 
-const dbClient = new pg.Client({
-  password: 'root',
-  user: 'root',
-  host: 'postgres',
-});
+const BATCH_SIZE = 10;
 
-export const filterCandidates = async (): Promise<
-  { id: number; title: string }[]
-> =>
+export const filterCandidates = async (): Promise<Article[]> =>
   new Promise(async (resolve) => {
     await dbClient.connect();
 
     dbClient
-      .query('SELECT * from info WHERE status = $1::varchar(32) LIMIT 10;', [
-        'pending',
-      ])
+      .query('SELECT * from info WHERE status = $1::varchar(32);', ['pending'])
       .then((result: { rows: any[] }) => {
         resolve(result.rows);
       });
@@ -24,47 +17,91 @@ export const filterCandidates = async (): Promise<
 
 const items = await filterCandidates();
 
-const titles = items
-  .map((item: any) => `(${item.id}) - ${item.title}`)
-  .join('\n');
+if (items.length === 0) {
+  console.log('no items to filter');
+  process.exit(0);
+}
 
-const result = await priority(titles);
+// process in batches
 
-const parsed: { id: number; topics: string[] }[] = JSON.parse(result);
-
-const approved = parsed.map(
-  (item) =>
-    new Promise(async (resolve) => {
-      const topics = JSON.stringify(item.topics);
-      console.log(`updating item ${item.id} with topics ${topics}`);
-      await dbClient.query(
-        'UPDATE info SET status = $1::varchar(32), topics = $2::varchar(32) WHERE id = $3::int;',
-        ['approved', topics, item.id],
-      );
-      resolve(null);
-    }),
+const batches = items.reduce(
+  (acc: Article[][], item: Article, index: number) => {
+    const batchIndex = Math.floor(index / BATCH_SIZE);
+    if (!acc[batchIndex]) {
+      acc[batchIndex] = [];
+    }
+    acc[batchIndex].push(item);
+    return acc;
+  },
+  [[]],
 );
 
-await Promise.all(approved);
+async function processBatch(batch: Article[]) {
+  const titles = batch
+    .map((item: any) => `(${item.id}) - ${item.title}`)
+    .join('\n');
 
-//reject the rest
+  const result = await priority(titles);
 
-const rejected = items.map(
-  (item: any) =>
-    new Promise(async (resolve) => {
-      const found = parsed.find((p) => p.id === item.id);
+  const parsed: { id: number; topics: string[] }[] = JSON.parse(result);
 
-      if (!found) {
-        console.log(`rejecting item ${item.id}`);
+  const approved = parsed.map(async (item) => {
+    const topics = JSON.stringify(item.topics);
+    console.log(`updating item ${item.id} with topics ${topics}`);
+    await dbClient.query(
+      'UPDATE info SET status = $1::varchar(32) WHERE id = $2::int;',
+      ['approved', item.id],
+    );
+
+    const createTopics = item.topics.map(
+      async (topic) =>
         await dbClient.query(
-          'UPDATE info SET status = $1::varchar(32) WHERE id = $2::int;',
-          ['rejected', item.id],
-        );
-      }
-      resolve(null);
-    }),
-);
+          `INSERT INTO topics (name) 
+           VALUES ($1::varchar(128))
+           ON CONFLICT (name) DO NOTHING
+          ;`,
+          [topic],
+        ),
+    );
 
-await Promise.all(rejected);
+    await Promise.all(createTopics);
+
+    const createTopicRelations = item.topics.map(
+      async (topic) =>
+        await dbClient.query(
+          'INSERT INTO article_topic (article_id, topic_id) VALUES ($1::int, (SELECT id FROM topics WHERE name = $2::varchar(128)));',
+          [item.id, topic],
+        ),
+    );
+
+    await Promise.all(createTopicRelations);
+  });
+
+  await Promise.all(approved);
+
+  //reject the rest
+
+  const rejected = batch.map(async (item) => {
+    const found = parsed.find((p) => p.id === item.id);
+
+    if (!found) {
+      console.log(`rejecting item ${item.id}`);
+      await dbClient.query(
+        'UPDATE info SET status = $1::varchar(32) WHERE id = $2::int;',
+        ['rejected', item.id],
+      );
+    }
+  });
+
+  await Promise.all(rejected);
+}
+
+const operations = batches.reduce(async (xs, x, index) => {
+  console.log(`processing batch ${index}/${batches.length}...`);
+  await xs;
+  return processBatch(x);
+}, Promise.resolve(null));
+
+await operations;
 
 process.exit(0);

@@ -3,36 +3,41 @@ import { reddit } from './reddit.js';
 [
   // general subs
   'programming',
-  // 'functionalprogramming',
-  // 'webdev',
-  // 'gamedev',
-  // 'compsci',
+  'webdev',
+  'gamedev',
+  'devops',
 
-  // // languages
-  // 'javascript',
-  // 'haskell',
-  // 'rust',
-  // 'python',
-  // 'golang',
-  // 'java',
-  // 'csharp',
-  // 'kotlin',
-  // 'php',
-  // 'csharp',
-  // 'purescript',
+  // languages
+  'javascript',
+  'haskell',
+  'rust',
+  'typescript',
+  'python',
+  'golang',
+  'java',
+  'csharp',
+  'kotlin',
+  'php',
+  'purescript',
 
-  // // frameworks
-  // 'reactjs',
-  // 'vuejs',
-  // 'angular',
-  // 'elm',
-  // 'flutter',
-  // 'svelte',
-  // 'emberjs',
-  // 'nextjs',
-  // 'gatsbyjs',
-  // 'nuxtjs',
-  // 'reactnative',
+  // frameworks
+  'reactjs',
+  'vuejs',
+  'angular',
+  'flutter',
+
+  // databases
+  'postgresql',
+  'mysql',
+  'mongodb',
+  'redis',
+
+  // cloud
+  'aws',
+  'azure',
+  'gcp',
+
+
 ].reduce(
   (promise, channel) => promise.then(() => reddit(channel)),
   Promise.resolve(null),

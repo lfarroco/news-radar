@@ -36,8 +36,7 @@ services:
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=root
     ports:
-      # Standard port for PostgreSQL databases
-      - "5432:5432"
+      - "15432:5432"
     volumes:
       # When the PostgreSQL container is started it will run any scripts
       # provided in the `docker-entrypoint-initdb.d` directory, this connects

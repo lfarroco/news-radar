@@ -14,7 +14,7 @@ export const pickArticlesToWrite = async (): Promise<
     await dbClient.connect();
 
     dbClient
-      .query('SELECT * from info WHERE status = $1::varchar(32) LIMIT 2;', [
+      .query('SELECT * from info WHERE status = $1::varchar(32) LIMIT 10;', [
         'scraped',
       ])
       .then((result: { rows: any[] }) => {

@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import pg from 'pg';
 import cheerio from 'cheerio';
+import { batch } from './utils.js';
 
 const dbClient = new pg.Client({
   password: 'root',
@@ -54,7 +55,7 @@ export async function scrapper() {
   console.log('db connected');
 
   const articles = await dbClient.query(
-    'SELECT * from info WHERE status = $1::varchar(32) LIMIT 10;',
+    'SELECT * from info WHERE status = $1::text LIMIT 10;',
     ['approved'],
   );
 
@@ -65,33 +66,22 @@ export async function scrapper() {
 
   const urls = articles.rows.map((item: any) => item.link);
 
-  // only resolve when all promises are resolved
-  const texts = await Promise.all(
-    urls.map(async (link: string) => {
-      const article = await articleScrapper(link);
-
-      return { link, article };
-    }),
-  );
-
-  const results = texts.map(({ link, article }) => {
-    //store the result
+  await batch(urls, 5, async (link: string) => {
+    const article = await articleScrapper(link);
     console.log('article scraped:', link);
 
     if (!article) {
-      return dbClient.query(
+      await dbClient.query(
         'UPDATE info SET status = $1::varchar(32), original = $2::text WHERE link = $3::varchar(512);',
         ['error-scraping', 'error', link],
       );
+    } else {
+      await dbClient.query(
+        'UPDATE info SET status = $1::varchar(32), original = $2::text WHERE link = $3::varchar(512);',
+        ['scraped', article, link],
+      );
     }
-
-    return dbClient.query(
-      'UPDATE info SET status = $1::varchar(32), original = $2::text WHERE link = $3::varchar(512);',
-      ['scraped', article, link],
-    );
   });
-
-  await Promise.all(results);
 }
 
 await scrapper();
