@@ -19,5 +19,25 @@ Feeds chatgpt with the article content and ask it to write a new version
 5 - Publisher
 Processed items are published to a static website
 
+Workflow:
+
+scan -> create articles (status=pending)
+
+with pending: submit candidates to relevance approval
+
+approved ? -> yes -> (status=approved)
+           -> no -> (status=rejected)
+
+with approved: -> try scraping
+
+scraped ? -> yes -> (status=scraped)
+          -> no -> (status=error-scraping)
+
+with scraped: -> write -> (status=written)
+
+with written: -> publish -> (status=published)
+
+
 Ideas:
 - if an article is too big to be sent to chatgpt, use a summarizer to reduce the size or use a slice of the article (it should be able to understand the context with just the initial chunk)
+

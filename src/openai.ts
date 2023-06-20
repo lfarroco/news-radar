@@ -66,9 +66,8 @@ If there are no articles that you want to publish, reply with an empty array: []
       });
   });
 
-export const write = (id: number, title: string, article: string) =>
-  new Promise((resolve: (result: { id: number; title: string, content: string }) => void) => {
-    const prompt = `
+export const write = async (id: number, title: string, article: string) => {
+  const content = `
 You are an editor for a magazine called "Dev Radar" that focuses on programming languages, frameworks and news related to them.
 Our intention is to be a "radar" for developers to keep up with the latest news in the industry.
 
@@ -83,9 +82,10 @@ If the article is incomplete, you can add more information about the subject.
 As our target audience are developers, you can include code snippets in the article.
 Hightlight informations that are relevant for developers that want to keep up with the latest news in the industry.
 If you include html elements in the article, make sure to escape them with backticks (\`).
-The generated article should have up to between 500 words.
+The article's content should be formatted in markdown to define subtitles and code blocks.
+The generated article should have up to 500 words.
 Your response should have the following structure:
-- The first line wil be the generated article's title
+- The first line wil be the generated article's title (don't surround it with quotes)
 - The second line will be the generated article's content (without the title)
 Example:
 Rust 1.0 released
@@ -95,28 +95,72 @@ ${title}
 ${article}
 `;
 
-    const engine = 'gpt-3.5-turbo';
+  const engine = 'gpt-3.5-turbo';
 
-    console.log(`calling openai with prompt of length: ${prompt.length}`);
-    openai
-      .createChatCompletion({
-        model: engine,
-        temperature: 0.4,
-        messages: [
-          {
-            role: 'user',
-            content: prompt,
-          },
-        ],
-      })
-      .then((response) => {
-        // log total tokens in response
-        console.log(`total tokens: ${JSON.stringify(response.data.usage)}`);
-
-        resolve({
-          id,
-          title: response.data.choices[0].message.content.split('\n')[0],
-          content: response.data.choices[0].message.content.split('\n').slice(1).join('\n'),
-        });
-      });
+  console.log(`calling openai with prompt of length: ${prompt.length}`);
+  const response = await openai.createChatCompletion({
+    model: engine,
+    temperature: 0.4,
+    messages: [
+      {
+        role: 'user',
+        content,
+      },
+    ],
   });
+
+  // log total tokens in response
+  console.log(`total tokens: ${JSON.stringify(response.data.usage)}`);
+  return {
+    id,
+    title: response.data.choices[0].message.content.split('\n')[0],
+    content: response.data.choices[0].message.content
+      .split('\n')
+      .slice(1)
+      .join('\n'),
+  };
+};
+
+export const spin = async (article: string) => {
+  const prompt = `
+You are an editor for a magazine called "Dev Radar" that focuses on programming languages, frameworks and news related to them.
+Our intention is to be a "radar" for developers to keep up with the latest news in the industry.
+
+I am going to provide you one of our articles that needs some improvements.
+I need you to write a new version of the article that is suitable for our magazine.
+You can also correct any mistakes in the article.
+You should write in third person ("the article shows...", "the author says...").
+Assume that the author is biased towards the subject, so you should write in a neutral tone.
+As our target audience are developers, you can include code snippets in the article.
+Hightlight informations that are relevant for developers that want to keep up with the latest news in the industry.
+If you include html elements in the article, make sure to escape them with backticks (\`).
+The generated article should have up to 500 words.
+The article should be formatted in markdown to define subtitles and code blocks.
+Your response should have the following structure:
+- The first line wil be the generated article's title
+- The second line will be the generated article's content (without the title)
+Example:
+Rust 1.0 released
+Rust, a language that...
+Here's the article: 
+${article}
+`;
+
+  const engine = 'gpt-3.5-turbo';
+
+  console.log(`calling openai with prompt of length: ${prompt.length}`);
+  const response = await openai.createChatCompletion({
+    model: engine,
+    temperature: 0.4,
+    messages: [
+      {
+        role: 'user',
+        content: prompt,
+      },
+    ],
+  });
+  // log total tokens in response
+  console.log(`total tokens: ${JSON.stringify(response.data.usage)}`);
+
+  return response.data.choices[0].message.content;
+};

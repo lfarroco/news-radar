@@ -29,8 +29,6 @@ header .brand {
 main {
   max-width: 960px;
   margin: 20px auto;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
 }
 
 h1,
@@ -77,3 +75,12 @@ header nav a {
   color: #333;
   margin: 0 5px;
 }
+
+.article-list a:link {
+  text-decoration: none;
+}
+
+.card-header h3{
+  margin: 0;
+}
+

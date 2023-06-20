@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import pg from 'pg';
 import cheerio from 'cheerio';
-import { batch } from './utils.js';
+import { batch, sleep } from './utils.js';
 
 const dbClient = new pg.Client({
   password: 'root',
@@ -54,10 +54,7 @@ export async function scrapper() {
   await dbClient.connect();
   console.log('db connected');
 
-  const articles = await dbClient.query(
-    'SELECT * from info WHERE status = $1::text LIMIT 10;',
-    ['approved'],
-  );
+  const articles = await dbClient.query(`SELECT * from info WHERE status = 'approved' LIMIT 10;`);
 
   console.log(
     'articles',
@@ -66,8 +63,11 @@ export async function scrapper() {
 
   const urls = articles.rows.map((item: any) => item.link);
 
-  await batch(urls, 5, async (link: string) => {
+  await batch(urls, 1, async (link: string) => {
     const article = await articleScrapper(link);
+
+    await sleep(1000);
+
     console.log('article scraped:', link);
 
     if (!article) {

@@ -28,6 +28,9 @@ scrape:
 write:
 	docker exec news-radar_app_1 node build/src/writer.js
 
+spin:
+	docker exec news-radar_app_1 node build/src/spin.js
+
 run:
 	docker exec news-radar_app_1 node build/src/scanner.js && \
 	docker exec news-radar_app_1 node build/src/candidates.js && \
@@ -46,8 +49,17 @@ publish-categories-index:
 publish-categories:
 	docker exec news-radar_app_1 node build/src/publisher/publish_categories.js
 
+publish:
+	docker exec news-radar_app_1 node build/src/publisher/publish_index.js && \
+	docker exec news-radar_app_1 node build/src/publisher/publish_articles.js && \
+	docker exec news-radar_app_1 node build/src/publisher/publish_categories_index.js && \
+	docker exec news-radar_app_1 node build/src/publisher/publish_categories.js
+
 stats:
 	docker exec -it news-radar_postgres_1 psql -U root -c "SELECT COUNT(status), status from info GROUP BY status;"
+
+retry-scrape:
+	docker exec -it news-radar_postgres_1 psql -U root -c "UPDATE info SET status = 'approved' WHERE status = 'error-scraping';"
 
 dump-db:
 	docker exec -it news-radar_postgres_1 pg_dump -U root > seed.sql

@@ -46,11 +46,13 @@ const listItems = items
   )
   .join('\n');
 
-const article = `<ul class="list-group">
+const content = `
+<h2>Topics</h2>
+<ul class="list-group">
     ${listItems}
     </ul> `;
 
-const html = template('.', article);
+const html = template('.', content);
 
 fs.writeFileSync(`./public/categories.html`, html);
 
