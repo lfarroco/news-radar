@@ -5,7 +5,7 @@ body {
   font-size: 16px;
   line-height: 1.5;
   color: #333;
-  background-color: #fff;
+  background-color: #eaeaea;
   padding: 0;
   margin: 0;
 }
@@ -69,10 +69,8 @@ header nav {
 header nav a {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #eee;
   border-radius: 5px;
   text-decoration: none;
-  color: #333;
   margin: 0 5px;
 }
 
@@ -82,5 +80,10 @@ header nav a {
 
 .card-header h3{
   margin: 0;
+}
+
+.list-group-item .article-title{
+  font-size: 24px;
+  color: #000;
 }
 

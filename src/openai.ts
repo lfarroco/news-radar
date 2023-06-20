@@ -26,17 +26,17 @@ We don't write about the following subjects:
 - programming in general (we about specific languages and frameworks)
 - low-effort articles (e.g. "how to print hello world in X")
 - how to get a job in the industry
-- questions (e.g. "what is the best language for X")
+- questions (e.g. "what is the best language for X?")
 
-Here's of ids and article titles in the following format: 
+Here's a list of ids and article titles in the following format: 
 (id) - title
-Evaluate the ones that should be relevant for use based on their title: ${items}
+Evaluate the ones that should be relevant for our readers based on their title: ${items}
 
 Items that are not relevant should be excluded from the response.
 The selected items should come as a JSON array with the following structure:
 {
   "id": number, // the article's id that was given in the prompt
-  "topics": string[] // list of language(s) and framework(s) the article is about
+  "topics": string[] // list of language(s) and framework(s) the article is about (minimum of 1, maximum of 3)
 }
 Don't reply in any format other than JSON.
 Articles that are not relevant for us should not be included in the response.

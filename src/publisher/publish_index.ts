@@ -40,10 +40,16 @@ const indexedItems = items
   .sort((a, b) => b.date.getTime() - a.date.getTime());
 
 const content = `  
+
 <div class="card">
-  <div class="card-header">
-  <h3>Latest Articles</h3>
+  <div class="card-body">
+    <p>
+    Dev Radar is an AI-powered news aggregator that helps you stay up to date with the latest trends in software development.
+    Below are the latest articles that our AI   :robot: has found for you.  
+    </p>
   </div>
+</div>
+<div class="card">
   <div class="card-body">
     <ul class="list-group article-list">
     ${indexedItems
@@ -55,14 +61,19 @@ const content = `
           .map((at) => {
             return topics.rows.find((t) => t.id === at.topic_id);
           })
-          .map((t) => `<a href="/categories/${ slugify(t.name)}.html">${t.name}</a>`)
+          .map(
+            (t) =>
+              `<a href="/categories/${slugify(t.name)}.html">${t.name}</a>`,
+          )
           .join(', ');
         console.log(topicInfo);
         return `<li class="list-group-item"> 
-                            <div> <a href="${item.path}">${
-          item.title
-        }</a> </div>
-          <div>${item.date.toISOString().split('T')[0]} | Topics: ${topicInfo} </div>
+                            <div> <a  class="article-title" href="${
+                              item.path
+                            }">${item.title}</a> </div>
+          <div>${
+            item.date.toISOString().split('T')[0]
+          } | Topics: ${topicInfo} </div>
                           </li>`;
       })
       .join('\n')}
