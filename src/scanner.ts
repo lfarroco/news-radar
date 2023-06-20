@@ -1,6 +1,6 @@
 import { reddit } from './reddit.js';
 import { dbClient } from './db.js';
-import {batch} from './utils.js';
+import { batch } from './utils.js';
 
 await dbClient.connect();
 
@@ -18,17 +18,19 @@ const channels = [
   'rust',
   'python',
   'golang',
-   "java",
-  // "csharp",
-  // "kotlin",
-   "php",
-  "csharp",
-   "purescript",
+  'java',
+  'csharp',
+  "kotlin",
+  'php',
+  'ruby',
+  'elixir',
+  'csharp',
+  'purescript',
 
   // // frameworks
-   "reactjs",
-   // "vuejs", // using blackout protest posts
-   "angular",
+  'reactjs',
+  // "vuejs", // using blackout protest posts
+  'angular',
   // "flutter",
   // "svelte",
   // "emberjs",
@@ -36,8 +38,8 @@ const channels = [
   // "gatsbyjs",
   // "nuxtjs",
   // "reactnative",
-]
-  //.map((channel) => reddit(channel));
+];
+//.map((channel) => reddit(channel));
 //
 
 console.log('processing channels...');
