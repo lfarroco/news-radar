@@ -35,7 +35,11 @@ run:
 	docker exec news-radar_app_1 node build/src/scanner.js && \
 	docker exec news-radar_app_1 node build/src/candidates.js && \
 	docker exec news-radar_app_1 node build/src/scrapper.js && \
-	docker exec news-radar_app_1 node build/src/writer.js
+	docker exec news-radar_app_1 node build/src/writer.js && \
+	docker exec news-radar_app_1 node build/src/publisher/publish_index.js && \
+	docker exec news-radar_app_1 node build/src/publisher/publish_articles.js && \
+	docker exec news-radar_app_1 node build/src/publisher/publish_categories_index.js && \
+	docker exec news-radar_app_1 node build/src/publisher/publish_categories.js
 
 publish-index:
 	docker exec news-radar_app_1 node build/src/publisher/publish_index.js

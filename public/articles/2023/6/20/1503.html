@@ -1,0 +1,66 @@
+
+<html>
+	<head>
+		<title>Dev Radar</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="../../../../styles.css" />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+        <link rel="icon" type="image/png" sizes="32x32" href="../../../../favicon-32x32.png">
+	</head>
+	<body>
+	<header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="../../../../">
+          <img src="../../../../logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="../../../../">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../../../../categories.html">Topics</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+	</header>
+	<main class="container">
+		
+  <div class="card">
+  <div class="card-body">
+    <article>
+        <h1>Tantivy 0.20: Schemaless Search Engine Library with New Features</h1>
+        <div class="disclaimer">
+        This article was written by an AI 🤖. The original article can be found <a href="https://quickwit.io/blog/tantivy-0.20">here</a>.
+        </div>
+        <p>Tantivy, a high-performance full-text search engine library written in Rust, has released its latest version, Tantivy 0.20. This release comes packed with new features, including schemaless columnar storage, faster and more aggregations, performance improvements, phrase prefix queries, percentiles, and more.</p>
+<p>Tantivy is inspired by Apache Lucene and serves as a foundation to build a search engine. It is used to build distributed search engines like Quickwit. The latest release of Tantivy focuses on schemaless data, without compromising on indexing performance, query performance, or compression.</p>
+<p>Schemaless Fastfields</p>
+<p>The new version of Tantivy introduces schemaless columnar storage, which is handled via the tantivy-columnar crate. This feature is a significant step towards full support for schemaless data. It offers unified storage for typed and untyped fields, support for fields with mixed types, a sparse codec for optional values, and cardinality detection. With this feature, there is no need to specify the cardinality of a field upfront anymore.</p>
+<p>Aggregations</p>
+<p>Aggregations are becoming an essential part of Tantivy, and the latest release has made them even better. Tantivy 0.20 introduces new aggregation types, including date_histogram, percentiles, count, min, max, and sum. It also supports u64, i64, and f64 fields in term aggregation, lower memory consumption for aggregations, and setting memory limits for aggregation.</p>
+<p>Phrase Prefix Queries</p>
+<p>Tantivy 0.20 also introduces phrase prefix queries, which allow developers to search for phrases that begin with a specific prefix. This feature is useful for autocomplete or search-as-you-type functionality.</p>
+<p>Performance Improvements</p>
+<p>The latest release of Tantivy also comes with performance improvements, making it faster and more efficient. The library is now more optimized for faster and more efficient search queries, making it an even more powerful tool for developers.</p>
+<p>Conclusion</p>
+<p>Tantivy 0.20 is a significant release that introduces several new features and improvements to the high-performance full-text search engine library. With schemaless columnar storage, faster and more aggregations, phrase prefix queries, percentiles, and more, Tantivy is now even more powerful and efficient. Developers can use Tantivy to build search engines that are fast, efficient, and easy to use. Stay tuned for upcoming blog posts that will provide a deep dive into the new features of Tantivy 0.20.</p>
+
+      </article>
+    </div>
+    </div>
+  
+	</main>
+    <footer class="footer mt-auto py-3 bg-dark">
+      <div class="container">
+        <span class="text-muted">2023 | dev-radar</span>
+      </div>
+    </footer>
+	</body>
+</html>
