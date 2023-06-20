@@ -10,7 +10,7 @@ const openai = new OpenAIApi(configuration);
 
 export const priority = (items: string) =>
   new Promise((resolve: (s: string) => void) => {
-    const prompt = `
+    const content = `
 You are an editor for a magazine called "Dev Radar" that focuses on programming languages, frameworks and news related to them.
 Our intention is to be a "radar" for developers to keep up with the latest news in the industry.
 Our magazine publishes articles about the following subjects:
@@ -46,7 +46,7 @@ If there are no articles that you want to publish, reply with an empty array: []
 
     const engine = 'gpt-3.5-turbo';
 
-    console.log(`calling openai, prompt length: ${prompt.length}`);
+    console.log(`calling openai, prompt length: ${content.length}`);
     openai
       .createChatCompletion({
         model: engine,
@@ -54,7 +54,7 @@ If there are no articles that you want to publish, reply with an empty array: []
         messages: [
           {
             role: 'user',
-            content: prompt,
+            content ,
           },
         ],
       })
@@ -97,7 +97,7 @@ ${article}
 
   const engine = 'gpt-3.5-turbo';
 
-  console.log(`calling openai with prompt of length: ${prompt.length}`);
+  console.log(`calling openai with prompt of length: ${content.length}`);
   const response = await openai.createChatCompletion({
     model: engine,
     temperature: 0.4,
@@ -122,7 +122,7 @@ ${article}
 };
 
 export const spin = async (article: string) => {
-  const prompt = `
+  const content = `
 You are an editor for a magazine called "Dev Radar" that focuses on programming languages, frameworks and news related to them.
 Our intention is to be a "radar" for developers to keep up with the latest news in the industry.
 
@@ -148,14 +148,14 @@ ${article}
 
   const engine = 'gpt-3.5-turbo';
 
-  console.log(`calling openai with prompt of length: ${prompt.length}`);
+  console.log(`calling openai with prompt of length: ${content.length}`);
   const response = await openai.createChatCompletion({
     model: engine,
     temperature: 0.4,
     messages: [
       {
         role: 'user',
-        content: prompt,
+        content,
       },
     ],
   });

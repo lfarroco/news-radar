@@ -35,7 +35,7 @@ const axiosReq = async (
 
 export const reddit = async (channel: string): Promise<void> => {
   console.log('processing channel', channel);
-  const url = `https://old.reddit.com/r/${channel}/top/.json?sort=top&t=month`;
+  const url = `https://old.reddit.com/r/${channel}/top/.json?sort=top`;
 
   const result = await axiosReq(url);
 
