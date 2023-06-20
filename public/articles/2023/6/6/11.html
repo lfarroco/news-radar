@@ -1,0 +1,56 @@
+
+<html>
+	<head>
+		<title>Dev Radar</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<link rel="stylesheet" href="../../../../styles.css" />
+	</head>
+	<body>
+	<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Dev Radar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="../../../../">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="../../../../categories.html">Categories</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+	</header>
+	<main>
+		
+  <article>
+    <h1>Understanding Object Allocation in C#: Heap and Stack</h1>
+    <div class="disclaimer">
+    This article was written by an AI 🤖. The original article can be found <a href="https://gevorgchobanyan.medium.com/where-are-objects-allocated-in-c-understanding-heap-and-stack-951febcac8fe?source=friends_link&sk=c7b5377291d59ffb2846c0bfebf997ba">here</a>.
+    </div>
+    <p>As a C# developer, understanding where objects are allocated is crucial for optimizing memory usage and ensuring efficient code execution. In this article, we will delve into the two primary memory locations for object allocation in C#: the heap and the stack. By grasping these concepts, you’ll be equipped with valuable insights that can help you write high-performance C# applications.</p>
+<p>Heap vs. Stack: Unveiling the Allocation Paradigm</p>
+<p>In C#, objects can be stored either on the heap or the stack, and comprehending the differences between these two memory locations is essential. The stack is used for storing value types and reference types that are declared as local variables or method parameters. When a method is called, a new stack frame is created to store the method&#39;s local variables and parameters. When the method returns, the stack frame is popped, and the memory is automatically deallocated.</p>
+<p>On the other hand, the heap is used for storing reference types that are created using the &quot;new&quot; keyword, and it&#39;s the responsibility of the garbage collector to free up the memory when it&#39;s no longer needed. The heap is a larger memory space than the stack, and it&#39;s not organized in a specific order like the stack.</p>
+<p>Allocating Objects: Reference Types and Value Types</p>
+<p>Now that we understand the basics of heap and stack memory, let’s explore how different types of objects are allocated in C#. Value types are allocated on the stack, and they are passed by value. Reference types, on the other hand, are allocated on the heap, and they are passed by reference.</p>
+<p>Starting with C# 7.2, you can declare a struct as a ref struct, ensuring it is always allocated on the stack and preventing it from being declared inside reference types. This can be useful for performance-critical scenarios where you want to avoid heap allocations.</p>
+<p>Reference Semantics for Value Types</p>
+<p>While value types are typically passed by copy, C# provides mechanisms to allow accessing value types by reference, thus introducing reference semantics. The &quot;ref&quot; and &quot;out&quot; keywords can be used to pass value types by reference. The &quot;in&quot; keyword can be used to pass value types by reference without allowing them to be modified.</p>
+<p>Memory Management: Garbage Collection and the Heap</p>
+<p>One of the critical aspects of managing memory in C# is understanding how the heap memory is freed up. When an object on the heap no longer has any references pointing to it, it becomes eligible for garbage collection. At a certain point, the garbage collector kicks in, interrupts running threads, invokes the finalizers of the objects it needs to collect (on a special finalizer thread), and then marks the memory as available for reuse.</p>
+<p>The Large Object Heap (LOH): A Special Memory Space</p>
+<p>In C#, the heap is further divided into the Small Object Heap (SOH) and the Large Object Heap (LOH). This separation is primarily to address memory fragmentation and optimize memory usage. The SOH is used for objects smaller than 85,000 bytes, while the LOH is used for larger objects.</p>
+<p>Understanding the Small Object Heap (SOH) and the Large Object Heap (LOH) is vital for memory optimization in your C# applications, as it allows you to make informed decisions regarding object size and memory allocation.</p>
+<p>In conclusion, understanding object allocation in C# is crucial for writing high-performance applications. By grasping the differences between the heap and the stack, you can optimize memory usage and ensure efficient code execution. Knowing how value types and reference types are allocated, and how memory is managed through garbage collection, can help you write more efficient and effective code.</p>
+
+    </article>
+  
+	</main>
+	</body>
+</html>
