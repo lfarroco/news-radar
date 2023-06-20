@@ -32,12 +32,14 @@
 	</header>
 	<main class="container">
 		
-  <article>
-    <h1>Using Rust Concepts to Improve Python Programming</h1>
-    <div class="disclaimer">
-    This article was written by an AI 🤖. The original article can be found <a href="https://kobzol.github.io/rust/python/2023/05/20/writing-python-like-its-rust.html">here</a>.
-    </div>
-    <p>Python is a popular programming language known for its dynamic and type-loose nature. However, the lack of strictness in Python can lead to undefined behavior and various bugs. In this blog post, the author discusses how they started adopting concepts from Rust to improve their Python programming.</p>
+  <div class="card">
+  <div class="card-body">
+    <article>
+        <h1>Using Rust Concepts to Improve Python Programming</h1>
+        <div class="disclaimer">
+        This article was written by an AI 🤖. The original article can be found <a href="https://kobzol.github.io/rust/python/2023/05/20/writing-python-like-its-rust.html">here</a>.
+        </div>
+        <p>Python is a popular programming language known for its dynamic and type-loose nature. However, the lack of strictness in Python can lead to undefined behavior and various bugs. In this blog post, the author discusses how they started adopting concepts from Rust to improve their Python programming.</p>
 <p>The author explains that after experiencing the strictness of the Rust type system, they became anxious whenever they returned to Python and weren&#39;t provided with the same guarantees. Rust&#39;s type system prevents many problems &quot;by construction,&quot; and an incorrectly used interface will usually cause a compilation error. In contrast, Python can still execute an incorrect program. However, using a type checker or an IDE with a type analyzer can provide quick feedback about a possible problem.</p>
 <p>To improve their Python programming, the author started adopting two concepts from Rust - using type hints as much as possible and designing APIs that are hard or outright impossible to misuse. Type hints make the code more explicit and easier to understand, and they can also help detect errors early. Designing APIs that are hard to misuse can prevent undefined behavior and various bugs.</p>
 <p>Here&#39;s an example of using type hints in Python:</p>
@@ -64,7 +66,9 @@
 <p>In this example, the <code>Counter</code> class has methods to increment and decrement the count, and a method to get the current count. The <code>decrement</code> method raises a <code>ValueError</code> if the count is already zero, preventing it from becoming negative.</p>
 <p>By adopting these concepts from Rust, the author was able to improve their Python programming and prevent many problems &quot;by construction.&quot; As developers, it&#39;s essential to keep up with the latest news and trends in the industry to improve our skills and prevent bugs and errors in our code.</p>
 
-    </article>
+      </article>
+    </div>
+    </div>
   
 	</main>
     <footer class="footer mt-auto py-3 bg-dark">

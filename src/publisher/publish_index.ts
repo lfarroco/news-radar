@@ -35,53 +35,38 @@ const indexedItems = items
       date: item.date,
       title: parsed.title,
       path: createArticleURL(item.id, item.date).path,
+      topics: articleTopic.rows
+        .filter((at) => at.article_id === item.id)
+        .map((at) => {
+          return topics.rows.find((t) => t.id === at.topic_id);
+        }),
     };
   })
   .sort((a, b) => b.date.getTime() - a.date.getTime());
 
-const content = `  
-
-<div class="card">
+const js = themeColumn('JavaScript');
+const py = themeColumn('Python');
+const rs = themeColumn('Rust');
+const react = themeColumn('React');
+const content = `
+<div class="card mb-2">
   <div class="card-body">
-    <p>
-    Dev Radar is an AI-powered news aggregator that helps you stay up to date with the latest trends in software development.
-    Below are the latest articles that our AI   :robot: has found for you.  
-    </p>
+    Dev Radar is an AI-powered news aggregator that helps you stay up to date with the latest trends in software development. <br/>
+    Below are the latest articles that our AI 🤖 has found for you.
   </div>
 </div>
-<div class="card">
-  <div class="card-body">
-    <ul class="list-group article-list">
-    ${indexedItems
-      .map((item) => {
-        const topicRows = articleTopic.rows.filter(
-          (at) => at.article_id === item.id,
-        );
-        const topicInfo = topicRows
-          .map((at) => {
-            return topics.rows.find((t) => t.id === at.topic_id);
-          })
-          .map(
-            (t) =>
-              `<a href="/categories/${slugify(t.name)}.html">${t.name}</a>`,
-          )
-          .join(', ');
-        console.log(topicInfo);
-        return `<li class="list-group-item"> 
-                            <div> <a  class="article-title" href="${
-                              item.path
-                            }">${item.title}</a> </div>
-          <div>${
-            item.date.toISOString().split('T')[0]
-          } | Topics: ${topicInfo} </div>
-                          </li>`;
-      })
-      .join('\n')}
-    </ul> </div>
+<div class="row mb-2">
+  ${js}
+  ${py}
+  ${rs}
+  ${react}
 </div>
 
+<div class="row">
+  ${latest()}
+</div>
+`;
 
-    `;
 const html = template('.', content);
 
 fs.writeFileSync(`./public/index.html`, html);
@@ -89,3 +74,91 @@ fs.writeFileSync(`./public/index.html`, html);
 console.log('published article index');
 
 process.exit(0);
+function themeColumn(topicName: string) {
+  return `  
+
+<div class="col">
+  <div class="card">
+    <div class="card-header bg-dark text-light">
+    <h3> ${topicName} </h3>
+    </div>
+    <div class="card-body">
+      <ul class="list-group article-list">
+      ${indexedItems
+        .filter((i) => i.topics.find((t) => t.name === topicName))
+        .slice(0,5)
+        .map((item) => {
+          const topicRows = articleTopic.rows.filter(
+            (at) => at.article_id === item.id,
+          );
+          const topicInfo = topicRows
+            .map((at) => {
+              return topics.rows.find((t) => t.id === at.topic_id);
+            })
+            .map(
+              (t) =>
+                `<a href="/categories/${slugify(t.name)}.html">${t.name}</a>`,
+            )
+            .join(', ');
+          console.log(topicInfo);
+          return `<li class="list-group-item"> 
+                              <div> <a  class="article-title" href="${
+                                item.path
+                              }">${item.title}</a> </div>
+            <div>${
+              item.date.toISOString().split('T')[0]
+            } | Topics: ${topicInfo} </div>
+                            </li>`;
+        })
+        .join('\n')}
+      </ul> 
+    </div>
+  </div>
+</div>
+
+    `;
+}
+
+function latest() {
+  return `  
+
+<div class="col">
+  <div class="card">
+    <div class="card-header bg-dark text-light">
+    <h3> Latest Articles </h3>
+    </div>
+    <div class="card-body">
+      <ul class="list-group article-list">
+      ${indexedItems
+        .slice(0,20)
+        .map((item) => {
+          const topicRows = articleTopic.rows.filter(
+            (at) => at.article_id === item.id,
+          );
+          const topicInfo = topicRows
+            .map((at) => {
+              return topics.rows.find((t) => t.id === at.topic_id);
+            })
+            .map(
+              (t) =>
+                `<a href="/categories/${slugify(t.name)}.html">${t.name}</a>`,
+            )
+            .join(', ');
+          console.log(topicInfo);
+          return `<li class="list-group-item"> 
+                              <div> <a  class="article-title" href="${
+                                item.path
+                              }">${item.title}</a> </div>
+            <div>${
+              item.date.toISOString().split('T')[0]
+            } | Topics: ${topicInfo} </div>
+                            </li>`;
+        })
+        .join('\n')}
+      </ul> 
+    </div>
+  </div>
+</div>
+
+    `;
+}

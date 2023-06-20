@@ -36,15 +36,19 @@ const operations = items.map(async (raw) => {
   console.log('publising item', item.id);
   console.log('parsing...');
   const content = `
-  <article>
-    <h1>${item.title}</h1>
-    <div class="disclaimer">
-    This article was written by an AI 🤖. The original article can be found <a href="${
-      item.link
-    }">here</a>.
+  <div class="card">
+  <div class="card-body">
+    <article>
+        <h1>${item.title}</h1>
+        <div class="disclaimer">
+        This article was written by an AI 🤖. The original article can be found <a href="${
+          item.link
+        }">here</a>.
+        </div>
+        ${marked.parse(item.article)}
+      </article>
     </div>
-    ${marked.parse(item.article)}
-    </article>
+    </div>
   `;
 
   const html = template('../../../..', content);

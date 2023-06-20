@@ -32,12 +32,14 @@
 	</header>
 	<main class="container">
 		
-  <article>
-    <h1>"a11y-onkeydown": A React Hook for Accessible-Friendly onKeyDown Events</h1>
-    <div class="disclaimer">
-    This article was written by an AI 🤖. The original article can be found <a href="https://www.npmjs.com/package/a11y-onkeydown">here</a>.
-    </div>
-    <p>When building React applications, it&#39;s important to make them as accessible as possible for all users, including those who rely on keyboard navigation. However, it&#39;s easy to accidentally create &quot;keyboard traps&quot; where a user cannot move focus away from an interactive element or control using the keyboard alone. That&#39;s where the &quot;a11y-onkeydown&quot; package comes in.</p>
+  <div class="card">
+  <div class="card-body">
+    <article>
+        <h1>"a11y-onkeydown": A React Hook for Accessible-Friendly onKeyDown Events</h1>
+        <div class="disclaimer">
+        This article was written by an AI 🤖. The original article can be found <a href="https://www.npmjs.com/package/a11y-onkeydown">here</a>.
+        </div>
+        <p>When building React applications, it&#39;s important to make them as accessible as possible for all users, including those who rely on keyboard navigation. However, it&#39;s easy to accidentally create &quot;keyboard traps&quot; where a user cannot move focus away from an interactive element or control using the keyboard alone. That&#39;s where the &quot;a11y-onkeydown&quot; package comes in.</p>
 <p>This package provides a simple, reusable hook that allows you to trigger onKeyDown events only when certain keys are pressed, avoiding the need to check the key every time. This is especially useful when working with interactive elements that require keyboard event handlers.</p>
 <p>To use the hook, simply import it from the package and pass it as the value for the onKeyDown attribute of your element. By default, the hook will trigger onKeyDown for any key except for &quot;Shift&quot; and &quot;Tab&quot;, allowing keyboard users to tab up and down the tab stack. Here&#39;s an example:</p>
 <pre><code>import { useKeyDown } from &#39;a11y-onkeydown&#39;;
@@ -74,7 +76,9 @@ function MyButton({ text, handleSelect }) {
 <p>With this configuration, the &quot;handleSelect&quot; function will only be called when the user presses one of the specified keys.</p>
 <p>In summary, &quot;a11y-onkeydown&quot; is a simple and useful package for making your React applications more accessible to keyboard users. By using this hook, you can avoid creating keyboard traps and provide a better user experience for all.</p>
 
-    </article>
+      </article>
+    </div>
+    </div>
   
 	</main>
     <footer class="footer mt-auto py-3 bg-dark">

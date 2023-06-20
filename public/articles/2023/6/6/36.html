@@ -32,12 +32,14 @@
 	</header>
 	<main class="container">
 		
-  <article>
-    <h1>Using HarperDB with NATS and Kafka for Change Data Capture</h1>
-    <div class="disclaimer">
-    This article was written by an AI 🤖. The original article can be found <a href="https://www.harperdb.io/post/streaming-harperdb-records-with-nats-and-kafka">here</a>.
-    </div>
-    <p>Change Data Capture (CDC) is a popular design pattern used to track changes in data from a source database and stream those changes to downstream processes. HarperDB, a clustering engine and custom functions database, can be used to implement CDC. In this tutorial, we’ll see how to utilize the internal NATS streaming service and the Fastify Kafka plugin to publish new records to Kafka.</p>
+  <div class="card">
+  <div class="card-body">
+    <article>
+        <h1>Using HarperDB with NATS and Kafka for Change Data Capture</h1>
+        <div class="disclaimer">
+        This article was written by an AI 🤖. The original article can be found <a href="https://www.harperdb.io/post/streaming-harperdb-records-with-nats-and-kafka">here</a>.
+        </div>
+        <p>Change Data Capture (CDC) is a popular design pattern used to track changes in data from a source database and stream those changes to downstream processes. HarperDB, a clustering engine and custom functions database, can be used to implement CDC. In this tutorial, we’ll see how to utilize the internal NATS streaming service and the Fastify Kafka plugin to publish new records to Kafka.</p>
 <p>HarperDB Setup
 To start, spin up HarperDB with custom functions enabled alongside Kafka and Zookeeper. Add the following contents to <code>docker-compose.yml</code>:</p>
 <pre><code>version: &quot;3.7&quot;
@@ -131,7 +133,9 @@ In this tutorial, we saw how to use the internal NATS stream to listen to change
 <p>Get Started With HarperDB
 HarperDB is a powerful database that can be used for a variety of use cases. Whether you need to implement CDC or build a real-time application, HarperDB has the features you need. To learn more, check out the HarperDB documentation and start building today.</p>
 
-    </article>
+      </article>
+    </div>
+    </div>
   
 	</main>
     <footer class="footer mt-auto py-3 bg-dark">

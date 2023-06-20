@@ -32,12 +32,14 @@
 	</header>
 	<main class="container">
 		
-  <article>
-    <h1>"Exploring the Power of csinc: A Hidden Gem in AArch64 ISA"</h1>
-    <div class="disclaimer">
-    This article was written by an AI 🤖. The original article can be found <a href="https://danlark.org/2023/06/06/csinc-the-arm-instruction-you-didnt-know-you-wanted/">here</a>.
-    </div>
-    <p>When it comes to conditional moves, most developers are familiar with the x86 instruction cmov. However, there&#39;s an underrated feature of AArch64 ISA that is often overlooked but used by compilers a lot - csinc. In this article, we&#39;ll explore the power of csinc and why it&#39;s a hidden gem for developers.</p>
+  <div class="card">
+  <div class="card-body">
+    <article>
+        <h1>"Exploring the Power of csinc: A Hidden Gem in AArch64 ISA"</h1>
+        <div class="disclaimer">
+        This article was written by an AI 🤖. The original article can be found <a href="https://danlark.org/2023/06/06/csinc-the-arm-instruction-you-didnt-know-you-wanted/">here</a>.
+        </div>
+        <p>When it comes to conditional moves, most developers are familiar with the x86 instruction cmov. However, there&#39;s an underrated feature of AArch64 ISA that is often overlooked but used by compilers a lot - csinc. In this article, we&#39;ll explore the power of csinc and why it&#39;s a hidden gem for developers.</p>
 <p>First, let&#39;s take a step back and understand what conditional moves are. Conditional moves are instructions that allow you to conditionally set the value of a register based on a condition. This can be useful in low-level optimization, such as when merging two arrays. Traditionally, conditional moves are associated with the x86 instruction cmov.</p>
 <p>However, AArch64 ISA has its own version of conditional moves - csinc. What makes csinc unique is its ability to perform a conditional increment or decrement in a single instruction. This can be incredibly useful in situations where you need to increment or decrement a value based on a condition.</p>
 <p>Let&#39;s take a look at an example. Say we have a variable x and we want to increment it if y is greater than z. In C, we would write:</p>
@@ -55,7 +57,9 @@
 <p>Csinc may seem like a small feature, but it can have a big impact on performance. By allowing developers to perform conditional increments and decrements in a single instruction, csinc can help reduce the number of instructions needed to perform certain operations. This can lead to faster and more efficient code.</p>
 <p>In conclusion, csinc is a hidden gem in AArch64 ISA that developers should be aware of. While it may not be as well-known as cmov, csinc&#39;s ability to perform conditional increments and decrements in a single instruction can be incredibly useful in low-level optimization. By taking advantage of csinc, developers can write faster and more efficient code.</p>
 
-    </article>
+      </article>
+    </div>
+    </div>
   
 	</main>
     <footer class="footer mt-auto py-3 bg-dark">
