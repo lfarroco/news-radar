@@ -31,7 +31,7 @@ const axiosReq = async (
     }
   });
 
-export const rss = async (url: string): Promise<void> => {
+export const rss = async (url: string, topics: string[]): Promise<void> => {
   console.log('processing rss ', url);
 
   const result = await axiosReq(url);
@@ -46,10 +46,9 @@ export const rss = async (url: string): Promise<void> => {
   let feed = await parser.parseURL(url);
 
   const ops = feed.items.map(async (item) => {
-
     const title = item.title;
     const link = item.link;
-    const date = new Date(item.pubDate);
+    const date = new Date(item.pubDate)
 
     const age = Date.now() - date.getTime();
 
@@ -65,8 +64,8 @@ export const rss = async (url: string): Promise<void> => {
       return;
     }
 
-    console.log("Inserting: ");
-    console.table({ title, link, date, isRecent });
+    console.log('Inserting: ');
+    console.table({ title, link, date:  date.toString() , isRecent });
 
     await dbClient.query(
       `INSERT INTO info 
@@ -78,6 +77,26 @@ export const rss = async (url: string): Promise<void> => {
 
       [title, link, url, date, 'pending'],
     );
+
+    const ops = topics.map(async (topic) => {
+
+      await dbClient.query(
+        `INSERT INTO topics (name) VALUES ($1::text) ON CONFLICT (name) DO NOTHING;`,
+        [topic],
+      );
+
+      await dbClient.query(
+        `INSERT INTO article_topic (article_id, topic_id) VALUES ((
+          SELECT id FROM info WHERE link = $1::text
+        ), (
+          SELECT id FROM topics WHERE name = $2::text
+        ))
+        ON CONFLICT (article_id, topic_id) DO NOTHING;`,
+        [link, topic],
+      );
+    });
+
+    await Promise.all(ops);
   });
 
   await Promise.all(ops);

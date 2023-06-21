@@ -69,7 +69,11 @@ async function processBatch(batch: Article[]) {
     const createTopicRelations = item.topics.map(
       async (topic) =>
         await dbClient.query(
-          'INSERT INTO article_topic (article_id, topic_id) VALUES ($1::int, (SELECT id FROM topics WHERE name = $2::varchar(128)));',
+          `
+          INSERT INTO article_topic (article_id, topic_id) 
+          VALUES ($1::int, (SELECT id FROM topics WHERE name = $2::varchar(128)))
+          ON CONFLICT (article_id, topic_id) DO NOTHING
+          ;`,
           [item.id, topic],
         ),
     );
