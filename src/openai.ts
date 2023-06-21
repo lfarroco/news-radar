@@ -20,17 +20,19 @@ Our magazine publishes articles about the following subjects:
 - new features in programming languages
 - algorithms and data structures
 
-We don't write about the following subjects:
+We don't select articles about the following subjects:
 - company-specific news
 - politics
-- programming in general (we about specific languages and frameworks)
+- community drama
+- programming in general (we talk about specific languages and frameworks)
 - low-effort articles (e.g. "how to print hello world in X")
 - how to get a job in the industry
 - questions (e.g. "what is the best language for X?")
 
 Here's a list of ids and article titles in the following format: 
 (id) - title
-Evaluate the ones that should be relevant for our readers based on their title: ${items}
+Evaluate the ones that should be relevant for our readers based on their title:
+${items}
 
 Items that are not relevant should be excluded from the response.
 The selected items should come as a JSON array with the following structure:
@@ -83,7 +85,7 @@ As our target audience are developers, you can include code snippets in the arti
 Hightlight informations that are relevant for developers that want to keep up with the latest news in the industry.
 If you include html elements in the article, make sure to escape them with backticks (\`).
 The article's content should be formatted in markdown to define subtitles and code blocks.
-The generated article should have up to 500 words.
+The generated article should have up to 250 words.
 Your response should have the following structure:
 - The first line wil be the generated article's title (don't surround it with quotes)
 - The second line will be the generated article's content (without the title)
