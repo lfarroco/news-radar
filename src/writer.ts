@@ -1,5 +1,6 @@
 import pg from 'pg';
 import { write } from './openai.js';
+import { batch } from './utils.js';
 
 const dbClient = new pg.Client({
   password: 'root',
@@ -29,30 +30,27 @@ console.log(
   items.map((item) => item.title),
 );
 
-const articles = items.map((article) =>
-  write(article.id, article.title, article.original.length > 1400 ? article.original.substring(0, 1400) : article.original),
-);
+await batch(items, 3, async (item) => {
 
-const results = await Promise.all(articles);
+  const { id, title, content } = await write(
+    item.id,
+    item.title,
+    item.original.length > 1400
+      ? item.original.substring(0, 1400)
+      : item.original,
+  );
 
-const operations = results.map(
-  ({ id, title, content }) =>
-    new Promise(async (resolve) => {
-      const article = JSON.stringify({
-        title,
-        article: content,
-      });
+  const article = JSON.stringify({
+    title,
+    article: content,
+  });
 
-      await dbClient.query(
-        'UPDATE info SET status = $1::varchar(32), article = $2::text WHERE id = $3::int;',
-        ['written', article, id],
-      );
-      console.log(`updated item ${id}...`);
-      resolve(null);
-    }),
-);
-
-await Promise.all(operations);
+  await dbClient.query(
+    'UPDATE info SET status = $1::varchar(32), article = $2::text WHERE id = $3::int;',
+    ['written', article, id],
+  );
+  console.log(`updated item ${id}...`);
+});
 
 console.log('done');
 

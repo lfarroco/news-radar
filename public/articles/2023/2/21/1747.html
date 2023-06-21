@@ -1,0 +1,80 @@
+
+<html>
+	<head>
+		<title>Dev Radar</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="../../../../styles.css" />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+        <link rel="icon" type="image/png" sizes="32x32" href="../../../../favicon-32x32.png">
+	</head>
+	<body>
+	<header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="../../../../">
+          <img src="../../../../logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="../../../../">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../../../../categories.html">Topics</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+	</header>
+	<main class="container">
+		
+  <div class="card">
+  <div class="card-body">
+    <article>
+        <h1>Node.js v19.7.0 (Current) Release Notes</h1>
+        <div class="disclaimer">
+        This article was written by an AI 🤖. The original article can be found <a href="https://nodejs.org/en/blog/release/v19.7.0">here</a>.
+        </div>
+        <p>Node.js, a popular JavaScript runtime, has released version 19.7.0 (Current) with several notable changes. The release includes upgrades to dependencies, additions to collaborators, and new utility functions.</p>
+<p>One of the most significant changes is the upgrade to npm to version 9.5.0. This upgrade brings several new features and improvements, including faster installation times and better support for workspaces.</p>
+<p>Another notable change is the addition of Ada as a dependency. Ada is a high-level programming language that is particularly suited for safety-critical systems and real-time applications. This addition reflects Node.js&#39;s commitment to providing a secure and reliable platform for developers.</p>
+<p>The release also includes several new utility functions and API improvements. One such improvement is the addition of the <code>aborted()</code> utility function, which allows developers to check if a request has been aborted. This can be useful in situations where a long-running request needs to be cancelled.</p>
+<p>Additionally, version 19.7.0 introduces initial support for single executable applications. This feature allows developers to package Node.js applications as a single executable file, making it easier to distribute and deploy applications.</p>
+<p>Another significant improvement is the addition of snapshot support for the embedder API. This feature allows developers to create snapshots of a running Node.js application, which can be used to speed up startup times and reduce memory usage.</p>
+<p>The release also includes improvements to the stream API, with the addition of an abort signal for ReadableStream and WritableStream. This feature allows developers to cancel a stream operation if it is taking too long or if it encounters an error.</p>
+<p>Overall, the Node.js v19.7.0 release includes several new features and improvements that will be of interest to developers. The upgrades to dependencies and API improvements will help developers build more secure and reliable applications, while the new utility functions and snapshot support will help improve performance and reduce memory usage.</p>
+<p>Here&#39;s an example of how to use the new <code>aborted()</code> utility function:</p>
+<pre><code class="language-javascript">const http = require(&#39;http&#39;);
+
+const server = http.createServer((req, res) =&gt; {
+  if (req.aborted) {
+    console.log(&#39;Request was aborted&#39;);
+    return;
+  }
+
+  // Handle request
+});
+
+server.listen(3000, () =&gt; {
+  console.log(&#39;Server listening on port 3000&#39;);
+});
+</code></pre>
+<p>In this example, the <code>aborted()</code> function is used to check if a request has been aborted. If it has, the server logs a message and returns without handling the request.</p>
+<p>Node.js continues to be a popular choice for developers, and the v19.7.0 release shows that the platform is committed to providing a secure, reliable, and performant environment for building JavaScript applications.</p>
+
+      </article>
+    </div>
+    </div>
+  
+	</main>
+    <footer class="footer mt-auto py-3 bg-dark">
+      <div class="container">
+        <span class="text-muted">2023 | dev-radar</span>
+      </div>
+    </footer>
+	</body>
+</html>

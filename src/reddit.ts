@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { dbClient } from './db.js';
 import cheerio from 'cheerio';
+import {batch} from './utils.js';
 
 const MAX_REDDIT_ITEMS = 5;
 const restrictedDomains = [
@@ -33,7 +34,46 @@ const axiosReq = async (
     }
   });
 
-export const reddit = async (channel: string): Promise<void> => {
+const channels = [
+  // general subs
+  'programming',
+  // "functionalprogramming",
+  // "webdev",
+  // "gamedev",
+  // "compsci",
+
+  // // languages
+  'javascript',
+  'haskell',
+  'rust',
+  'python',
+  'golang',
+  'java',
+  'csharp',
+  "kotlin",
+  'php',
+  'ruby',
+  'elixir',
+  'csharp',
+  'purescript',
+
+  // // frameworks
+  'reactjs',
+  // "vuejs", // using blackout protest posts
+  'angular',
+  // "flutter",
+  // "svelte",
+  // "emberjs",
+  // "nextjs",
+  // "gatsbyjs",
+  // "nuxtjs",
+  // "reactnative",
+];
+//.map((channel) => reddit(channel));
+//
+
+export const channelReader = async (channel: string): Promise<void> => {
+
   console.log('processing channel', channel);
   const url = `https://old.reddit.com/r/${channel}/.rss`;
 
@@ -82,3 +122,5 @@ export const reddit = async (channel: string): Promise<void> => {
 
   console.log('done processing', channel);
 };
+
+export const reddit =  async()=> await batch(channels, 1, channelReader);

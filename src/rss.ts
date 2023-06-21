@@ -62,7 +62,7 @@ export const rss = async (url: string): Promise<void> => {
       link.includes(domain),
     );
 
-    if (isRestricted) {
+    if (isRestricted || !isRecent) {
       return;
     }
 
