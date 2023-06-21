@@ -40,10 +40,11 @@ The selected items should come as a JSON array with the following structure:
   "id": number, // the article's id that was given in the prompt
   "topics": string[] // list of language(s) and framework(s) the article is about (minimum of 1, maximum of 3)
 }
-Don't reply in any format other than JSON.
+Don't reply in any format other than JSON, this is very important.
 Articles that are not relevant for us should not be included in the response.
 Example: [{ "i": 1, "topics": ["Rust"]}, { "i": 4, "topics": ["JavaScript", "React"]}
 If there are no articles that you want to publish, reply with an empty array: []
+Take the necessary time to generate a JSON response with the articles that you want to publish.
 `;
 
     const engine = 'gpt-3.5-turbo';
@@ -85,7 +86,7 @@ As our target audience are developers, you can include code snippets in the arti
 Hightlight informations that are relevant for developers that want to keep up with the latest news in the industry.
 If you include html elements in the article, make sure to escape them with backticks (\`).
 The article's content should be formatted in markdown to define subtitles and code blocks.
-The generated article should have up to 250 words.
+Try to keep the generated article up to 250 words (if necessary, you can go over it).
 Your response should have the following structure:
 - The first line wil be the generated article's title (don't surround it with quotes)
 - The second line will be the generated article's content (without the title)
