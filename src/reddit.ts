@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { dbClient } from './db.js';
+import cheerio from 'cheerio';
 
 const MAX_REDDIT_ITEMS = 5;
 const restrictedDomains = [
@@ -16,7 +17,7 @@ const restrictedDomains = [
   'streamable.com',
   'reddit.com',
   'redd.it',
-  '/r/'
+  '/r/',
 ];
 
 const axiosReq = async (
@@ -35,7 +36,7 @@ const axiosReq = async (
 
 export const reddit = async (channel: string): Promise<void> => {
   console.log('processing channel', channel);
-  const url = `https://old.reddit.com/r/${channel}/top/.json?sort=top`;
+  const url = `https://old.reddit.com/r/${channel}/.rss`;
 
   const result = await axiosReq(url);
 
@@ -44,14 +45,14 @@ export const reddit = async (channel: string): Promise<void> => {
     return;
   }
 
-  const json = result.response.data;
+  const $ = cheerio.load(result.response.data);
 
-  const entries = json.data.children.slice(0, MAX_REDDIT_ITEMS);
+  const entries = $('entry').toArray().slice(0, MAX_REDDIT_ITEMS);
 
-  const ops = entries.map(async (entry:any) => {
-    const title = entry.data.title;
-    const link = entry.data.url;
-    const date = new Date(entry.data.created_utc * 1000);
+  const ops = entries.map(async (entry) => {
+    const title = $(entry).find('title').text();
+    const link = $(entry).find('link').attr('href');
+    const date = new Date($(entry).find('published').text());
 
     console.log('inserting', title, link, date);
 
@@ -63,7 +64,7 @@ export const reddit = async (channel: string): Promise<void> => {
       return;
     }
 
-    console.log('inserting', {title, link, date});
+    console.log('inserting', { title, link, date });
 
     await dbClient.query(
       `INSERT INTO info 
