@@ -12,10 +12,8 @@ WORKDIR /usr/src/app
 # copying packages first helps take advantage of docker layers
 COPY package*.json ./
 
-RUN npm install
+COPY . .
 
 # If you are building your code for production
 # RUN npm ci --only=production
-
-# Bundle app source
-COPY . .
+RUN npm install

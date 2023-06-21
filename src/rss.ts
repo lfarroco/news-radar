@@ -1,8 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { dbClient } from './db.js';
-import cheerio from 'cheerio';
+import Parser from 'rss-parser';
 
-const MAX_REDDIT_ITEMS = 5;
 const restrictedDomains = [
   'youtube.com',
   'youtu.be',
@@ -33,9 +32,8 @@ const axiosReq = async (
     }
   });
 
-export const reddit = async (channel: string): Promise<void> => {
-  console.log('processing channel', channel);
-  const url = `https://old.reddit.com/r/${channel}/.rss`;
+export const rss = async (url: string): Promise<void> => {
+  console.log('processing rss ', url);
 
   const result = await axiosReq(url);
 
@@ -44,17 +42,21 @@ export const reddit = async (channel: string): Promise<void> => {
     return;
   }
 
-  const $ = cheerio.load(result.response.data);
+  let parser = new Parser();
 
-  const entries = $('entry').toArray().slice(0, MAX_REDDIT_ITEMS);
+  let feed = await parser.parseURL(url);
 
-  const ops = entries.map(async (entry) => {
-    const title = $(entry).find('title').text();
-    const link = $(entry).find('link').attr('href');
-    const rawDate = new Date($(entry).find('published').text());
-    const date = `${rawDate.getFullYear()}-${rawDate.getMonth() + 1}-${rawDate.getDate() + 1}`
+  const ops = feed.items.map(async (item) => {
 
-    console.table({ title, link, date });
+    const title = item.title;
+    const link = item.link;
+    const date = new Date(item.pubDate);
+
+    const age = Date.now() - date.getTime();
+
+    // max age is 1 month
+
+    const isRecent = age < 1000 * 60 * 60 * 24 * 30;
 
     const isRestricted = restrictedDomains.some((domain) =>
       link.includes(domain),
@@ -64,7 +66,8 @@ export const reddit = async (channel: string): Promise<void> => {
       return;
     }
 
-    console.log('inserting', { title, link, date });
+    console.log("Inserting: ");
+    console.table({ title, link, date, isRecent });
 
     await dbClient.query(
       `INSERT INTO info 
@@ -74,11 +77,11 @@ export const reddit = async (channel: string): Promise<void> => {
            ON CONFLICT (link) DO NOTHING;
           `,
 
-      [title, link, 'reddit', date, 'pending'],
+      [title, link, url, date, 'pending'],
     );
   });
 
   await Promise.all(ops);
 
-  console.log('done processing', channel);
+  console.log('done processing', url);
 };

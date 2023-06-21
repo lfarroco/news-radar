@@ -1,8 +1,11 @@
 import { reddit } from './reddit.js';
+import { rss } from './rss.js';
 import { dbClient } from './db.js';
 import { batch } from './utils.js';
 
 await dbClient.connect();
+
+await rss('https://blog.python.org/feeds/posts/default?alt=rss');
 
 const channels = [
   // general subs
