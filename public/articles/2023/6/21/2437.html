@@ -1,0 +1,144 @@
+
+<html>
+	<head>
+		<title>Dev Radar</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="../../../../styles.css" />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+        <link rel="icon" type="image/png" sizes="32x32" href="../../../../favicon-32x32.png">
+	</head>
+	<body>
+	<header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="../../../../">
+          <img src="../../../../logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="../../../../">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../../../../categories.html">Topics</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+	</header>
+	<main class="container">
+		
+  <div class="card">
+  <div class="card-body">
+    <article>
+        <h1>Functional Programming in Coq</h1>
+        <div class="disclaimer">
+        This article was written by an AI 🤖. The original article can be found <a href="https://softwarefoundations.cis.upenn.edu/lf-current/Basics.html">here</a>.
+        </div>
+        <p>Coq is a proof assistant that allows developers to write programs and prove their correctness. It is based on the calculus of inductive constructions and supports functional programming. In this article, we will explore the basics of functional programming in Coq.</p>
+<p>Introduction
+Coq is a dependently typed programming language that supports functional programming. It is used for formal verification of software and hardware systems. Coq&#39;s type system allows developers to write programs that are guaranteed to be correct. Coq&#39;s proof assistant can be used to prove the correctness of the programs.</p>
+<p>Data and Functions
+In Coq, data types and functions are defined using the keyword &quot;Inductive&quot;. For example, we can define a data type for the days of the week as follows:</p>
+<pre><code>Inductive day : Type :=
+  | Monday
+  | Tuesday
+  | Wednesday
+  | Thursday
+  | Friday
+  | Saturday
+  | Sunday.
+</code></pre>
+<p>We can define functions on this data type using pattern matching. For example, we can define a function that returns true if a given day is a weekday:</p>
+<pre><code>Definition isWeekday (d : day) : bool :=
+  match d with
+  | Monday =&gt; true
+  | Tuesday =&gt; true
+  | Wednesday =&gt; true
+  | Thursday =&gt; true
+  | Friday =&gt; true
+  | _ =&gt; false
+  end.
+</code></pre>
+<p>Enumerated Types
+Coq supports enumerated types, which are data types with a fixed number of values. For example, we can define a boolean data type as follows:</p>
+<pre><code>Inductive bool : Type :=
+  | true
+  | false.
+</code></pre>
+<p>We can define functions on this data type using pattern matching. For example, we can define a function that implements the logical &quot;and&quot; operation:</p>
+<pre><code>Definition andb (b1 : bool) (b2 : bool) : bool :=
+  match b1 with
+  | true =&gt; b2
+  | false =&gt; false
+  end.
+</code></pre>
+<p>Modules
+Coq supports modules, which are used to organize code into separate namespaces. Modules can be used to define data types, functions, and theorems. For example, we can define a module that contains functions for working with tuples:</p>
+<pre><code>Module Tuple.
+
+Inductive tuple (A B : Type) : Type :=
+  | pair : A -&gt; B -&gt; tuple A B.
+
+Definition fst {A B : Type} (p : tuple A B) : A :=
+  match p with
+  | pair x y =&gt; x
+  end.
+
+Definition snd {A B : Type} (p : tuple A B) : B :=
+  match p with
+  | pair x y =&gt; y
+  end.
+
+End Tuple.
+</code></pre>
+<p>Tuples
+We can define a data type for tuples using the &quot;Inductive&quot; keyword. We can define functions for working with tuples using pattern matching. For example, we can define functions for getting the first and second elements of a tuple using the &quot;fst&quot; and &quot;snd&quot; functions from the &quot;Tuple&quot; module.</p>
+<p>Numbers
+Coq supports natural numbers, which are defined using the &quot;Inductive&quot; keyword. We can define functions for working with natural numbers using pattern matching. For example, we can define a function for computing the factorial of a number:</p>
+<pre><code>Fixpoint factorial (n : nat) : nat :=
+  match n with
+  | O =&gt; 1
+  | S n&#39; =&gt; n * factorial n&#39;
+  end.
+</code></pre>
+<p>Proof by Simplification
+Coq supports proof by simplification, which involves simplifying expressions using rewriting rules. For example, we can prove the following theorem using proof by simplification:</p>
+<pre><code>Theorem plus_id_exercise : forall n m : nat,
+  n = m -&gt;
+  n + m = m + n.
+Proof.
+  intros n m H.
+  rewrite -&gt; H.
+  reflexivity.
+Qed.
+</code></pre>
+<p>Proof by Rewriting
+Coq supports proof by rewriting, which involves rewriting expressions using equality rules. For example, we can prove the following theorem using proof by rewriting:</p>
+<pre><code>Theorem mult_n_1 : forall n : nat,
+  n * 1 = n.
+Proof.
+  intros n.
+  rewrite &lt;- mult_1_l.
+  reflexivity.
+Qed.
+</code></pre>
+<p>Conclusion
+Coq is a powerful tool for functional programming and formal verification. It supports data types, functions, modules, and proof techniques such as proof by simplification and proof by rewriting. Coq&#39;s type system allows developers to write programs that are guaranteed to be correct.</p>
+
+      </article>
+    </div>
+    </div>
+  
+	</main>
+    <footer class="footer mt-auto py-3 bg-dark">
+      <div class="container">
+        <span class="text-muted">2023 | dev-radar</span>
+      </div>
+    </footer>
+	</body>
+</html>

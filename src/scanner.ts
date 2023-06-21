@@ -4,7 +4,7 @@ import { dbClient } from './db.js';
 
 await dbClient.connect();
 
-await rss('https://blog.python.org/feeds/posts/default?alt=rss', ["Python"]);
+// await rss('https://blog.python.org/feeds/posts/default?alt=rss', ["Python"]);
 await rss('https://nodejs.org/en/feed/blog.xml', ["Node.js"]);
 await rss('https://blog.rust-lang.org/feed.xml', ["Rust"]);
 await rss('https://blog.rust-lang.org/inside-rust/feed.xml', ["Rust"]);
