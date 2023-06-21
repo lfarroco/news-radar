@@ -8,9 +8,12 @@ await rss('https://blog.python.org/feeds/posts/default?alt=rss');
 await rss('https://nodejs.org/en/feed/blog.xml');
 await rss('https://blog.rust-lang.org/feed.xml');
 await rss('https://blog.rust-lang.org/inside-rust/feed.xml');
+await rss('https://devblogs.microsoft.com/typescript/feed/');
+await rss('https://hnrss.org/frontpage');
+await rss('https://blog.golang.org/feed.atom');
 
 await reddit();
 
-console.log('processing channels...');
+console.log('scan finished');
 
 process.exit(0);

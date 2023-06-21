@@ -56,6 +56,8 @@ const channels = [
   'elixir',
   'csharp',
   'purescript',
+  'clojure',
+  'typescript',
 
   // // frameworks
   'reactjs',

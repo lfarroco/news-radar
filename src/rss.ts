@@ -15,7 +15,6 @@ const restrictedDomains = [
   'streamable.com',
   'reddit.com',
   'redd.it',
-  '/r/',
 ];
 
 const axiosReq = async (
