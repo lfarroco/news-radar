@@ -7,6 +7,8 @@ await dbClient.connect();
 
 await rss('https://blog.python.org/feeds/posts/default?alt=rss');
 
+await rss('https://nodejs.org/en/feed/blog.xml');
+
 const channels = [
   // general subs
   'programming',

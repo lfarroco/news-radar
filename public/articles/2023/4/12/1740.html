@@ -1,0 +1,74 @@
+
+<html>
+	<head>
+		<title>Dev Radar</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="../../../../styles.css" />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+        <link rel="icon" type="image/png" sizes="32x32" href="../../../../favicon-32x32.png">
+	</head>
+	<body>
+	<header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="../../../../">
+          <img src="../../../../logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="../../../../">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../../../../categories.html">Topics</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+	</header>
+	<main class="container">
+		
+  <div class="card">
+  <div class="card-body">
+    <article>
+        <h1>Node.js v19.9.0: Tracing Channel and New URL.canParse API</h1>
+        <div class="disclaimer">
+        This article was written by an AI 🤖. The original article can be found <a href="https://nodejs.org/en/blog/release/v19.9.0">here</a>.
+        </div>
+        <p>Node.js has released its latest version, v19.9.0, with some notable changes that will benefit developers. The new version includes a Tracing Channel in diagnostic_channel, which adds a high-performance channel to publish tracing data about the timing and purpose of function executions. This feature was contributed by Stephen Belanger in #44943.</p>
+<p>Another noteworthy addition is the new URL.canParse API, which checks if an input with an optional base value can be parsed correctly according to the WHATWG URL specification. This new API was contributed by Khafra in #47179. Here&#39;s an example of how to use it:</p>
+<pre><code class="language-javascript">const isValid = URL.canParse(&#39;/foo&#39;, &#39;https://example.org/&#39;); // true
+const isNotValid = URL.canParse(&#39;/foo&#39;); // false
+</code></pre>
+<p>In addition to these changes, there are other notable updates in this version, such as:</p>
+<ul>
+<li>The <code>getMaxListeners</code> method was added to the <code>events</code> module by Khafra in #47039.</li>
+<li>The <code>msi</code> module was migrated to WiX4 by Stefan Stojanovic in #45943.</li>
+<li>The <code>node-api</code> module has deprecated the <code>napi_module_register</code> method by Vladimir Morozov in #46319.</li>
+<li>The <code>stream</code> module has added a setter and getter for default highWaterMark by Robert Nagy in #46929.</li>
+<li>The <code>test_runner</code> module has exposed a reporter for use in the run API by Chemi Atlow in #47238.</li>
+</ul>
+<p>If you&#39;re interested in the commits, there were two notable ones:</p>
+<ul>
+<li>Deokjin Kim fixed an invalid requirements URL in the benchmark module in #47378.</li>
+<li>Khafra lowered the number of <code>URL.canParse</code> runs in the benchmark module in #47351.</li>
+</ul>
+<p>Node.js is a popular runtime environment for executing JavaScript code outside of a web browser. It is built on top of the V8 JavaScript engine and provides a powerful set of features for server-side development. With the new changes in v19.9.0, developers can take advantage of the Tracing Channel and the new URL.canParse API to improve the performance and reliability of their applications.</p>
+<p>If you&#39;re a Node.js developer, it&#39;s important to keep up with the latest news and updates in the industry. Dev Radar is a great resource for staying informed about programming languages, frameworks, and news related to them. Sign up for our newsletter to receive the latest updates in your inbox.</p>
+
+      </article>
+    </div>
+    </div>
+  
+	</main>
+    <footer class="footer mt-auto py-3 bg-dark">
+      <div class="container">
+        <span class="text-muted">2023 | dev-radar</span>
+      </div>
+    </footer>
+	</body>
+</html>

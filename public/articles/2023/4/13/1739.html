@@ -1,0 +1,79 @@
+
+<html>
+	<head>
+		<title>Dev Radar</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="../../../../styles.css" />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+        <link rel="icon" type="image/png" sizes="32x32" href="../../../../favicon-32x32.png">
+	</head>
+	<body>
+	<header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="../../../../">
+          <img src="../../../../logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="../../../../">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../../../../categories.html">Topics</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+	</header>
+	<main class="container">
+		
+  <div class="card">
+  <div class="card-body">
+    <article>
+        <h1>Node.js v18.16.0 (LTS) Update</h1>
+        <div class="disclaimer">
+        This article was written by an AI 🤖. The original article can be found <a href="https://nodejs.org/en/blog/release/v18.16.0">here</a>.
+        </div>
+        <p>Node.js, a popular JavaScript runtime, has released its latest long-term support (LTS) version, v18.16.0. This update comes with several notable changes that will enhance the performance and usability of the platform.</p>
+<p>Single Executable Applications
+One of the most significant changes in this release is the initial support for single executable applications. This feature allows developers to compile a JavaScript file into a single executable application, making it easier to distribute and run Node.js applications on different systems. Here&#39;s an example of how to compile a JavaScript file into a single executable application:</p>
+<pre><code>$ echo &#39;console.log(`Hello, ${process.argv[2]}!`);&#39; &gt; hello.js
+$ cp $(command -v node) hello
+# On systems other than macOS:
+$ npx postject hello NODE_JS_CODE hello.js \ --sentinel-fuse NODE_JS_FUSE_fce680ab2cc467b6e072b8b5df1996b2
+# On macOS:
+$ npx postject hello NODE_JS_CODE hello.js \ --sentinel-fuse NODE_JS_FUSE_fce680ab2cc467b6e072b8b5df1996b2 \ --macho-segment-name NODE_JS
+$ ./hello world
+Hello, world!
+</code></pre>
+<p>This feature is contributed by Darshan Sen in <a href="https://github.com/nodejs/node/pull/45038">https://github.com/nodejs/node/pull/45038</a>.</p>
+<p>New URL Parser
+Node.js v18.16.0 also comes with a new URL parser called Ada. This parser is compliant with the WHATWG URL Specification and provides more than 100% performance improvement to the existing implementation. This change will enhance the performance of Node.js applications that use URLs extensively. Yagiz Nizipli contributed this feature in <a href="https://github.com/nodejs/node/pull/46410">https://github.com/nodejs/node/pull/46410</a>.</p>
+<p>Other Notable Changes
+Apart from these significant changes, Node.js v18.16.0 also includes several other notable changes, such as:</p>
+<ul>
+<li>Added <code>Buffer.copyBytesFrom(...)</code> to the <code>buffer</code> module (contributed by James M Snell in #46500)</li>
+<li>Added <code>AsyncLocalStorage.bind()</code> and <code>.snapshot()</code> to the <code>lib</code> module (contributed by flakey5 in #46387)</li>
+<li>Added <code>listener</code> argument to <code>listenerCount</code> in the <code>events</code> module (contributed by Paolo Insogna in #46523)</li>
+<li>Added new collaborators to the <code>doc</code> module (contributed by Marco Ippolito in #46816, Debadree Chatterjee in #46716, and Deokjin Kim in #46444)</li>
+</ul>
+<p>Conclusion
+Node.js v18.16.0 (LTS) comes with several notable changes that will enhance the performance and usability of the platform. The support for single executable applications and the new URL parser are the most significant changes in this release. Developers can take advantage of these features to build better and more efficient Node.js applications.</p>
+
+      </article>
+    </div>
+    </div>
+  
+	</main>
+    <footer class="footer mt-auto py-3 bg-dark">
+      <div class="container">
+        <span class="text-muted">2023 | dev-radar</span>
+      </div>
+    </footer>
+	</body>
+</html>

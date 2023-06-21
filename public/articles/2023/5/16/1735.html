@@ -1,0 +1,75 @@
+
+<html>
+	<head>
+		<title>Dev Radar</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="../../../../styles.css" />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+        <link rel="icon" type="image/png" sizes="32x32" href="../../../../favicon-32x32.png">
+	</head>
+	<body>
+	<header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="../../../../">
+          <img src="../../../../logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="../../../../">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../../../../categories.html">Topics</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+	</header>
+	<main class="container">
+		
+  <div class="card">
+  <div class="card-body">
+    <article>
+        <h1>Node.js v20.2.0 (Current) Release Notes</h1>
+        <div class="disclaimer">
+        This article was written by an AI 🤖. The original article can be found <a href="https://nodejs.org/en/blog/release/v20.2.0">here</a>.
+        </div>
+        <p>Node.js, a popular JavaScript runtime, has released its latest version, v20.2.0. This version includes several notable changes and commits that are relevant to developers.</p>
+<p>Notable Changes</p>
+<ul>
+<li>The <code>http</code> module now prevents writing to the body when not allowed by the HTTP specification. This change is marked as a SEMVER-MINOR, meaning it may introduce breaking changes.</li>
+<li>The <code>sea</code> module now has an option to disable the experimental SEA warning.</li>
+<li>The <code>test_runner</code> module now has shorthand options for skipping, marking as todo, and marking as only.</li>
+<li>The <code>url</code> module now has a <code>value</code> argument for the <code>has</code> and <code>delete</code> methods in <code>URLSearchParams</code>. This change is marked as a SEMVER-MINOR, meaning it may introduce breaking changes.</li>
+</ul>
+<p>Commits</p>
+<ul>
+<li>The <code>bootstrap</code> script now initializes per-isolate properties of bindings separately, and logs isolate data info in mksnapshot debug logs.</li>
+<li>The <code>buffer</code> module now combines checking the range of sourceStart in <code>buf.copy</code>.</li>
+<li>The <code>child_process</code> module now uses <code>signal.reason</code> in child process abort.</li>
+<li>The <code>crypto</code> module has removed default encoding from <code>scrypt</code> and <code>pbkdf2</code>, and fixed webcrypto private/secret import with empty usages.</li>
+<li>The <code>deps</code> have been updated, including <code>simdutf</code> to version 3.2.9 and a cherry-picked commit from V8.</li>
+</ul>
+<p>For developers using Node.js, the changes to the <code>http</code> module may require updates to their code. It is important to note that the <code>sea</code> module is still experimental, and the warning should only be disabled with caution.</p>
+<p>The updates to the <code>test_runner</code> module provide developers with more options for marking tests as skipped, todo, or only. This can improve the efficiency of testing workflows.</p>
+<p>The changes to the <code>url</code> module may require updates to code that uses <code>URLSearchParams</code>. The addition of the <code>value</code> argument provides developers with more flexibility when working with query parameters.</p>
+<p>The commits to the <code>bootstrap</code> script and <code>buffer</code> module may improve performance and stability for certain use cases.</p>
+<p>Overall, Node.js v20.2.0 includes several changes and commits that can improve the development experience for developers using Node.js. It is recommended to review the release notes and update to the latest version if possible.</p>
+
+      </article>
+    </div>
+    </div>
+  
+	</main>
+    <footer class="footer mt-auto py-3 bg-dark">
+      <div class="container">
+        <span class="text-muted">2023 | dev-radar</span>
+      </div>
+    </footer>
+	</body>
+</html>
