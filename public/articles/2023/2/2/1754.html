@@ -1,0 +1,77 @@
+
+<html>
+	<head>
+		<title>Dev Radar</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="../../../../styles.css" />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+        <link rel="icon" type="image/png" sizes="32x32" href="../../../../favicon-32x32.png">
+	</head>
+	<body>
+	<header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="../../../../">
+          <img src="../../../../logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="../../../../">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../../../../categories.html">Topics</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+	</header>
+	<main class="container">
+		
+  <div class="card">
+  <div class="card-body">
+    <article>
+        <h1>Node v19.6.0 (Current) Release Notes</h1>
+        <div class="disclaimer">
+        This article was written by an AI 🤖. The original article can be found <a href="https://nodejs.org/en/blog/release/v19.6.0">here</a>.
+        </div>
+        <p>Node.js, a popular JavaScript runtime, has released version 19.6.0 as the current version. This version comes with several notable changes and updates.</p>
+<p>ESM: Leverage loaders when resolving subsequent loaders
+One of the most significant changes in this release is the ability to apply loaders to subsequent loaders. This means that developers can now use the <code>--experimental-loader</code> flag to specify multiple loaders. For example, <code>--experimental-loader ts-node --experimental-loader loader-written-in-typescript</code> will apply the <code>ts-node</code> loader before the <code>loader-written-in-typescript</code> loader.</p>
+<p>Upgrade npm to 9.4.0
+Node.js v19.6.0 also comes with an upgraded version of npm, which includes the <code>--install-strategy=linked</code> option for installations similar to pnpm. This option allows developers to install packages in a way that links them to the project, making it easier to manage dependencies.</p>
+<p>Other notable changes
+The release also includes several other notable changes, including the addition of <code>statfs()</code> functions to the <code>fs</code> module, the exposure of <code>cachedDataRejected</code> for <code>vm.compileFunction</code>, support for gc profile in V8, and the addition of the <code>isAscii</code> method to the <code>buffer</code> module.</p>
+<p>Developers can also take advantage of the new <code>constrainedMemory</code> API for the <code>process</code> module and the addition of reporters to the test runner.</p>
+<p>Overall, Node.js v19.6.0 brings several enhancements and improvements that will make it easier for developers to work with the platform. As always, developers are encouraged to upgrade to the latest version to take advantage of the latest features and improvements.</p>
+<p>Code snippet:</p>
+<pre><code class="language-javascript">// Example of using multiple loaders with ESM
+import { createRequire } from &#39;module&#39;;
+const require = createRequire(import.meta.url, {
+  loader: {
+    &#39;.ts&#39;: &#39;ts-node&#39;,
+    &#39;.tsx&#39;: &#39;ts-node&#39;,
+  }
+});
+</code></pre>
+<pre><code class="language-javascript">// Example of using the isAscii method from the buffer module
+const buffer = Buffer.from(&#39;Hello, world!&#39;);
+console.log(buffer.isAscii()); // true
+</code></pre>
+
+      </article>
+    </div>
+    </div>
+  
+	</main>
+    <footer class="footer mt-auto py-3 bg-dark">
+      <div class="container">
+        <span class="text-muted">2023 | dev-radar</span>
+      </div>
+    </footer>
+	</body>
+</html>

@@ -1,0 +1,67 @@
+
+<html>
+	<head>
+		<title>Dev Radar</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="../../../../styles.css" />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+        <link rel="icon" type="image/png" sizes="32x32" href="../../../../favicon-32x32.png">
+	</head>
+	<body>
+	<header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="../../../../">
+          <img src="../../../../logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="../../../../">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../../../../categories.html">Topics</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+	</header>
+	<main class="container">
+		
+  <div class="card">
+  <div class="card-body">
+    <article>
+        <h1>Node.js v16.19.1 (LTS) Security Release</h1>
+        <div class="disclaimer">
+        This article was written by an AI 🤖. The original article can be found <a href="https://nodejs.org/en/blog/release/v16.19.1">here</a>.
+        </div>
+        <p>Node.js, the popular JavaScript runtime, has released its latest version v16.19.1 (LTS) with security updates. This release includes fixes for several vulnerabilities, including CVE-2023-23918, CVE-2023-23919, CVE-2023-23920, CVE-2023-23936, and CVE-2023-24807. </p>
+<p>CVE-2023-23918 is a high severity vulnerability that allows bypassing of Node.js permissions policies via process.mainModule. CVE-2023-23919 is a medium severity vulnerability that addresses OpenSSL error handling issues in the Node.js crypto library. CVE-2023-23920 is a low severity vulnerability that fixes the insecure loading of ICU data through the ICU_DATA environment variable. CVE-2023-23936 is a medium severity vulnerability that resolves the issue of Fetch API in Node.js not protecting against CRLF injection in host headers. CVE-2023-24807 is a low severity vulnerability that fixes the regular expression denial of service in headers in Node.js fetch API.</p>
+<p>The security updates are fixed by an update to undici, a Node.js HTTP/1.1 client and server implementation. For more information on the updates, please refer to the GitHub advisory links provided.</p>
+<p>In addition to the security updates, this release includes OpenSSL security updates as outlined in the recent OpenSSL security advisory.</p>
+<p>Developers can find more detailed information on each of the vulnerabilities in the February 2023 Security Releases blog post.</p>
+<p>To ensure the security of their applications, developers are advised to update to Node.js v16.19.1 (LTS) as soon as possible. </p>
+<p>Below are the commits included in this release:</p>
+<pre><code>[7fef050447] - build: build ICU with ICU_NO_USER_DATA_OVERRIDE (RafaelGSS) nodejs-private/node-private#374
+[b558e9f476] - crypto: clear OpenSSL error on invalid ca cert (RafaelGSS) nodejs-private/node-private#375
+[160adb7ffc] - crypto: clear OpenSSL error queue after calling X509_check_private_key() (Filip Skokan) #45495
+[d0ece30948] - crypto: clear OpenSSL error queue after calling EVP_PKEY_CTX_ctrl() (Filip Skokan) #45495
+</code></pre>
+<p>Overall, Node.js v16.19.1 (LTS) provides important security updates for developers to ensure the safety of their applications.</p>
+
+      </article>
+    </div>
+    </div>
+  
+	</main>
+    <footer class="footer mt-auto py-3 bg-dark">
+      <div class="container">
+        <span class="text-muted">2023 | dev-radar</span>
+      </div>
+    </footer>
+	</body>
+</html>
