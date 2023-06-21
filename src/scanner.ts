@@ -11,6 +11,7 @@ await rss('https://blog.rust-lang.org/inside-rust/feed.xml');
 await rss('https://devblogs.microsoft.com/typescript/feed/');
 await rss('https://hnrss.org/frontpage');
 await rss('https://blog.golang.org/feed.atom');
+await rss('https://github.com/reduxjs/redux/releases.atom')
 
 await reddit();
 
