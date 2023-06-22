@@ -54,7 +54,7 @@ export async function scrapper() {
   await dbClient.connect();
   console.log('db connected');
 
-  const articles = await dbClient.query(`SELECT * from info WHERE status = 'approved' LIMIT 10;`);
+  const articles = await dbClient.query(`SELECT * from info WHERE status = 'approved' AND original != '' LIMIT 10;`);
 
   console.log(
     'articles',

@@ -87,7 +87,7 @@ export const rss = async (url: string, topics: string[], hasContent = false): Pr
            ON CONFLICT (link) DO NOTHING;
           `,
 
-      [title, link, url, date, hasContent? 'scraped' : 'pending', hasContent ? description : ''],
+      [title, link, url, date, 'pending', hasContent ? description : ''],
     );
 
     const ops = topics.map(async (topic) => {
