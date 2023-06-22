@@ -9,7 +9,7 @@ export const filterCandidates = async (): Promise<Article[]> =>
     await dbClient.connect();
 
     dbClient
-      .query('SELECT * from info WHERE status = $1::varchar(32);', ['pending'])
+      .query('SELECT * from info WHERE status = $1::text;', ['pending'])
       .then((result: { rows: any[] }) => {
         resolve(result.rows);
       });
@@ -49,7 +49,7 @@ async function processBatch(batch: Article[]) {
     const topics = JSON.stringify(item.topics);
     console.log(`updating item ${item.id} with topics ${topics}`);
     await dbClient.query(
-      'UPDATE info SET status = $1::varchar(32) WHERE id = $2::int;',
+      'UPDATE info SET status = $1::text WHERE id = $2::int;',
       ['approved', item.id],
     );
 
@@ -66,6 +66,7 @@ async function processBatch(batch: Article[]) {
 
     await Promise.all(createTopics);
 
+    // remove topic relationship from here
     const createTopicRelations = item.topics.map(
       async (topic) =>
         await dbClient.query(

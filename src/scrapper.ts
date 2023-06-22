@@ -67,7 +67,7 @@ export async function scrapper() {
 
     const [link, original] = args
 
-    if(original !== ''){
+    if(!!original){
       await dbClient.query(
         'UPDATE info SET status = $1::text;',
         ['scraped'],

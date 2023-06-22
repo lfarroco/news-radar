@@ -17,10 +17,6 @@ export const pickArticlesToPublish = async (): Promise<Article[]> => {
 console.log('picking articles to publish...');
 const items = await pickArticlesToPublish();
 console.log('picked articles to publish...');
-if (items.length === 0) {
-  console.log('no articles to publish');
-  process.exit(0);
-}
 
 const topics = await dbClient.query(`SELECT * from topics;`);
 const articleTopic = await dbClient.query(`SELECT * from article_topic;`);
