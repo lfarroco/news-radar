@@ -15,6 +15,7 @@ const restrictedDomains = [
   'streamable.com',
   'reddit.com',
   'redd.it',
+  'news.ycombinator',
 ];
 
 const axiosReq = async (
@@ -58,7 +59,7 @@ export const rss = async (url: string, topics: string[]): Promise<void> => {
   const ops = feed.items.map(async (item) => {
     const title = item.title;
     const link = item.link;
-    const date = new Date(item.pubDate)
+    const date = item.pubDate ? new Date(item.pubDate) : new Date();
 
     const age = Date.now() - date.getTime();
 
