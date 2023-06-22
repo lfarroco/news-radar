@@ -54,16 +54,27 @@ export async function scrapper() {
   await dbClient.connect();
   console.log('db connected');
 
-  const articles = await dbClient.query(`SELECT * from info WHERE status = 'approved' AND original != '' LIMIT 10;`);
+  const articles = await dbClient.query(`SELECT * from info WHERE status = 'approved' LIMIT 10;`);
 
   console.log(
     'articles',
     articles.rows.map((a) => a.title),
   );
 
-  const urls = articles.rows.map((item: any) => item.link);
+  const urls:string[][] = articles.rows.map((item: any) => ([item.link, item.original]));
 
-  await batch(urls, 1, async (link: string) => {
+  await batch(urls, 1, async (args:string[]) => {
+
+    const [link, original] = args
+
+    if(original !== ''){
+      await dbClient.query(
+        'UPDATE info SET status = $1::text;',
+        ['scraped'],
+      );
+      return;
+    }
+
     const article = await articleScrapper(link);
 
     await sleep(1000);
