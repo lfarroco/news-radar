@@ -32,7 +32,7 @@ const axiosReq = async (
     }
   });
 
-export const rss = async (url: string, topics: string[]): Promise<void> => {
+export const rss = async (url: string, topics: string[], hasContent = false): Promise<void> => {
   console.log('processing rss ', url);
 
   const result = await axiosReq(url);
@@ -60,6 +60,7 @@ export const rss = async (url: string, topics: string[]): Promise<void> => {
     const title = item.title;
     const link = item.link;
     const date = item.pubDate ? new Date(item.pubDate) : new Date();
+    const description = item.content;
 
     const age = Date.now() - date.getTime();
 
@@ -80,13 +81,13 @@ export const rss = async (url: string, topics: string[]): Promise<void> => {
 
     await dbClient.query(
       `INSERT INTO info 
-           (title, link, source, date, status)
+           (title, link, source, date, status, original)
            VALUES
-           ($1::text, $2::text, $3::varchar(32), $4::date, $5::varchar(32))
+           ($1::text, $2::text, $3::text, $4::date, $5::text, $6::text)
            ON CONFLICT (link) DO NOTHING;
           `,
 
-      [title, link, url, date, 'pending'],
+      [title, link, url, date, hasContent? 'scraped' : 'pending', hasContent ? description : ''],
     );
 
     const ops = topics.map(async (topic) => {

@@ -35,28 +35,30 @@
   <div class="card">
   <div class="card-body">
     <article>
-        <h1>Openobserve: A High-Performance Elasticsearch/Splunk/Datadog Alternative</h1>
-        <div>June 22, 2023 | Topics:  <a href="../../../../categories/javascript.html">JavaScript</a>, <a href="../../../../categories/github.html">GitHub</a></div>
+        <h1>FinRL: Financial Reinforcement Learning</h1>
+        <div>June 22, 2023 | Topics:  <a href="../../../../categories/python.html">Python</a></div>
         <div class="disclaimer">
-        This article was written by an AI 🤖. The original article can be found <a href="https://github.com/openobserve/openobserve">here</a>.
+        This article was written by an AI 🤖. The original article can be found <a href="https://github.com/AI4Finance-Foundation/FinRL">here</a>.
         </div>
-        <p>Openobserve is a high-performance, petabyte-scale alternative to Elasticsearch, Splunk, and Datadog for logs, metrics, and traces. It is 10x easier to use, 140x lower in storage cost, and offers high performance. Openobserve is licensed under the Apache-2.0 license and has gained 4.7k stars and 178 forks on GitHub.</p>
-<p>Openobserve is designed to be easy to use, with a simple query language and a user-friendly interface. It can handle petabyte-scale data with ease, making it an ideal choice for large-scale applications. Openobserve also offers high performance, with fast query times and low storage costs.</p>
-<p>Developers can use Openobserve to monitor and analyze logs, metrics, and traces from their applications. It is compatible with a wide range of data sources, including Kubernetes, AWS, and GCP. Openobserve also offers a range of features, including real-time alerts, anomaly detection, and machine learning.</p>
-<p>Here&#39;s an example of how to use Openobserve to query logs:</p>
-<pre><code class="language-python">from openobserve import Openobserve
+        <p>FinRL is a Python library for financial reinforcement learning. It provides a set of tools to train and test reinforcement learning agents in financial scenarios. The library is built on top of OpenAI Gym and Stable Baselines, two popular libraries for reinforcement learning.</p>
+<p>The library includes a set of pre-built environments for different financial scenarios, such as portfolio optimization and trading. It also includes a set of pre-built agents, such as DDPG and PPO, that can be used to train and test the environments.</p>
+<p>FinRL is designed to be easy to use and extend. It provides a simple API for defining new environments and agents, as well as a set of tools for visualizing and analyzing the results of experiments.</p>
+<p>The library is actively maintained by the AI4Finance-Foundation, a non-profit organization dedicated to advancing the use of artificial intelligence in finance. It is released under the MIT license and has a growing community of contributors and users.</p>
+<p>Here&#39;s an example of how to use FinRL to train a reinforcement learning agent for portfolio optimization:</p>
+<pre><code class="language-python">import finrl
 
-# Connect to Openobserve
-client = Openobserve(&quot;http://localhost:8080&quot;)
+env = finrl.make_env(&quot;portfolio_optimization&quot;)
+agent = finrl.make_agent(&quot;ddpg&quot;, env)
 
-# Query logs
-logs = client.query_logs(&quot;app:myapp AND status:500&quot;)
+for i in range(100):
+    agent.train()
 
-# Print results
-for log in logs:
-    print(log)
+    if i % 10 == 0:
+        rewards = agent.test()
+        print(f&quot;Test rewards: {rewards}&quot;)
 </code></pre>
-<p>In conclusion, Openobserve is a powerful and easy-to-use alternative to Elasticsearch, Splunk, and Datadog. It offers high performance, low storage costs, and a range of features for monitoring and analyzing logs, metrics, and traces. Developers looking for a petabyte-scale solution for their applications should definitely consider Openobserve.</p>
+<p>This code creates an environment for portfolio optimization and an agent using the DDPG algorithm. It then trains the agent for 100 episodes and tests it every 10 episodes. The results of the tests are printed to the console.</p>
+<p>FinRL is a powerful tool for developers interested in using reinforcement learning in finance. Its pre-built environments and agents make it easy to get started, while its extensible API allows for customization and experimentation.</p>
 
       </article>
     </div>
