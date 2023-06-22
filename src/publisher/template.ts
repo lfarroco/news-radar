@@ -12,7 +12,7 @@ export const template = (basePath: string, content: string) => `
 	<body>
 	<header>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
+        <div class="container">
           <a class="navbar-brand" href="${basePath}/">
           <img src="${basePath}/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
