@@ -45,7 +45,7 @@ const operations = items.map(async (raw) => {
   console.log('publising item', item.id);
   console.log('parsing...');
 
-  const topicsList = item.topics.map(t=> '<a href="../../../../categories/' + slugify(t.name) + '">' + t.name + '.html</a>').join(', ');
+  const topicsList = item.topics.map(t=> '<a href="../../../../categories/' + slugify(t.name) + '.html">' + t.name + '</a>').join(', ');
   const renderedDate = item.date.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
