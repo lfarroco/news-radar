@@ -43,7 +43,17 @@ export const rss = async (url: string, topics: string[]): Promise<void> => {
 
   let parser = new Parser();
 
-  let feed = await parser.parseURL(url);
+  let feed = await parser.parseURL(url).catch((err) => {
+
+    console.log('error parsing', url);
+    console.log(err);
+
+  });
+
+  if(!feed) {
+    console.log("skipping feed", url);
+    return;
+  }
 
   const ops = feed.items.map(async (item) => {
     const title = item.title;
