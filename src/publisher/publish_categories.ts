@@ -57,9 +57,14 @@ await batch(topics, 1, async (topic: Topic) => {
       const parsed = JSON.parse(article);
       // avoid printing html elements in the title
       const escapedTitle = escapeHTML(parsed.title);
-      return `<li class="list-group-item"><a href="../${
-        createArticleURL(id, date).path
-      }">${escapedTitle}</a></li>`;
+      return `<li class="list-group-item">
+
+<div>
+        <a href="../${ createArticleURL(id, date).path }">${escapedTitle}</a>
+</div>
+${date.toDateString()}
+
+        </li>`;
     })
     .join('\n');
 

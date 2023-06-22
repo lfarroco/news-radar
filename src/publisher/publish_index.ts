@@ -88,26 +88,11 @@ function themeColumn(topicName: string) {
         .filter((i) => i.topics.find((t) => t.name === topicName))
         .slice(0,5)
         .map((item) => {
-          const topicRows = articleTopic.rows.filter(
-            (at) => at.article_id === item.id,
-          );
-          const topicInfo = topicRows
-            .map((at) => {
-              return topics.rows.find((t) => t.id === at.topic_id);
-            })
-            .map(
-              (t) =>
-                `<a href="/categories/${slugify(t.name)}.html">${t.name}</a>`,
-            )
-            .join(', ');
-          console.log(topicInfo);
           return `<li class="list-group-item"> 
                               <div> <a  class="article-title" href="${
                                 item.path
                               }">${item.title}</a> </div>
-            <div>${
-              item.date.toISOString().split('T')[0]
-            } | Topics: ${topicInfo} </div>
+            <div>${ item.date.toISOString().split('T')[0] }  </div>
                             </li>`;
         })
         .join('\n')}
