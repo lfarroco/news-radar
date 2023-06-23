@@ -9,7 +9,7 @@ export const pickArticlesToPublish = async (): Promise<Article[]> => {
   await dbClient.connect();
 
   const { rows } = await dbClient.query(
-    `SELECT * from info WHERE status = 'published' ORDER BY created_at DESC;`,
+    `SELECT * from info WHERE status = 'written' OR status='published' ORDER BY created_at DESC;`,
   );
   return rows;
 };
