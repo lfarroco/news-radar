@@ -1,6 +1,7 @@
 import { priority } from './openai.js';
 import { dbClient } from './db.js';
 import { Article } from './models.js';
+import { batch } from './utils.js';
 
 const BATCH_SIZE = 20;
 
@@ -9,7 +10,7 @@ export const filterCandidates = async (): Promise<Article[]> =>
     await dbClient.connect();
 
     dbClient
-      .query('SELECT * from info WHERE status = $1::text;', ['pending'])
+      .query(`SELECT * from info WHERE status = 'pending';`)
       .then((result: { rows: any[] }) => {
         resolve(result.rows);
       });
@@ -22,8 +23,6 @@ if (items.length === 0) {
   process.exit(0);
 }
 
-// process in batches
-
 const batches = items.reduce(
   (acc: Article[][], item: Article, index: number) => {
     const batchIndex = Math.floor(index / BATCH_SIZE);
@@ -33,8 +32,10 @@ const batches = items.reduce(
     acc[batchIndex].push(item);
     return acc;
   },
-  [[]],
+  [],
 );
+
+await batch(batches, 1, processBatch);
 
 async function processBatch(batch: Article[]) {
   const titles = batch
