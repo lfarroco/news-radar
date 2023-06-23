@@ -96,13 +96,16 @@ export const channelReader = async (channel: string): Promise<void> => {
     const rawDate = new Date($(entry).find('published').text());
     const date = `${rawDate.getFullYear()}-${rawDate.getMonth() + 1}-${rawDate.getDate() + 1}`
 
+    //max age= 1 month
+    const isRecent = (Date.now() - rawDate.getTime()) / 1000 / 60 / 60 / 24 < 30;
+
     console.table({ title, link, date });
 
     const isRestricted = restrictedDomains.some((domain) =>
       link.includes(domain),
     );
 
-    if (isRestricted) {
+    if (isRestricted || !isRecent) {
       return;
     }
 

@@ -74,6 +74,9 @@ dump-db:
 dump-csv:
 	docker exec -it news-radar_postgres_1 psql -U root -c "\copy (SELECT * FROM article_topic) TO '/tmp/at.csv' DELIMITER ',' CSV HEADER;"
 
+query:
+	docker exec -it news-radar_postgres_1 psql -U root -c "$(query)"
+
 # receives an id and rejects it
 # usage: make reject id=1
 reject:

@@ -37,7 +37,7 @@ export const articleScrapper = (url: string): Promise<string> =>
 
     const $ = cheerio.load(result.response.data);
 
-    const text = $('h1, h2, h3, h4, h5, p, main')
+    const text = $('h1, h2, h3, h4, h5, p')
       .not('header, nav, navbar, footer')
       .text();
 
@@ -54,7 +54,7 @@ export async function scrapper() {
   await dbClient.connect();
   console.log('db connected');
 
-  const articles = await dbClient.query(`SELECT * from info WHERE status = 'approved' LIMIT 10;`);
+  const articles = await dbClient.query(`SELECT * from info WHERE status = 'approved';`);
 
   console.log(
     'articles',
@@ -69,8 +69,8 @@ export async function scrapper() {
 
     if(!!original){
       await dbClient.query(
-        'UPDATE info SET status = $1::text;',
-        ['scraped'],
+        'UPDATE info SET status = $1::text WHERE link = $2::text;',
+        ['scraped', link],
       );
       return;
     }
@@ -83,12 +83,12 @@ export async function scrapper() {
 
     if (!article) {
       await dbClient.query(
-        'UPDATE info SET status = $1::varchar(32), original = $2::text WHERE link = $3::varchar(512);',
-        ['error-scraping', 'error', link],
+        'UPDATE info SET status = $1::text  WHERE link = $2::text;',
+        ['error-scraping', link],
       );
     } else {
       await dbClient.query(
-        'UPDATE info SET status = $1::varchar(32), original = $2::text WHERE link = $3::varchar(512);',
+        'UPDATE info SET status = $1::text, original = $2::text WHERE link = $3::text;',
         ['scraped', article, link],
       );
     }
