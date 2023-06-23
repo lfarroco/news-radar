@@ -1,10 +1,16 @@
 import fs from 'fs';
 import { marked } from 'marked';
+import { mangle } from 'marked-mangle';
+import { gfmHeadingId } from "marked-gfm-heading-id";
 import { dbClient } from '../db.js';
 import { Article } from '../models.js';
 import { createArticleURL } from './createArticleURL.js';
 import { template } from './template.js';
 import { slugify } from '../utils.js';
+
+marked.use(mangle())
+const options = { prefix: "heading-" };
+marked.use(gfmHeadingId(options));
 
 export const pickArticlesToPublish = async (): Promise<Article[]> => {
   await dbClient.connect();
