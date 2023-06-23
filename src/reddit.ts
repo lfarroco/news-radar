@@ -94,11 +94,10 @@ export const channelReader = async (channel: string): Promise<void> => {
   const ops = entries.map(async (entry) => {
     const title = $(entry).find('title').text();
     const link = $(entry).find('link').attr('href');
-    const rawDate = new Date($(entry).find('published').text());
-    const date = `${rawDate.getFullYear()}-${rawDate.getMonth() + 1}-${rawDate.getDate() + 1}`
+    const date = new Date($(entry).find('published').text());
 
-    //max age= 1 month
-    const isRecent = (Date.now() - rawDate.getTime()) / 1000 / 60 / 60 / 24 < 30;
+    //max age= 1 week
+    const isRecent = Date.now() - date.getTime() < 1000 * 60 * 60 * 24 * 7;
 
     console.table({ title, link, date });
 
