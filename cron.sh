@@ -2,6 +2,6 @@
 while true  
 do  
   make run
-  #every hour
-  sleep 120
+  #every 10 minutes
+  sleep 600
 done
