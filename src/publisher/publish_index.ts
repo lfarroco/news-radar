@@ -137,6 +137,9 @@ function latest() {
         })
         .join('\n')}
       </ul> 
+      <div class="mt-2">
+        <a href="/archives/page-1.html">All Archives</a>
+      </div>
     </div>
   </div>
 </div>

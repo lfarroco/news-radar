@@ -33,8 +33,8 @@ We don't select articles about the following subjects:
 Here's a list of ids and article titles in the following format: 
 (id) - title
 Example: 
-(33) - How to print "Hello World" in Rust
-(34) - How to print "Hello World" in Python
+(33) - Rust 3.0 released
+(34) - New features for Pandas
 Evaluate the ones that should be relevant for our readers based on their title:
 ${items}
 
@@ -46,7 +46,7 @@ The selected items should come as a JSON array with the following structure:
 }
 Don't reply in any format other than JSON, this is very important.
 Articles that are not relevant for us should not be included in the response.
-Example: [{ "i": 1, "topics": ["Rust"]}, { "i": 4, "topics": ["JavaScript", "React"]}
+Example: [{ "i": 33, "topics": ["Rust"]}, { "i": 34, "topics": ["Pandas", "Python"]}
 If there are no articles that you want to publish, reply with an empty array: []
 Take the necessary time to generate a JSON response with the articles that you want to publish.
 `;

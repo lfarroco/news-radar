@@ -26,6 +26,9 @@ export const template = (basePath: string, content: string) => `
               <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="${basePath}/categories.html">Topics</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="${basePath}/archives/page-1.html">Archives</a>
+              </li>
             </ul>
           </div>
         </div>

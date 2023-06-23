@@ -50,6 +50,9 @@ publish-index:
 publish-articles:
 	docker exec news-radar_app_1 node build/src/publisher/publish_articles.js
 
+publish-archives:
+	docker exec news-radar_app_1 node build/src/publisher/publish_archives.js
+
 publish-categories-index:
 	docker exec news-radar_app_1 node build/src/publisher/publish_categories_index.js
 
@@ -60,7 +63,8 @@ publish:
 	docker exec news-radar_app_1 node build/src/publisher/publish_index.js && \
 	docker exec news-radar_app_1 node build/src/publisher/publish_articles.js && \
 	docker exec news-radar_app_1 node build/src/publisher/publish_categories_index.js && \
-	docker exec news-radar_app_1 node build/src/publisher/publish_categories.js
+	docker exec news-radar_app_1 node build/src/publisher/publish_categories.js && \
+	docker exec news-radar_app_1 node build/src/publisher/publish_archives.js
 
 stats:
 	docker exec -it news-radar_postgres_1 psql -U root -c "SELECT COUNT(status), status from info GROUP BY status;"

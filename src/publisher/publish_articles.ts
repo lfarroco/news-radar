@@ -24,10 +24,6 @@ const topics = await dbClient.query(`SELECT * from topics;`);
 const articleTopic = await dbClient.query(`SELECT * from article_topic;`);
 
 console.log('picked articles to publish...');
-if (items.length === 0) {
-  console.log('no articles to publish');
-  process.exit(0);
-}
 
 const operations = items.map(async (raw) => {
   const parsed = JSON.parse(raw.article);
@@ -41,9 +37,6 @@ const operations = items.map(async (raw) => {
       return topics.rows.find((t) => t.id === at.topic_id);
     }),
   };
-
-  console.log('publising item', item.id);
-  console.log('parsing...');
 
   const topicsList = item.topics.map(t=> '<a href="../../../../categories/' + slugify(t.name) + '.html">' + t.name + '</a>').join(', ');
   const renderedDate = item.date.toLocaleDateString('en-US', {
@@ -71,25 +64,20 @@ const operations = items.map(async (raw) => {
 
   const html = template('../../../..', content);
 
-  console.log(`publishing item ${item.id}...`);
   //write to a file synchronously
   const { publicDatePath, publicPath } = createArticleURL(item.id, item.date);
 
   // create directory if it doesn't exist
   //
   if (!fs.existsSync(publicDatePath)) {
-    console.log(`creating directory ${publicDatePath}...`);
     fs.mkdirSync(publicDatePath, { recursive: true });
   }
-  console.log(`writing file ${publicPath}...`);
   fs.writeFileSync(publicPath, html);
-  console.log(`published item ${item.id}...`);
 
   await dbClient.query(
     'UPDATE info SET status = $1::varchar(32) WHERE id = $2::int;',
     ['published', item.id],
   );
-  console.log(`updated item ${item.id}...`);
 });
 
 await Promise.all(operations);

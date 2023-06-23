@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { dbClient } from '../db.js';
 import { template } from './template.js';
-import { batch, slugify } from '../utils.js';
+import { slugify } from '../utils.js';
 import { createArticleURL } from './createArticleURL.js';
 import { escapeHTML } from './escapeHTML.js';
 
@@ -49,7 +49,7 @@ export const pickCategoryArticles = async (
 
 const topics = await pickTopics();
 
-await batch(topics, 1, async (topic: Topic) => {
+const ops = topics.map( async (topic: Topic) => {
   const articles = await pickCategoryArticles(topic.topic_id);
 
   const listItems = articles
@@ -80,7 +80,10 @@ ${date.toDateString()}
     `./public/categories/${slugify(topic.topic_name)}.html`,
     html,
   );
+
 });
+
+await Promise.all(ops);
 
 console.log('published category pages');
 
