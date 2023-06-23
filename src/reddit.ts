@@ -18,6 +18,7 @@ const restrictedDomains = [
   'reddit.com',
   'redd.it',
   '/r/',
+  'imgur.com',
 ];
 
 const axiosReq = async (
@@ -77,7 +78,7 @@ const channels = [
 export const channelReader = async (channel: string): Promise<void> => {
 
   console.log('processing channel', channel);
-  const url = `https://old.reddit.com/r/${channel}/.rss`;
+  const url = `https://old.reddit.com/r/${channel}/top.rss?sort=top&t=week`;
 
   const result = await axiosReq(url);
 
@@ -115,11 +116,11 @@ export const channelReader = async (channel: string): Promise<void> => {
       `INSERT INTO info 
            (title, link, source, date, status)
            VALUES
-           ($1::text, $2::text, $3::varchar(32), $4::date, $5::varchar(32))
+           ($1::text, $2::text, $3::text, $4::date, $5::text)
            ON CONFLICT (link) DO NOTHING;
           `,
 
-      [title, link, 'reddit', date, 'pending'],
+      [title, link, `reddit-${channel}`, date, 'pending'],
     );
   });
 

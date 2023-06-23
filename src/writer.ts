@@ -10,18 +10,12 @@ const dbClient = new pg.Client({
 
 export const pickArticlesToWrite = async (): Promise<
   { id: number; title: string; original: string }[]
-> =>
-  new Promise(async (resolve) => {
-    await dbClient.connect();
+> => {
+  await dbClient.connect();
 
-    dbClient
-      .query('SELECT * from info WHERE status = $1::varchar(32) LIMIT 10;', [
-        'scraped',
-      ])
-      .then((result: { rows: any[] }) => {
-        resolve(result.rows);
-      });
-  });
+  const result = await dbClient.query(`SELECT * from info WHERE status = 'scraped';`);
+  return result.rows;
+};
 
 const items = await pickArticlesToWrite();
 
@@ -31,7 +25,6 @@ console.log(
 );
 
 await batch(items, 3, async (item) => {
-
   const { id, title, content } = await write(
     item.id,
     item.title,
@@ -46,10 +39,10 @@ await batch(items, 3, async (item) => {
   });
 
   await dbClient.query(
-    'UPDATE info SET status = $1::varchar(32), article = $2::text WHERE id = $3::int;',
+    'UPDATE info SET status = $1::text, article = $2::text WHERE id = $3::int;',
     ['written', article, id],
   );
-  console.log(`updated item ${id}...`);
+  console.log(`wrote article "${title}"...`);
 });
 
 console.log('done');
