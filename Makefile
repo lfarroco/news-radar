@@ -66,6 +66,9 @@ publish:
 	docker exec news-radar_app_1 node build/src/publisher/publish_categories.js && \
 	docker exec news-radar_app_1 node build/src/publisher/publish_archives.js
 
+blogger:
+	docker exec news-radar_app_1 node build/src/blogger.js
+
 stats:
 	docker exec -it news-radar_postgres_1 psql -U root -c "SELECT COUNT(status), status from info GROUP BY status;"
 
