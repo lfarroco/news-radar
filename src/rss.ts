@@ -13,8 +13,6 @@ const restrictedDomains = [
   'vimeo.com',
   'gfycat.com',
   'streamable.com',
-  'reddit.com',
-  'redd.it',
   'news.ycombinator',
 ];
 
@@ -67,11 +65,15 @@ export const rss = async (url: string, topics: string[], hasContent = false): Pr
     // max age is 1 week
     const isRecent = age < 1000 * 60 * 60 * 24 * 7;
 
+
     const isRestricted = restrictedDomains.some((domain) =>
       link.includes(domain),
     );
 
+    console.log(">.......", item.pubDate, isRestricted, isRecent, console.log(link))
+
     if (isRestricted || !isRecent) {
+      console.log("X")
       return;
     }
 
