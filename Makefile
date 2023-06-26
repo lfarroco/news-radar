@@ -87,7 +87,7 @@ query:
 
 # adds an item to the db
 insert:
-	docker exec -it news-radar_postgres_1 psql -U root -c "INSERT INTO info (url, title, link, date, status) VALUES ('$(url)', '$(url)', '$(link)', '$(date)', 'pending');"
+	docker exec -it news-radar_postgres_1 psql -U root -c "INSERT INTO info (title, link, date, status) VALUES ('$(url)', '$(url)', '$(date)', 'pending'); INSERT INTO article_topic (article_id, topic_id) VALUES ((SELECT id FROM info WHERE link = '$(url)'), (SELECT id FROM topics WHERE name = '$(topic)'));"
 
 
 # receives an id and rejects it
