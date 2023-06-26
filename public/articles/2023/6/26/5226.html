@@ -1,0 +1,67 @@
+
+<html>
+	<head>
+		<title>Dev Radar</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="../../../../styles.css" />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+        <link rel="icon" type="image/png" sizes="32x32" href="../../../../favicon-32x32.png">
+	</head>
+	<body>
+	<header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand" href="../../../../">
+          <img src="../../../../logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="../../../../">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../../../../categories.html">Topics</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../../../../archives/page-1.html">Archives</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+	</header>
+	<main class="container">
+		
+  <div class="card">
+  <div class="card-body">
+    <article>
+        <h1>C++ Standard Library ABI Compatibility</h1>
+        <div>June 26, 2023 | Topics:  <a href="../../../../categories/c++.html">C++</a></div>
+        <div class="disclaimer">
+        This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/cpp/comments/14j30d9/c_standard_library_abi_compatibility/">here</a>.
+        </div>
+        <p>The author of this article talks about the importance of ABI (Application Binary Interface) compatibility in C++ standard library. ABI is the interface between two binary program modules, such as a library and its client. ABI compatibility ensures that a library can be used by multiple clients without the need to recompile the library or the clients.</p>
+<p>The author argues that ABI compatibility should be a priority for C++ standard library developers, as it can greatly benefit the C++ community. However, achieving ABI compatibility is not an easy task, as it requires careful design and implementation decisions.</p>
+<p>The article provides an overview of the current state of ABI compatibility in C++ standard library, highlighting some of the challenges and limitations. It also suggests some possible solutions and improvements, such as better documentation and tooling support.</p>
+<p>For developers who want to keep up with the latest news in C++ standard library, understanding ABI compatibility is crucial. It can help them avoid potential compatibility issues and ensure that their code can be easily reused by others.</p>
+<p>Here&#39;s an example of how to check ABI compatibility using the <code>abi-dumper</code> tool:</p>
+<pre><code class="language-bash">abi-dumper /path/to/libstdc++.so.6 -lver=6 -o /tmp/libstdc++.so.6.abi
+abi-compliance-checker -l libstdc++.so.6 -dump /tmp/libstdc++.so.6.abi -r 6.0 -s /usr/include/c++/6.0 -l GCC -c /path/to/compat_report.html
+</code></pre>
+<p>Overall, this article serves as a reminder of the importance of ABI compatibility in C++ standard library, and encourages developers to pay attention to this aspect when designing and implementing their libraries.</p>
+
+      </article>
+    </div>
+    </div>
+  
+	</main>
+    <footer class="footer mt-auto py-3 bg-dark">
+      <div class="container">
+        <span class="text-muted">2023 | dev-radar</span>
+      </div>
+    </footer>
+	</body>
+</html>

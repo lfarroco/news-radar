@@ -62,18 +62,14 @@ export const rss = async (url: string, topics: string[], hasContent = false): Pr
 
     const age = Date.now() - date.getTime();
 
-    // max age is 1 week
-    const isRecent = age < 1000 * 60 * 60 * 24 * 7;
-
+    // max age is 3 days
+    const isRecent = age < 1000 * 60 * 60 * 24 * 1;
 
     const isRestricted = restrictedDomains.some((domain) =>
       link.includes(domain),
     );
 
-    console.log(">.......", item.pubDate, isRestricted, isRecent, console.log(link))
-
     if (isRestricted || !isRecent) {
-      console.log("X")
       return;
     }
 
