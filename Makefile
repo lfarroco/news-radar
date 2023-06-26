@@ -84,6 +84,12 @@ dump-csv:
 query:
 	docker exec -it news-radar_postgres_1 psql -U root -c "$(query)"
 
+
+# adds an item to the db
+insert:
+	docker exec -it news-radar_postgres_1 psql -U root -c "INSERT INTO info (url, title, link, date, status) VALUES ('$(url)', '$(url)', '$(link)', '$(date)', 'pending');"
+
+
 # receives an id and rejects it
 # usage: make reject id=1
 reject:
