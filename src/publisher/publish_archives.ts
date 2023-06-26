@@ -4,6 +4,7 @@ import { template } from './template.js';
 import { Article } from '../models.js';
 import { createArticleURL } from './createArticleURL.js';
 import { escapeHTML } from './escapeHTML.js';
+import { group } from '../utils.js';
 
 export const pickArticles = async (): Promise<Article[]> => {
   await dbClient.connect();
@@ -29,16 +30,8 @@ const listItems = items.map(({ id, article, date }) => {
           </li>`;
 });
 
-const ITEMS_PER_PAGE = 20;
 
-const pages = listItems.reduce((pages, item, index) => {
-  const page = Math.floor(index / ITEMS_PER_PAGE);
-  if (!pages[page]) {
-    pages[page] = [];
-  }
-  pages[page].push(item);
-  return pages;
-}, [] as string[][]);
+const pages = group(listItems, 20)
 
 const ops = pages.map(async (page, index, arr) => {
   const total = arr.length;
@@ -66,10 +59,10 @@ const ops = pages.map(async (page, index, arr) => {
   const content = `
      <h2>Page ${index + 1}</h2>
      <ul class="list-group">
-        ${nav}
-        ${page.join('\n')}
-        ${nav}
-      </ul> `;
+         ${nav}
+         ${page.join('\n')}
+         ${nav}
+     </ul> `;
 
   const html = template('..', content);
 

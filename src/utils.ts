@@ -1,4 +1,5 @@
-export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+export const sleep = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
 
 export async function batch<A>(
   items: A[],
@@ -19,7 +20,7 @@ export async function batch<A>(
 
   return batches.reduce(async (xs, x, index) => {
     await xs;
-    console.log(`processing batch ${index+1}/${batches.length}...`);
+    console.log(`processing batch ${index + 1}/${batches.length}...`);
 
     const operations = x.map(async (item) => {
       await fn(item);
@@ -29,6 +30,16 @@ export async function batch<A>(
   }, Promise.resolve(null));
 }
 
+export const group = <A>(items: A[], n: number): A[][] =>
+  items.reduce((xs, x, index) => {
+    const current = Math.floor(index / n);
+    if (!xs[current]) {
+      xs[current] = [];
+    }
+    xs[current].push(x);
+    return xs;
+  }, []);
+
 export const slugify = (text: string) => {
   return text
     .toString()
@@ -36,5 +47,3 @@ export const slugify = (text: string) => {
     .replace(/\s+/g, '-') // Replace spaces with -
     .replace(/&/g, '-and-'); // Replace & with 'and'
 };
-
-
