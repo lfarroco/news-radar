@@ -51,6 +51,9 @@ const sources = [
   subreddit('typescript', 'TypeScript'),
   subreddit('reactjs', 'React'),
   subreddit('angular', 'Angular'),
+  subreddit('node', 'Node.js'),
+  subreddit('deno', 'Deno'),
+
 ];
 
 await batch(sources, 5, (fn) => fn());
