@@ -18,6 +18,7 @@ const restrictedDomains = [
   'redditmedia.com',
   'reddituploads.com',
   'redd.it',
+  'i.redd.it',
 ];
 
 const axiosReq = async (
