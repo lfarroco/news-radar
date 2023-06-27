@@ -10,7 +10,7 @@ export const pickArticles = async (): Promise<Article[]> => {
   await dbClient.connect();
 
   const { rows } = await dbClient.query(
-    ` SELECT * from info where status = 'published' or status='written' order by created_at desc;`,
+    `SELECT * from info where status = 'published' or status='written' order by date desc;`,
   );
   return rows;
 };
