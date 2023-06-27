@@ -4,9 +4,9 @@ import { batch } from './utils.js';
 
 await dbClient.connect();
 
-const subreddit = (sub: string, topic: string) => async () =>
+const subreddit = (sub: string, topic: string, threshold: number) => async () =>
   rss(
-    `https://old.reddit.com/r/${sub}/top.rss?sort=top&t=week`,
+    `https://reddit.0qz.fun/r/${sub}.json?scoreLimit=${threshold}`,
     [topic],
     true,
   );
@@ -20,7 +20,7 @@ const feed =
     rss(url, topics, hasContent);
 
 const sources = [
-  feed('https://jamesg.blog/openai.xml', ["OpenAI", "ChatGPT"]),
+  feed('https://jamesg.blog/openai.xml', ['OpenAI', 'ChatGPT']),
   feed('https://hnrss.org/newest?points=1000', []),
   feed('https://blog.python.org/feeds/posts/default?alt=rss', ['Python'], true),
   feed('https://nodejs.org/en/feed/blog.xml', ['Node.js']),
@@ -36,28 +36,27 @@ const sources = [
   githubRelease('rust-lang/rust', ['Rust']),
   githubRelease('rust-lang/rust', ['Rust']),
 
-  subreddit('python', 'Python'),
-  subreddit('haskell', 'Haskell'),
-  subreddit('rust', 'Rust'),
-  subreddit('golang', 'Go'),
-  subreddit('java', 'Java'),
-  subreddit('kotlin', 'Kotlin'),
-  subreddit('swift', 'Swift'),
-  subreddit('scala', 'Scala'),
-  subreddit('cpp', 'C++'),
-  subreddit('php', 'PHP'),
-  subreddit('ruby', 'Ruby'),
-  subreddit('elixir', 'Elixir'),
-  subreddit('purescript', 'PureScript'),
-  subreddit('clojure', 'Clojure'),
-  subreddit('typescript', 'TypeScript'),
-  subreddit('reactjs', 'React'),
-  subreddit('angular', 'Angular'),
-  subreddit('node', 'Node.js'),
-  subreddit('deno', 'Deno'),
-  subreddit('django', 'Django'),
-  subreddit('flask', 'Flask'),
-
+  subreddit('python', 'Python', 50),
+  subreddit('haskell', 'Haskell', 50),
+  subreddit('rust', 'Rust', 200),
+  subreddit('golang', 'Go', 100),
+  subreddit('java', 'Java', 50),
+  subreddit('kotlin', 'Kotlin', 20),
+  subreddit('swift', 'Swift', 50),
+  subreddit('scala', 'Scala', 50),
+  subreddit('cpp', 'C++', 100),
+  subreddit('php', 'PHP', 50),
+  subreddit('ruby', 'Ruby', 50),
+  subreddit('elixir', 'Elixir', 40),
+  subreddit('purescript', 'PureScript', 10),
+  subreddit('clojure', 'Clojure', 40),
+  subreddit('typescript', 'TypeScript', 30),
+  subreddit('reactjs', 'React', 200),
+  subreddit('angular', 'Angular', 10),
+  subreddit('node', 'Node.js', 50),
+  subreddit('deno', 'Deno', 10),
+  subreddit('django', 'Django', 30),
+  subreddit('flask', 'Flask', 20),
 ];
 
 await batch(sources, 5, (fn) => fn());

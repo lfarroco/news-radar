@@ -14,6 +14,10 @@ const restrictedDomains = [
   'gfycat.com',
   'streamable.com',
   'news.ycombinator',
+  'reddit.com',
+  'redditmedia.com',
+  'reddituploads.com',
+  'redd.it',
 ];
 
 const axiosReq = async (
