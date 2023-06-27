@@ -60,7 +60,7 @@ const sources = [
 
 ];
 
-await batch(sources, 1, (fn) => fn());
+await batch(sources, 5, (fn) => fn());
 
 console.log('scan finished');
 
