@@ -1,9 +1,8 @@
 #!/bin/sh  
 while true  
 do  
-  #print current time
-  date
   #every hour 
-  sleep 3600
   make run
+  echo "Finished running at: $(date). Next run in 1 hour."
+  sleep 3600
 done
