@@ -89,7 +89,7 @@ As our target audience are developers, you can include code snippets in the arti
 Hightlight informations that are relevant for developers that want to keep up with the latest news in the industry.
 If you include html elements in the article, make sure to escape them with backticks (\`).
 The article's content should be formatted in raw markdown to define subtitles and code blocks.
-Try to keep the generated article up to 250 words (if necessary, you can go over it).
+Try to keep the generated article up to 125 words (if necessary, you can go over it).
 Your response should have the following structure:
 - The first line wil be the generated article's title (don't surround it with quotes)
 - The second line will be the generated article's content (without the title)
