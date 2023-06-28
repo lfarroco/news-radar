@@ -102,3 +102,6 @@ category:
 remove-category:
 	docker exec -it news-radar_postgres_1 psql -U root -c "DELETE FROM article_topic WHERE article_id = '$(article_id)' AND topic_id = (SELECT id FROM topics WHERE name = '$(category)');"
 
+list-articles:
+	docker exec -it news-radar_postgres_1 psql -U root -c "SELECT id, title, source, status, created_at FROM info ORDER BY date DESC LIMIT 20;"
+
