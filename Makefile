@@ -39,10 +39,13 @@ run:
 	docker exec news-radar_app_1 node build/src/publisher/publish_index.js && \
 	docker exec news-radar_app_1 node build/src/publisher/publish_articles.js && \
 	docker exec news-radar_app_1 node build/src/publisher/publish_categories_index.js && \
-	docker exec news-radar_app_1 node build/src/publisher/publish_categories.js && \
-	git add . && \
-	git commit -m "automated run" && \
-	git push origin main
+	docker exec news-radar_app_1 node build/src/publisher/publish_categories.js
+	# only run if there is a git change
+	@if [ -n "$(shell git status --porcelain)" ]; then \
+		git add . && \
+		git commit -m "automated run" && \
+		git push origin main; \
+	fi
 
 publish-index:
 	docker exec news-radar_app_1 node build/src/publisher/publish_index.js
