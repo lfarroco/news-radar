@@ -20,7 +20,7 @@ Our magazine publishes articles about the following subjects:
 - algorithms and data structures
 
 We don't select articles about the following subjects:
-- company-specific news
+- company-specific news ("company x raises funding", "company y opens a new office")
 - politics
 - community drama
 - programming in general (we talk about specific languages and frameworks)
