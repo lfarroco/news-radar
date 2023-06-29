@@ -42,6 +42,10 @@ async function processBatch(batch: Article[]) {
     .map((item: any) => `(${item.id}) - ${item.title}`)
     .join('\n');
 
+
+  console.log(`submitting
+    ${titles}`);
+
   const result = await priority(titles);
 
   const parsed: { id: number; topics: string[] }[] = JSON.parse(result);

@@ -21,7 +21,7 @@ const feed =
 
 const sources = [
   feed('https://jamesg.blog/openai.xml', ['OpenAI', 'ChatGPT']),
-  feed('https://hnrss.org/newest?points=1000', []),
+  feed('https://hnrss.org/newest?points=500', []),
   feed('https://blog.python.org/feeds/posts/default?alt=rss', ['Python'], true),
   feed('https://nodejs.org/en/feed/blog.xml', ['Node.js']),
   feed('https://blog.rust-lang.org/feed.xml', ['Rust'], true),
