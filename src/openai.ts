@@ -29,13 +29,9 @@ We don't select articles about the following subjects:
 - questions (e.g. "what is the best language for X?")
 - small patch updates
 
-Here's a list of ids and article titles in the following format: 
+You will be provided with a list of ids and article titles in the following format: 
 (id) - title
-Example: 
-(33) - Rust 3.0 released
-(34) - New features for Pandas
-Evaluate the ones that should be relevant for our readers based on their title:
-${items}
+Evaluate the ones that should be relevant for our readers based on their title.
 
 Items that are not relevant should be excluded from the response.
 The selected items should come as a JSON array with the following structure:
@@ -45,9 +41,16 @@ The selected items should come as a JSON array with the following structure:
 }
 Don't reply in any format other than JSON, this is very important.
 Articles that are not relevant for us should not be included in the response.
-Example: [{ "i": 33, "topics": ["Rust"]}, { "i": 34, "topics": ["Pandas", "Python"]}
+Example: 
+Payload:
+(33) - Rust 3.0 released
+(34) - New features for Pandas
+(35) - How to print hello world in Rust
+Response: [{ "i": 33, "topics": ["Rust"]}, { "i": 34, "topics": ["Pandas", "Python"]}
 If there are no articles that you want to publish, reply with an empty array: []
 Take the necessary time to generate a JSON response with the articles that you want to publish.
+Here's the list:
+${items}
 `;
 
     const engine = 'gpt-3.5-turbo';
