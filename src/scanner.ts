@@ -1,7 +1,6 @@
 import { rss } from './rss.js';
 import { dbClient } from './db.js';
 import { batch } from './utils.js';
-import axios from 'axios';
 import { reddit } from './reddit.js';
 
 await dbClient.connect();

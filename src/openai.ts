@@ -106,6 +106,7 @@ ${article}
 
   const engine = 'gpt-3.5-turbo';
 
+  console.log(`calling openai with prompt ${content}`); 
   console.log(`calling openai with prompt of length: ${content.length}`);
   const response = await openai.createChatCompletion({
     model: engine,
