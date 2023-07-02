@@ -1,26 +1,26 @@
-import { node } from './html.js';
+// import {node} from './html.js';
 
-const footer = (basePath: string) =>
-  node('footer', { class: 'footer' }, [
-    node('div', { class: 'container' }, [
-      node('div', { class: 'row' }, [
-        node('div', { class: 'col-md-6' }, [
-          node('p', {}, [
-            node('a', { href: `${basePath}/about` }, ['About']),
-            node('a', { href: `${basePath}/privacy` }, ['Privacy']),
-            node('a', { href: `${basePath}/terms` }, ['Terms']),
-          ]),
-        ]),
-        node('div', { class: 'col-md-6' }, [
-          node('p', {}, [
-            node('a', { href: `${basePath}/contact` }, ['Contact']),
-            node('a', { href: `${basePath}/advertise` }, ['Advertise']),
-            node('a', { href: `${basePath}/donate` }, ['Donate']),
-          ]),
-        ]),
-      ]),
-    ]),
-  ]);
+// const footer = (basePath: string) => node('footer', {class: 'footer'}, [
+//   node('div', {class: 'container'}, [
+//     node('div', {class: 'row'}, [
+//       node('div', {class: 'col-md-6'}, [
+//         node('p', {}, [
+//           node('a', {href: `${basePath}/about`}, ['About']),
+//           node('a', {href: `${basePath}/privacy`}, ['Privacy']),
+//           node('a', {href: `${basePath}/terms`}, ['Terms']),
+//         ]),
+//       ]),
+//       node('div', {class: 'col-md-6'}, [
+//         node('p', {}, [
+//           node('a', {href: `${basePath}/contact`}, ['Contact']),
+//           node('a', {href: `${basePath}/advertise`}, ['Advertise']),
+//           node('a', {href: `${basePath}/donate`}, ['Donate']),
+//         ]),
+//       ]),
+//     ]),
+//   ]),
+// ]);
+
 
 export const template = (basePath: string, content: string) => `
 <html>
@@ -60,6 +60,10 @@ export const template = (basePath: string, content: string) => `
 	<main class="container">
 		${content}
 	</main>
-    ${footer(basePath)}
+    <footer class="footer mt-auto py-3 bg-dark">
+      <div class="container">
+        <span class="text-muted">2023 | dev-radar</span>
+      </div>
+    </footer>
 	</body>
 </html>`;
