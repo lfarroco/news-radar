@@ -2,8 +2,6 @@ import axios, { AxiosResponse } from 'axios';
 import cheerio from 'cheerio';
 import { dbClient } from './db.js';
 
-await dbClient.connect();
-
 const restrictedDomains = [
   'youtube.com',
   'youtu.be',
@@ -18,6 +16,7 @@ const restrictedDomains = [
   'streamable.com',
   'reddit.com',
   'redd.it',
+  '/r/',
 ];
 
 const axiosReq = async (
@@ -35,9 +34,7 @@ const axiosReq = async (
       });
   });
 
-export const reddit = async (channel: string) => {
-  await dbClient.connect();
-
+export const reddit = async (channel: string, topic: string) => {
   console.log('processing channel', channel);
   const url = `https://old.reddit.com/r/${channel}/top/?sort=top&t=week`;
 
@@ -63,11 +60,19 @@ export const reddit = async (channel: string) => {
       link.includes(domain),
     );
 
-    if (isRestricted) {
+    if (isRestricted || !title) {
       return;
     }
 
-    console.log('inserting', title, link, date);
+    const age = (Date.now() - date.getTime()) / 1000 / 60 / 60 / 24;
+
+    const maxAge = 3;
+
+    if (age > maxAge) {
+      return;
+    }
+
+    console.table({ title, link, date });
 
     await dbClient.query(
       `INSERT INTO info 
@@ -78,6 +83,20 @@ export const reddit = async (channel: string) => {
           `,
 
       [title, link, `reddit-channel`, date, 'pending'],
+    );
+    await dbClient.query(
+      `INSERT INTO topics (name) VALUES ($1::text) ON CONFLICT (name) DO NOTHING;`,
+      [topic],
+    );
+
+    await dbClient.query(
+      `INSERT INTO article_topic (article_id, topic_id) VALUES ((
+          SELECT id FROM info WHERE link = $1::text
+        ), (
+          SELECT id FROM topics WHERE name = $2::text
+        ))
+        ON CONFLICT (article_id, topic_id) DO NOTHING;`,
+      [link, topic],
     );
   });
 
