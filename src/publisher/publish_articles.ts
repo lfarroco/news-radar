@@ -16,6 +16,10 @@ export const pickArticlesToPublish = async (): Promise<Article[]> => {
   return result.rows;
 };
 
+marked.setOptions({
+  mangle: false,
+  headerIds: false,
+});
 
 console.log('picking articles to publish...');
 const items = await pickArticlesToPublish();
