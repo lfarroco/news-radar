@@ -1,13 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
-import pg from 'pg';
 import cheerio from 'cheerio';
-import { batch, sleep } from './utils.js';
-
-const dbClient = new pg.Client({
-  password: 'root',
-  user: 'root',
-  host: 'postgres',
-});
+import { batch } from './utils.js';
+import { dbClient } from './db.js';
 
 const axiosReq = async (
   url: string,
@@ -54,20 +48,24 @@ export async function scrapper() {
   await dbClient.connect();
   console.log('db connected');
 
-  const articles = await dbClient.query(`SELECT * from info WHERE status = 'approved';`);
+  const articles = await dbClient.query(
+    `SELECT * from info WHERE status = 'approved';`,
+  );
 
   console.log(
     'articles',
     articles.rows.map((a) => a.title),
   );
 
-  const urls:string[][] = articles.rows.map((item: any) => ([item.link, item.original]));
+  const urls: string[][] = articles.rows.map((item: any) => [
+    item.link,
+    item.original,
+  ]);
 
-  await batch(urls, 5, async (args:string[]) => {
+  await batch(urls, 5, async (args: string[]) => {
+    const [link, original] = args;
 
-    const [link, original] = args
-
-    if(!!original){
+    if (!!original) {
       await dbClient.query(
         'UPDATE info SET status = $1::text WHERE link = $2::text;',
         ['scraped', link],
