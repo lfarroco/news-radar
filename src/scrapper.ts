@@ -63,7 +63,7 @@ export async function scrapper() {
 
   const urls:string[][] = articles.rows.map((item: any) => ([item.link, item.original]));
 
-  await batch(urls, 1, async (args:string[]) => {
+  await batch(urls, 5, async (args:string[]) => {
 
     const [link, original] = args
 
@@ -76,8 +76,6 @@ export async function scrapper() {
     }
 
     const article = await articleScrapper(link);
-
-    await sleep(1000);
 
     console.log('article scraped:', link);
 
