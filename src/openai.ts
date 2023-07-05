@@ -1,15 +1,47 @@
 import { Configuration, OpenAIApi } from 'openai';
-import { config } from 'dotenv';
-config();
+import { config } from 'https://deno.land/x/dotenv/mod.ts';
+
+const env = config();
+
+const model = 'gpt-3.5-turbo';
+
+export const completion = async (content: string, temperature: number) => {
+  console.log(`calling openai, prompt length: ${content.length}`);
+
+  const response = await fetch(`https://api.openai.com/v1/chat/completions`, {
+    body: JSON.stringify({
+      model,
+      messages: [
+        {
+          role: 'user',
+          content,
+        },
+      ],
+      temperature,
+    }),
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      Authorization: `Bearer ${env.OPENAI_API_KEY}`,
+    },
+  });
+
+  const output = await response.json();
+
+  const textResponse = output.choices[0].message.content;
+
+  console.log(`openai response: ${textResponse}`);
+
+  return textResponse;
+};
 
 const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
-export const priority = (items: string) =>
-  new Promise((resolve: (s: string) => void) => {
-    const content = `
+export const priority = async (items: string) => {
+  const content = `
 You are an editor for a magazine called "Dev Radar" that focuses on programming languages, frameworks and news related to them.
 Our intention is to be a "radar" for developers to keep up with the latest news in the industry.
 Our magazine publishes articles about the following subjects:
@@ -34,11 +66,7 @@ You will be provided with a list of ids and article titles in the following form
 Evaluate the ones that should be relevant for our readers based on their title.
 
 Items that are not relevant should be excluded from the response.
-The selected items should come as a JSON array with the following structure:
-{
-  "id": number, // the article's id that was given in the prompt
-  "topics": string[] // list of language(s) and framework(s) the article is about (minimum of 1, maximum of 3)
-}
+Your response should be a JSON array with the ids of the articles that you want to publish.
 Don't reply in any format other than JSON, this is very important.
 Articles that are not relevant for us should not be included in the response.
 Example: 
@@ -46,34 +74,15 @@ Payload:
 (33) - Rust 3.0 released
 (34) - New features for Pandas
 (35) - How to print hello world in Rust
-Response: [{ "i": 33, "topics": ["Rust"]}, { "i": 34, "topics": ["Pandas", "Python"]}
+Response: [33, 34]
 If there are no articles that you want to publish, reply with an empty array: []
 Take the necessary time to generate a JSON response with the articles that you want to publish.
 Here's the list:
 ${items}
 `;
 
-    const engine = 'gpt-3.5-turbo';
-
-    console.log(`calling openai, prompt length: ${content.length}`);
-    openai
-      .createChatCompletion({
-        model: engine,
-        temperature: 0,
-        messages: [
-          {
-            role: 'user',
-            content ,
-          },
-        ],
-      })
-      .then((response) => {
-        response.data.choices.forEach((choice) => {
-          console.log(`openai response: ${choice.message.content}`);
-          resolve(choice.message.content);
-        });
-      });
-  });
+  return completion(content, 0);
+};
 
 export const write = async (id: number, title: string, article: string) => {
   const content = `
@@ -104,30 +113,12 @@ ${title}
 ${article}
 `;
 
-  const engine = 'gpt-3.5-turbo';
+  const response = await completion(content, 0.4);
 
-  console.log(`calling openai with prompt ${content}`); 
-  console.log(`calling openai with prompt of length: ${content.length}`);
-  const response = await openai.createChatCompletion({
-    model: engine,
-    temperature: 0.4,
-    messages: [
-      {
-        role: 'user',
-        content,
-      },
-    ],
-  });
-
-  // log total tokens in response
-  console.log(`total tokens: ${JSON.stringify(response.data.usage)}`);
   return {
     id,
-    title: response.data.choices[0].message.content.split('\n')[0],
-    content: response.data.choices[0].message.content
-      .split('\n')
-      .slice(1)
-      .join('\n'),
+    title: response.split('\n')[0],
+    content: response.split('\n').slice(1).join('\n'),
   };
 };
 
@@ -156,21 +147,5 @@ Here's the article:
 ${article}
 `;
 
-  const engine = 'gpt-3.5-turbo';
-
-  console.log(`calling openai with prompt of length: ${content.length}`);
-  const response = await openai.createChatCompletion({
-    model: engine,
-    temperature: 0.4,
-    messages: [
-      {
-        role: 'user',
-        content,
-      },
-    ],
-  });
-  // log total tokens in response
-  console.log(`total tokens: ${JSON.stringify(response.data.usage)}`);
-
-  return response.data.choices[0].message.content;
+  return completion(content, 0.4);
 };

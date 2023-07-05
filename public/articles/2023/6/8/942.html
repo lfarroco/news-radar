@@ -1,0 +1,120 @@
+
+<html>
+	<head>
+		<title>Dev Radar</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="../../../../styles.css" />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+        <link rel="icon" type="image/png" sizes="32x32" href="../../../../favicon-32x32.png">
+	</head>
+	<body>
+	<header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand" href="../../../../">
+          <img src="../../../../logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="../../../../">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../../../../categories.html">Topics</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../../../../archives/page-1.html">Archives</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+	</header>
+	<main class="container">
+		
+  <div class="card">
+  <div class="card-body">
+    <article>
+        <h1>Improving the Button Component in React</h1>
+        <div>June 8, 2023 | Topics:  <a href="../../../../categories/ruby.html">Ruby</a></div>
+        <div class="disclaimer">
+        This article was written by an AI 🤖. The original article can be found <a href="https://catjam.fi/articles/ultimate-button-component">here</a>.
+        </div>
+        <p>Buttons are an essential part of any design system, and creating them requires careful consideration to ensure they are both easy to use and flexible enough to fit various use cases. In this article, we will explore some tips and tricks to improve the Button component in React.</p>
+<p>To start, let&#39;s look at the basic Button component that we will build upon:</p>
+<pre><code>export function Button(props: React.ComponentProps&lt;&quot;button&quot;&gt;) {
+  return (
+    &lt;button {...props}&gt;
+      {props.children}
+    &lt;/button&gt;
+  );
+}
+</code></pre>
+<p>Assuming that the buttons are unstyled, which is the default for many CSS frameworks like Tailwind, we can use some sane defaults for the design. Placing the Button component on a page without any additional props or parameters should result in a button that fits in the design and is easily recognizable as a button.</p>
+<p>A recognizable button tends to follow these design characteristics:</p>
+<ul>
+<li>Horizontal padding is twice the vertical padding</li>
+<li>High contrast colors are reserved for important buttons</li>
+<li>Limit the number of buttons with eye-catching colors</li>
+</ul>
+<p>We can achieve these defaults by adding some CSS to the Button component:</p>
+<pre><code>export function Button(props: React.ComponentProps&lt;&quot;button&quot;&gt;) {
+  return (
+    &lt;button
+      {...props}
+      className=&quot;px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50&quot;
+    &gt;
+      {props.children}
+    &lt;/button&gt;
+  );
+}
+</code></pre>
+<p>This CSS uses Tailwind classes to set the horizontal padding, background color, and border radius. It also adds some hover and focus styles to make the button more interactive.</p>
+<p>Another important consideration is the default type of the <code>&lt;button&gt;</code> element. By default, the type is &quot;submit,&quot; which can cause issues if the button is not intended to submit a form. To avoid this, we can set the type to &quot;button&quot; by default:</p>
+<pre><code>export function Button(props: React.ComponentProps&lt;&quot;button&quot;&gt;) {
+  return (
+    &lt;button
+      {...props}
+      type={props.type ?? &quot;button&quot;}
+      className=&quot;px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50&quot;
+    &gt;
+      {props.children}
+    &lt;/button&gt;
+  );
+}
+</code></pre>
+<p>This code uses the nullish coalescing operator (<code>??</code>) to set the type to &quot;button&quot; if it is not already set.</p>
+<p>Finally, we can add some additional props to make the Button component more flexible. For example, we can add a <code>size</code> prop to set the font size and padding:</p>
+<pre><code>export function Button(props: React.ComponentProps&lt;&quot;button&quot;&gt; &amp; { size?: &quot;sm&quot; | &quot;md&quot; | &quot;lg&quot; }) {
+  const { size = &quot;md&quot;, ...rest } = props;
+  const fontSize = size === &quot;sm&quot; ? &quot;text-sm&quot; : size === &quot;lg&quot; ? &quot;text-lg&quot; : &quot;text-base&quot;;
+  const padding = size === &quot;sm&quot; ? &quot;px-2 py-1&quot; : size === &quot;lg&quot; ? &quot;px-6 py-4&quot; : &quot;px-4 py-2&quot;;
+  return (
+    &lt;button
+      {...rest}
+      type={rest.type ?? &quot;button&quot;}
+      className={`text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50 ${fontSize} ${padding}`}
+    &gt;
+      {rest.children}
+    &lt;/button&gt;
+  );
+}
+</code></pre>
+<p>This code adds a <code>size</code> prop that can be set to &quot;sm,&quot; &quot;md,&quot; or &quot;lg&quot; to adjust the font size and padding. It also uses some conditional logic to set the appropriate classes based on the size prop.</p>
+<p>In conclusion, creating a Button component in React requires careful consideration of the design and flexibility. By using some sane defaults, setting the default type to &quot;button,&quot; and adding some additional props, we can create a Button component that is both easy to use and flexible enough to fit various use cases.</p>
+
+      </article>
+    </div>
+    </div>
+  
+	</main>
+    <footer class="footer mt-auto py-3 bg-dark">
+      <div class="container">
+        <span class="text-muted">2023 | dev-radar</span>
+      </div>
+    </footer>
+	</body>
+</html>

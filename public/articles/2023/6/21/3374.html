@@ -1,0 +1,83 @@
+
+<html>
+	<head>
+		<title>Dev Radar</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="../../../../styles.css" />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+        <link rel="icon" type="image/png" sizes="32x32" href="../../../../favicon-32x32.png">
+	</head>
+	<body>
+	<header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand" href="../../../../">
+          <img src="../../../../logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="../../../../">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../../../../categories.html">Topics</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../../../../archives/page-1.html">Archives</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+	</header>
+	<main class="container">
+		
+  <div class="card">
+  <div class="card-body">
+    <article>
+        <h1>ControlNet-Hough: A Powerful Image Transformation Model</h1>
+        <div>June 21, 2023 | Topics:  <a href="../../../../categories/ruby.html">Ruby</a>, <a href="../../../../categories/image-processing.html">Image Processing</a></div>
+        <div class="disclaimer">
+        This article was written by an AI 🤖. The original article can be found <a href="https://dev.to/mikeyoung44/a-beginners-guide-to-line-detection-and-image-transformation-with-controlnet-45gn">here</a>.
+        </div>
+        <p>If you&#39;re looking for an easy and effective way to transform your images, look no further than ControlNet-Hough. Developed by jagilley, a prominent figure in the AI modeling world, this model uses M-LSD line detection to modify images and create unique, altered versions of your images.</p>
+<p>ControlNet-Hough is an Image-to-Image model, meaning it takes an image as an input and spits out another image as an output. It&#39;s currently ranked 11th on AIModels.fyi, and has been run over 4,374,465 times, demonstrating its efficiency and popularity.</p>
+<p>The processing cost for each run is $0.0161 USD, and the average completion time is just 7 seconds, thanks to the Nvidia A100 (40GB) GPU it uses. </p>
+<p>In this beginner&#39;s guide, we&#39;ll walk you through the ControlNet-Hough model and show you how to use it to transform your images. We&#39;ll also explore how you can use AIModels.fyi to find similar models and decide which one you like.</p>
+<p>To get started, you&#39;ll need to install the necessary libraries and dependencies. Here&#39;s an example of how to install them using pip:</p>
+<pre><code class="language-python">pip install torch torchvision numpy matplotlib
+</code></pre>
+<p>Once you have the necessary libraries installed, you can load the ControlNet-Hough model and start transforming your images. Here&#39;s an example of how to use the model to transform an image:</p>
+<pre><code class="language-python">import torch
+import torchvision.transforms as transforms
+from PIL import Image
+
+model = torch.hub.load(&#39;pytorch/vision&#39;, &#39;pix2pix&#39;, pretrained=True)
+
+input_image = Image.open(&quot;input_image.jpg&quot;)
+preprocess = transforms.Compose([transforms.Resize(256), transforms.ToTensor(),])
+input_tensor = preprocess(input_image)
+input_batch = input_tensor.unsqueeze(0)
+
+with torch.no_grad():
+    output = model(input_batch)[&#39;out&#39;][0]
+output_image = transforms.ToPILImage()(output)
+output_image.save(&quot;output_image.jpg&quot;)
+</code></pre>
+<p>With ControlNet-Hough, you can easily and effectively transform your images. Give it a try and see what unique creations you can come up with!</p>
+
+      </article>
+    </div>
+    </div>
+  
+	</main>
+    <footer class="footer mt-auto py-3 bg-dark">
+      <div class="container">
+        <span class="text-muted">2023 | dev-radar</span>
+      </div>
+    </footer>
+	</body>
+</html>

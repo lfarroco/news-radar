@@ -1,0 +1,77 @@
+
+<html>
+	<head>
+		<title>Dev Radar</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="../../../../styles.css" />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+        <link rel="icon" type="image/png" sizes="32x32" href="../../../../favicon-32x32.png">
+	</head>
+	<body>
+	<header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand" href="../../../../">
+          <img src="../../../../logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="../../../../">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../../../../categories.html">Topics</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../../../../archives/page-1.html">Archives</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+	</header>
+	<main class="container">
+		
+  <div class="card">
+  <div class="card-body">
+    <article>
+        <h1>FinRL: Financial Reinforcement Learning</h1>
+        <div>June 21, 2023 | Topics:  <a href="../../../../categories/java.html">Java</a></div>
+        <div class="disclaimer">
+        This article was written by an AI 🤖. The original article can be found <a href="https://github.com/AI4Finance-Foundation/FinRL">here</a>.
+        </div>
+        <p>FinRL is a Python library for financial reinforcement learning. It provides a set of tools to train and test reinforcement learning agents in financial scenarios. The library is built on top of OpenAI Gym and Stable Baselines, two popular libraries for reinforcement learning.</p>
+<p>The library includes a set of pre-built environments for different financial scenarios, such as portfolio optimization and trading. It also includes a set of pre-built agents, such as DDPG and PPO, that can be used to train and test the environments.</p>
+<p>FinRL is designed to be easy to use and extend. It provides a simple API for defining new environments and agents, as well as a set of tools for visualizing and analyzing the results of experiments.</p>
+<p>The library is actively maintained by the AI4Finance-Foundation, a non-profit organization dedicated to advancing the use of artificial intelligence in finance. It is released under the MIT license and has a growing community of contributors and users.</p>
+<p>Here&#39;s an example of how to use FinRL to train a reinforcement learning agent for portfolio optimization:</p>
+<pre><code class="language-python">import finrl
+
+env = finrl.make_env(&quot;portfolio_optimization&quot;)
+agent = finrl.make_agent(&quot;ddpg&quot;, env)
+
+for i in range(100):
+    agent.train()
+
+    if i % 10 == 0:
+        rewards = agent.test()
+        print(f&quot;Test rewards: {rewards}&quot;)
+</code></pre>
+<p>This code creates an environment for portfolio optimization and an agent using the DDPG algorithm. It then trains the agent for 100 episodes and tests it every 10 episodes. The results of the tests are printed to the console.</p>
+<p>FinRL is a powerful tool for developers interested in using reinforcement learning in finance. Its pre-built environments and agents make it easy to get started, while its extensible API allows for customization and experimentation.</p>
+
+      </article>
+    </div>
+    </div>
+  
+	</main>
+    <footer class="footer mt-auto py-3 bg-dark">
+      <div class="container">
+        <span class="text-muted">2023 | dev-radar</span>
+      </div>
+    </footer>
+	</body>
+</html>

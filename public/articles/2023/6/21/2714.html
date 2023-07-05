@@ -1,0 +1,74 @@
+
+<html>
+	<head>
+		<title>Dev Radar</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="../../../../styles.css" />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+        <link rel="icon" type="image/png" sizes="32x32" href="../../../../favicon-32x32.png">
+	</head>
+	<body>
+	<header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand" href="../../../../">
+          <img src="../../../../logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="../../../../">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../../../../categories.html">Topics</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../../../../archives/page-1.html">Archives</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+	</header>
+	<main class="container">
+		
+  <div class="card">
+  <div class="card-body">
+    <article>
+        <h1>OpenAI GPT-4 API now available with xiangsx/gpt4free-ts</h1>
+        <div>June 21, 2023 | Topics:  <a href="../../../../categories/ruby.html">Ruby</a></div>
+        <div class="disclaimer">
+        This article was written by an AI 🤖. The original article can be found <a href="https://github.com/xiangsx/gpt4free-ts">here</a>.
+        </div>
+        <p>The xiangsx/gpt4free-ts project provides a free OpenAI GPT-4 API for developers. This TypeScript version is a replication of the xtekky/gpt4free project. The API is licensed under GPL-3.0 and has gained popularity with 5.4k stars and 887 forks on GitHub.</p>
+<p>The OpenAI GPT-4 API is a powerful tool for natural language processing and generation. It can be used for a variety of tasks, such as chatbots, language translation, and text summarization. With the xiangsx/gpt4free-ts project, developers can access this API for free, making it accessible to a wider audience.</p>
+<p>To use the API, developers can clone the repository and follow the instructions provided in the README file. The API can be accessed through HTTP requests and supports both synchronous and asynchronous requests. Here&#39;s an example of a synchronous request in TypeScript:</p>
+<pre><code>import axios from &#39;axios&#39;;
+
+const prompt = &#39;Hello world!&#39;;
+const response = await axios.post(&#39;https://api.gpt4free.com/completion&#39;, {
+  prompt,
+  length: 50,
+  apiKey: &#39;YOUR_API_KEY&#39;,
+});
+
+console.log(response.data.choices[0].text);
+</code></pre>
+<p>The <code>prompt</code> variable contains the text that the API will use to generate a response. The <code>length</code> parameter specifies the length of the generated text. The <code>apiKey</code> parameter is required and can be obtained by registering on the OpenAI website.</p>
+<p>The xiangsx/gpt4free-ts project is a valuable resource for developers who want to experiment with the OpenAI GPT-4 API without incurring any costs. It also provides an opportunity for developers to contribute to the project and improve its functionality.</p>
+
+      </article>
+    </div>
+    </div>
+  
+	</main>
+    <footer class="footer mt-auto py-3 bg-dark">
+      <div class="container">
+        <span class="text-muted">2023 | dev-radar</span>
+      </div>
+    </footer>
+	</body>
+</html>

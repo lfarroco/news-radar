@@ -1,5 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
-import { dbClient } from './db.js';
+import { dbClient } from './db.ts';
 import Parser from 'rss-parser';
 
 const restrictedDomains = [
@@ -21,41 +20,23 @@ const restrictedDomains = [
   'i.redd.it',
 ];
 
-const axiosReq = async (
+
+export const rss = async (
   url: string,
-): Promise<
-  { ok: false; err: string } | { ok: true; response: AxiosResponse<any, any> }
-> =>
-  new Promise(async (resolve) => {
-    try {
-      const response = await axios(url);
-      resolve({ ok: true, response });
-    } catch (err) {
-      resolve({ ok: false, err });
-    }
-  });
-
-export const rss = async (url: string, topics: string[], hasContent = false): Promise<void> => {
+  topics: string[],
+  hasContent = false,
+): Promise<void> => {
   console.log('processing rss ', url);
-
-  const result = await axiosReq(url);
-
-  if (!result.ok) {
-    console.log('error fetching', url);
-    return;
-  }
 
   let parser = new Parser();
 
   let feed = await parser.parseURL(url).catch((err) => {
-
     console.log('error parsing', url);
     console.log(err);
-
   });
 
-  if(!feed) {
-    console.log("skipping feed", url);
+  if (!feed) {
+    console.log('skipping feed', url);
     return;
   }
 
@@ -79,35 +60,30 @@ export const rss = async (url: string, topics: string[], hasContent = false): Pr
     }
 
     console.log('Inserting: ');
-    console.table({ title, link, date:  date.toString() , isRecent });
+    console.table({ title, link, date: date.toString(), isRecent });
 
-    await dbClient.query(
-      `INSERT INTO info 
-           (title, link, source, date, status, original)
-           VALUES
-           ($1::text, $2::text, $3::text, $4::date, $5::text, $6::text)
-           ON CONFLICT (link) DO NOTHING;
-          `,
-
-      [title, link, url, date, 'pending', hasContent ? description : ''],
-    );
+    await dbClient.from('info').insert({
+      title,
+      link,
+      source: url,
+      date,
+      status: 'pending',
+      original: hasContent ? description : '',
+    });
 
     const ops = topics.map(async (topic) => {
 
-      await dbClient.query(
-        `INSERT INTO topics (name) VALUES ($1::text) ON CONFLICT (name) DO NOTHING;`,
-        [topic],
-      );
+      await dbClient.from('topics').upsert({
+        name: topic,
+      })
 
-      await dbClient.query(
-        `INSERT INTO article_topic (article_id, topic_id) VALUES ((
-          SELECT id FROM info WHERE link = $1::text
-        ), (
-          SELECT id FROM topics WHERE name = $2::text
-        ))
-        ON CONFLICT (article_id, topic_id) DO NOTHING;`,
-        [link, topic],
-      );
+      const articleId = await dbClient.from('info').select('id').eq('link', link)
+      const topicId = await dbClient.from('topics').select('id').eq('name', topic)
+      await dbClient.from('article_topic').upsert({
+        article_id: articleId ,
+        topic_id: topicId,
+      });
+
     });
 
     await Promise.all(ops);

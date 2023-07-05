@@ -1,6 +1,5 @@
-import axios, { AxiosResponse } from 'axios';
 import cheerio from 'cheerio';
-import { dbClient } from './db.js';
+import { dbClient } from './db.ts';
 
 const restrictedDomains = [
   'youtube.com',
@@ -19,34 +18,16 @@ const restrictedDomains = [
   '/r/',
 ];
 
-const axiosReq = async (
-  url: string,
-): Promise<
-  { ok: false; err: string } | { ok: true; response: AxiosResponse<any, any> }
-> =>
-  new Promise((resolve) => {
-    return axios(url)
-      .then((response) => {
-        resolve({ ok: true, response });
-      })
-      .catch((err) => {
-        resolve({ ok: false, err });
-      });
-  });
-
 export const reddit = async (channel: string, topic: string) => {
   console.log('processing channel', channel);
   const url = `https://old.reddit.com/r/${channel}/top/?sort=top&t=week`;
 
-  const result = await axiosReq(url);
+  //using deno
+  const result = await fetch(url);
 
-  if (!result.ok) {
-    console.log('error fetching', url);
-    return;
-  }
+  const body = await result.text();
 
-  const rss = result.response.data;
-  const $ = cheerio.load(rss);
+  const $ = cheerio.load(body);
 
   const entries = $('.thing:not(.promoted)').toArray();
 
@@ -74,30 +55,28 @@ export const reddit = async (channel: string, topic: string) => {
 
     console.table({ title, link, date });
 
-    await dbClient.query(
-      `INSERT INTO info 
-           (title, link, source, date, status)
-           VALUES
-           ($1::text, $2::text, $3::varchar(32), $4::date, $5::varchar(32))
-           ON CONFLICT (link) DO NOTHING;
-          `,
+    await dbClient.from('info').upsert({
+      title,
+      link,
+      source: `reddit-${channel}`,
+      date,
+      status: 'pending',
+    });
 
-      [title, link, `reddit-channel`, date, 'pending'],
-    );
-    await dbClient.query(
-      `INSERT INTO topics (name) VALUES ($1::text) ON CONFLICT (name) DO NOTHING;`,
-      [topic],
-    );
+    await dbClient.from('topics').upsert({
+      name: topic,
+    });
 
-    await dbClient.query(
-      `INSERT INTO article_topic (article_id, topic_id) VALUES ((
-          SELECT id FROM info WHERE link = $1::text
-        ), (
-          SELECT id FROM topics WHERE name = $2::text
-        ))
-        ON CONFLICT (article_id, topic_id) DO NOTHING;`,
-      [link, topic],
-    );
+    const articleId = await dbClient.from('info').select('id').eq('link', link);
+    const topicId = await dbClient
+      .from('topics')
+      .select('id')
+      .eq('name', topic);
+
+    await dbClient.from('article_topic').upsert({
+      article_id: articleId,
+      topic_id: topicId,
+    });
   });
 
   await Promise.all(ops);

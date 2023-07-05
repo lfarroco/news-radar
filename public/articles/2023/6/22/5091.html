@@ -1,0 +1,73 @@
+
+<html>
+	<head>
+		<title>Dev Radar</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="../../../../styles.css" />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+        <link rel="icon" type="image/png" sizes="32x32" href="../../../../favicon-32x32.png">
+	</head>
+	<body>
+	<header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand" href="../../../../">
+          <img src="../../../../logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="../../../../">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../../../../categories.html">Topics</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../../../../archives/page-1.html">Archives</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+	</header>
+	<main class="container">
+		
+  <div class="card">
+  <div class="card-body">
+    <article>
+        <h1>Best practices for logging with DRF generic views in Django</h1>
+        <div>June 22, 2023 | Topics:  <a href="../../../../categories/django.html">Django</a></div>
+        <div class="disclaimer">
+        This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/django/comments/14gnc1u/where_do_you_place_your_logs_when_using_generic/">here</a>.
+        </div>
+        <p>When using Django Rest Framework&#39;s generic views, such as RetrieveAPIView, ListAPIView, and CreateAPIView, it&#39;s important to have a clear and consistent approach to logging. A common question is where to place the main logline. </p>
+<p>According to the DRF documentation, the recommended approach is to override the <code>initial()</code> method of the view and set up the logger there. This method is called before any other method, making it an ideal place to set up logging for the view. </p>
+<p>Here&#39;s an example of how to set up logging in the <code>initial()</code> method:</p>
+<pre><code class="language-python">import logging
+
+class MyView(ListAPIView):
+    logger = logging.getLogger(__name__)
+
+    def initial(self, request, *args, **kwargs):
+        self.logger.info(&#39;MyView called&#39;)
+        super().initial(request, *args, **kwargs)
+</code></pre>
+<p>This code sets up a logger for the view and logs a message when the view is called. The <code>super().initial()</code> call ensures that the view&#39;s normal initialization process is still executed.</p>
+<p>Another option is to override the <code>dispatch()</code> method, which is called for every request. However, this can result in more log messages than necessary, as it will log for every HTTP method (GET, POST, etc.) that the view supports.</p>
+<p>In summary, the recommended approach for logging with DRF generic views is to override the <code>initial()</code> method. This ensures that the logger is set up before any other methods are called, and provides a clear and consistent approach to logging across views.</p>
+
+      </article>
+    </div>
+    </div>
+  
+	</main>
+    <footer class="footer mt-auto py-3 bg-dark">
+      <div class="container">
+        <span class="text-muted">2023 | dev-radar</span>
+      </div>
+    </footer>
+	</body>
+</html>
