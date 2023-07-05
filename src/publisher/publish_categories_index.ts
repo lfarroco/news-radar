@@ -1,67 +1,61 @@
-import { dbClient } from '../db.ts';
-import { template } from './template.ts';
-import { slugify } from '../utils.ts';
+import fs from 'fs';
+import { dbClient } from '../db.js';
+import { template } from './template.js';
+import { slugify } from '../utils.js';
 
 type Row = {
-  topic_id: number;
-  article_id: string;
-  info: { id: number };
-  topics: { name: string };
+  id: number;
+  name: string;
+  count: number;
 };
 
-export const pickCategories = async () => {
-  const response = await dbClient
-    .from('article_topic')
-    .select(
-      `
-      topic_id,
-      article_id,
-      info!inner(id),
-      topics(name)
-      `,
-    )
-    .eq('info.status', 'published');
+export const pickCategories = async (): Promise<Row[]> =>
+  new Promise(async (resolve) => {
+    await dbClient.connect();
 
-  const { data } = response;
+    dbClient
+      .query(
+        `
+select topic_id as id, topics.name, count(article_id) from article_topic
+inner join topics on topics.id = topic_id
+inner join info on info.id = article_topic.article_id
+WHERE info.status = 'published'
+group by topic_id, topics.name
+order by count DESC
+`,
+      )
+      .then((result: { rows: Row[] }) => {
+        resolve(result.rows);
+      });
+  });
 
-  return data as Row[];
-};
+console.log('picking categories and their count...');
+const items = await pickCategories();
+console.log('picked categories...');
+if (items.length === 0) {
+  console.log('no categories to publish');
+  process.exit(0);
+}
 
-export default async () => {
-  console.log('picking categories and their count...');
-  const items = await pickCategories();
-  console.log('picked categories...');
+const listItems = items
+  .map(
+    ({ name, count }) =>
+      `<li class="list-group-item"><a href="categories/${slugify(
+        name,
+      )}.html">${name}</a> -   <span class="badge bg-primary rounded-pill">${count}</span></li>`,
+  )
+  .join('\n');
 
-  const countIndex = Object.entries(
-    items.reduce((acc, item) => {
-      if (!acc[item.topics.name]) {
-        acc[item.topics.name] = 0;
-      }
-
-      acc[item.topics.name]++;
-
-      return acc;
-    }, {} as { [x: string]: number }),
-  ).sort(([, a], [, b]) => b - a);
-
-  const listItems = countIndex
-    .map(
-      ([name, count]) =>
-        `<li class="list-group-item"><a href="categories/${slugify(
-          name,
-        )}.html">${name}</a> -   <span class="badge bg-primary rounded-pill">${count}</span></li>`,
-    )
-    .join('\n');
-
-  const content = `
+const content = `
 <h2>Topics</h2>
 <ul class="list-group">
     ${listItems}
     </ul> `;
 
-  const html = template('.', content);
+const html = template('.', content);
 
-  await Deno.writeTextFile(`./public/categories.html`, html);
+fs.writeFileSync(`./public/categories.html`, html);
 
-  console.log('published categories index');
-};
+console.log('published categories index');
+
+process.exit(0);

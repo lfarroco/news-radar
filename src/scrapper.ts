@@ -1,54 +1,98 @@
+import axios, { AxiosResponse } from 'axios';
 import cheerio from 'cheerio';
-import { batch } from './utils.ts';
-import { dbClient } from './db.ts';
+import { batch } from './utils.js';
+import { dbClient } from './db.js';
 
-export const articleScrapper = async (url: string) => {
-  console.log('processing url', url);
+const axiosReq = async (
+  url: string,
+): Promise<
+  { ok: false; err: string } | { ok: true; response: AxiosResponse<any, any> }
+> =>
+  new Promise(async (resolve) => {
+    try {
+      const response = await axios(url);
+      resolve({ ok: true, response });
+    } catch (err) {
+      resolve({ ok: false, err });
+    }
+  });
 
-  const result = await fetch(url);
+export const articleScrapper = (url: string): Promise<string> =>
+  new Promise(async (resolve) => {
+    console.log('processing url', url);
 
-  const responseText = await result.text();
+    const result = await axiosReq(url);
 
-  const $ = cheerio.load(responseText);
+    if (!result.ok) {
+      console.log('error fetching', url);
+      resolve(null);
+      return;
+    }
 
-  const text = $('h1, h2, h3, h4, h5, p')
-    .not('header, nav, navbar, footer')
-    .text();
+    const $ = cheerio.load(result.response.data);
 
-  // remove multiple line brakes and do general cleaning to the string
-  return text.replace(/\n\s*\n/g, '\n').replace(/\s\s+/g, ' ');
-};
+    const text = $('h1, h2, h3, h4, h5, p')
+      .not('header, nav, navbar, footer')
+      .text();
 
-export default async function scrapper() {
+    // remove multiple line brakes and do general cleaning to the string
+    const textCleaned = text.replace(/\n\s*\n/g, '\n').replace(/\s\s+/g, ' ');
+
+    resolve(textCleaned);
+  });
+
+export async function scrapper() {
   console.log('scrapper started:');
 
-  const articles = await dbClient
-    .from('info')
-    .select('*')
-    .eq('status', 'approved');
+  console.log('connecting to db...');
+  await dbClient.connect();
+  console.log('db connected');
+
+  const articles = await dbClient.query(
+    `SELECT * from info WHERE status = 'approved';`,
+  );
 
   console.log(
     'articles',
-    articles.data.map((a) => a.title),
+    articles.rows.map((a) => a.title),
   );
 
-  const urls: string[][] = articles.data.map((item: any) => item.link);
+  const urls: string[][] = articles.rows.map((item: any) => [
+    item.link,
+    item.original,
+  ]);
 
-  await batch(urls, 5, async (link: string) => {
-    const original = await articleScrapper(link);
+  await batch(urls, 5, async (args: string[]) => {
+    const [link, original] = args;
+
+    if (!!original) {
+      await dbClient.query(
+        'UPDATE info SET status = $1::text WHERE link = $2::text;',
+        ['scraped', link],
+      );
+      return;
+    }
+
+    const article = await articleScrapper(link);
 
     console.log('article scraped:', link);
 
-    if (!original) {
-      await dbClient
-        .from('info')
-        .update({ status: 'error-scraping' })
-        .eq('link', link);
+    if (!article) {
+      await dbClient.query(
+        'UPDATE info SET status = $1::text  WHERE link = $2::text;',
+        ['error-scraping', link],
+      );
     } else {
-      await dbClient
-        .from('info')
-        .update({ status: 'scraped', original })
-        .eq('link', link);
+      await dbClient.query(
+        'UPDATE info SET status = $1::text, original = $2::text WHERE link = $3::text;',
+        ['scraped', article, link],
+      );
     }
   });
 }
+
+await scrapper();
+
+console.log('scrapper finished');
+
+process.exit(0);

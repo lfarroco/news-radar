@@ -1,56 +1,50 @@
-import { dbClient } from '../db.ts';
-import { Article } from '../models.ts';
-import { createArticleURL } from './createArticleURL.ts';
-import { template } from './template.ts';
-import { slugify } from '../utils.ts';
+import fs from 'fs';
+import { dbClient } from '../db.js';
+import { Article } from '../models.js';
+import { createArticleURL } from './createArticleURL.js';
+import { template } from './template.js';
+import { slugify } from '../utils.js';
 
 export const pickArticlesToPublish = async (): Promise<Article[]> => {
-  const { data, error } = await dbClient
-    .from('info')
-    .select('*')
-    .eq('status', 'published')
-    .order('created_at', { ascending: false });
+  await dbClient.connect();
 
-  if (error) {
-    console.log(error);
-    Deno.exit(1);
-  }
-
-  return data;
+  const { rows } = await dbClient.query(
+    `SELECT * from info WHERE status = 'written' OR status='published' ORDER BY created_at DESC;`,
+  );
+  return rows;
 };
 
-export default async () => {
-  console.log('picking articles to publish...');
-  const items = await pickArticlesToPublish();
-  console.log('picked articles to publish...');
+console.log('picking articles to publish...');
+const items = await pickArticlesToPublish();
+console.log('picked articles to publish...');
 
-  const topics = await dbClient.from('topics').select('*');
-  const articleTopic = await dbClient.from('article_topic').select('*');
+const topics = await dbClient.query(`SELECT * from topics;`);
+const articleTopic = await dbClient.query(`SELECT * from article_topic;`);
 
-  const indexedItems = items
-    .map((item) => {
-      const parsed = JSON.parse(item.article);
+const indexedItems = items
+  .map((item) => {
+    const parsed = JSON.parse(item.article);
 
-      return {
-        id: item.id,
-        link: item.link,
-        date: new Date(item.date),
-        title: parsed.title,
-        path: createArticleURL(item.id, new Date(item.date)).path,
-        topics: articleTopic.data
-          .filter((at) => at.article_id === item.id)
-          .map((at) => {
-            return topics.data.find((t) => t.id === at.topic_id);
-          }),
-      };
-    })
-    .sort((a, b) => b.date.getTime() - a.date.getTime());
+    return {
+      id: item.id,
+      link: item.link,
+      date: item.date,
+      title: parsed.title,
+      path: createArticleURL(item.id, item.date).path,
+      topics: articleTopic.rows
+        .filter((at) => at.article_id === item.id)
+        .map((at) => {
+          return topics.rows.find((t) => t.id === at.topic_id);
+        }),
+    };
+  })
+  .sort((a, b) => b.date.getTime() - a.date.getTime());
 
-  const js = themeColumn('JavaScript');
-  const py = themeColumn('Python');
-  const rs = themeColumn('Rust');
-  const react = themeColumn('React');
-  const content = `
+const js = themeColumn('JavaScript');
+const py = themeColumn('Python');
+const rs = themeColumn('Rust');
+const react = themeColumn('React');
+const content = `
 <div class="card mb-2">
   <div class="card-body">
     Dev Radar is an AI-powered news aggregator that helps you stay up to date with the latest trends in software development. <br/>
@@ -69,14 +63,15 @@ export default async () => {
 </div>
 `;
 
-  const html = template('.', content);
+const html = template('.', content);
 
-  await Deno.writeTextFile(`./public/index.html`, html);
+fs.writeFileSync(`./public/index.html`, html);
 
-  console.log('published article index');
+console.log('published article index');
 
-  function themeColumn(topicName: string) {
-    return `  
+process.exit(0);
+function themeColumn(topicName: string) {
+  return `  
 
 <div class="col">
   <div class="card">
@@ -87,13 +82,13 @@ export default async () => {
       <ul class="list-group article-list">
       ${indexedItems
         .filter((i) => i.topics.find((t) => t.name === topicName))
-        .slice(0, 5)
+        .slice(0,5)
         .map((item) => {
           return `<li class="list-group-item"> 
                               <div> <a  class="article-title" href="${
                                 item.path
                               }">${item.title}</a> </div>
-            <div>${item.date.toISOString().split('T')[0]}  </div>
+            <div>${ item.date.toISOString().split('T')[0] }  </div>
                             </li>`;
         })
         .join('\n')}
@@ -103,10 +98,10 @@ export default async () => {
 </div>
 
     `;
-  }
+}
 
-  function latest() {
-    return `  
+function latest() {
+  return `  
 
 <div class="col">
   <div class="card">
@@ -116,14 +111,14 @@ export default async () => {
     <div class="card-body">
       <ul class="list-group article-list">
       ${indexedItems
-        .slice(0, 20)
+        .slice(0,20)
         .map((item) => {
-          const topicRows = articleTopic.data.filter(
+          const topicRows = articleTopic.rows.filter(
             (at) => at.article_id === item.id,
           );
           const topicInfo = topicRows
             .map((at) => {
-              return topics.data.find((t) => t.id === at.topic_id);
+              return topics.rows.find((t) => t.id === at.topic_id);
             })
             .map(
               (t) =>
@@ -148,6 +143,6 @@ export default async () => {
     </div>
   </div>
 </div>
+
     `;
-  }
-};
+}

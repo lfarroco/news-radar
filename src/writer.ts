@@ -1,19 +1,34 @@
-import { write } from './openai.ts';
-import { batch } from './utils.ts';
-import { dbClient } from './db.ts';
+import pg from 'pg';
+import { write } from './openai.js';
+import { batch } from './utils.js';
 
 const MAX_INPUT_TEXT_LENGTH = 3000;
-const pickArticlesToWrite = async (): Promise<
+
+const dbClient = new pg.Client({
+  password: 'root',
+  user: 'root',
+  host: 'postgres',
+});
+
+export const pickArticlesToWrite = async (): Promise<
   { id: number; title: string; original: string }[]
 > => {
-  const result = await dbClient
-    .from('info')
-    .select('*')
-    .eq('status', 'scraped');
-  return result.data;
+  await dbClient.connect();
+
+  const result = await dbClient.query(
+    `SELECT * from info WHERE status = 'scraped';`,
+  );
+  return result.rows;
 };
 
-const writer = async (item) => {
+const items = await pickArticlesToWrite();
+
+console.log(
+  'articles to write:',
+  items.map((item) => item.title),
+);
+
+await batch(items, 3, async (item) => {
   const { id, title, content } = await write(
     item.id,
     item.title,
@@ -25,23 +40,13 @@ const writer = async (item) => {
     article: content,
   });
 
-  await dbClient
-    .from('info')
-    .update({ status: 'published', article })
-    .eq('id', id);
-
-  console.log(`wrote article "${title}"...`);
-};
-
-export default async () => {
-  const items = await pickArticlesToWrite();
-
-  console.log(
-    'articles to write:',
-    items.map((item) => item.title),
+  await dbClient.query(
+    'UPDATE info SET status = $1::text, article = $2::text WHERE id = $3::int;',
+    ['written', article, id],
   );
+  console.log(`wrote article "${title}"...`);
+});
 
-  await batch(items, 3, writer);
+console.log('done');
 
-  console.log('done');
-};
+process.exit(0);

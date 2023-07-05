@@ -1,6 +1,9 @@
-import { rss } from './rss.ts';
-import { batch } from './utils.ts';
-import { reddit } from './reddit.ts';
+import { rss } from './rss.js';
+import { dbClient } from './db.js';
+import { batch } from './utils.js';
+import { reddit } from './reddit.js';
+
+await dbClient.connect();
 
 const subreddit = (sub: string, topic: string) => async () => {
   await reddit(sub, topic);
@@ -56,5 +59,8 @@ const sources = [
   subreddit('flask', 'Flask'),
 ];
 
-export default () => batch(sources, 5, fn => fn());
+await batch(sources, 5, (fn) => fn());
 
+console.log('scan finished');
+
+process.exit(0);

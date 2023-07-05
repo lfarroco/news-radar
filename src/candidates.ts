@@ -1,80 +1,117 @@
-import { priority } from './openai.ts';
-import { dbClient } from './db.ts';
-import { Article } from './models.ts';
-import { batch } from './utils.ts';
+import { priority } from './openai.js';
+import { dbClient } from './db.js';
+import { Article } from './models.js';
+import { batch } from './utils.js';
 
 const BATCH_SIZE = 20;
 
-const filterCandidates = async (): Promise<Article[]> => {
-  const response = await dbClient
-    .from('info')
-    .select('*')
-    .eq('status', 'pending');
+export const filterCandidates = async (): Promise<Article[]> =>
+  new Promise(async (resolve) => {
+    await dbClient.connect();
 
-  return response.data;
-};
+    dbClient
+      .query(`SELECT * from info WHERE status = 'pending';`)
+      .then((result: { rows: any[] }) => {
+        resolve(result.rows);
+      });
+  });
+
+const items = await filterCandidates();
+
+if (items.length === 0) {
+  console.log('no items to filter');
+  process.exit(0);
+}
+
+const batches = items.reduce(
+  (acc: Article[][], item: Article, index: number) => {
+    const batchIndex = Math.floor(index / BATCH_SIZE);
+    if (!acc[batchIndex]) {
+      acc[batchIndex] = [];
+    }
+    acc[batchIndex].push(item);
+    return acc;
+  },
+  [],
+);
+
+await batch(batches, 1, processBatch);
 
 async function processBatch(batch: Article[]) {
   const titles = batch
     .map((item: any) => `(${item.id}) - ${item.title}`)
     .join('\n');
 
+
   console.log(`submitting
     ${titles}`);
 
   const result = await priority(titles);
 
-  const parsed: number[] = JSON.parse(result);
+  const parsed: { id: number; topics: string[] }[] = JSON.parse(result);
 
-  const approved = parsed.map((itemId) =>
-    dbClient.from('info').update({ status: 'approved' }).eq('id', itemId),
-  );
+  const approved = parsed.map(async (item) => {
+    const topics = JSON.stringify(item.topics);
+    console.log(`updating item ${item.id} with topics ${topics}`);
+    await dbClient.query(
+      'UPDATE info SET status = $1::text WHERE id = $2::int;',
+      ['approved', item.id],
+    );
+
+    const createTopics = item.topics.map(
+      async (topic) =>
+        await dbClient.query(
+          `INSERT INTO topics (name) 
+           VALUES ($1::varchar(128))
+           ON CONFLICT (name) DO NOTHING
+          ;`,
+          [topic],
+        ),
+    );
+
+    await Promise.all(createTopics);
+
+    // remove topic relationship from here
+    const createTopicRelations = item.topics.map(
+      async (topic) =>
+        await dbClient.query(
+          `
+          INSERT INTO article_topic (article_id, topic_id) 
+          VALUES ($1::int, (SELECT id FROM topics WHERE name = $2::varchar(128)))
+          ON CONFLICT (article_id, topic_id) DO NOTHING
+          ;`,
+          [item.id, topic],
+        ),
+    );
+
+    await Promise.all(createTopicRelations);
+  });
 
   await Promise.all(approved);
 
   //reject the rest
 
   const rejected = batch.map(async (item) => {
-    const found = parsed.find((p) => p === item.id);
+    const found = parsed.find((p) => p.id === item.id);
 
     if (!found) {
       console.log(`rejecting item ${item.id}`);
-      await dbClient
-        .from('info')
-        .update({ status: 'rejected' })
-        .eq('id', item.id);
+      await dbClient.query(
+        'UPDATE info SET status = $1::varchar(32) WHERE id = $2::int;',
+        ['rejected', item.id],
+      );
     }
   });
 
   await Promise.all(rejected);
 }
 
-export default async () => {
-  const items = await filterCandidates();
+const operations = batches.reduce(async (xs, x, index) => {
+  console.log(`processing batch ${index}/${batches.length}...`);
+  await xs;
+  return processBatch(x);
+}, Promise.resolve(null));
 
-  if (items.length === 0) {
-    console.log('no items to filter');
-    return;
-  }
-  const batches = items.reduce(
-    (acc: Article[][], item: Article, index: number) => {
-      const batchIndex = Math.floor(index / BATCH_SIZE);
-      if (!acc[batchIndex]) {
-        acc[batchIndex] = [];
-      }
-      acc[batchIndex].push(item);
-      return acc;
-    },
-    [],
-  );
+await operations;
 
-  await batch(batches, 1, processBatch);
-
-  const operations = batches.reduce(async (xs, x, index) => {
-    console.log(`processing batch ${index}/${batches.length}...`);
-    await xs;
-    return processBatch(x);
-  }, Promise.resolve(null));
-
-  await operations;
-};
+process.exit(0);
