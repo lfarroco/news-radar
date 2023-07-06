@@ -10,7 +10,7 @@ export const pickArticles = async (): Promise<Article[]> => {
   await dbClient.connect();
 
   const { rows } = await dbClient.query(
-    `SELECT * from info where status = 'published' or status='written' order by date desc;`,
+    `SELECT * from info where status = 'published' order by date desc;`,
   );
   return rows;
 };
@@ -22,9 +22,8 @@ const listItems = items.map(({ id, article, date }) => {
   const escapedTitle = escapeHTML(parsed.title);
   return `<li class="list-group-item">
             <div>
-              <a href="../${
-                createArticleURL(id, date).path
-              }">${escapedTitle}</a>
+              <a href="../${createArticleURL(id, date).path
+    }">${escapedTitle}</a>
             </div> 
             ${date.toDateString()}
           </li>`;
@@ -43,9 +42,8 @@ const ops = pages.map(async (page, index, arr) => {
 
   const maybeNext =
     index < total - 1
-      ? `<li class="page-item"><a class="page-link" href="page-${
-          index + 2
-        }.html">Next</a></li>`
+      ? `<li class="page-item"><a class="page-link" href="page-${index + 2
+      }.html">Next</a></li>`
       : '';
 
   const nav = `

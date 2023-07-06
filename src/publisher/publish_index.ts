@@ -9,7 +9,7 @@ export const pickArticlesToPublish = async (): Promise<Article[]> => {
   await dbClient.connect();
 
   const { rows } = await dbClient.query(
-    `SELECT * from info WHERE status = 'written' OR status='published' ORDER BY created_at DESC;`,
+    `SELECT * from info WHERE status='published' ORDER BY created_at DESC;`,
   );
   return rows;
 };
@@ -81,17 +81,16 @@ function themeColumn(topicName: string) {
     <div class="card-body">
       <ul class="list-group article-list">
       ${indexedItems
-        .filter((i) => i.topics.find((t) => t.name === topicName))
-        .slice(0,5)
-        .map((item) => {
-          return `<li class="list-group-item"> 
-                              <div> <a  class="article-title" href="${
-                                item.path
-                              }">${item.title}</a> </div>
-            <div>${ item.date.toISOString().split('T')[0] }  </div>
+      .filter((i) => i.topics.find((t) => t.name === topicName))
+      .slice(0, 5)
+      .map((item) => {
+        return `<li class="list-group-item"> 
+                              <div> <a  class="article-title" href="${item.path
+          }">${item.title}</a> </div>
+            <div>${item.date.toISOString().split('T')[0]}  </div>
                             </li>`;
-        })
-        .join('\n')}
+      })
+      .join('\n')}
       </ul> 
     </div>
   </div>
@@ -111,31 +110,29 @@ function latest() {
     <div class="card-body">
       <ul class="list-group article-list">
       ${indexedItems
-        .slice(0,20)
-        .map((item) => {
-          const topicRows = articleTopic.rows.filter(
-            (at) => at.article_id === item.id,
-          );
-          const topicInfo = topicRows
-            .map((at) => {
-              return topics.rows.find((t) => t.id === at.topic_id);
-            })
-            .map(
-              (t) =>
-                `<a href="/categories/${slugify(t.name)}.html">${t.name}</a>`,
-            )
-            .join(', ');
-          console.log(topicInfo);
-          return `<li class="list-group-item"> 
-                              <div> <a  class="article-title" href="${
-                                item.path
-                              }">${item.title}</a> </div>
-            <div>${
-              item.date.toISOString().split('T')[0]
-            } | Topics: ${topicInfo} </div>
+      .slice(0, 20)
+      .map((item) => {
+        const topicRows = articleTopic.rows.filter(
+          (at) => at.article_id === item.id,
+        );
+        const topicInfo = topicRows
+          .map((at) => {
+            return topics.rows.find((t) => t.id === at.topic_id);
+          })
+          .map(
+            (t) =>
+              `<a href="/categories/${slugify(t.name)}.html">${t.name}</a>`,
+          )
+          .join(', ');
+        console.log(topicInfo);
+        return `<li class="list-group-item"> 
+                              <div> <a  class="article-title" href="${item.path
+          }">${item.title}</a> </div>
+            <div>${item.date.toISOString().split('T')[0]
+          } | Topics: ${topicInfo} </div>
                             </li>`;
-        })
-        .join('\n')}
+      })
+      .join('\n')}
       </ul> 
       <div class="mt-2">
         <a href="/archives/page-1.html">All Archives</a>

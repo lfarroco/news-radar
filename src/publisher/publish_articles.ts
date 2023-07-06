@@ -10,7 +10,7 @@ export const pickArticlesToPublish = async (): Promise<Article[]> => {
   await dbClient.connect();
 
   const result = await dbClient.query(
-    `SELECT * from info WHERE status = 'written' OR status = 'published';`,
+    `SELECT * from info WHERE status = 'published';`,
   );
 
   return result.rows;
@@ -42,7 +42,7 @@ const operations = items.map(async (raw) => {
     }),
   };
 
-  const topicsList = item.topics.map(t=> '<a href="../../../../categories/' + slugify(t.name) + '.html">' + t.name + '</a>').join(', ');
+  const topicsList = item.topics.map(t => '<a href="../../../../categories/' + slugify(t.name) + '.html">' + t.name + '</a>').join(', ');
   const renderedDate = item.date.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -56,9 +56,8 @@ const operations = items.map(async (raw) => {
         <h1>${item.title}</h1>
         <div>${renderedDate} | Topics:  ${topicsList}</div>
         <div class="disclaimer">
-        This article was written by an AI 🤖. The original article can be found <a href="${
-          item.link
-        }">here</a>.
+        This article was written by an AI 🤖. The original article can be found <a href="${item.link
+    }">here</a>.
         </div>
         ${marked.parse(item.article)}
       </article>

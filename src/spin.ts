@@ -46,7 +46,7 @@ const operations = results.map(
 
       await dbClient.query(
         'UPDATE info SET status = $1::varchar(32), article = $2::text WHERE id = $3::int;',
-        ['written', article, id],
+        ['published', article, id],
       );
       console.log(`updated item ${id}...`);
       resolve(null);

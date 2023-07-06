@@ -10,8 +10,6 @@ body {
   margin: 0;
 }
 
-header {}
-
 header .brand {
   text-decoration: none;
   padding: 12px;
@@ -78,12 +76,11 @@ header nav a {
   text-decoration: none;
 }
 
-.card-header h3{
+.card-header h3 {
   margin: 0;
 }
 
-.list-group-item .article-title{
+.list-group-item .article-title {
   font-size: 18px;
   color: #000;
 }
-

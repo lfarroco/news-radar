@@ -46,45 +46,14 @@ async function processBatch(batch: Article[]) {
   console.log(`submitting
     ${titles}`);
 
-  const result = await priority(titles);
+  const parsed = await priority(titles);
 
-  const parsed: { id: number; topics: string[] }[] = JSON.parse(result);
-
-  const approved = parsed.map(async (item) => {
-    const topics = JSON.stringify(item.topics);
-    console.log(`updating item ${item.id} with topics ${topics}`);
+  const approved = parsed.map(async (itemId) => {
     await dbClient.query(
       'UPDATE info SET status = $1::text WHERE id = $2::int;',
-      ['approved', item.id],
+      ['approved', itemId],
     );
 
-    const createTopics = item.topics.map(
-      async (topic) =>
-        await dbClient.query(
-          `INSERT INTO topics (name) 
-           VALUES ($1::varchar(128))
-           ON CONFLICT (name) DO NOTHING
-          ;`,
-          [topic],
-        ),
-    );
-
-    await Promise.all(createTopics);
-
-    // remove topic relationship from here
-    const createTopicRelations = item.topics.map(
-      async (topic) =>
-        await dbClient.query(
-          `
-          INSERT INTO article_topic (article_id, topic_id) 
-          VALUES ($1::int, (SELECT id FROM topics WHERE name = $2::varchar(128)))
-          ON CONFLICT (article_id, topic_id) DO NOTHING
-          ;`,
-          [item.id, topic],
-        ),
-    );
-
-    await Promise.all(createTopicRelations);
   });
 
   await Promise.all(approved);
@@ -92,7 +61,7 @@ async function processBatch(batch: Article[]) {
   //reject the rest
 
   const rejected = batch.map(async (item) => {
-    const found = parsed.find((p) => p.id === item.id);
+    const found = parsed.find((id) => id === item.id);
 
     if (!found) {
       console.log(`rejecting item ${item.id}`);

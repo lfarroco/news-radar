@@ -42,9 +42,9 @@ await batch(items, 3, async (item) => {
 
   await dbClient.query(
     'UPDATE info SET status = $1::text, article = $2::text WHERE id = $3::int;',
-    ['written', article, id],
+    ['published', article, id],
   );
-  console.log(`wrote article "${title}"...`);
+  console.log(`wrote article "${title}" with content ${content}...`);
 });
 
 console.log('done');
