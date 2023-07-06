@@ -1,27 +1,3 @@
-// import {node} from './html.js';
-
-// const footer = (basePath: string) => node('footer', {class: 'footer'}, [
-//   node('div', {class: 'container'}, [
-//     node('div', {class: 'row'}, [
-//       node('div', {class: 'col-md-6'}, [
-//         node('p', {}, [
-//           node('a', {href: `${basePath}/about`}, ['About']),
-//           node('a', {href: `${basePath}/privacy`}, ['Privacy']),
-//           node('a', {href: `${basePath}/terms`}, ['Terms']),
-//         ]),
-//       ]),
-//       node('div', {class: 'col-md-6'}, [
-//         node('p', {}, [
-//           node('a', {href: `${basePath}/contact`}, ['Contact']),
-//           node('a', {href: `${basePath}/advertise`}, ['Advertise']),
-//           node('a', {href: `${basePath}/donate`}, ['Donate']),
-//         ]),
-//       ]),
-//     ]),
-//   ]),
-// ]);
-
-
 export const template = (basePath: string, content: string) => `
 <html>
 	<head>
@@ -33,7 +9,34 @@ export const template = (basePath: string, content: string) => `
         <link rel="icon" type="image/png" sizes="32x32" href="${basePath}/favicon-32x32.png">
 	</head>
 	<body>
-	<header>
+    ${header(basePath)}
+    <main class="container">
+      <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-2361701055964881"
+        data-ad-slot="9315501947"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      ${content}
+    </main>
+    ${footer()}
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+	</body>
+
+</html>`;
+
+function footer() {
+  return `<footer class="footer mt-auto py-3 bg-dark">
+      <div class="container">
+        <span class="text-muted">2023 | dev-radar</span>
+      </div>
+    </footer>`
+}
+
+function header(basePath: string) {
+  return `<header>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
           <a class="navbar-brand" href="${basePath}/">
@@ -56,25 +59,5 @@ export const template = (basePath: string, content: string) => `
           </div>
         </div>
       </nav>
-	</header>
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-2361701055964881"
-     data-ad-slot="9315501947"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-
-	<main class="container">
-		${content}
-	</main>
-    <footer class="footer mt-auto py-3 bg-dark">
-      <div class="container">
-        <span class="text-muted">2023 | dev-radar</span>
-      </div>
-    </footer>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-	</body>
-
-</html>`;
+	</header>`
+}
