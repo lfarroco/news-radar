@@ -28,7 +28,7 @@ export const template = (basePath: string, content: string) => `
 		<title>Dev Radar</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-		<link rel="stylesheet" href="${basePath}/styles.css" />
+        <link rel="stylesheet" href="${basePath}/styles.css" />
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
         <link rel="icon" type="image/png" sizes="32x32" href="${basePath}/favicon-32x32.png">
 	</head>
@@ -57,6 +57,13 @@ export const template = (basePath: string, content: string) => `
         </div>
       </nav>
 	</header>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-2361701055964881"
+     data-ad-slot="9315501947"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+
 	<main class="container">
 		${content}
 	</main>
@@ -65,5 +72,9 @@ export const template = (basePath: string, content: string) => `
         <span class="text-muted">2023 | dev-radar</span>
       </div>
     </footer>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 	</body>
+
 </html>`;
