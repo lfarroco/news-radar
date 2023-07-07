@@ -12,7 +12,6 @@ export const template = (basePath: string, content: string) => `
     ${header(basePath)}
     <main class="container">
       <ins class="adsbygoogle"
-        style="display:block"
         data-ad-client="ca-pub-2361701055964881"
         data-ad-slot="9315501947"
         data-ad-format="auto"

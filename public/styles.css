@@ -84,3 +84,9 @@ header nav a {
   font-size: 18px;
   color: #000;
 }
+
+.adsbygoogle {
+  margin: 0 auto;
+  display: block;
+  text-align: center;
+}
