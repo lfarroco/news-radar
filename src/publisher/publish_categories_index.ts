@@ -24,13 +24,7 @@ export const pickCategories = async () => {
   return rows as Row[]
 }
 
-console.log('picking categories and their count...');
 const items = await pickCategories();
-console.log('picked categories...');
-if (items.length === 0) {
-  console.log('no categories to publish');
-  process.exit(0);
-}
 
 const listItems = items
   .map(
@@ -41,11 +35,8 @@ const listItems = items
   )
   .join('\n');
 
-const content = `
-<h2>Topics</h2>
-<ul class="list-group">
-    ${listItems}
-    </ul> `;
+const content = `<h2>Topics</h2>
+<ul class="list-group"> ${listItems} </ul>`;
 
 const html = template('.', content);
 
