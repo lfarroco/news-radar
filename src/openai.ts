@@ -7,6 +7,27 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
+export const gpt = async<A>(content: string, temperature: number) => {
+  const engine = 'gpt-3.5-turbo';
+  console.log(`calling openai with prompt:\n${content}`);
+  const response = await openai
+    .createChatCompletion({
+      model: engine,
+      temperature,
+      messages: [
+        {
+          role: 'user',
+          content,
+        },
+      ],
+    })
+
+  console.log(`openai response: ${response.data.choices[0].message.content}`);
+
+  const parsed = JSON.parse(response.data.choices[0].message.content)
+  return parsed as A
+}
+
 export const priority = async (items: string) => {
   const content = `
 You are an editor for a magazine called "Dev Radar" that focuses on programming languages, frameworks and news related to them.

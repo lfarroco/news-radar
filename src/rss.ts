@@ -25,15 +25,14 @@ const axiosReq = async (
   url: string,
 ): Promise<
   { ok: false; err: string } | { ok: true; response: AxiosResponse<any, any> }
-> =>
-  new Promise(async (resolve) => {
-    try {
-      const response = await axios(url);
-      resolve({ ok: true, response });
-    } catch (err) {
-      resolve({ ok: false, err });
-    }
-  });
+> => {
+  try {
+    const response = await axios(url);
+    return ({ ok: true, response });
+  } catch (err) {
+    return ({ ok: false, err });
+  }
+}
 
 export const rss = async (url: string, topics: string[], hasContent = false): Promise<void> => {
   console.log('processing rss ', url);
@@ -45,16 +44,16 @@ export const rss = async (url: string, topics: string[], hasContent = false): Pr
     return;
   }
 
-  let parser = new Parser();
+  const parser = new Parser();
 
-  let feed = await parser.parseURL(url).catch((err) => {
+  const feed = await parser.parseURL(url).catch((err) => {
 
     console.log('error parsing', url);
     console.log(err);
 
   });
 
-  if(!feed) {
+  if (!feed) {
     console.log("skipping feed", url);
     return;
   }
@@ -79,7 +78,7 @@ export const rss = async (url: string, topics: string[], hasContent = false): Pr
     }
 
     console.log('Inserting: ');
-    console.table({ title, link, date:  date.toString() , isRecent });
+    console.table({ title, link, date: date.toString(), isRecent });
 
     await dbClient.query(
       `INSERT INTO info 

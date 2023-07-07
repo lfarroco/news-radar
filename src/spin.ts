@@ -37,20 +37,18 @@ const articles = items.map(async (article) => {
 const results = await Promise.all(articles);
 
 const operations = results.map(
-  ({ id, title, content }) =>
-    new Promise(async (resolve) => {
-      const article = JSON.stringify({
-        title,
-        article: content,
-      });
+  async ({ id, title, content }) => {
+    const article = JSON.stringify({
+      title,
+      article: content,
+    });
 
-      await dbClient.query(
-        'UPDATE info SET status = $1::varchar(32), article = $2::text WHERE id = $3::int;',
-        ['published', article, id],
-      );
-      console.log(`updated item ${id}...`);
-      resolve(null);
-    }),
+    await dbClient.query(
+      'UPDATE info SET status = $1::varchar(32), article = $2::text WHERE id = $3::int;',
+      ['published', article, id],
+    );
+    console.log(`updated item ${id}...`);
+  }
 );
 
 await Promise.all(operations);

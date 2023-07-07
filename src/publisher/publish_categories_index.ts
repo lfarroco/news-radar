@@ -9,25 +9,20 @@ type Row = {
   count: number;
 };
 
-export const pickCategories = async (): Promise<Row[]> =>
-  new Promise(async (resolve) => {
-    await dbClient.connect();
+export const pickCategories = async () => {
+  await dbClient.connect();
 
-    dbClient
-      .query(
-        `
-select topic_id as id, topics.name, count(article_id) from article_topic
-inner join topics on topics.id = topic_id
-inner join info on info.id = article_topic.article_id
-WHERE info.status = 'published'
-group by topic_id, topics.name
-order by count DESC
-`,
-      )
-      .then((result: { rows: Row[] }) => {
-        resolve(result.rows);
-      });
-  });
+  const { rows } = await dbClient
+    .query(`
+      select topic_id as id, topics.name, count(article_id) from article_topic
+      inner join topics on topics.id = topic_id
+      inner join info on info.id = article_topic.article_id
+      WHERE info.status = 'published'
+      group by topic_id, topics.name
+      order by count DESC
+    `)
+  return rows as Row[]
+}
 
 console.log('picking categories and their count...');
 const items = await pickCategories();

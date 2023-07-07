@@ -1,20 +1,64 @@
-import { priority } from './openai.js';
+import { gpt } from './openai.js';
 import { dbClient } from './db.js';
 import { Article } from './models.js';
 import { batch } from './utils.js';
 
 const BATCH_SIZE = 20;
 
-export const filterCandidates = async (): Promise<Article[]> =>
-  new Promise(async (resolve) => {
-    await dbClient.connect();
+const prompt = async (items: string) => {
+  const content = `
+You are an editor for a magazine called "Dev Radar" that focuses on programming languages, frameworks and news related to them.
+Our intention is to be a "radar" for developers to keep up with the latest news in the industry.
+Our magazine publishes articles about the following subjects:
+- programming languages
+- updates to popular launguages, libraries or frameworks
+- new libraries, frameworks and tools
+- new features in programming languages
+- algorithms and data structures
 
-    dbClient
-      .query(`SELECT * from info WHERE status = 'pending';`)
-      .then((result: { rows: any[] }) => {
-        resolve(result.rows);
-      });
-  });
+We don't select articles about the following subjects:
+- company-specific news ("company x raises funding", "company y opens a new office")
+- politics
+- community drama
+- programming in general (we talk about specific languages and frameworks)
+- low-effort articles (e.g. "how to print hello world in X")
+- how to get a job in the industry
+- questions (e.g. "what is the best language for X?")
+- small patch updates
+
+You will be provided with a list of ids and article titles in the following format: 
+(id) - title
+Evaluate the ones that should be relevant for our readers based on their title.
+
+Items that are not relevant should be excluded from the response.
+The selected items should come as a JSON array with the selected articles' ids.
+Don't reply in any format other than JSON, this is very important.
+Articles that are not relevant for us should not be included in the response.
+Example: 
+Payload:
+(33) - Rust 3.0 released
+(34) - New features for Pandas
+(35) - How to print hello world in Rust
+Response: [33, 34]
+If there are no articles that you want to publish, reply with an empty array: []
+Take the necessary time to generate a JSON response with the articles that you want to publish.
+Here's the list:
+${items}
+`;
+
+  return gpt<number[]>(content, 0)
+
+}
+
+
+export const filterCandidates = async () => {
+  await dbClient.connect();
+
+  const { rows } = await dbClient
+    .query(`SELECT * from info WHERE status = 'pending';`)
+
+  return rows as Article[]
+}
 
 const items = await filterCandidates();
 
@@ -43,10 +87,9 @@ async function processBatch(batch: Article[]) {
     .join('\n');
 
 
-  console.log(`submitting
-    ${titles}`);
+  console.log(`submitting\n${titles}`);
 
-  const parsed = await priority(titles);
+  const parsed = await prompt(titles)
 
   const approved = parsed.map(async (itemId) => {
     await dbClient.query(
