@@ -1,19 +1,12 @@
+FROM denoland/deno
 
-# select your base image to start with
-FROM node:20-alpine3.17
+WORKDIR /app
 
-# Create app directory
-# this is the location where you will be inside the container
-WORKDIR /usr/src/app
+# Prefer not to run as root.
+USER deno
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-# copying packages first helps take advantage of docker layers
-COPY package*.json ./
+# Cache the dependencies as a layer (the following two steps are re-run only when deps.ts is modified).
+# Ideally cache deps.ts will download and compile _all_ external files used in main.ts.
+COPY src .
 
-COPY . .
-
-# If you are building your code for production
-# RUN npm ci --only=production
-RUN npm install
+RUN deno cache deps.ts

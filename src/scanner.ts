@@ -1,21 +1,15 @@
-import { rss } from './rss.js';
-import { dbClient } from './db.js';
-import { batch } from './utils.js';
-import { reddit } from './reddit.js';
-
-await dbClient.connect();
+import { rss } from './rss.ts';
+import { batch } from './utils.ts';
+import { reddit } from './reddit.ts';
 
 const subreddit = (sub: string, topic: string) => async () => {
   await reddit(sub, topic);
 };
 
-const githubRelease = (repo: string, topics: string[]) => async () =>
+const githubRelease = (repo: string, topics: string[]) => () =>
   rss(`https://github.com/${repo}/releases.atom`, topics, true);
 
-const feed =
-  (url: string, topics: string[], hasContent = false) =>
-  async () =>
-    rss(url, topics, hasContent);
+const feed = (url: string, topics: string[], hasContent = false) => () => rss(url, topics, hasContent);
 
 const sources = [
   feed('https://jamesg.blog/openai.xml', ['OpenAI', 'ChatGPT']),
@@ -59,8 +53,10 @@ const sources = [
   subreddit('flask', 'Flask'),
 ];
 
-await batch(sources, 5, (fn) => fn());
+export default async () => {
 
-console.log('scan finished');
+  console.log('scan finished');
 
-process.exit(0);
+  await batch(sources, 5, (fn) => fn());
+
+}

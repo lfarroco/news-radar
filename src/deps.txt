@@ -1,5 +1,0 @@
-import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
-import Parser from 'rss-parser';
-import cheerio from 'cheerio';
-
-export { Client, Parser, cheerio }

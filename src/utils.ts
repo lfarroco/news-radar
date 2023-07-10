@@ -12,8 +12,8 @@ export async function batch<A>(
       if (!acc[batchIndex]) {
         acc[batchIndex] = [];
       }
-      acc[batchIndex].push(item);
-      return acc;
+      acc[batchIndex] = acc[batchIndex].concat([item])
+      return acc
     },
     [[]],
   );
@@ -24,6 +24,7 @@ export async function batch<A>(
 
     const operations = x.map(async (item) => {
       await fn(item);
+      return null
     });
 
     await Promise.all(operations);

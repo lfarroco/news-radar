@@ -5,7 +5,7 @@ docker-run:
 	docker run -p 8080:8080 radar-server
 
 docker-compose:
-	docker-compose up --build
+	docker-compose up --abort-on-container-exit
 
 clear-db:
 	docker rm news-radar_postgres_1
@@ -17,7 +17,7 @@ open-docker:
 	docker exec -it news-radar_app_1 sh
 
 scan:
-	docker exec news-radar_app_1 node build/src/scanner.js
+	docker run -it --init -v $PWD:/app denoland/deno:1.10.3 run --allow-net /app/src/scanner.ts
 
 candidates:
 	docker exec news-radar_app_1 node build/src/candidates.js

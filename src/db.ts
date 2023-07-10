@@ -1,9 +1,15 @@
-import pg from 'pg';
+import { Client } from "./deps.ts";
 
-export const dbClient = new pg.Client({
-  password: 'root',
-  user: 'root',
-  host: 'postgres',
-});
+export let client: Client;
 
+export const connect = async (hostname: string, port: number) => {
+  client = new Client({
+    user: "root",
+    hostname,
+    password: 'root',
+    database: "root",
+    port,
+  });
 
+  await client.connect();
+}

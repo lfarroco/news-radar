@@ -1,6 +1,5 @@
-import axios, { AxiosResponse } from 'axios';
-import { dbClient } from './db.js';
-import Parser from 'rss-parser';
+import { client } from './db.ts';
+import { parseFeed } from './deps.ts';
 
 const restrictedDomains = [
   'youtube.com',
@@ -21,48 +20,25 @@ const restrictedDomains = [
   'i.redd.it',
 ];
 
-const axiosReq = async (
-  url: string,
-): Promise<
-  { ok: false; err: string } | { ok: true; response: AxiosResponse<any, any> }
-> => {
-  try {
-    const response = await axios(url);
-    return ({ ok: true, response });
-  } catch (err) {
-    return ({ ok: false, err });
-  }
-}
-
 export const rss = async (url: string, topics: string[], hasContent = false): Promise<void> => {
   console.log('processing rss ', url);
 
-  const result = await axiosReq(url);
+  const response = await fetch(url);
+  const xml = await response.text();
 
-  if (!result.ok) {
-    console.log('error fetching', url);
-    return;
-  }
+  const feed = await parseFeed(xml);
 
-  const parser = new Parser();
+  const ops = feed.entries.map(async (item) => {
 
-  const feed = await parser.parseURL(url).catch((err) => {
+    const title: string = (topics.toString()) + " - " + item.title.value;
+    const link: string = item.links[0].href;
+    const date: Date = item.published ? item.published : item.updated ? item.updated : new Date();
+    const description: string | null = item.content?.value;
 
-    console.log('error parsing', url);
-    console.log(err);
 
-  });
-
-  if (!feed) {
-    console.log("skipping feed", url);
-    return;
-  }
-
-  const ops = feed.items.map(async (item) => {
-    const title = item.title;
-    const link = item.link;
-    const date = item.pubDate ? new Date(item.pubDate) : new Date();
-    const description = item.content;
+    if (!title || !link) {
+      throw new Error("missing info: ", item)
+    }
 
     const age = Date.now() - date.getTime();
 
@@ -78,13 +54,13 @@ export const rss = async (url: string, topics: string[], hasContent = false): Pr
     }
 
     console.log('Inserting: ');
-    console.table({ title, link, date: date.toString(), isRecent });
+    console.table({ title, link, date: date.toString() });
 
-    await dbClient.query(
+    await client.queryArray(
       `INSERT INTO info 
            (title, link, source, date, status, original)
            VALUES
-           ($1::text, $2::text, $3::text, $4::date, $5::text, $6::text)
+           ($1, $2, $3, $4, $5, $6)
            ON CONFLICT (link) DO NOTHING;
           `,
 
@@ -93,12 +69,12 @@ export const rss = async (url: string, topics: string[], hasContent = false): Pr
 
     const ops = topics.map(async (topic) => {
 
-      await dbClient.query(
+      await client.queryArray(
         `INSERT INTO topics (name) VALUES ($1::text) ON CONFLICT (name) DO NOTHING;`,
         [topic],
       );
 
-      await dbClient.query(
+      await client.queryArray(
         `INSERT INTO article_topic (article_id, topic_id) VALUES ((
           SELECT id FROM info WHERE link = $1::text
         ), (

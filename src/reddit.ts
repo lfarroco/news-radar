@@ -1,6 +1,5 @@
-import axios, { AxiosResponse } from 'axios';
-import cheerio from 'cheerio';
-import { dbClient } from './db.js';
+import { cheerio } from './deps.ts';
+import { client } from './db.ts';
 
 const restrictedDomains = [
   'youtube.com',
@@ -21,18 +20,26 @@ const restrictedDomains = [
 
 const axiosReq = async (
   url: string,
-): Promise<
-  { ok: false; err: string } | { ok: true; response: AxiosResponse<any, any> }
-> =>
-  new Promise((resolve) => {
-    return axios(url)
-      .then((response) => {
-        resolve({ ok: true, response });
-      })
-      .catch((err) => {
-        resolve({ ok: false, err });
-      });
-  });
+) => {
+
+  try {
+    const request = await fetch(url);
+
+    const response = await request.text();
+
+    return {
+      ok: true,
+      response
+    }
+  } catch (err) {
+    return {
+      ok: false,
+      err
+    }
+
+
+  }
+}
 
 export const reddit = async (channel: string, topic: string) => {
   console.log('processing channel', channel);
@@ -45,13 +52,12 @@ export const reddit = async (channel: string, topic: string) => {
     return;
   }
 
-  const rss = result.response.data;
-  const $ = cheerio.load(rss);
+  const $ = cheerio.load(result.response);
 
   const entries = $('.thing:not(.promoted)').toArray();
 
-  const ops = entries.map(async (entry) => {
-    const title = $(entry).find('a.title.outbound').text();
+  const ops = entries.map(async (entry: any) => {
+    const title = topic + " - " + $(entry).find('a.title.outbound').text();
     const link = $(entry).find('.title a').attr('href');
     const published = $(entry).find('.tagline time').attr('datetime');
     const date = new Date(published);
@@ -72,28 +78,28 @@ export const reddit = async (channel: string, topic: string) => {
       return;
     }
 
-    console.table({ title, link, date });
+    console.table({ title, link, date: date.toDateString() });
 
-    await dbClient.query(
+    await client.queryArray(
       `INSERT INTO info 
            (title, link, source, date, status)
            VALUES
-           ($1::text, $2::text, $3::varchar(32), $4::date, $5::varchar(32))
+           ($1, $2, $3, $4, $5)
            ON CONFLICT (link) DO NOTHING;
           `,
 
-      [title, link, `reddit-channel`, date, 'pending'],
+      [title, link, `reddit-${channel}`, date, 'pending'],
     );
-    await dbClient.query(
-      `INSERT INTO topics (name) VALUES ($1::text) ON CONFLICT (name) DO NOTHING;`,
+    await client.queryArray(
+      `INSERT INTO topics (name) VALUES ($1) ON CONFLICT (name) DO NOTHING;`,
       [topic],
     );
 
-    await dbClient.query(
+    await client.queryArray(
       `INSERT INTO article_topic (article_id, topic_id) VALUES ((
-          SELECT id FROM info WHERE link = $1::text
+          SELECT id FROM info WHERE link = $1
         ), (
-          SELECT id FROM topics WHERE name = $2::text
+          SELECT id FROM topics WHERE name = $2
         ))
         ON CONFLICT (article_id, topic_id) DO NOTHING;`,
       [link, topic],
