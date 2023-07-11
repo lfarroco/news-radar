@@ -1,7 +1,7 @@
-import { gpt } from './openai.js';
-import { dbClient } from './db.js';
-import { Article } from './models.js';
-import { batch } from './utils.js';
+import { gpt } from './openai.ts';
+import { dbClient } from './db.ts';
+import { Article } from './models.ts';
+import { batch } from './utils.ts';
 
 const BATCH_SIZE = 20;
 

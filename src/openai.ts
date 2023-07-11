@@ -1,30 +1,27 @@
-import { Configuration, OpenAIApi } from 'openai';
-import { config } from 'dotenv';
-config();
-
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
+import { config } from "https://deno.land/x/dotenv/mod.ts";
+const env = config();
 
 export const gpt = async<A>(content: string, temperature: number) => {
-  const engine = 'gpt-3.5-turbo';
-  console.log(`calling openai with prompt:\n${content}`);
-  const response = await openai
-    .createChatCompletion({
-      model: engine,
+
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${env.OPENAI_API_KEY}`,
+    },
+    body: JSON.stringify({
+      model: "gpt-3.5-turbo",
       temperature,
-      messages: [
-        {
-          role: 'user',
-          content,
-        },
-      ],
-    })
+      messages: [{ role: "user", content }],
+    }),
+  });
 
-  console.log(`openai response: ${response.data.choices[0].message.content}`);
+  const data = await response.json();
+  console.log(data);
 
-  const parsed = JSON.parse(response.data.choices[0].message.content)
+  console.log(`openai response: ${data.choices[0].message.content}`);
+
+  const parsed = JSON.parse(data.choices[0].message.content)
   return parsed as A
 }
 
