@@ -51,8 +51,6 @@ ${items}
 
 }
 
-
-
 export const filterCandidates = async () => {
 
   const { rows } = await client
@@ -60,27 +58,6 @@ export const filterCandidates = async () => {
 
   return rows
 }
-
-const items = await filterCandidates();
-
-if (items.length === 0) {
-  console.log('no items to filter');
-  Deno.exit(0);
-}
-
-const batches = items.reduce(
-  (acc: Article[][], item: Article, index: number) => {
-    const batchIndex = Math.floor(index / BATCH_SIZE);
-    if (!acc[batchIndex]) {
-      acc[batchIndex] = [];
-    }
-    acc[batchIndex].push(item);
-    return acc;
-  },
-  [],
-);
-
-await batch(batches, 1, processBatch);
 
 async function processBatch(batch: Article[]) {
   const titles = batch
@@ -119,11 +96,24 @@ async function processBatch(batch: Article[]) {
   await Promise.all(rejected);
 }
 
-const operations = batches.reduce(async (xs, x, index) => {
-  console.log(`processing batch ${index}/${batches.length}...`);
-  await xs;
-  return processBatch(x);
-}, Promise.resolve(null));
+export default async () => {
 
-await operations;
+  const items = await filterCandidates();
+
+  const batches = items.reduce(
+    (acc: Article[][], item: Article, index: number) => {
+      const batchIndex = Math.floor(index / BATCH_SIZE);
+      if (!acc[batchIndex]) {
+        acc[batchIndex] = [];
+      }
+      acc[batchIndex].push(item);
+      return acc;
+    },
+    [],
+  );
+
+  await batch(batches, 1, processBatch);
+
+}
+
 
