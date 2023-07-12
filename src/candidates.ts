@@ -1,11 +1,11 @@
 import { gpt } from './openai.ts';
-import { dbClient } from './db.ts';
+import { client } from './db.ts';
 import { Article } from './models.ts';
 import { batch } from './utils.ts';
 
 const BATCH_SIZE = 20;
 
-const prompt = async (items: string) => {
+export const priority = async (items: string) => {
   const content = `
 You are an editor for a magazine called "Dev Radar" that focuses on programming languages, frameworks and news related to them.
 Our intention is to be a "radar" for developers to keep up with the latest news in the industry.
@@ -46,25 +46,26 @@ Here's the list:
 ${items}
 `;
 
-  return gpt<number[]>(content, 0)
+  const result = await gpt(content, 0)
+  return JSON.parse(result) as number[]
 
 }
 
 
+
 export const filterCandidates = async () => {
-  await dbClient.connect();
 
-  const { rows } = await dbClient
-    .query(`SELECT * from info WHERE status = 'pending';`)
+  const { rows } = await client
+    .queryObject<Article>(`SELECT * from info WHERE status = 'pending';`)
 
-  return rows as Article[]
+  return rows
 }
 
 const items = await filterCandidates();
 
 if (items.length === 0) {
   console.log('no items to filter');
-  process.exit(0);
+  Deno.exit(0);
 }
 
 const batches = items.reduce(
@@ -89,10 +90,10 @@ async function processBatch(batch: Article[]) {
 
   console.log(`submitting\n${titles}`);
 
-  const parsed = await prompt(titles)
+  const parsed = await priority(titles)
 
   const approved = parsed.map(async (itemId) => {
-    await dbClient.query(
+    await client.queryArray(
       'UPDATE info SET status = $1::text WHERE id = $2::int;',
       ['approved', itemId],
     );
@@ -108,7 +109,7 @@ async function processBatch(batch: Article[]) {
 
     if (!found) {
       console.log(`rejecting item ${item.id}`);
-      await dbClient.query(
+      await client.queryArray(
         'UPDATE info SET status = $1::varchar(32) WHERE id = $2::int;',
         ['rejected', item.id],
       );
@@ -126,4 +127,3 @@ const operations = batches.reduce(async (xs, x, index) => {
 
 await operations;
 
-process.exit(0);
