@@ -1,14 +1,16 @@
 import { connect } from "./db.ts";
 import scanner from "./scanner.ts";
 import candidates from "./candidates.ts";
-
+import scrapper from "./scrapper.ts";
 
 export default async (hostname = "localhost", port = 15432) => {
 
 	await connect(hostname, port)
 
-	await scanner()
+	// await scanner()
 
-	await candidates()
+	// await candidates()
+
+	await scrapper()
 
 }

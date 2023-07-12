@@ -1,17 +1,17 @@
-import axios, { AxiosResponse } from 'axios';
-import cheerio from 'cheerio';
-import { batch } from './utils.js';
-import { dbClient } from './db.js';
-import { Article } from './models.js';
+import { cheerio } from './deps.ts';
+import { batch } from './utils.ts';
+import { client } from './db.ts';
+import { Article } from './models.ts';
 
-const axiosReq = async (
+const req = async (
   url: string,
 ): Promise<
-  { ok: false; err: string } | { ok: true; response: AxiosResponse<any, any> }
+  { ok: false; err: string } | { ok: true; response: string }
 > => {
   try {
-    const response = await axios(url);
-    return ({ ok: true, response });
+    const response = await fetch(url);
+    const text = await response.text();
+    return ({ ok: true, response: text });
   } catch (err) {
     return ({ ok: false, err });
   }
@@ -20,14 +20,14 @@ const axiosReq = async (
 export const articleScrapper = async (url: string): Promise<string | null> => {
   console.log('processing url', url);
 
-  const result = await axiosReq(url);
+  const result = await req(url);
 
   if (!result.ok) {
     console.log('error fetching', url);
     return null
   }
 
-  const $ = cheerio.load(result.response.data);
+  const $ = cheerio.load(result.response);
 
   const text = $('h1, h2, h3, h4, h5, p')
     .not('header, nav, navbar, footer')
@@ -38,14 +38,10 @@ export const articleScrapper = async (url: string): Promise<string | null> => {
 
 }
 
-export async function scrapper() {
+export default async () => {
   console.log('scrapper started:');
 
-  console.log('connecting to db...');
-  await dbClient.connect();
-  console.log('db connected');
-
-  const { rows: articles }: { rows: Article[] } = await dbClient.query(
+  const { rows: articles }: { rows: Article[] } = await client.queryObject(
     `SELECT * from info WHERE status = 'approved';`,
   );
 
@@ -54,7 +50,7 @@ export async function scrapper() {
     articles.map((a) => a.title),
   );
 
-  const urls = articles.map((item: any) =>
+  const urls = articles.map((item) =>
     item.link,
   );
 
@@ -65,21 +61,18 @@ export async function scrapper() {
     console.log('article scraped:', link);
 
     if (!article) {
-      await dbClient.query(
-        'UPDATE info SET status = $1::text  WHERE link = $2::text;',
+      await client.queryArray(
+        'UPDATE info SET status = $1  WHERE link = $2;',
         ['error-scraping', link],
       );
     } else {
-      await dbClient.query(
-        'UPDATE info SET status = $1::text, original = $2::text WHERE link = $3::text;',
+      await client.queryArray(
+        'UPDATE info SET status = $1, original = $2 WHERE link = $3;',
         ['scraped', article, link],
       );
     }
   });
+
+  console.log('scrapper finished');
 }
 
-await scrapper();
-
-console.log('scrapper finished');
-
-process.exit(0);
