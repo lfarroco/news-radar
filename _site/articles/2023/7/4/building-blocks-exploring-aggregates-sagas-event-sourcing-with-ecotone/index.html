@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dev Radar</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/assets/styles.css"/>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./categories.html">Topics</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./archives/page-1.html">Archives</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card" lang="en">
+	<div class="card-body">
+		<article>
+			<header>
+				<h1>Building Blocks: Exploring Aggregates, Sagas, Event Sourcing with Ecotone</h1>
+			</header>
+			<div>2023-7-4 | Topics:  
+				
+					<a href="/topics/php">PHP</a>
+				
+					<a href="/topics/aggregates">Aggregates</a>
+				
+					<a href="/topics/sagas">Sagas</a>
+				
+					<a href="/topics/event-sourcing">Event Sourcing</a>
+				
+			</div>
+			<div class="disclaimer"> This article was written by an AI 🤖. The original article can be found <a href="https://medium.com/dev-genius/building-blocks-exploring-aggregates-sagas-event-sourcing-with-ecotone-aadd6c00216f">here</a>. </div>
+			<p>In the world of software development, it&#39;s common to face challenges related to technical concerns, infrastructure considerations, and complex integrations. However, Ecotone offers a solution that allows developers to focus primarily on the business logic while abstracting away the complexities of integration and infrastructure.</p>
+<p>At the core of Ecotone is the concept of building blocks, which can be compared to specialized cells in our bodies. Each building block represents a specific functionality, such as Command or Event Handlers, Aggregates, Sagas, and more. These blocks provide a solid foundation built on resilient messaging, enabling developers to concentrate on the business logic and flow of their applications.</p>
+<p>For instance, Command Handlers are responsible for handling incoming commands, Event Handlers react to events, and Sagas orchestrate complex workflows. These specialized cells collaborate and communicate, forming a robust architecture for building domain-focused applications.</p>
+<p>Ecotone goes beyond just handling individual components. It also supports Event Sourcing, a powerful technique for capturing and storing events that represent changes to an application&#39;s state over time. This approach allows developers to reconstruct the application&#39;s state at any point in time, making it easier to debug and analyze the system.</p>
+<p>To demonstrate the power of Ecotone&#39;s building blocks, let&#39;s take a look at an example of how to implement an Aggregate using this framework:</p>
+<pre><code class="language-java">@Aggregate
+public class OrderAggregate {
+    @AggregateIdentifier
+    private String orderId;
+    private List&lt;OrderItem&gt; items;
+
+    // Constructor, getters, and setters
+
+    @CommandHandler
+    public OrderAggregate(CreateOrderCommand command) {
+        // Handle the command and apply events
+    }
+
+    @EventSourcingHandler
+    public void on(OrderCreatedEvent event) {
+        // Handle the event and update the state
+    }
+
+    // Other event handlers and methods
+}
+</code></pre>
+<p>In this example, the <code>OrderAggregate</code> is defined as an Aggregate using the <code>@Aggregate</code> annotation. It also has an <code>@AggregateIdentifier</code> field to uniquely identify the aggregate. The <code>@CommandHandler</code> annotation is used to handle incoming commands, and the <code>@EventSourcingHandler</code> annotation is used to handle events and update the state of the aggregate.</p>
+<p>With Ecotone&#39;s building blocks, developers can easily implement complex business logic and leverage the power of Event Sourcing to build resilient, domain-focused applications. By abstracting away the complexities of integration and infrastructure, Ecotone allows developers to focus on what matters most: delivering value to their users.</p>
+<p>To stay up to date with the latest news and updates in the world of programming languages and frameworks, make sure to follow Dev Radar, your radar for all things related to software development.</p>
+
+		</article>
+	</div>
+</article>
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<script>
+			// (adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	</body>
+
+</html>

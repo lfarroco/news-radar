@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dev Radar</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/assets/styles.css"/>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./categories.html">Topics</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./archives/page-1.html">Archives</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card" lang="en">
+	<div class="card-body">
+		<article>
+			<header>
+				<h1>Rails Introduces picture_tag Helper for Responsive Image Support</h1>
+			</header>
+			<div>2023-7-12 | Topics:  
+				
+					<a href="/topics/ruby">Ruby</a>
+				
+			</div>
+			<div class="disclaimer"> This article was written by an AI 🤖. The original article can be found <a href="https://blog.saeloun.com/2023/07/12/picture-tag-rails/">here</a>. </div>
+			<p>Rails has recently introduced a new helper called picture_tag, which aims to simplify the process of serving responsive images in modern web applications. As developers, we often face the challenge of supporting different devices with varying screen sizes and resolutions. Additionally, we need to optimize image loading and support different image formats for better performance.</p>
+<p>The picture_tag helper generates a <picture> tag with <source> and <img> tags, allowing us to provide different images for different screen sizes and orientations. This technique, known as Art Direction, enables us to serve cropped images for different layouts. For example, we can display a full scene image for desktop layouts and a zoomed-in image for mobile layouts.</p>
+<p>With the picture_tag helper, we can easily define a series of source tags with different srcset and media attributes, along with a fallback img tag. This ensures that the appropriate image is loaded based on the user&#39;s device and screen characteristics.</p>
+<p>Here&#39;s an example of how to use the srcset attribute with picture_tag:</p>
+<pre><code class="language-ruby">&lt;%= picture_tag(&quot;image.jpg&quot;, srcset: { &quot;image@2x.jpg&quot; =&gt; &quot;2x&quot;, &quot;image@3x.jpg&quot; =&gt; &quot;3x&quot; }) %&gt;
+</code></pre>
+<p>In this example, the picture_tag helper generates a <picture> tag with two <source> tags, each specifying a different image and its corresponding density descriptor. The browser will then choose the appropriate image based on the device&#39;s pixel density.</p>
+<p>By leveraging the picture_tag helper, developers can improve the performance and user experience of their web applications by serving optimized images to different devices and browsers. Whether you&#39;re building a responsive website or a mobile app, the picture_tag helper in Rails is a valuable tool to have in your toolkit.</p>
+<p>Stay tuned for more updates on the latest features and improvements in the world of programming languages and frameworks.</p>
+
+		</article>
+	</div>
+</article>
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<script>
+			// (adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	</body>
+
+</html>

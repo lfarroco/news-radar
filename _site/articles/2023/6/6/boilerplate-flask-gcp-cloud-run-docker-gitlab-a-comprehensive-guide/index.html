@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dev Radar</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/assets/styles.css"/>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./categories.html">Topics</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./archives/page-1.html">Archives</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card" lang="en">
+	<div class="card-body">
+		<article>
+			<header>
+				<h1>Boilerplate Flask + GCP Cloud Run + Docker + Gitlab: A Comprehensive Guide</h1>
+			</header>
+			<div>2023-6-6 | Topics:  
+				
+					<a href="/topics/python">Python</a>
+				
+					<a href="/topics/flask">Flask</a>
+				
+					<a href="/topics/gcp">GCP</a>
+				
+					<a href="/topics/docker">Docker</a>
+				
+			</div>
+			<div class="disclaimer"> This article was written by an AI 🤖. The original article can be found <a href="https://gitlab.com/dag83/boilerplate-flask-gcp-cloud-run-docker-gitlab">here</a>. </div>
+			<p>This article was originally published on GitLab and we have brought it to you as a comprehensive guide to help you get started with building your own Flask application on GCP Cloud Run with Docker and Gitlab.</p>
+<p>Flask is a popular Python web framework that is known for its simplicity and flexibility. It is widely used for building web applications and APIs. GCP Cloud Run is a fully managed serverless platform that allows you to run your containerized applications with ease. Docker is a containerization platform that allows you to package your application with all its dependencies into a single container. Gitlab is a web-based Git repository manager that provides continuous integration and continuous deployment (CI/CD) capabilities.</p>
+<p>In this guide, we will walk you through the process of setting up a Flask application on GCP Cloud Run with Docker and Gitlab. We will cover the following topics:</p>
+<ol>
+<li>Setting up a Flask application</li>
+<li>Creating a Dockerfile for your Flask application</li>
+<li>Deploying your Flask application to GCP Cloud Run</li>
+<li>Setting up CI/CD with Gitlab</li>
+</ol>
+<p>Setting up a Flask application</p>
+<p>First, you need to create a Flask application. You can create a new Flask application by running the following command:</p>
+<pre><code>$ pip install flask
+$ mkdir myapp
+$ cd myapp
+$ touch app.py
+</code></pre>
+<p>Next, open the app.py file and add the following code:</p>
+<pre><code class="language-python">from flask import Flask
+
+app = Flask(__name__)
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    return &#39;Hello, World!&#39;
+</code></pre>
+<p>This code creates a simple Flask application that returns &quot;Hello, World!&quot; when you visit the root URL.</p>
+<p>Creating a Dockerfile for your Flask application</p>
+<p>Next, you need to create a Dockerfile for your Flask application. The Dockerfile is a text file that contains instructions for building a Docker image. Here&#39;s an example Dockerfile for a Flask application:</p>
+<pre><code class="language-Dockerfile"># Use an official Python runtime as a parent image
+FROM python:3.8-slim-buster
+
+# Set the working directory to /app
+WORKDIR /app
+
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Install the required packages
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Make port 8080 available to the world outside this container
+EXPOSE 8080
+
+# Define environment variable
+ENV NAME World
+
+# Run app.py when the container launches
+CMD [&quot;python&quot;, &quot;app.py&quot;]
+</code></pre>
+<p>This Dockerfile starts with an official Python 3.8 image, sets the working directory to /app, copies the contents of the current directory into the container, installs the required packages, exposes port 8080, sets an environment variable, and runs the app.py file when the container launches.</p>
+<p>Deploying your Flask application to GCP Cloud Run</p>
+<p>Now that you have created a Dockerfile for your Flask application, you can deploy it to GCP Cloud Run. Here are the steps:</p>
+<ol>
+<li>Install the Google Cloud SDK</li>
+<li>Build the Docker image</li>
+<li>Push the Docker image to Google Container Registry</li>
+<li>Deploy the Docker image to GCP Cloud Run</li>
+</ol>
+<p>Here&#39;s an example command to build the Docker image:</p>
+<pre><code>$ docker build -t myapp .
+</code></pre>
+<p>This command builds a Docker image with the tag &quot;myapp&quot;.</p>
+<p>Next, you need to push the Docker image to Google Container Registry. Here&#39;s an example command:</p>
+<pre><code>$ docker tag myapp gcr.io/myproject/myapp
+$ docker push gcr.io/myproject/myapp
+</code></pre>
+<p>This command tags the Docker image with the registry name and pushes it to Google Container Registry.</p>
+<p>Finally, you can deploy the Docker image to GCP Cloud Run. Here&#39;s an example command:</p>
+<pre><code>$ gcloud run deploy --image gcr.io/myproject/myapp --platform managed
+</code></pre>
+<p>This command deploys the Docker image to GCP Cloud Run on the managed platform.</p>
+<p>Setting up CI/CD with Gitlab</p>
+<p>Now that you have deployed your Flask application to GCP Cloud Run, you can set up CI/CD with Gitlab. Here are the steps:</p>
+<ol>
+<li>Create a Gitlab repository for your Flask application</li>
+<li>Create a .gitlab-ci.yml file in the root directory of your repository</li>
+<li>Define the stages and jobs for your CI/CD pipeline</li>
+<li>Add the CI/CD variables to your Gitlab project</li>
+</ol>
+<p>Here&#39;s an example .gitlab-ci.yml file:</p>
+<pre><code class="language-yaml">image: docker:latest
+
+services:
+  - docker:dind
+
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script:
+    - docker build -t myapp .
+    - docker tag myapp gcr.io/myproject/myapp
+    - echo &quot;$GOOGLE_SERVICE_ACCOUNT&quot; &gt; /tmp/key.json
+    - gcloud auth activate-service-account --key-file /tmp/key.json
+    - gcloud config set project myproject
+    - gcloud auth configure-docker
+    - docker push gcr.io/myproject/myapp
+
+test:
+  stage: test
+  script:
+    - echo &quot;Running tests&quot;
+
+deploy:
+  stage: deploy
+  script:
+    - gcloud run deploy --image gcr.io/myproject/myapp --platform managed
+</code></pre>
+<p>This .gitlab-ci.yml file defines three stages: build, test, and deploy. The build stage builds the Docker image, tags it, and pushes it to Google Container Registry. The test stage runs any tests that you have defined. The deploy stage deploys the Docker image to GCP Cloud Run.</p>
+<p>Finally, you need to add the CI/CD variables to your Gitlab project. Here are the variables that you need to add:</p>
+<ul>
+<li>GOOGLE_SERVICE_ACCOUNT: The JSON key for your GCP service account</li>
+<li>GOOGLE_PROJECT_ID: The ID of your GCP project</li>
+</ul>
+<p>Conclusion</p>
+<p>In this guide, we have shown you how to set up a Flask application on GCP Cloud Run with Docker and Gitlab. We have covered the basics of Flask, Docker, and GCP Cloud Run, and we have shown you how to deploy your application to GCP Cloud Run and set up CI/CD with Gitlab. We hope that this guide has been helpful to you and that you are now ready to build your own Flask application on GCP Cloud Run with Docker and Gitlab.</p>
+
+		</article>
+	</div>
+</article>
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<script>
+			// (adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	</body>
+
+</html>

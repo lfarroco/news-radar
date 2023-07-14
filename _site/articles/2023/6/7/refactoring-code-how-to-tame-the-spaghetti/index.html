@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dev Radar</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/assets/styles.css"/>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./categories.html">Topics</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./archives/page-1.html">Archives</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card" lang="en">
+	<div class="card-body">
+		<article>
+			<header>
+				<h1>Refactoring Code: How to Tame the Spaghetti</h1>
+			</header>
+			<div>2023-6-7 | Topics:  
+				
+					<a href="/topics/refactoring">Refactoring</a>
+				
+					<a href="/topics/code">Code</a>
+				
+			</div>
+			<div class="disclaimer"> This article was written by an AI 🤖. The original article can be found <a href="https://admirlive.medium.com/refactoring-code-taming-the-spaghetti-325b68452dd0?source=friends_link&amp;sk=4cc79a6b0aa4df218c9c6008647ccf0b">here</a>. </div>
+			<p>As developers, we&#39;ve all come across code that resembles a bowl of spaghetti. It&#39;s complex, tangled, and difficult to understand. This is where refactoring comes in - the process of untangling chaotic code and transforming it into an elegant, modular, and comprehensible solution. In this article, we&#39;ll explore the realm of refactoring and provide tips on how to tame the spaghetti.</p>
+<p>What is Spaghetti Code?</p>
+<p>Spaghetti code refers to source code that is messy and difficult to understand. It has a tangled structure, making it hard to maintain and likely to have errors. The code lacks modularity and often has long, complex functions that perform multiple tasks.</p>
+<p>Untangling the Mess</p>
+<p>Let&#39;s take a look at an example of spaghetti code:</p>
+<pre><code>function Main() {
+  var a = 1;
+  var b = 2;
+  var c = 3;
+  var d = 4;
+  var e = 5;
+  var f = 6;
+  var g = 7;
+  var h = 8;
+  var i = 9;
+  var j = 10;
+  
+  if (a &lt; b) {
+    if (c &gt; d) {
+      if (e &lt; f) {
+        if (g &gt; h) {
+          if (i &lt; j) {
+            console.log(&quot;Success!&quot;);
+          }
+        }
+      }
+    }
+  }
+}
+</code></pre>
+<p>The first step in untangling this mess is to identify the problem. In this case, the lack of meaningful variable names makes the code difficult to understand. To improve readability, we can rename variables so that they accurately represent their purpose. This best practice improves our own understanding and helps future developers working on the code.</p>
+<p>Next, we can break down the oversized <code>Main</code> function and identify separate functionalities. These can be extracted into their own functions or classes, making the code more modular and easier to maintain. For example:</p>
+<pre><code>function Main() {
+  var a = 1;
+  var b = 2;
+  var c = 3;
+  var d = 4;
+  var e = 5;
+  var f = 6;
+  var g = 7;
+  var h = 8;
+  var i = 9;
+  var j = 10;
+  
+  if (compareNumbers(a, b) &amp;&amp; compareNumbers(c, d) &amp;&amp; compareNumbers(e, f) &amp;&amp; compareNumbers(g, h) &amp;&amp; compareNumbers(i, j)) {
+    console.log(&quot;Success!&quot;);
+  }
+}
+
+function compareNumbers(num1, num2) {
+  return num1 &lt; num2;
+}
+</code></pre>
+<p>In this refactored code, we&#39;ve extracted the comparison logic into a separate function, making the code more modular and easier to understand. We&#39;ve also given the variables more meaningful names, improving readability.</p>
+<p>Benefits of Refactoring</p>
+<p>Refactoring code has many benefits, including:</p>
+<ul>
+<li>Improved code readability and maintainability</li>
+<li>Reduced complexity and increased modularity</li>
+<li>Better performance and fewer errors</li>
+<li>Easier collaboration with other developers</li>
+</ul>
+<p>Refactoring is an ongoing process and should be done regularly to keep code clean and maintainable. It&#39;s important to strike a balance between refactoring and adding new features, as too much refactoring can lead to wasted time and effort.</p>
+<p>Conclusion</p>
+<p>In conclusion, refactoring code is an essential practice for developers. It helps us tame the spaghetti and transform messy, complex code into an elegant, modular, and comprehensible solution. By identifying problems, breaking down functions, and improving variable names, we can improve code readability and maintainability, reduce complexity, and increase modularity. So, don&#39;t be afraid to refactor your code - your future self (and your fellow developers) will thank you!</p>
+
+		</article>
+	</div>
+</article>
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<script>
+			// (adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	</body>
+
+</html>

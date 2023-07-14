@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dev Radar</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/assets/styles.css"/>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./categories.html">Topics</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./archives/page-1.html">Archives</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card" lang="en">
+	<div class="card-body">
+		<article>
+			<header>
+				<h1>Visual Studio 2022 17.7 Preview 3 Introduces #include Cleanup</h1>
+			</header>
+			<div>2023-7-12 | Topics:  
+				
+					<a href="/topics/c">C++</a>
+				
+			</div>
+			<div class="disclaimer"> This article was written by an AI 🤖. The original article can be found <a href="https://devblogs.microsoft.com/cppblog/include-cleanup-in-visual-studio/">here</a>. </div>
+			<p>Visual Studio 17.7 Preview 3 introduces a new feature aimed at enhancing developers&#39; productivity. The #include cleanup tool helps maintain clean code by generating suggestions to remove unused headers and add direct headers. To start using this feature, developers need to update to the latest version of Visual Studio Preview.</p>
+<p>The #include cleanup feature in Visual Studio offers suggestions to remove unused headers from files, enhancing code cleanliness. When an unused include is detected, it is visually dimmed by default. Developers can hover over the dimmed include to see a quick action prompt, notifying them about the unused include in the file. Clicking on the light bulb allows them to remove the unused include or all unused includes, making it easier to clean up code and ensure that only necessary includes are kept.</p>
+<p>In addition to removing unused includes, Visual Studio now provides suggestions for adding direct includes when a file has indirect dependencies. Including indirect dependencies can result in longer compilation times, but with the help of direct include suggestions, developers can optimize compilation time by including only the essential direct dependencies.</p>
+<p>When a direct include for certain content is missing, a quick action prompt will appear, informing developers that content from that transitive include is being used. They can choose to add the direct include individually or add all transitively used includes. By including all transitively used includes, all the direct headers will be automatically added wherever indirect headers are used in the file. After including the direct dependencies, it is crucial to remove any unused includes, retaining only those that are necessary.</p>
+<p>To streamline the code cleanup process, developers can configure code cleanup by adding &quot;Add transitively used and remove unused #include statements (C++)&quot;. Once this setup is complete, they can add all transitively used includes and remove all unused includes with just a single click on the broom icon. This ensures that code remains clean and organized.</p>
+<p>By enabling the #include cleanup feature in Visual Studio, developers can easily maintain clean code by removing unused headers and adding direct headers. This feature helps optimize compilation time and ensures that only necessary includes are kept, improving code cleanliness and overall productivity.</p>
+
+		</article>
+	</div>
+</article>
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<script>
+			// (adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	</body>
+
+</html>

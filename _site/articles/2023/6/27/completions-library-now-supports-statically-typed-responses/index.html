@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dev Radar</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/assets/styles.css"/>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./categories.html">Topics</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./archives/page-1.html">Archives</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card" lang="en">
+	<div class="card-body">
+		<article>
+			<header>
+				<h1>Completions library now supports statically typed responses</h1>
+			</header>
+			<div>2023-6-27 | Topics:  
+				
+					<a href="/topics/typescript">TypeScript</a>
+				
+			</div>
+			<div class="disclaimer"> This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/typescript/comments/14k6jj7/getting_json_with_typescript_types_from_chatgpt/">here</a>. </div>
+			<p>The completions library has been updated to support statically typed responses. This update allows developers to receive JSON responses with TypeScript types from ChatGPT. The library now generates a prompt that is sent to the API using the &quot;expect&quot; parameter. The prompt contains a schema that the response must satisfy and examples of what the response should look like. </p>
+<p>Here is an example of how to use the updated library:</p>
+<pre><code class="language-ts">const response = await chat.sendMessage(&quot;Suggest a random startup name&quot;, {
+  expect: {
+    examples: [
+      {
+        name: &quot;OpenAI&quot;,
+        domain: &quot;openai.com&quot;,
+      },
+    ],
+    schema: {
+      additionalProperties: false,
+      type: &quot;object&quot;,
+      properties: {
+        name: { type: &quot;string&quot; },
+        domain: { type: &quot;string&quot; },
+      },
+      required: [&quot;name&quot;, &quot;domain&quot;],
+    },
+  },
+});
+
+console.log(response.content); // { name: string; domain: string }
+</code></pre>
+<p>The &quot;expect&quot; parameter is used to generate a prompt that is sent to the API. The prompt contains a schema that the response must satisfy and examples of what the response should look like. The library then generates a statically typed response with TypeScript types. </p>
+<p>This update to the completions library is a useful tool for developers who want to receive statically typed JSON responses from ChatGPT. It simplifies the process of generating responses and ensures that the responses are valid.</p>
+
+		</article>
+	</div>
+</article>
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<script>
+			// (adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	</body>
+
+</html>
