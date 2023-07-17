@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/styles.css"/>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<ins class="adsbygoogle" data-ad-client="ca-pub-2361701055964881" data-ad-slot="9315501947" data-ad-format="auto" data-full-width-responsive="true"></ins>
+
+			<article>
+	<h1>Jest and Node.js: Why the instanceOf operator issues?</h1>
+	<div>
+		<p>According to a recent article, Jest is not recommended to be used in Node.js due to issues with the instanceOf operator. The article explains that Jest's use of the instanceOf operator can cause unexpected behavior in Node.js, leading to false positives or negatives in tests.</p>
+<p>Developers who rely on Jest for testing in Node.js may want to consider alternative testing libraries that do not rely on the instanceOf operator.</p>
+<p>While this issue may be a concern for some developers, it's important to note that Jest is still a popular testing library for many other use cases. In fact, Jest is widely used in the React community and has been praised for its ease of use and powerful features.</p>
+<p>For those who are interested in exploring other testing libraries, there are many options available. Some popular alternatives include Mocha, Chai, and Jasmine.</p>
+<p>Ultimately, the choice of testing library will depend on the specific needs of the project and the preferences of the development team. As with any tool, it's important to weigh the pros and cons and choose the best option for the job.</p>
+<pre><code class="language-javascript">// Example of Jest test using instanceOf operator
+test('should return true if input is an array', () =&gt; {
+  const input = [1, 2, 3];
+  expect(input instanceof Array).toBe(true);
+});
+</code></pre>
+<pre><code class="language-javascript">// Example of Mocha test using Array.isArray method
+describe('Array', () =&gt; {
+  describe('#isArray', () =&gt; {
+    it('should return true when input is an array', () =&gt; {
+      const input = [1, 2, 3];
+      assert(Array.isArray(input));
+    });
+  });
+});
+</code></pre>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	</body>
+
+</html>

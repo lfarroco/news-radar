@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/styles.css"/>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<ins class="adsbygoogle" data-ad-client="ca-pub-2361701055964881" data-ad-slot="9315501947" data-ad-format="auto" data-full-width-responsive="true"></ins>
+
+			<article>
+	<h1>ESLint: A Guide to Configuring it with Confidence</h1>
+	<div>
+		<p>ESLint is a powerful tool that can greatly improve the quality and consistency of your JavaScript code. However, many developers may not be using it to its full potential. In this guide, we will explore how to configure ESLint with confidence, with the help of María Simó, a front-end developer at Z1 Digital Studio.</p>
+<p>ESLint is a linter that analyzes your JavaScript code and detects potential errors, style violations, and other issues. It can be used with any JavaScript project, including React, Vue, and Node.js. However, configuring ESLint can be a daunting task, especially for larger projects with multiple developers.</p>
+<p>One of the main challenges with ESLint is maintaining consistency across your codebase. This is where a shared configuration comes in handy. Instead of manually configuring ESLint for each project, you can create a shared configuration that can be used across multiple projects. This ensures that all developers are using the same rules and settings, which improves code quality and maintainability.</p>
+<p>In this guide, we will focus on the new flat config system, which is the recommended way to configure ESLint as of version 8.23.0. The legacy eslintrc system will lose support in version 9, so it's important to start migrating to the new system.</p>
+<p>To get started with flat config, you can install the latest version of ESLint and create a <code>.eslintrc.json</code> file with the following contents:</p>
+<pre><code class="language-json">{
+  &quot;extends&quot;: &quot;eslint:recommended&quot;
+}
+</code></pre>
+<p>This will extend the recommended ESLint rules, which provide a good starting point for most projects. You can then add or modify rules as needed for your project.</p>
+<p>One of the benefits of flat config is that it allows you to easily share your configuration as an external dependency. This means that you can create a separate npm package that contains your ESLint configuration, and then use it across multiple projects. This ensures that all projects are using the same configuration, which improves consistency and reduces the risk of errors.</p>
+<p>To create an external ESLint configuration, you can create a new npm package and add the following files:</p>
+<pre><code>my-eslint-config/
+  ├── index.js
+  └── .eslintrc.json
+</code></pre>
+<p>The <code>index.js</code> file should export your ESLint configuration:</p>
+<pre><code class="language-js">module.exports = {
+  extends: 'eslint:recommended',
+  rules: {
+    // add your custom rules here
+  }
+}
+</code></pre>
+<p>You can then install this package in your projects and reference it in your <code>.eslintrc.json</code> file:</p>
+<pre><code class="language-json">{
+  &quot;extends&quot;: &quot;my-eslint-config&quot;
+}
+</code></pre>
+<p>This will ensure that all projects are using the same configuration, which improves consistency and maintainability.</p>
+<p>In conclusion, ESLint is a powerful tool that can greatly improve the quality and consistency of your JavaScript code. By using the new flat config system and creating a shared configuration, you can ensure that all developers are using the same rules and settings, which improves code quality and maintainability. With the help of this guide, you can confidently configure ESLint for your projects and take advantage of its full potential.</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	</body>
+
+</html>

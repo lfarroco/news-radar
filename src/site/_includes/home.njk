@@ -1,0 +1,49 @@
+---
+layout: main.njk
+---
+
+<div class="card mb-2">
+	<div class="card-body">
+
+		Dev Radar is an AI-powered news aggregator that helps you stay up to date with the latest trends in software development. <br/> Below are the latest articles that our AI 🤖 has found for you.
+
+		{% for article in latest %}
+			<li>
+
+				<a href="{{ article.url }}">{{ article.title }}</a>
+				{{ article.formattedDate }}
+			</li>
+		{% endfor %}
+
+	</div>
+</div>
+
+<div class="row">
+
+	{% for topic in topics %}
+
+		<div class="col-3">
+			<div class="card-body">
+
+				<div class="card-header">
+					{{topic.name}}
+				</div>
+
+				<div class="card-body">
+
+					{% for article in topic.articles %}
+						<li>
+
+							<a href="{{ article.url }}">{{ article.title }}</a>
+							{{ article.formattedDate }}
+						</li>
+					{% endfor %}
+
+				</div>
+
+			</div>
+
+		</div>
+	{% endfor %}
+
+</div>

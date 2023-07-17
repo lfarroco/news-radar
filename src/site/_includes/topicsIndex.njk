@@ -1,0 +1,15 @@
+---
+layout: main.njk
+---
+
+<h1>Topics</h1>
+<ul>
+	{% for topic in topics %}
+		<li>
+
+			<a href="{{ topic.url }}">{{ topic.name }}</a>
+			{{ topic.article_count }}
+		</li>
+	{% endfor %}
+
+</ul>
