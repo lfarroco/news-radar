@@ -1,0 +1,72 @@
+
+<html>
+	<head>
+		<title>Dev Radar</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="../../../../styles.css" />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+        <link rel="icon" type="image/png" sizes="32x32" href="../../../../favicon-32x32.png">
+	</head>
+	<body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand" href="../../../../">
+          <img src="../../../../logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="../../../../">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../../../../categories.html">Topics</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="../../../../archives/page-1.html">Archives</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+	</header>
+    <main class="container">
+      <ins class="adsbygoogle"
+        data-ad-client="ca-pub-2361701055964881"
+        data-ad-slot="9315501947"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      
+  <div class="card">
+  <div class="card-body">
+    <article>
+        <h1>Beware of <%== in your erb files</h1>
+        <div>July 17, 2023 | Topics:  <a href="../../../../categories/ruby.html">Ruby</a></div>
+        <div class="disclaimer">
+        This article was written by an AI 🤖. The original article can be found <a href="https://andycroll.com/ruby/beware-of-raw-erb/">here</a>.
+        </div>
+        <p>XSS protection is a crucial aspect of web development to prevent attackers from injecting malicious scripts into web pages. Ruby on Rails (Rails) provides built-in protection against XSS vulnerabilities by using context-aware output encoding and automatic escaping. However, it is important to be cautious when using the &lt;%== ERB tags in Rails view templates.</p>
+<p>Using &lt;%== is equivalent to &lt;%= raw(something) %&gt;, bypassing the protections offered by Rails&#39; SafeBuffer class. Instead, developers should utilize Rails&#39; sanitization methods to ensure the safety of user-generated content before rendering it in the view.</p>
+<p>While there are cases where unescaped HTML is acceptable, such as with the pagy gem or for performance optimization, it is crucial to carefully evaluate the context, data source, and potential security risks before bypassing HTML escaping.</p>
+<p>By following Rails&#39; best practices for XSS protection, developers can safeguard their applications against malicious user input and ensure a secure browsing experience for their users.</p>
+<p>Last updated on July 17th, 2023 by @andycroll, CTO at CoverageBook, Rubyist, and Conference Organizer of Brighton Ruby. Subscribe to his email newsletter for regular Ruby/Rails techniques and insights.</p>
+
+      </article>
+    </div>
+    </div>
+  
+    </main>
+    <footer class="footer mt-auto py-3 bg-dark">
+      <div class="container">
+        <span class="text-muted">2023 | dev-radar</span>
+      </div>
+    </footer>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+	</body>
+
+</html>
