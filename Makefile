@@ -1,3 +1,9 @@
+lume-buld:
+	deno task lume
+
+lume-serve:
+	deno task lume --serve
+
 docker-build:
 	docker build . -t radar-server
 

@@ -12,16 +12,15 @@ export default async function* () {
 	for (const row of rows) {
 		const parsed = JSON.parse(row.article);
 
-		const year = row.date.getFullYear();
-		const month = row.date.getMonth() + 1;
-		const day = row.date.getDate();
-		const date = `${year}/${month}/${day}`;
+		const date = row.date.toISOString().split('T')[0].replace(/-/g, '/');
+
 		yield {
 			...row,
 			url: `/articles/${date}/${slugify(parsed.title)}/`,
 			title: parsed.title,
 			content: parsed.article,
-			date: row.date.toUTCString(),
+			date,
+			formattedDate: date,
 		};
 	}
 }

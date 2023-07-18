@@ -2,14 +2,18 @@
 layout: main.njk
 ---
 
-<h1>Topics</h1>
-<ul>
-	{% for topic in topics %}
-		<li>
+<article>
+	<h1>Topics</h1>
+	<div class="list-group">
+		{% for topic in topics %}
 
-			<a href="{{ topic.url }}">{{ topic.name }}</a>
-			{{ topic.article_count }}
-		</li>
-	{% endfor %}
+			<a class="list-group-item list-group-item-action"
+				 href="{{ topic.url }}">{{ topic.name }}
+				<span class="badge bg-info">
+					{{ topic.article_count }}
+				</span>
+			</a>
+		{% endfor %}
 
-</ul>
+	</div>
+</article>

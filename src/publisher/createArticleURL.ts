@@ -1,8 +1,6 @@
 export function createArticleURL(id: number, date: Date) {
-	const year = date.getFullYear();
-	const month = date.getMonth() + 1;
-	const day = date.getDate();
-	const datePath = `articles/${year}/${month}/${day}`;
+	const formattedDate = date.toISOString().split('T')[0].replace(/-/g, '/');
+	const datePath = `articles/${formattedDate}`;
 	return {
 		publicDatePath: `./public/${datePath}`,
 		datePath,

@@ -2,16 +2,20 @@
 layout: main.njk
 ---
 
-<div>
-	<h1>{{ title }}</h1>
-	<ul>
-		{% for article in articles %}
-			<li>
+<div class="card">
+	<div class="card-header">
+		<h1 class="mb-0">{{ title }}</h1>
+	</div>
+	<div class="card-body">
+		<ul class="list-group">
+			{% for article in articles %}
+				<li class="list-group-item">
 
-				<a href="{{ article.url }}">{{ article.title }}</a>
-				{{ article.formattedDate }}
-			</li>
-		{% endfor %}
+					<a href="{{ article.url }}">{{ article.title }}</a>
+					{{ article.formattedDate }}
+				</li>
+			{% endfor %}
 
-	</ul>
+		</ul>
+	</div>
 </div>

@@ -5,7 +5,7 @@ body {
   font-size: 16px;
   line-height: 1.5;
   color: #333;
-  background-color: #eaeaea;
+  background-color: #212529;
   padding: 0;
   margin: 0;
 }
@@ -27,6 +27,7 @@ header .brand {
 main {
   max-width: 960px;
   margin: 20px auto;
+  background: ;
 }
 
 h1,
@@ -89,4 +90,41 @@ header nav a {
   margin: 0 auto;
   display: block;
   text-align: center;
+}
+
+
+.topic a {
+  font-weight: bold;
+}
+
+.topic .card-footer a {
+  text-decoration: none;
+  color: #000;
+}
+
+.topic .list-group-item {
+  padding: 12px 0;
+}
+
+.topic small {
+  color: #999;
+  font-size: 12px;
+}
+
+.typescript {
+  color: #2f3d9b;
+}
+
+article {
+  max-width: 1200px;
+  margin: 12px auto;
+}
+
+article p {
+  font-size: 18px;
+  line-height: 36px;
+}
+
+article pre code {
+  font-size: 18px;
 }

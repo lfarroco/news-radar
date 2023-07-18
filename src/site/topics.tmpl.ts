@@ -27,13 +27,10 @@ async function getArticles(topic_id: number) {
 
 		const parsed = JSON.parse(article);
 
-		const year = date.getFullYear();
-		const month = date.getMonth() + 1;
-		const day = date.getDate();
-		const dateStr = `${year}/${month}/${day}`;
+		const formattedDate = date.toISOString().split('T')[0].replace(/-/g, '/');
 
 		return {
-			url: `/articles/${dateStr}/${slugify(parsed.title)}/`,
+			url: `/articles/${formattedDate}/${slugify(parsed.title)}/`,
 			title: parsed.title,
 			date: date.toUTCString(),
 			formattedDate: date.toISOString().split('T')[0],

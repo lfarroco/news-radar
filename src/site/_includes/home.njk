@@ -2,48 +2,76 @@
 layout: main.njk
 ---
 
-<div class="card mb-2">
-	<div class="card-body">
+<div class="home">
+	<div class="card mb-2">
+		<div class="card-body">
 
 		Dev Radar is an AI-powered news aggregator that helps you stay up to date with the latest trends in software development. <br/> Below are the latest articles that our AI 🤖 has found for you.
 
-		{% for article in latest %}
-			<li>
+	
 
-				<a href="{{ article.url }}">{{ article.title }}</a>
-				{{ article.formattedDate }}
-			</li>
-		{% endfor %}
-
+		</div>
 	</div>
-</div>
 
-<div class="row">
+	<div class="row">
 
-	{% for topic in topics %}
+		{% for topic in topics %}
 
-		<div class="col-3">
-			<div class="card-body">
+			<div class="col-4">
 
-				<div class="card-header">
-					{{topic.name}}
-				</div>
+				<div class="card mb-2 topic">
 
-				<div class="card-body">
+					<div class="card-header">
+						<h3>{{topic.name}}</h3>
+					</div>
+					<div class="card-body">
 
-					{% for article in topic.articles %}
-						<li>
+						<div class="list-group list-group-flush">
+							{% for article in topic.articles %}
 
-							<a href="{{ article.url }}">{{ article.title }}</a>
-							{{ article.formattedDate }}
-						</li>
-					{% endfor %}
+								<a class="list-group-item" href="{{ article.url }}">
+									<div>{{ article.title }}</div>
+
+									<small>
+										{{ article.formattedDate }}
+									</small>
+
+								</a>
+							{% endfor %}
+
+						</div>
+
+					</div>
+
+					<div class="card-footer">
+						<a href="/topics/{{topic.slug}}">All {{topic.name}} Articles</a>
+					</div>
 
 				</div>
 
 			</div>
 
+		{% endfor %}
+
+	</div>
+	<div class="card">
+
+		<div class="card-header">
+			<h2 class="mb-0">Latest Articles</h2>
 		</div>
-	{% endfor %}
+		<div class="card-body">
+			<div class="list-group list-group-flush">
+				{% for article in latest %}
+
+					<a class="list-group-item" href="{{ article.url }}">
+						{{ article.title }} - 
+						<small>{{ article.formattedDate }}</small>
+					</a>
+				{% endfor %}
+
+			</div>
+
+		</div>
+	</div>
 
 </div>

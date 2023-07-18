@@ -1,5 +1,6 @@
 import { Client } from "./deps.ts";
 import { Article } from "./models.ts";
+import { slugify } from "./utils.ts";
 
 export let client: Client;
 
@@ -26,7 +27,14 @@ export async function getLatestArticles() {
     ORDER BY date DESC
     LIMIT 20`);
 
-  return rows
+  return rows.map(r => {
+
+    const formattedDate = r.date.toISOString().split('T')[0].replace(/-/g, '/');
+    return {
+      ...r,
+      formattedDate,
+    }
+  })
 }
 
 export async function getLatestArticlesByTopic(topic: string) {
@@ -35,14 +43,22 @@ export async function getLatestArticlesByTopic(topic: string) {
     await connect("localhost", 15432);
 
   const { rows } = await client.queryObject<Article>(`
-    SELECT * FROM info 
+    SELECT article, date FROM info 
     INNER JOIN article_topic ON article_topic.article_id = info.id
     INNER JOIN topics ON topics.id = article_topic.topic_id
-    WHERE info.status = 'published' AND topics.name = $1
+    WHERE info.status = 'published' AND topics.slug = $1
     ORDER BY date DESC
     LIMIT 5`, [topic]);
 
-  return rows
+  return rows.map(row => {
+
+    const parsed = JSON.parse(row.article);
+    const formattedDate = row.date.toISOString().split('T')[0].replace(/-/g, '/');
+    const url = `/articles/${formattedDate}/${slugify(parsed.title)}/`;
+
+    return { ...row, formattedDate, title: parsed.title, article: parsed.article, url }
+
+  })
 }
 
 export async function getTopicsList() {
