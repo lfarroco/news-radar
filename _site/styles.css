@@ -27,7 +27,7 @@ header .brand {
 main {
   max-width: 960px;
   margin: 20px auto;
-  background: ;
+  background: #eaeaea;
 }
 
 h1,
@@ -115,10 +115,6 @@ header nav a {
   color: #2f3d9b;
 }
 
-article {
-  max-width: 1200px;
-  margin: 12px auto;
-}
 
 article p {
   font-size: 18px;
@@ -127,4 +123,9 @@ article p {
 
 article pre code {
   font-size: 18px;
+}
+
+.card-header {
+  background: #212529;
+  color: #01ff68;
 }

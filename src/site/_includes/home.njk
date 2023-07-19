@@ -29,14 +29,19 @@ layout: main.njk
 						<div class="list-group list-group-flush">
 							{% for article in topic.articles %}
 
-								<a class="list-group-item" href="{{ article.url }}">
-									<div>{{ article.title }}</div>
+								<div class="list-group-item">
+									<a  href="{{ article.url }}">
+										<div>{{ article.title }}</div>
+
+									</a>
 
 									<small>
 										{{ article.formattedDate }}
 									</small>
 
-								</a>
+									<div>{{article.article.slice(0,200)}}...</div>
+
+								</div>
 							{% endfor %}
 
 						</div>
