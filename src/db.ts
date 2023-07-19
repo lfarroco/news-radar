@@ -29,9 +29,11 @@ export async function getLatestArticles() {
 
   return rows.map(r => {
 
+    const parsed = JSON.parse(r.article);
     const formattedDate = r.date.toISOString().split('T')[0].replace(/-/g, '/');
     return {
       ...r,
+      url: `/articles/${formattedDate}/${slugify(parsed.title)}/`,
       formattedDate,
     }
   })
