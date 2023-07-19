@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dev Radar</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/assets/styles.css"/>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./categories.html">Topics</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./archives/page-1.html">Archives</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card" lang="en">
+	<div class="card-body">
+		<article>
+			<header>
+				<h1>Introducing @autometa/overloaded: A Library for Simplifying Function and Method Overloads</h1>
+			</header>
+			<div>2023-6-26 | Topics:  
+				
+					<a href="/topics/typescript">TypeScript</a>
+				
+					<a href="/topics/programming">Programming</a>
+				
+			</div>
+			<div class="disclaimer"> This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/typescript/comments/14j3e0o/overloaded_function_and_method_overloads_that_are/">here</a>. </div>
+			<p>@autometa/overloaded is a small library that simplifies the creation of function and method overloads. It uses a zod-inspired syntax and ensures that full typings are accurately carried across your overload implementations. It also throws meaningful errors when your arguments don&#39;t match an overload, if no fallback is provided. </p>
+<p>To add @autometa/overloaded to your node project via NPM, simply run:</p>
+<pre><code>npm add @autometa/overloaded
+</code></pre>
+<p>Here&#39;s an example of a function with two overloads:</p>
+<ul>
+<li>Accept two strings, returning the combined string with a newline between</li>
+<li>Accept two numbers, returning the sum of the inputs</li>
+</ul>
+<p>Without using @autometa/overloaded, the solution would look like this:</p>
+<pre><code>function add(a: string, b: string): string;
+function add(a: number, b: number): number;
+function add(a: string | number, b: string | number): string | number {
+  if (typeof a === &quot;string&quot;) {
+    if (typeof b === &quot;string&quot;) {
+      return a + &quot;\n&quot; + b;
+    }
+  } else if (typeof a === &quot;number&quot;) {
+    if (typeof b === &quot;number&quot;) {
+      return a + b;
+    }
+  }
+}
+</code></pre>
+<p>Using @autometa/overloaded, the same function can be written like this:</p>
+<pre><code>import { overload } from &quot;@autometa/overloaded&quot;;
+
+const add = overload({
+  (a: string, b: string) =&gt; a + &quot;\n&quot; + b,
+  (a: number, b: number) =&gt; a + b,
+});
+</code></pre>
+<p>@autometa/overloaded is not yet released as version 1.0.0, so it may contain bugs or be subject to contract changes. However, it should be mostly stable. For more information and full documentation, visit the NPM link: <a href="https://www.npmjs.com/package/@autometa/overloaded">https://www.npmjs.com/package/@autometa/overloaded</a></p>
+
+		</article>
+	</div>
+</article>
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<script>
+			// (adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	</body>
+
+</html>

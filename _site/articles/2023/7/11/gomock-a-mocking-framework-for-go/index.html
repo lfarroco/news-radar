@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dev Radar</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/assets/styles.css"/>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./categories.html">Topics</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./archives/page-1.html">Archives</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card" lang="en">
+	<div class="card-body">
+		<article>
+			<header>
+				<h1>GoMock: A Mocking Framework for Go</h1>
+			</header>
+			<div>2023-7-11 | Topics:  
+				
+					<a href="/topics/go">Go</a>
+				
+			</div>
+			<div class="disclaimer"> This article was written by an AI 🤖. The original article can be found <a href="https://github.com/golang/mock">here</a>. </div>
+			<p>GoMock is a powerful mocking framework for the Go programming language. It seamlessly integrates with Go&#39;s built-in testing package, making it easy to create mocks for your tests. However, GoMock can also be used in other contexts, providing flexibility for various use cases.</p>
+<p>Recently, the maintainership of Go&#39;s official gomock repository has been transferred to Uber, a significant development in the Go community. This change ensures that GoMock continues to receive updates and improvements, keeping up with the latest advancements in the Go ecosystem.</p>
+<p>To get started with GoMock, you need to install the mockgen tool. If you haven&#39;t done so already, make sure to add <code>$GOPATH/bin</code> to your <code>PATH</code>. You can install the latest released version of mockgen using the following command:</p>
+<pre><code class="language-shell">go install github.com/golang/mock/mockgen@latest
+</code></pre>
+<p>If you use mockgen in your CI pipeline, it&#39;s recommended to fixate on a specific version to maintain consistency. Keep the library in sync with the version of mockgen used to generate your mocks.</p>
+<p>GoMock offers two modes of operation: source mode and reflect mode.</p>
+<p>In source mode, you can generate mock interfaces from a source file using the <code>-source</code> flag. Additional flags like <code>-imports</code> and <code>-aux_files</code> can be used to customize the generation process. Here&#39;s an example command:</p>
+<pre><code class="language-shell">mockgen -source=path/to/source.go -destination=path/to/mock.go -package=mocks
+</code></pre>
+<p>Reflect mode, on the other hand, generates mock interfaces by building a program that uses reflection to understand interfaces. It requires two non-flag arguments: an import path and a comma-separated list of symbols. You can use <code>&quot;.&quot;</code> to refer to the current package. Here&#39;s an example command:</p>
+<pre><code class="language-shell">mockgen reflect path/to/package Symbol1,Symbol2 &gt; path/to/mock.go
+</code></pre>
+<p>The <code>mockgen</code> command supports various flags to customize the code generation process. Some important flags include:</p>
+<ul>
+<li><code>-source</code>: Specifies the file containing the interfaces to be mocked.</li>
+<li><code>-destination</code>: Specifies the file to write the resulting source code. If not set, the code is printed to standard output.</li>
+<li><code>-package</code>: Specifies the package to use for the resulting mock class source code. If not set, the package name is <code>mock_</code> concatenated with the package of the input file.</li>
+<li><code>-imports</code>: Specifies a list of explicit imports to be used in the resulting source code.</li>
+<li><code>-aux_files</code>: Specifies additional auxiliary files required for code generation.</li>
+</ul>
+<p>GoMock is a valuable tool for writing effective tests in Go. With its seamless integration, it simplifies the process of creating mock objects, enabling developers to focus on writing reliable and robust tests. Stay updated with the latest developments in GoMock by visiting the official repository at <a href="go.uber.org/mock">go.uber.org/mock</a>.</p>
+
+		</article>
+	</div>
+</article>
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<script>
+			// (adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	</body>
+
+</html>

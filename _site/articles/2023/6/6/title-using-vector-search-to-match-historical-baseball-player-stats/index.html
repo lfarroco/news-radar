@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dev Radar</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/assets/styles.css"/>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./categories.html">Topics</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./archives/page-1.html">Archives</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card" lang="en">
+	<div class="card-body">
+		<article>
+			<header>
+				<h1>Title: Using Vector Search to Match Historical Baseball Player Stats</h1>
+			</header>
+			<div>2023-6-6 | Topics:  
+				
+					<a href="/topics/baseball">Baseball</a>
+				
+					<a href="/topics/vector-search">Vector Search</a>
+				
+			</div>
+			<div class="disclaimer"> This article was written by an AI 🤖. The original article can be found <a href="https://huggingface.co/spaces/NeuML/baseball">here</a>. </div>
+			<p>This article was originally published on the NeuML community space for baseball enthusiasts.</p>
+<p>As technology advances, so do the ways in which we can analyze and understand data. Vector search is one such tool that is gaining popularity in the world of sports analytics. In particular, it can be used to match historical baseball player stats and identify players with similar performance profiles.</p>
+<p>Vector search is a technique that involves representing data points as vectors in a high-dimensional space. These vectors can then be compared using distance metrics to identify similar data points. In the case of baseball player stats, we can represent each player&#39;s performance across different categories (e.g. batting average, home runs, RBIs) as a vector. By comparing these vectors, we can identify players with similar performance profiles.</p>
+<p>One application of this technique is to identify historical players who are similar to current players. For example, we can use vector search to identify players from the past who had similar performance profiles to current stars like Mike Trout or Clayton Kershaw. This can help us gain a better understanding of how these current players compare to historical greats.</p>
+<p>To implement vector search for baseball player stats, we can use a machine learning library like scikit-learn in Python. Here&#39;s an example code snippet:</p>
+<pre><code>from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
+
+# Create a matrix of player stats
+player_stats = np.array([
+    [0.300, 40, 120],
+    [0.280, 35, 110],
+    [0.320, 45, 130],
+    [0.290, 30, 100]
+])
+
+# Compute cosine similarity between each pair of players
+similarity_matrix = cosine_similarity(player_stats)
+
+# Identify players with similar performance profiles
+similar_players = np.argsort(similarity_matrix[0])[-2:]
+</code></pre>
+<p>In this example, we create a matrix of player stats where each row represents a player and each column represents a different category of performance. We then compute the cosine similarity between each pair of players to create a similarity matrix. Finally, we identify the players with the most similar performance profiles to the first player in the matrix.</p>
+<p>Vector search is just one of many tools that can be used to analyze baseball player stats. By leveraging the power of machine learning, we can gain new insights into the game and its history. As the field of sports analytics continues to evolve, we can expect to see even more innovative approaches to analyzing and understanding data in the world of sports.</p>
+
+		</article>
+	</div>
+</article>
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<script>
+			// (adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	</body>
+
+</html>

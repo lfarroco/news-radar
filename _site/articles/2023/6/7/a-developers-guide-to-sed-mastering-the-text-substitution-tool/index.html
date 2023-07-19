@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dev Radar</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/assets/styles.css"/>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./categories.html">Topics</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./archives/page-1.html">Archives</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card" lang="en">
+	<div class="card-body">
+		<article>
+			<header>
+				<h1>A Developer&#92;&#39;s Guide to Sed: Mastering the Text Substitution Tool</h1>
+			</header>
+			<div> | Topics:  
+				
+			</div>
+			<div class="disclaimer"> This article was written by an AI 🤖. The original article can be found <a href="reddit">here</a>. </div>
+			<p>If you&#39;re a developer who works with text files, then you&#39;ve probably heard of sed. Sed is a command-line tool that allows you to perform text substitution, just like the &quot;Find and Replace&quot; feature in GUI editors. While there are newer tools like sd that offer a better user experience, learning sed is still worthwhile for developers who want to have a deeper understanding of text processing.</p>
+<p>At its core, sed is a non-interactive text editor that comes with a built-in Turing machine. This means that you can even run games like Tetris on it! However, mastering sed takes some time, and this guide aims to help you get started with the basics.</p>
+<p>Invocation and Basic Syntax</p>
+<p>The typical invocation of sed is sed SCRIPT FILE. For example, to replace all occurrences of &quot;foo&quot; with &quot;bar&quot; in a file called input.txt, you would use the following command:</p>
+<pre><code>sed &#39;s/foo/bar/g&#39; input.txt
+</code></pre>
+<p>The &quot;s&quot; in the command stands for &quot;substitute&quot;, and the &quot;g&quot; at the end stands for &quot;global&quot;, which means that sed will replace all occurrences of &quot;foo&quot; with &quot;bar&quot; in the file.</p>
+<p>By default, sed prints all processed input, reflecting any modifications made. You can suppress this output with the -n/--quiet/--silent option. In that case, you need to run specific commands to get any output at all, like the &quot;p&quot; command:</p>
+<pre><code>sed -n &#39;s/foo/bar/p&#39; input.txt
+</code></pre>
+<p>Here, the &quot;p&quot; command tells sed to print only the lines that have been modified.</p>
+<p>Commands and Addressing</p>
+<p>A sed script consists of one or more commands that follow the basic syntax [addr]x[options]. The &quot;addr&quot; part specifies the lines to which the command applies, and the &quot;x&quot; part specifies the action to be performed. For example, the command:</p>
+<pre><code>3s/foo/bar/g
+</code></pre>
+<p>will search for the word &quot;foo&quot; on line 3 and replace it with &quot;bar&quot;. You can also specify a range of lines by separating two addresses with a comma. For example, the command:</p>
+<pre><code>2,5s/foo/bar/g
+</code></pre>
+<p>will replace all occurrences of &quot;foo&quot; with &quot;bar&quot; on lines 2 through 5.</p>
+<p>Here are some of the most commonly used sed commands:</p>
+<ul>
+<li>&quot;s&quot;: substitute</li>
+<li>&quot;d&quot;: delete</li>
+<li>&quot;p&quot;: print</li>
+<li>&quot;a&quot;: append</li>
+<li>&quot;i&quot;: insert</li>
+</ul>
+<p>For example, the command:</p>
+<pre><code>sed &#39;2,5d&#39; input.txt
+</code></pre>
+<p>will delete lines 2 through 5 from the file.</p>
+<p>Regular Expressions</p>
+<p>One of the most powerful features of sed is its support for regular expressions. Regular expressions allow you to search for patterns in text, rather than just exact matches. Here are some examples of regular expressions that you can use with sed:</p>
+<ul>
+<li>&quot;.&quot; matches any character</li>
+<li>&quot;^&quot; matches the beginning of a line</li>
+<li>&quot;$&quot; matches the end of a line</li>
+<li>&quot;[abc]&quot; matches any of the characters &quot;a&quot;, &quot;b&quot;, or &quot;c&quot;</li>
+<li>&quot;[a-z]&quot; matches any lowercase letter</li>
+<li>&quot;[A-Z]&quot; matches any uppercase letter</li>
+<li>&quot;[0-9]&quot; matches any digit</li>
+</ul>
+<p>For example, the command:</p>
+<pre><code>sed &#39;s/^foo/bar/g&#39; input.txt
+</code></pre>
+<p>will replace all occurrences of &quot;foo&quot; at the beginning of a line with &quot;bar&quot;.</p>
+<p>Conclusion</p>
+<p>Sed is a powerful tool that can help you perform text substitution and processing tasks quickly and efficiently. While it may take some time to master, learning sed is a valuable skill for any developer who works with text files. In this guide, we covered the basics of sed, including its invocation, syntax, commands, addressing, and regular expressions. With this knowledge, you can start using sed to automate your text processing tasks and become a more efficient developer.</p>
+
+		</article>
+	</div>
+</article>
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<script>
+			// (adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	</body>
+
+</html>

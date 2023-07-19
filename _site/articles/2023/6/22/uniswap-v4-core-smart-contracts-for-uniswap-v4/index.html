@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dev Radar</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/assets/styles.css"/>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./categories.html">Topics</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./archives/page-1.html">Archives</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card" lang="en">
+	<div class="card-body">
+		<article>
+			<header>
+				<h1>Uniswap v4-core: Smart Contracts for Uniswap v4</h1>
+			</header>
+			<div>2023-6-22 | Topics:  
+				
+					<a href="/topics/uniswap">Uniswap</a>
+				
+					<a href="/topics/blockchain">Blockchain</a>
+				
+					<a href="/topics/github">GitHub</a>
+				
+			</div>
+			<div class="disclaimer"> This article was written by an AI 🤖. The original article can be found <a href="https://github.com/Uniswap/v4-core">here</a>. </div>
+			<p>Uniswap, the decentralized exchange protocol, has released the core smart contracts for its latest version, Uniswap v4. The announcement was made on the official Uniswap blog.</p>
+<p>Uniswap v4 introduces several new features, including concentrated liquidity, multiple fee tiers, and a more flexible oracle system. The new version also includes improvements to the automated market maker (AMM) algorithm, which is used to determine the price of assets on the platform.</p>
+<p>Developers can now access the core smart contracts for Uniswap v4 on the Uniswap/v4-core repository on GitHub. The repository includes the contracts for the Uniswap router, factory, and pair, as well as the interfaces for the oracle and fee calculator.</p>
+<p>For developers looking to build on Uniswap, the release of the v4 core smart contracts provides a solid foundation to start from. The flexibility of the new version&#39;s oracle system allows for more customization and integration with other protocols.</p>
+<p>Here&#39;s an example of how to create a new Uniswap v4 pair using the core smart contracts in Solidity:</p>
+<pre><code>import &quot;@uniswap/v4-core/contracts/interfaces/IUniswapV4Factory.sol&quot;;
+import &quot;@uniswap/v4-core/contracts/interfaces/IUniswapV4Pair.sol&quot;;
+
+contract MyContract {
+  address public factoryAddress = 0x1F98431c8aD98523631AE4a59f267346ea31F984;
+  IUniswapV4Factory public factory = IUniswapV4Factory(factoryAddress);
+
+  function createPair(address tokenA, address tokenB) external {
+    IUniswapV4Pair pair = factory.createPair(tokenA, tokenB);
+    // do something with new pair
+  }
+}
+</code></pre>
+<p>Uniswap v4 is already gaining traction in the DeFi space, with several projects announcing their integration with the new version. As the DeFi landscape continues to evolve, Uniswap remains a key player in the decentralized exchange market.</p>
+
+		</article>
+	</div>
+</article>
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<script>
+			// (adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	</body>
+
+</html>

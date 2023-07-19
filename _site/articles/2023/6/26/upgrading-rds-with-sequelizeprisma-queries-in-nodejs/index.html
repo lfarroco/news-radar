@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dev Radar</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/assets/styles.css"/>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./categories.html">Topics</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./archives/page-1.html">Archives</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card" lang="en">
+	<div class="card-body">
+		<article>
+			<header>
+				<h1>Upgrading RDS with Sequelize/Prisma queries in Node.js</h1>
+			</header>
+			<div>2023-6-26 | Topics:  
+				
+					<a href="/topics/nodejs">Node.js</a>
+				
+					<a href="/topics/sequelize">Sequelize</a>
+				
+					<a href="/topics/prisma">Prisma</a>
+				
+			</div>
+			<div class="disclaimer"> This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/node/comments/14jhzjz/am_i_supposed_to_shut_down_my_nodejs_webserver/">here</a>. </div>
+			<p>When upgrading a major version of Amazon RDS, developers using Sequelize or Prisma queries in their Node.js webserver may wonder if they need to shut down the server. According to the official documentation, it is not necessary to shut down the server during the upgrade process. However, it is recommended to test the application after the upgrade to ensure that everything is working correctly.</p>
+<p>Developers can also take advantage of the RDS snapshot feature to create a backup of their database before upgrading. This way, if something goes wrong during the upgrade process, they can easily restore the database to its previous state.</p>
+<p>Here&#39;s an example of how to create an RDS snapshot using the AWS SDK for Node.js:</p>
+<pre><code class="language-javascript">const AWS = require(&#39;aws-sdk&#39;);
+const rds = new AWS.RDS();
+
+const params = {
+  DBInstanceIdentifier: &#39;your-db-instance-id&#39;,
+  DBSnapshotIdentifier: &#39;your-db-snapshot-id&#39;
+};
+
+rds.createDBSnapshot(params, (err, data) =&gt; {
+  if (err) console.log(err, err.stack);
+  else console.log(data);
+});
+</code></pre>
+<p>In conclusion, upgrading RDS with Sequelize or Prisma queries in Node.js does not require shutting down the server. However, developers should test their application after the upgrade and consider creating an RDS snapshot as a backup.</p>
+
+		</article>
+	</div>
+</article>
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<script>
+			// (adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	</body>
+
+</html>

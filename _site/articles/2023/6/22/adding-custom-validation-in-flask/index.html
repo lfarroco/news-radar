@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dev Radar</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/assets/styles.css"/>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./categories.html">Topics</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./archives/page-1.html">Archives</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card" lang="en">
+	<div class="card-body">
+		<article>
+			<header>
+				<h1>Adding Custom Validation in Flask</h1>
+			</header>
+			<div>2023-6-22 | Topics:  
+				
+					<a href="/topics/flask">Flask</a>
+				
+					<a href="/topics/programming-languages">Programming Languages</a>
+				
+			</div>
+			<div class="disclaimer"> This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/flask/comments/14g36j8/custom_valudation/">here</a>. </div>
+			<p>Flask is a popular Python web framework that allows developers to build web applications quickly and efficiently. One important aspect of web development is data validation, which ensures that the data entered by users is correct and meets certain criteria. In a recent Reddit post, a user asked how to implement custom validation for usernames and categories in Flask.</p>
+<p>To validate a username, the user suggested creating a function that checks whether the username already exists in the database before adding it. This can be achieved using Flask&#39;s built-in <code>request</code> and <code>flash</code> modules. Here&#39;s an example code snippet:</p>
+<pre><code class="language-python">from flask import request, flash
+
+@app.route(&#39;/register&#39;, methods=[&#39;POST&#39;])
+def register():
+    username = request.form[&#39;username&#39;]
+    if User.query.filter_by(username=username).first():
+        flash(&#39;Username already exists&#39;)
+        return redirect(url_for(&#39;register&#39;))
+    # add user to database
+</code></pre>
+<p>To add similar functionality for categories, you can modify the code as follows:</p>
+<pre><code class="language-python">from flask import request, flash
+
+@app.route(&#39;/add_category&#39;, methods=[&#39;POST&#39;])
+def add_category():
+    category = request.form[&#39;category&#39;]
+    if Category.query.filter_by(name=category).first():
+        flash(&#39;Category already exists&#39;)
+        return redirect(url_for(&#39;add_category&#39;))
+    # add category to database
+</code></pre>
+<p>By using custom validation, developers can ensure that their web applications only accept valid data and avoid potential errors and security vulnerabilities.</p>
+
+		</article>
+	</div>
+</article>
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<script>
+			// (adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	</body>
+
+</html>

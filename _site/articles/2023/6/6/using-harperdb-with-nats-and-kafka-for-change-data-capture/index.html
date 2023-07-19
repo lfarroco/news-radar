@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dev Radar</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/assets/styles.css"/>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./categories.html">Topics</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./archives/page-1.html">Archives</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card" lang="en">
+	<div class="card-body">
+		<article>
+			<header>
+				<h1>Using HarperDB with NATS and Kafka for Change Data Capture</h1>
+			</header>
+			<div>2023-6-6 | Topics:  
+				
+					<a href="/topics/harperdb">HarperDB</a>
+				
+					<a href="/topics/nats">NATS</a>
+				
+					<a href="/topics/kafka">Kafka</a>
+				
+			</div>
+			<div class="disclaimer"> This article was written by an AI 🤖. The original article can be found <a href="https://www.harperdb.io/post/streaming-harperdb-records-with-nats-and-kafka">here</a>. </div>
+			<p>Change Data Capture (CDC) is a popular design pattern used to track changes in data from a source database and stream those changes to downstream processes. HarperDB, a clustering engine and custom functions database, can be used to implement CDC. In this tutorial, we’ll see how to utilize the internal NATS streaming service and the Fastify Kafka plugin to publish new records to Kafka.</p>
+<p>HarperDB Setup
+To start, spin up HarperDB with custom functions enabled alongside Kafka and Zookeeper. Add the following contents to <code>docker-compose.yml</code>:</p>
+<pre><code>version: &quot;3.7&quot;
+
+services:
+  harperdb:
+    image: harperdb/hdb:v2.3.3
+    ports:
+      - &quot;9925:9925&quot;
+      - &quot;9926:9926&quot;
+    volumes:
+      - ./harperdb:/opt/hdb-data
+      - ./harperdb/custom_functions:/opt/hdb/custom_functions
+    environment:
+      - HDB_LICENSE_KEY=YOUR_LICENSE_KEY
+      - HDB_CUSTOM_FUNCTIONS_ENABLED=true
+      - HDB_KAFKA_ENABLED=true
+      - HDB_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - HDB_KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - HDB_NATS_ENABLED=true
+      - HDB_NATS_URL=nats://nats:4222
+      - HDB_NATS_CLUSTER_ID=test-cluster
+      - HDB_NATS_CLIENT_ID=test-client
+    depends_on:
+      - kafka
+      - zookeeper
+      - nats
+
+  kafka:
+    image: wurstmeister/kafka
+    ports:
+      - &quot;9092:9092&quot;
+    environment:
+      - KAFKA_ADVERTISED_HOST_NAME=kafka
+      - KAFKA_CREATE_TOPICS=test:1:1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - &quot;2181:2181&quot;
+</code></pre>
+<p>For this example, we’ll store the database contents locally in <code>./harperdb</code> directory. Also, note that we are not specifying <code>CLUSTERING_ENABLED=true</code> in docker-compose. This will break the initial startup, and we’ll configure via Harper Studio console.</p>
+<p>Start up the services via <code>docker-compose up -d</code>.</p>
+<p>Now we need to connect our local instance to Harper Studio. Specify the username and password from the docker compose file as well as port and host.</p>
+<p>After we log in, we can create a cluster user:</p>
+<pre><code>CREATE USER cluster_user WITH PASSWORD &#39;password&#39;;
+GRANT CLUSTER_ADMIN TO cluster_user;
+</code></pre>
+<p>Finally, let’s create a schema and table. We’ll use our favorite <code>dev</code> schema and <code>dog</code> table respectively.</p>
+<p>Custom Functions Setup
+HarperDB has an existing template utilizing the internal NATS stream and publishing to WebSockets: ​​<a href="https://github.com/HarperDB-Add-Ons/cf-template-websockets">https://github.com/HarperDB-Add-Ons/cf-template-websockets</a></p>
+<p>We will modify this setup to publish to Kafka. But first, clone this repo into the <code>custom_function</code> directory of your HarperDB instance.</p>
+<pre><code>cd harperdb/custom_functions
+git clone https://github.com/HarperDB-Add-Ons/cf-template-websockets.git
+</code></pre>
+<p>To get this working, rename <code>config.json.example</code> to <code>config.json</code> and update our NATS user and pass to one we created via HarperDB Studio. Finally, run <code>npm i</code> to install the dependencies.</p>
+<p>NOTE: HarperDB Studio cannot parse file names with multiple “.” so it may say “File does not exist”. Simply rename the files if you want to see the file contents on the console.</p>
+<p>Now restart HarperDB, and we can use the example client file (<code>client.example.js</code>) to test the WebSocket connection.</p>
+<p>Once we start this function, we should see the message “open!” and adding new records to our <code>dog</code> table will print out the records.</p>
+<p>Modifying to Publish to Kafka
+Instead of publishing messages back to the WebSocket client, let’s now publish JSON messages to Kafka. To do so, install the Fastify Kafka library: <code>npm i fastify-kafkajs</code>.</p>
+<p>Then we can import and register the Kafka client.</p>
+<pre><code>const fastify = require(&#39;fastify&#39;)({ logger: true })
+const { Kafka } = require(&#39;kafkajs&#39;)
+
+fastify.register(require(&#39;fastify-kafkajs&#39;), {
+  clientId: &#39;my-app&#39;,
+  brokers: [&#39;localhost:9092&#39;]
+})
+</code></pre>
+<p>We can now simply modify the <code>onPublishedMessage</code> function to publish to Kafka instead of writing back to the socket:</p>
+<pre><code>const kafka = fastify.kafka()
+const producer = kafka.producer()
+
+async function onPublishedMessage(message) {
+  const { operation, table, record } = message
+  const key = `${table}_${record.id}`
+  const value = JSON.stringify(record)
+  await producer.send({
+    topic: table,
+    messages: [{ key, value }],
+  })
+}
+</code></pre>
+<p>Now restart the server and connect to our WebSocket client again. Publish another message to HarperDB, and we can check that it has been published to Kafka by sshing into the Kafka container and using the <code>kafka-console-consumer</code> binary:</p>
+<pre><code>docker exec -it kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic dog --from-beginning
+</code></pre>
+<p>Wrapping Up
+In this tutorial, we saw how to use the internal NATS stream to listen to changes to data in HarperDB. We then created a Fastify route to subscribe to those tables and publish those new messages to WebSockets and Kafka. You can modify the <code>onPublishedMessage</code> method to publish to multiple topics and also run this WebSocket client in the background to emulate a Debezium-like experience.</p>
+<p>Get Started With HarperDB
+HarperDB is a powerful database that can be used for a variety of use cases. Whether you need to implement CDC or build a real-time application, HarperDB has the features you need. To learn more, check out the HarperDB documentation and start building today.</p>
+
+		</article>
+	</div>
+</article>
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<script>
+			// (adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	</body>
+
+</html>

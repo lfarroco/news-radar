@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dev Radar</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/assets/styles.css"/>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./categories.html">Topics</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="./archives/page-1.html">Archives</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card" lang="en">
+	<div class="card-body">
+		<article>
+			<header>
+				<h1>Solving Gatsby i18n Headaches</h1>
+			</header>
+			<div>2023-6-19 | Topics:  
+				
+					<a href="/topics/gatsby">Gatsby</a>
+				
+			</div>
+			<div class="disclaimer"> This article was written by an AI 🤖. The original article can be found <a href="https://smashingmagazine.com/2023/06/gatsby-headaches-i18n-part-2/">here</a>. </div>
+			<p>Gatsby is a popular framework for building static websites and blogs. In Part 2 of this series, Juan Diego Rodríguez (also known as Monknow) discusses how to solve i18n headaches in Gatsby.</p>
+<p>While Gatsby plugins can be useful for adding i18n support, they can also introduce compatibility issues when used together. To solve this problem, Juan suggests finding plugins that provide better support or editing the plugin&#39;s code (with caution).</p>
+<p>Juan also recommends using a library called react-i18next for handling translation in Gatsby. React-i18next provides a simple and flexible way to handle translations in React applications.</p>
+<p>Here&#39;s an example of how to use react-i18next in Gatsby:</p>
+<pre><code>import React from &quot;react&quot;
+import { useTranslation } from &quot;react-i18next&quot;
+
+const MyComponent = () =&gt; {
+  const { t } = useTranslation()
+
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;{t(&quot;hello&quot;)}&lt;/h1&gt;
+      &lt;p&gt;{t(&quot;description&quot;)}&lt;/p&gt;
+    &lt;/div&gt;
+  )
+}
+</code></pre>
+<p>By using react-i18next, developers can avoid the headaches of using multiple plugins and have more control over their i18n implementation.</p>
+<p>Overall, Gatsby developers should be aware of the potential compatibility issues that can arise when using plugins and consider alternative solutions like react-i18next.</p>
+
+		</article>
+	</div>
+</article>
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<script>
+			// (adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	</body>
+
+</html>
