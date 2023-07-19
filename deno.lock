@@ -1,10 +1,6 @@
 {
   "version": "2",
   "remote": {
-<<<<<<< HEAD
-=======
-    "https://cdn.jsdelivr.net/npm/marked@latest/lib/marked.esm.js": "cfc7fb07ba966beed6f21b3192bd9cbffd59ed9f2731264f8684a0d8c93b20e0",
->>>>>>> main
     "https://deno.land/std@0.160.0/_util/assert.ts": "e94f2eb37cebd7f199952e242c77654e43333c1ac4c5c700e929ea3aa5489f74",
     "https://deno.land/std@0.160.0/_util/os.ts": "8a33345f74990e627b9dfe2de9b040004b08ea5146c7c9e8fe9a29070d193934",
     "https://deno.land/std@0.160.0/async/abortable.ts": "87aa7230be8360c24ad437212311c9e8d4328854baec27b4c7abb26e85515c06",
@@ -315,25 +311,14 @@
     "https://deno.land/x/lume@v1.18.1/middlewares/reload.ts": "1162ee5fc3c7e1f6b5fb3da73a648fc71f0a64d30ca48f05ed066c8cb80adbb6",
     "https://deno.land/x/lume@v1.18.1/middlewares/reload_client.js": "34d75e01503fae8180796de882af42b1125fac88f22a010a99d5548de1ba7d72",
     "https://deno.land/x/lume@v1.18.1/mod.ts": "829abdd9fe45f04a6db27caa9e3bcc7f72b65c3810b67ad498582bc05b5e743d",
-<<<<<<< HEAD
     "https://deno.land/x/lume@v1.18.1/plugins/json.ts": "ca6bf1bc6d42639f7bdf581dc9318832d8c2eaf83ae3ecdab6f02dfc738896bf",
     "https://deno.land/x/lume@v1.18.1/plugins/markdown.ts": "31a27f73ed3c79c6c87808ef9e4343c0bbbf896220ee97e88dad4474f091fb39",
-=======
-    "https://deno.land/x/lume@v1.18.1/plugins/base_path.ts": "0241df3cf2696eed446ca8c983d2c2ca36ae57bd46fb2c6d92f582c1909b095b",
-    "https://deno.land/x/lume@v1.18.1/plugins/json.ts": "ca6bf1bc6d42639f7bdf581dc9318832d8c2eaf83ae3ecdab6f02dfc738896bf",
-    "https://deno.land/x/lume@v1.18.1/plugins/markdown.ts": "31a27f73ed3c79c6c87808ef9e4343c0bbbf896220ee97e88dad4474f091fb39",
-    "https://deno.land/x/lume@v1.18.1/plugins/modify_urls.ts": "6c3970b525beb9704499528a428f29f3b76cb1d334ec8d6d5a3f75ff2567e886",
->>>>>>> main
     "https://deno.land/x/lume@v1.18.1/plugins/modules.ts": "d31ababab5e35b47fc207685765c9431ddc7bec019061e18b1d36f527e13029d",
     "https://deno.land/x/lume@v1.18.1/plugins/nunjucks.ts": "630f49fac50046f82de2471a1410e47437a5350ee559dc53d804aeb743af977b",
     "https://deno.land/x/lume@v1.18.1/plugins/paginate.ts": "e997b33da12da9d68b72d0c7615ec49d0e187012e8ffc78dac2b558edf27f795",
     "https://deno.land/x/lume@v1.18.1/plugins/search.ts": "af3ea229915f3580962c9da6be33ca8e639b8444ce8604769968afd731b9dd3c",
     "https://deno.land/x/lume@v1.18.1/plugins/url.ts": "43d3d47896a7322a8dd34572dedb4baa6f73a382594a2ff7c34a3a064dcc6c9e",
     "https://deno.land/x/lume@v1.18.1/plugins/yaml.ts": "df24aac4098dba258f1ac331a3b16ba488a336eb63c51afed8f59201228d583c",
-<<<<<<< HEAD
-=======
-    "https://deno.land/x/marked@1.0.1/mod.ts": "25a04e7c3512622293d84b7287711b990562ce41e44f7fb55af9ca1586e57b15",
->>>>>>> main
     "https://deno.land/x/postgres@v0.17.0/client.ts": "348779c9f6a1c75ef1336db662faf08dce7d2101ff72f0d1e341ba1505c8431d",
     "https://deno.land/x/postgres@v0.17.0/client/error.ts": "0817583b666fd546664ed52c1d37beccc5a9eebcc6e3c2ead20ada99b681e5f7",
     "https://deno.land/x/postgres@v0.17.0/connection/auth.ts": "1070125e2ac4ca4ade36d69a4222d37001903092826d313217987583edd61ce9",
