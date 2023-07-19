@@ -29,7 +29,7 @@ export const rss = async (url: string, topics: string[], hasContent = false): Pr
 
   const feed = await parseFeed(xml);
 
-  const ops = feed.entries.map(async (item) => {
+  const ops = feed.entries.map(async (item: any) => {
 
     const title: string = (topics.toString()) + " - " + item.title.value;
     const link: string = item.links[0].href;
