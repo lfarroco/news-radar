@@ -260,6 +260,8 @@
     "https://deno.land/x/deno_dom@v0.1.38/src/dom/utils-types.ts": "96db30e3e4a75b194201bb9fa30988215da7f91b380fca6a5143e51ece2a8436",
     "https://deno.land/x/deno_dom@v0.1.38/src/dom/utils.ts": "55f3e9dc71d6c4a54605888d3f99d26fb0cf9973924709f159252a6933ceeabe",
     "https://deno.land/x/deno_dom@v0.1.38/src/parser.ts": "b65eb7e673fa7ca611de871de109655f0aa9fa35ddc1de73df1a5fc2baafc332",
+    "https://deno.land/x/dotenv@v3.2.2/mod.ts": "077b48773de9205266a0b44c3c3a3c3083449ed64bb0b6cc461b95720678d38e",
+    "https://deno.land/x/dotenv@v3.2.2/util.ts": "693730877b13f8ead2b79b2aa31e2a0652862f7dc0c5f6d2f313f4d39c7b7670",
     "https://deno.land/x/lume@v1.18.1/cli.ts": "0abaeb7a2fc59e1ec0f6742485a3df599e36263894cf622e3f606eb326e827bb",
     "https://deno.land/x/lume@v1.18.1/cli/build.ts": "eda0271fc01685951c01961e19b5eca64f7fabfe6777a4caf670077a1481d44a",
     "https://deno.land/x/lume@v1.18.1/cli/create.ts": "3b5ed82e4c81858b53f929502ab3dc7c3e2f63be80c1d41011bc566442bbb4e9",

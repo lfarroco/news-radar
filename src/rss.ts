@@ -1,5 +1,6 @@
 import { client } from './db.ts';
 import { parseFeed } from './deps.ts';
+import { slugify } from './utils.ts';
 
 const restrictedDomains = [
   'youtube.com',
@@ -64,14 +65,21 @@ export const rss = async (url: string, topics: string[], hasContent = false): Pr
            ON CONFLICT (link) DO NOTHING;
           `,
 
-      [title, link, url, date, 'pending', hasContent ? description : ''],
+      [
+        title,
+        link,
+        url,  // source
+        date,
+        hasContent ? 'scraped' : 'pending',  // status
+        hasContent ? description : '' // original
+      ],
     );
 
     const ops = topics.map(async (topic) => {
 
       await client.queryArray(
-        `INSERT INTO topics (name) VALUES ($1::text) ON CONFLICT (name) DO NOTHING;`,
-        [topic],
+        `INSERT INTO topics (name, slug) VALUES ($1::text, $2::text) ON CONFLICT (name) DO NOTHING;`,
+        [topic, slugify(topic)],
       );
 
       await client.queryArray(

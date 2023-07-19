@@ -87,7 +87,7 @@ async function processBatch(batch: Article[]) {
     if (!found) {
       console.log(`rejecting item ${item.id}`);
       await client.queryArray(
-        'UPDATE info SET status = $1::varchar(32) WHERE id = $2::int;',
+        'UPDATE info SET status = $1::text WHERE id = $2::int;',
         ['rejected', item.id],
       );
     }
