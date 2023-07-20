@@ -5,6 +5,8 @@
     "serve": "deno task lume -s"
   },
   "imports": {
-    "lume/": "https://deno.land/x/lume@v1.18.1/"
+    "lume/": "https://deno.land/x/lume@v1.18.1/",
+    "postgres": "https://deno.land/x/postgres@v0.17.0/mod.ts",
+    "rss": "https://deno.land/x/postgres@v0.17.0/mod.ts"
   }
 }
