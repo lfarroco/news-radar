@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+		</style>
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<ins class="adsbygoogle" data-ad-client="ca-pub-2361701055964881" data-ad-slot="9315501947" data-ad-format="auto" data-full-width-responsive="true"></ins>
+
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">Analyzing JavaScript Snippet Dependencies with Babel</h1>
+		<div>
+			<small>2023/06/08</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://kabirgoel.com/p/parse-deps" target="_blank"> here</a>.
+
+
+		</div>
+		<p>JavaScript is a versatile language that can be used in various ways, including building apps using a spreadsheet-like system called Smoothie. Smoothie allows you to write arbitrary JavaScript snippets that can reference other cells. However, to evaluate these expressions, we need to ensure that all the necessary variables are in scope.</p>
+<p>In this article, we will explore how to parse out the dependencies of a snippet of code using Babel, a popular JavaScript compiler. We will start by understanding the problem and then dive into the details of how Babel can help us solve it.</p>
+<p>Understanding the Problem
+Parsing out the dependencies of a snippet of code is not as simple as splitting it on spaces and collecting the parts that look like identifiers. This approach breaks down on complex code, where variables can be defined in different scopes and contexts.</p>
+<p>Consider the following example:</p>
+<p>const sum = (a, b) =&gt; Promise.resolve(a + parseInt(b));</p>
+<p>This snippet takes two arguments, a and b, and returns a Promise that resolves to the sum of a and the parsed integer value of b. If we were to use a simple split-and-collect approach, we would only capture the identifiers a and b, but not parseInt or Promise.</p>
+<p>To solve this problem, we can use Babel to parse the code and extract the dependencies. Babel is a popular JavaScript compiler that can parse and transform JavaScript code. It can also be used as a library to parse and analyze code without transforming it.</p>
+<p>Using Babel to Analyze Dependencies
+To use Babel to analyze the dependencies of a JavaScript snippet, we need to install the @babel/parser package. We can then use the parse function to parse the code and generate an abstract syntax tree (AST) that represents the code's structure.</p>
+<p>Here's an example of how we can use Babel to parse the sum function and extract its dependencies:</p>
+<p>const babelParser = require('@babel/parser');</p>
+<p>const code = <code>const sum = (a, b) =&gt; Promise.resolve(a + parseInt(b));</code>;</p>
+<p>const ast = babelParser.parse(code);</p>
+<p>const dependencies = new Set();</p>
+<p>ast.program.body.forEach(node =&gt; {
+if (node.type === 'ImportDeclaration') {
+node.specifiers.forEach(specifier =&gt; {
+dependencies.add(specifier.local.name);
+});
+} else if (node.type === 'VariableDeclaration') {
+node.declarations.forEach(declaration =&gt; {
+const { name } = declaration.id;
+dependencies.add(name);
+});
+} else if (node.type === 'FunctionDeclaration') {
+const { name } = node.id;
+dependencies.add(name);
+}
+});</p>
+<p>console.log(dependencies);</p>
+<p>In this example, we use Babel to parse the code and generate an AST. We then traverse the AST and extract the dependencies by looking for import declarations, variable declarations, and function declarations.</p>
+<p>Conclusion
+In conclusion, using Babel to analyze the dependencies of a JavaScript snippet can help us ensure that all the necessary variables are in scope. By generating an AST and traversing it, we can extract the dependencies and use them to evaluate the code.</p>
+<p>As developers, it's essential to keep up with the latest tools and techniques to improve our workflow and productivity. Babel is a powerful tool that can help us write better code and catch errors early on.</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<link rel="stylesheet" href="/styles.css"/>
+	</body>
+
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+		</style>
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<ins class="adsbygoogle" data-ad-client="ca-pub-2361701055964881" data-ad-slot="9315501947" data-ad-format="auto" data-full-width-responsive="true"></ins>
+
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">Style Variants: A Solution for Dynamic and Reusable Styles in React Native</h1>
+		<div>
+			<small>2023/06/09</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/oktaysenkan/style-variants" target="_blank"> here</a>.
+
+
+		</div>
+		<p>Style Variants is a powerful and easy-to-use solution for creating dynamic and reusable styles in React Native applications. It helps developers build consistent UI components with predefined styles and variants that are easy to maintain and update.</p>
+<p>To install the package, developers can use the following command:</p>
+<pre><code>npm install style-variants
+</code></pre>
+<p>Once installed, developers can define style variants for their custom components and apply them dynamically based on their desired behavior. For example, to create style variants for a Button component with multiple size and color variants, and a disabled state, developers can use the following code snippet:</p>
+<pre><code>import { createStyleVariant } from 'style-variants';
+
+const Button = ({ size, color, disabled, children }) =&gt; {
+  const styleVariant = createStyleVariant({
+    base: {
+      borderRadius: 8,
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+      backgroundColor: color,
+      color: '#fff',
+      fontSize: 16,
+      fontWeight: 'bold',
+      textAlign: 'center',
+    },
+    size: {
+      small: {
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        fontSize: 14,
+      },
+      large: {
+        paddingVertical: 16,
+        paddingHorizontal: 20,
+        fontSize: 18,
+      },
+    },
+    disabled: {
+      opacity: 0.5,
+    },
+  }, { size, color, disabled });
+
+  return (
+    &lt;TouchableOpacity style={styleVariant}&gt;
+      {children}
+    &lt;/TouchableOpacity&gt;
+  );
+};
+</code></pre>
+<p>With Style Variants, developers can easily create and apply style variants to their components, making their code more organized and easier to maintain.</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<link rel="stylesheet" href="/styles.css"/>
+	</body>
+
+</html>

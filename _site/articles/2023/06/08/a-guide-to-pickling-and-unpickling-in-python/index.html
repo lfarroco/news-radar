@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+		</style>
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<ins class="adsbygoogle" data-ad-client="ca-pub-2361701055964881" data-ad-slot="9315501947" data-ad-format="auto" data-full-width-responsive="true"></ins>
+
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">A Guide to Pickling and Unpickling in Python</h1>
+		<div>
+			<small>2023/06/08</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://programmingeeksclub.com/how-to-pickle-and-unpickle-objects-in-python-a-complete-guide/" target="_blank"> here</a>.
+
+
+		</div>
+		<p>Python is a popular programming language that is widely used for various purposes, including web development, data analysis, and machine learning. One of the features that make Python a versatile language is its ability to pickle and unpickle objects. In this article, we will explore what pickling and unpickling are, how they work, and how you can use them in your Python projects.</p>
+<p>What is Pickling and Unpickling in Python?
+Pickling is the process of converting a Python object into a byte stream, which can be stored in a file, a database, or sent over a network. Unpickling is the reverse process of converting a byte stream back into a Python object. Pickling and unpickling are useful when you want to save or transfer a complex Python object, such as a list, a dictionary, a class, or a function, without losing its attributes and behaviors.</p>
+<p>How Does Pickling and Unpickling Work?
+Python provides a built-in module called pickle that implements pickling and unpickling. The pickle module uses a protocol to serialize and deserialize Python objects. The protocol determines the format of the byte stream and the level of compatibility between different versions of Python. The current protocol version is 5, which is compatible with Python 3.10 and later.</p>
+<p>To pickle an object, you can use the dump() function of the pickle module, which writes the byte stream to a file or a stream. Here's an example:</p>
+<pre><code>import pickle
+
+data = {'name': 'Alice', 'age': 25, 'hobbies': ['reading', 'traveling']}
+with open('data.pickle', 'wb') as f:
+    pickle.dump(data, f)
+</code></pre>
+<p>This code creates a dictionary called <code>data</code> that contains some personal information about a person. Then, it opens a file called <code>data.pickle</code> in binary mode and uses the dump() function to pickle the data and write it to the file.</p>
+<p>To unpickle an object, you can use the load() function of the pickle module, which reads the byte stream from a file or a stream and returns the corresponding Python object. Here's an example:</p>
+<pre><code>import pickle
+
+with open('data.pickle', 'rb') as f:
+    data = pickle.load(f)
+print(data)
+</code></pre>
+<p>This code opens the same file <code>data.pickle</code> in binary mode and uses the load() function to unpickle the data and assign it to a variable called <code>data</code>. Then, it prints the contents of the data, which should be the same as the original dictionary.</p>
+<p>Tips for Using Pickling and Unpickling in Python
+Here are some tips for using pickling and unpickling effectively and safely in your Python projects:</p>
+<ul>
+<li>Use pickling and unpickling only for trusted data sources, as unpickling can execute arbitrary code and pose a security risk.</li>
+<li>Use the latest protocol version that is compatible with your Python version, as it provides better performance and security.</li>
+<li>Avoid pickling large or complex objects, as they can consume a lot of memory and cause performance issues.</li>
+<li>Use compression to reduce the size of the byte stream, especially when transferring over a network or storing in a database.</li>
+<li>Use a context manager to ensure that the file or stream is properly closed after pickling or unpickling.</li>
+</ul>
+<p>Conclusion
+Pickling and unpickling are powerful features of Python that allow you to save and transfer complex objects easily and efficiently. By understanding how pickling and unpickling work and following some best practices, you can use these features effectively and safely in your Python projects.</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<link rel="stylesheet" href="/styles.css"/>
+	</body>
+
+</html>
