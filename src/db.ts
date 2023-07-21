@@ -29,12 +29,13 @@ export async function getLatestArticles() {
 
   return rows.map(r => {
 
-    const parsed = JSON.parse(r.article);
+    const { title } = JSON.parse(r.article);
     const formattedDate = r.date.toISOString().split('T')[0].replace(/-/g, '/');
     return {
       ...r,
-      url: `/articles/${formattedDate}/${slugify(parsed.title)}/`,
+      url: `/articles/${formattedDate}/${slugify(title)}/`,
       formattedDate,
+      title
     }
   })
 }
@@ -54,11 +55,11 @@ export async function getLatestArticlesByTopic(topic: string) {
 
   return rows.map(row => {
 
-    const parsed = JSON.parse(row.article);
+    const { article, title } = JSON.parse(row.article);
     const formattedDate = row.date.toISOString().split('T')[0].replace(/-/g, '/');
-    const url = `/articles/${formattedDate}/${slugify(parsed.title)}/`;
+    const url = `/articles/${formattedDate}/${slugify(title)}/`;
 
-    return { ...row, formattedDate, title: parsed.title, article: parsed.article, url }
+    return { ...row, formattedDate, title: title, article: article, url }
 
   })
 }
