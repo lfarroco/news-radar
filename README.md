@@ -1,6 +1,8 @@
 
 # News Radar
 
+This is an experiment on using AI to generate news articles.
+
 Steps:
 
 1 - Scanner Collects top items in a given URL Results are stored in a database and each item is marked as "pending"
@@ -37,10 +39,3 @@ with scraped: -> write -> (status=written)
 
 with written: -> publish -> (status=published)
 
-
-Ideas:
-- if an article is too big to be sent to chatgpt, use a summarizer to reduce the size or use a slice of the article (it should be able to understand the context with just the initial chunk)
-
-TODO:
-- remove title column
-- rename info table to articles
