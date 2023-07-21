@@ -83,7 +83,7 @@ retry-scrape:
 	docker exec -it news-radar_postgres_1 psql -U root -c "UPDATE info SET status = 'approved' WHERE status = 'error-scraping';"
 
 dump-db:
-	docker exec -it news-radar_postgres_1 pg_dump -U root > seed.sql
+	docker exec -it news-radar_postgres_1 pg_dump --schema-only -U root > seed.sql
 
 dump-csv:
 	docker exec -it news-radar_postgres_1 psql -U root -c "\copy (SELECT * FROM article_topic) TO '/tmp/at.csv' DELIMITER ',' CSV HEADER;"
