@@ -10,7 +10,7 @@ export default async function* () {
 		url: `/topics/`,
 		topics: topics.map(t => ({
 			...t,
-			url: `/topics/${slugify(t.name)}/`,
+			url: `/topics/${t.slug}/`,
 		}))
 	}
 }

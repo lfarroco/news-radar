@@ -69,12 +69,12 @@ export async function getTopicsList() {
   if (!client)
     await connect("localhost", 15432);
 
-  const { rows } = await client.queryObject<{ topic_id: number, name: string; article_count: number }>(`
-    SELECT topic_id, topics.name, count(info.id) as article_count FROM article_topic 
+  const { rows } = await client.queryObject<{ topic_id: number, name: string; article_count: number; slug: string; }>(`
+    SELECT topic_id, topics.slug, topics.name, count(info.id) as article_count FROM article_topic 
     INNER join info ON info.id = article_id
     INNER join topics ON topics.id = topic_id
     WHERE info.status = 'published'
-    GROUP BY topic_id, topics.name
+    GROUP BY topic_id, topics.name, topics.slug
     ORDER BY article_count DESC
     `);
 
