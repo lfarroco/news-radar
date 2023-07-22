@@ -1,5 +1,7 @@
 # News Radar
 
+https://dev-radar.com/
+
 This is an experiment on using AI to generate news articles.
 
 The system collects programming news from multiple sources, selects the relevant
