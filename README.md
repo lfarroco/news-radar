@@ -2,6 +2,18 @@
 
 This is an experiment on using AI to generate news articles.
 
+The system collects programming news from multiple sources, selects the relevant
+items and summarizes them.
+
+You can add your own sources and run it locally and adjust the prompts to try to
+create the perfectly unbiased tech journalist!
+
+You need to create a `.env` file with your OpenAI key, in this format
+
+```
+OPENAI_API_KEY=sk-...
+```
+
 ### Steps:
 
 1 - Scanner Collects top items in a given URL Results are stored in a database
