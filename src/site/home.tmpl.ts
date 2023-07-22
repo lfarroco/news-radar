@@ -14,6 +14,7 @@ export default async function* () {
 	const rust = await getLatestArticlesByTopic('rust');
 	const go = await getLatestArticlesByTopic('go');
 	const node = await getLatestArticlesByTopic('node.js');
+	const ruby = await getLatestArticlesByTopic('ruby');
 
 	yield {
 		url: `/`,
@@ -27,6 +28,7 @@ export default async function* () {
 			{ name: "Go", slug: "go", articles: go, },
 			{ name: "Node.js", slug: "node.js", articles: node, },
 			{ name: "Deno", slug: "deno", articles: deno, },
+			{ name: "Ruby", slug: "ruby", articles: ruby, },
 		]
 
 	};

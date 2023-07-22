@@ -1,41 +1,38 @@
-
 # News Radar
 
 This is an experiment on using AI to generate news articles.
 
-Steps:
+### Steps:
 
-1 - Scanner Collects top items in a given URL Results are stored in a database and each item is marked as "pending"
+1 - Scanner Collects top items in a given URL Results are stored in a database
+and each item is marked as "pending"
 
-2 - Filter candidates
-Picks "pending" items asks chatgpt to identify what 
-are the most relevant ones according to the target audience
+2 - Filter candidates Picks "pending" items asks chatgpt to identify what are
+the most relevant ones according to the target audience
 
-3 - Article Scrapper
-Picks relevant items that were not digested yet and scrapes the article content
-The content is stored in the dataabase
+3 - Article Scrapper Picks relevant items that were not digested yet and scrapes
+the article content The content is stored in the dataabase
 
-4 - Writer
-Feeds chatgpt with the article content and ask it to write a new version
+4 - Writer Feeds chatgpt with the article content and ask it to write a new
+version
 
-5 - Publisher
-Processed items are published to a static website
+5 - Publisher Processed items are published to a static website using Lume
 
-Workflow:
+### Workflow:
 
-scan -> create articles (status=pending)
+scan -> create articles with status=pending
 
-with pending: submit candidates to relevance approval
+candidates -> submit status=pending articles to relevance check
 
-approved ? -> yes -> (status=approved)
-           -> no -> (status=rejected)
+approved ? -> yes -> (status=approved) -> no -> (status=rejected)
 
 with approved: -> try scraping
 
-scraped ? -> yes -> (status=scraped)
-          -> no -> (status=error-scraping)
+scraped ? -> yes -> (status=scraped) -> no -> (status=error-scraping)
 
-with scraped: -> write -> (status=written)
+with scraped: -> write -> (status=published)
 
-with written: -> publish -> (status=published)
+### Running
 
+Running `make run` will perform all the steps and publish the output website to
+`_site`
