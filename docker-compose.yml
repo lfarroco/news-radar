@@ -3,23 +3,13 @@ services:
   # These are the configurations for our Node app
   # When Docker Compose starts this container it will automatically
   # use the Dockerfile in the directory to configure it
-  # app:
-  #   build: .
-  #   # stdin_open: true
-  #   command: deno run -A docker.ts
-  #   depends_on:
-  #     # Our app does not work without our database
-  #     # so this ensures our database is loaded first
-  #     - postgres
-  #   # ports:
-  #   #   - "8080:8080"
-  #   volumes:
-  #     # Maps our current project directory `.` to
-  #     # our working directory in the container
-  #     - ./:/usr/src/app/
-  #     # node_modules workaround for volumes
-  #     # https://stackoverflow.com/a/32785014
-  #     - /usr/src/app/node_modules
+  app:
+    build: .
+    command: deno task build
+    depends_on:
+      - postgres
+    volumes:
+      - ./:/usr/src/app/
 
   # This is the configuration for our PostgreSQL database container
   # Note the `postgres` name is important, in out Node app when we refer
