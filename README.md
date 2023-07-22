@@ -41,3 +41,8 @@ Running `make run` will perform the following steps:
   - scan and write news
   - run static website generator, place generated files under `_site`
 - exit containers
+
+Running `make serve` will build the static website and serve it at port `3000`.
+
+Running `sh cron.sh` will run `make run` every hour and push the updated files
+to the `main` remote branch.

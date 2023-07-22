@@ -5,6 +5,6 @@
     "serve": "deno task lume --config=src/publisher.ts -s"
   },
   "imports": {
-    "lume/": "https://deno.land/x/lume@v1.18.1/"
+    "lume/": "https://deno.land/x/lume@v1.18.2/"
   }
 }

@@ -1,11 +1,8 @@
-lume-buld:
-	deno task lume
-
 serve:
-	deno task lume --serve
+	docker-compose run --service-ports serve
 
 run:
-	docker-compose up --abort-on-container-exit
+	docker-compose run worker
 
 open-db:
 	docker exec -it news-radar_postgres_1 psql -U root
