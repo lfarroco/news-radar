@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+		</style>
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">Finite State Machine with std::variant, C++17 and C++20</h1>
+		<div>
+			<small>2023/06/26</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/cpp/comments/14jbx4j/finite_state_machine_with_stdvariant_c17_and_c20/" target="_blank"> here</a>.
+
+
+		</div>
+		<p>The article shows how to implement a Finite State Machine (FSM) using std::variant in C++17 and C++20. The author explains that FSMs are useful for modeling complex systems with multiple states and transitions between them.</p>
+<p>The article starts with an introduction to std::variant, a type-safe union that can hold values of different types. The author then shows how to define the states and events of the FSM using std::variant. They also explain how to define the transitions between states using functions that take the current state and event as inputs and return the next state.</p>
+<p>The article includes code snippets that demonstrate how to implement a simple FSM for a traffic light system. The code shows how to define the states as variants and the transitions as functions. The author also explains how to use std::visit to handle the different states and events.</p>
+<p>The article then goes on to discuss the improvements to std::variant in C++20, including the ability to use non-default constructors and constexpr support. The author shows how these improvements can be used to simplify the implementation of the FSM.</p>
+<p>Overall, the article provides a clear and concise introduction to implementing FSMs using std::variant in C++17 and C++20. The code snippets and explanations are useful for developers who want to learn how to model complex systems using FSMs.</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/styles.css"/>
+	</body>
+
+</html>

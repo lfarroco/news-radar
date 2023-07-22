@@ -1,14 +1,16 @@
 import lume from "lume/mod.ts";
+import { connect } from "./db.ts"
 
-export default () => {
+await connect("postgres", 5432)
 
-	const site = lume({
-		src: "./src/site",
-		dest: "./_site",
-	});
+const site = lume({
+	src: "./src/site",
+	dest: "./_site",
+});
 
-	site.copy("logo.png");
-	site.copy("styles.css");
-	site.copy("favicon-32x32.png");
-	site.copy("robots.txt");
-}
+site.copy("logo.png");
+site.copy("styles.css");
+site.copy("favicon-32x32.png");
+site.copy("robots.txt");
+
+export default site

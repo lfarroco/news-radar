@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+		</style>
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">Clojure - Playback: Interactive Programming and Print Debugging Reimagined</h1>
+		<div>
+			<small>2023/07/20</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/gnl/playback" target="_blank"> here</a>.
+
+
+		</div>
+		<p>Clojure's Playback is a powerful tool that revolutionizes interactive programming and print debugging. With a minimal number of intuitive operations, developers can gain immediate and frictionless access to a function's dataflow. This successor to Ghostwheel's tracing component offers an enhanced experience for developers, making it easier to trace and analyze code execution.</p>
+<p>Playback introduces two and a half reader tags that provide seamless integration into your development workflow. By adding <code>#&gt;</code> to any Clojure or ClojureScript form, you can tap into the evaluated output and send the data to the Playback Portal. Additionally, <code>#&gt;&gt;</code> allows you to trace input or intermediate data, such as let bindings or function arguments.</p>
+<p>Traced functions in Playback automatically cache their most recent input and are replayed whenever they are reloaded. This feature enables developers to make changes to the code, evaluate or reload it, and instantly see the updated dataflow, output, and potential spec failures in a tight feedback loop.</p>
+<p>Furthermore, the <code>#&gt;&lt; _</code> reference allows developers to select and manipulate previously traced data in the Playback Portal. This functionality enables experimentation and exploration of data within the REPL, providing valuable insights into the behavior of the code.</p>
+<p>To enhance the development experience, Playback offers instant re-rendering on evaluation. By disabling automatic namespace recompilation in your build tool and utilizing Playback's refresh-on-eval middleware, developers can achieve faster feedback and greater control over hot-reloading.</p>
+<p>Clojure developers can easily integrate Playback into their projects by adding the necessary dependencies and loading the <code>playback.preload</code> namespace on application launch. For more details and customization options, refer to the Shadow or ClojureScript documentation.</p>
+<p>With its interactive programming and print debugging capabilities, Playback is a valuable addition to any Clojure developer's toolkit. Stay ahead of the curve and leverage this powerful tool to streamline your development process and gain deeper insights into your code.</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/styles.css"/>
+	</body>
+
+</html>

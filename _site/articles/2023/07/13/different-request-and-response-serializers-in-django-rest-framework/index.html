@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+		</style>
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">Different request and response serializers in Django REST Framework</h1>
+		<div>
+			<small>2023/07/13</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://stribny.name/blog/drf-different-request-response-serializers/" target="_blank"> here</a>.
+
+
+		</div>
+		<p>Django REST Framework is a powerful framework for building HTTP APIs based on Django models. However, by default, it only supports using a single serializer for both requests and responses in ModelViewSets. This can be limiting when we want to have different serializers for different actions or even for the same action.</p>
+<p>Fortunately, there is a solution. By using the <code>get_serializer_class</code> hook provided by Django REST Framework, we can dynamically specify the desired serializer based on the action being performed. This allows us to have separate serializers for read and write operations, even for individual actions like create.</p>
+<p>To illustrate this, let's consider an example with two models: Workspace and Project. Each project belongs to a workspace and has a reference to the user who created it. We can define the request serializer, <code>ProjectSerializer</code>, to handle incoming data and delegate its output to the response serializer, <code>ProjectResponseSerializer</code>. This delegation is achieved by overriding the <code>to_representation()</code> method in the request serializer.</p>
+<p>With the combined <code>ProjectSerializer</code> handling both requests and responses, we can simply specify this serializer in the <code>ModelViewSet</code>. This approach allows us to have true request and response serializers, enabling us to provide all the necessary information in a single API call.</p>
+<p>By leveraging this technique, we can create more flexible and efficient APIs using Django REST Framework. To learn more about this topic and see a complete implementation example, you can refer to the article on REVSYS. Additionally, you can use <code>drf-spectacular</code>, a common OpenAPI spec generator for Django REST Framework, to properly document endpoints that use different serializers.</p>
+<p>With Django REST Framework's support for different request and response serializers, developers can build more customized and efficient APIs, providing a better experience for API clients.</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/styles.css"/>
+	</body>
+
+</html>

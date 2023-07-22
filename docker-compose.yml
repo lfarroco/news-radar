@@ -6,7 +6,7 @@ services:
   app:
     build: .
     working_dir: /usr/src/app
-    command: deno run -A src/main.ts
+    command: deno task build
     depends_on:
       - postgres
     volumes:

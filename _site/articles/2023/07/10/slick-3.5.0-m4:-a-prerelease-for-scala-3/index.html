@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+		</style>
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">Slick 3.5.0-M4: A Prerelease for Scala 3</h1>
+		<div>
+			<small>2023/07/10</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/slick/slick/discussions/2759" target="_blank"> here</a>.
+
+
+		</div>
+		<p>Slick, a popular database query and access library for Scala, has released its first prerelease version for Scala 3. This update brings support for the latest version of Scala, offering developers the opportunity to leverage the new features and improvements introduced in Scala 3.</p>
+<p>The prerelease version, 3.5.0-M4, includes several highlights, chores, and other changes. Developers can refer to the full changelog to get a comprehensive overview of the updates.</p>
+<p>To provide feedback or report issues, users can take advantage of the feedback channels provided by the Slick community. The maintainers actively engage with the community and consider their input seriously.</p>
+<p>With this release, Slick demonstrates its commitment to staying up-to-date with the latest advancements in the Scala ecosystem. Developers can now explore the new possibilities offered by Scala 3 while leveraging the power and flexibility of Slick for their database operations.</p>
+<pre><code class="language-scala">// Example code snippet
+import slick.jdbc.H2Profile.api._
+
+val db = Database.forConfig(&quot;myDatabase&quot;)
+val users = TableQuery[Users]
+
+val query = users.filter(_.age &gt; 18).result
+
+db.run(query).map(println)
+</code></pre>
+<p>Stay tuned for more updates from the Slick team as they continue to enhance the library and provide valuable resources for Scala developers.</p>
+<p>Insert Link</p>
+<p>Footer
+Footer navigation</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/styles.css"/>
+	</body>
+
+</html>

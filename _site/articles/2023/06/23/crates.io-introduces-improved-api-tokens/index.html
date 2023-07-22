@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+		</style>
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">Crates.io introduces improved API tokens</h1>
+		<div>
+			<small>2023/06/23</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://blog.rust-lang.org/2023/06/23/improved-api-tokens-for-crates-io.html" target="_blank"> here</a>.
+
+
+		</div>
+		<p>Crates.io, the Rust package registry, has recently introduced new features to their API token creation page. These changes provide users with more flexibility and enhanced security options.</p>
+<p>Previously, users were only able to choose a token name when generating a new API token. However, Crates.io's new &quot;New API Token&quot; page now includes two essential features known as &quot;token scopes&quot;. The first feature allows users to restrict API tokens to specific operations, such as only enabling the publishing of new versions for existing crates while disallowing the creation of new crates. The second feature offers an optional restriction where tokens can be limited to only work for specific crate names.</p>
+<p>In addition to these new features, Crates.io has also implemented expiration dates for API tokens. This added security measure ensures that tokens are only valid for a specified period of time, reducing the risk of unauthorized access to user accounts.</p>
+<p>Developers who use Rust and rely on Crates.io for package management can benefit from these new features. By restricting API tokens to specific operations and crate names, developers can have greater control over their packages and reduce the risk of malicious activity. Additionally, the implementation of expiration dates provides an extra layer of security to protect user accounts and packages.</p>
+<p>To learn more about these new features and how they were implemented, check out Crates.io's corresponding tracking issue on GitHub.</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/styles.css"/>
+	</body>
+
+</html>

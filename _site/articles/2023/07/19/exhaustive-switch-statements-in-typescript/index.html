@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+		</style>
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">Exhaustive Switch Statements in TypeScript</h1>
+		<div>
+			<small>2023/07/19</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://blog.arkusonthe.net/typescript-exhaustive-switch/" target="_blank"> here</a>.
+
+
+		</div>
+		<p>Switch statements in TypeScript are not exhaustive, which means that the compiler doesn't warn you if you forget to handle a case in a switch statement. This can lead to bugs that are difficult to track down. For developers who prioritize type safety, this can be concerning.</p>
+<p>An exhaustive switch statement is one that handles all possible cases. For example, if you have an enum with three variants, your switch statement should have three cases: one for each variant. Unfortunately, if you add a new variant to the enum, the compiler won't warn you that you need to add a new case to the switch statement. This lack of warning makes the code less type safe.</p>
+<p>To make your switch statements exhaustive, there are two options:</p>
+<ol>
+<li>
+<p>Use the default case: The easiest way to make your switch statements exhaustive is to use the default case. This makes your switch statement handle all possible cases that aren't explicitly handled by another case. However, it's still easy to forget to handle the new variant when it requires special handling.</p>
+</li>
+<li>
+<p>Use the never type: You can improve the code by using the never type, which makes the compiler throw an error when you forget to handle a case. This provides better type safety and prevents bugs from slipping through.</p>
+</li>
+</ol>
+<p>Exhaustive switch statements are important because they help avoid elusive bugs. Forgetting to handle a case in a switch statement can lead to issues that may not show up until the code is run. It becomes especially problematic during code refactoring or when a new variant is added to an enum.</p>
+<p>By making your switch statements exhaustive, you can ensure better type safety and reduce the likelihood of bugs in your code.</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/styles.css"/>
+	</body>
+
+</html>

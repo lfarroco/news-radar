@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+		</style>
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">Performance Analysis of Intel&#39;s AVX-512 Sort Implementation</h1>
+		<div>
+			<small>2023/06/10</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/Voultapher/sort-research-rs/blob/main/writeup/intel_avx512/text.md" target="_blank"> here</a>.
+
+
+		</div>
+		<p>Intel recently published a high-performance AVX-512 sorting library that promises 10~17x faster sorts than other generic sort implementations. This performance analysis by Lukas Bergdoll compares Intel's x86-simd-sort to other high-performance manually vectorized sort implementations like vqsort and ipnsort.</p>
+<p>The analysis breaks down complex performance characteristics into a single number and puts the '10~17x' number into perspective. It shows that vqsort + Clang can provide better overall performance and avoid catastrophic scaling for certain input patterns when using x86-simd-sort. Additionally, it demonstrates that hardware-specific manual vectorization with wide AVX-512 SIMD is not the only way to write efficient software. ipnsort provides comparable performance to x86-simd-sort while being generic, optimized for more than just peak performance, and only using up to SSE2 instructions.</p>
+<p>For developers interested in optimizing their sorting algorithms, this analysis provides valuable insights into the performance of different implementations. It highlights the importance of benchmarking and choosing the right implementation for specific input patterns. The code snippets provided in the analysis can help developers understand how to optimize their own sorting algorithms for better performance.</p>
+<p>Overall, this analysis shows that Intel's AVX-512 sorting library is a viable option for developers looking to optimize their sorting algorithms. However, it's important to consider other high-performance implementations like vqsort and ipnsort to avoid catastrophic scaling and achieve better overall performance.</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/styles.css"/>
+	</body>
+
+</html>

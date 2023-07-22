@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+		</style>
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">Using Enum Attributes in Ruby on Rails</h1>
+		<div>
+			<small>2023/07/11</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://www.honeybadger.io/blog/how-to-use-enum-attributes-in-ruby-on-rails/" target="_blank"> here</a>.
+
+
+		</div>
+		<p>Dive into the world of enums to streamline your code and make it more readable in Ruby on Rails. Learn best practices, how to add and manage enum attributes, and take advantage of Rails' built-in features to efficiently manage finite sets of values in your models.</p>
+<p>Enums, or enumerations, are a common way to represent options for an attribute of a model in Rails. Instead of using strings or creating additional tables, Rails allows you to represent these options as integers and automatically convert them to strings using built-in methods. This makes presenting options to users as strings while storing them as numbers straightforward and maintainable.</p>
+<p>In addition to simplifying data representation and storage, enums also come with useful utility methods. Rails automatically generates scope methods for each value, making it easy to query and filter records based on the enum attribute. It also generates methods for each enum value, allowing the code to easily check the current value of an enum attribute in a more readable and expressive manner. Enums are often leveraged in form helpers, making presenting options in a form straightforward.</p>
+<p>To add an enum attribute to an existing table in Rails, start by creating a new migration. For example, if you want to add an attribute &quot;status&quot; to the model &quot;course,&quot; you can run the following command:</p>
+<pre><code class="language-ruby">rails generate migration AddStatusToCourses status:integer
+</code></pre>
+<p>If you want the attribute to have a default value, you can open the newly created migration in the <code>db/migrate</code> directory and edit the <code>add_column</code> method call to include the default value you want:</p>
+<pre><code class="language-ruby">add_column :courses, :status, :integer, default: 0
+</code></pre>
+<p>To apply the migration to your database, run the following command:</p>
+<pre><code class="language-ruby">rails db:migrate
+</code></pre>
+<p>Next, edit your model to declare the enum and its mappings of strings to integers:</p>
+<pre><code class="language-ruby">class Course &lt; ApplicationRecord
+  enum status: { active: 0, archived: 1, draft: 2 }
+end
+</code></pre>
+<p>That's it! You've added an attribute to your model and defined it as an enum. Now you can use the enum attribute in your application.</p>
+<p>If you don't already have a model to which you'd like to add an enum, creating a new enum attribute is as easy as any other attribute. Simply generate a new model and define the enum attribute in the migration:</p>
+<pre><code class="language-ruby">rails generate model Course name:string status:integer
+</code></pre>
+<p>Open up the generated migration and ensure it looks like this:</p>
+<pre><code class="language-ruby">class CreateCourses &lt; ActiveRecord::Migration[6.0]
+  def change
+    create_table :courses do |t|
+      t.string :name
+      t.integer :status
+
+      t.timestamps
+    end
+  end
+end
+</code></pre>
+<p>Finally, run the migration to create the new table:</p>
+<pre><code class="language-ruby">rails db:migrate
+</code></pre>
+<p>Now you have a new table with an enum attribute ready to be used in your Rails application. Enums provide a powerful and efficient way to manage finite sets of values, making your code more readable and maintainable.</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/styles.css"/>
+	</body>
+
+</html>

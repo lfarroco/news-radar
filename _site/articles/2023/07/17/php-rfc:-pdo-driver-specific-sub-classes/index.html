@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+		</style>
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">PHP RFC: PDO driver specific sub-classes</h1>
+		<div>
+			<small>2023/07/17</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://wiki.php.net/rfc/pdo_driver_specific_subclasses" target="_blank"> here</a>.
+
+
+		</div>
+		<p>Introduction
+The article discusses a proposal to enhance the PDO (PHP Data Objects) class, which is a generic database class in PHP. Currently, PDO supports various databases, each with its own specific functionality. However, these functionalities are available on the generic PDO class, making it harder to reason about the code. The proposal suggests adding subclasses of PDO for each database, allowing for a more organized and intuitive structure.</p>
+<p>Proposal
+The proposal consists of two parts. Firstly, new subclasses of PDO will be created for each PDO extension in the PHP source repository. These subclasses will expose functionalities specific to each database, such as PdoSqlite::createFunction() for SQLite. Secondly, a static factory method called <code>connect</code> will be added to PDO. This method will determine the exact type of database being connected to and return the appropriate sub-class instead of a generic PDO object.</p>
+<p>Code Example:</p>
+<pre><code class="language-php">$pdo = PDO::connect($dsn, $username, $password);
+</code></pre>
+<p>Users will also be able to directly create the database-specific classes through the appropriate constructor.</p>
+<p>Code Example:</p>
+<pre><code class="language-php">$pdo = new PdoSqlite($dsn, $username, $password);
+</code></pre>
+<p>Sqlite Extension Directory INI Setting
+The article also addresses the issue of the Sqlite3 extension requiring users to set an INI setting to allow SQLite extensions to be loaded. The proposal suggests that this requirement may not be necessary, as the vulnerability only arises if someone is able to upload and execute PHP code on a server, in which case the server is already compromised.</p>
+<p>Backward Incompatible Changes
+There are no known backward incompatible changes resulting from this proposal. However, developers who are currently extending the PDO class directly and wish to extend the specific types will need to write their own connect functions that wrap and proxy those specific types.</p>
+<p>Proposed PHP Version
+This proposal is intended for PHP 8.3.</p>
+<p>RFC Impact to SAPIs
+The impact of this proposal on various SAPIs (Server Application Programming Interfaces) such as CLI, development web servers, and embedded PHP is yet to be determined.</p>
+<p>Open Issues
+There are currently no known issues related to this proposal.</p>
+<p>Unaffected PHP Functionality
+This proposal does not affect any PHP functionality outside of PDO.</p>
+<p>Overall, the article highlights the proposal to introduce PDO driver specific sub-classes in PHP. This enhancement aims to improve code organization and make it easier for developers to work with specific database functionalities. The proposal also includes a static factory method and addresses the issue of the Sqlite3 extension's INI setting. Developers interested in the latest PHP developments should keep an eye on this RFC for potential changes in PHP 8.3.</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/styles.css"/>
+	</body>
+
+</html>

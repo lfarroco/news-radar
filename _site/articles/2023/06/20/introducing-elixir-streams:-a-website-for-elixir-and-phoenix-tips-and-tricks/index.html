@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+		</style>
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">Introducing Elixir Streams: A Website for Elixir and Phoenix Tips and Tricks</h1>
+		<div>
+			<small>2023/06/20</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://www.elixirstreams.com/" target="_blank"> here</a>.
+
+
+		</div>
+		<p>Elixir is a functional programming language that runs on the Erlang virtual machine. It was created in 2011 by José Valim, a former Rails core team member. Elixir is known for its scalability, fault-tolerance, and ease of use. Phoenix, on the other hand, is a web framework for Elixir that is similar to Ruby on Rails. It was created in 2014 by Chris McCord, and it has gained a lot of popularity in recent years.</p>
+<p>If you're interested in learning more about Elixir and Phoenix, you might want to check out Elixir Streams. It's a new website that provides tips, tricks, and courses on Elixir and Phoenix.</p>
+<p>The website is divided into several sections. The first section is called &quot;Tips and Tricks,&quot; and it provides short articles on various topics related to Elixir and Phoenix. For example, you can learn how to use Ecto, a database wrapper for Elixir, or how to use Phoenix LiveView, a real-time web framework.</p>
+<p>The second section is called &quot;Courses,&quot; and it provides in-depth courses on Elixir and Phoenix. The courses are created by experienced developers, and they cover a wide range of topics. For example, you can learn how to build a real-time chat application with Phoenix LiveView, or how to use GenServer, a behaviour in Elixir that allows you to create processes.</p>
+<p>The third section is called &quot;Community,&quot; and it provides a forum where you can ask questions and share your knowledge with other developers. The forum is moderated by experienced developers, so you can be sure that you'll get high-quality answers to your questions.</p>
+<p>Overall, Elixir Streams is a great resource for developers who want to learn more about Elixir and Phoenix. The website is well-designed, easy to navigate, and provides a lot of valuable information. If you're interested in functional programming or web development, you should definitely check it out.</p>
+<p>Here's an example of how to use Ecto to query a database in Elixir:</p>
+<pre><code class="language-elixir">defmodule MyApp.Repo do
+  use Ecto.Repo,
+    otp_app: :my_app,
+    adapter: Ecto.Adapters.Postgres
+
+  def get_users_by_name(name) do
+    from(u in User, where: u.name == ^name)
+    |&gt; Repo.all()
+  end
+end
+</code></pre>
+<p>In this example, we define a module called <code>MyApp.Repo</code> that uses Ecto to query a database. We define a function called <code>get_users_by_name</code> that takes a name as an argument and returns a list of users with that name. We use the <code>from</code> macro to construct a query, and we use the <code>where</code> macro to filter the results. Finally, we use the <code>Repo.all</code> function to execute the query and return the results.</p>
+<p>In conclusion, Elixir Streams is a valuable resource for developers who want to learn more about Elixir and Phoenix. Whether you're a beginner or an experienced developer, you'll find a lot of useful information on the website. So why not give it a try and see what you can learn?</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/styles.css"/>
+	</body>
+
+</html>

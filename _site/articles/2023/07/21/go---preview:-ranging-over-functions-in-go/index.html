@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+		</style>
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">Go - Preview: Ranging Over Functions in Go</h1>
+		<div>
+			<small>2023/07/21</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://eli.thegreenplace.net/2023/preview-ranging-over-functions-in-go/" target="_blank"> here</a>.
+
+
+		</div>
+		<p>A major change proposal for the Go language has been published, introducing the possibility of ranging over functions. This proposal aims to expand the capabilities of the popular for-range loop, which is currently limited to arrays, slices, strings, maps, and channels.</p>
+<p>Developers can already experiment with the proposed changes by building Go with the patches implementing the proposal using the gotip tool. This tool makes it easy to download and build Go with the specific CL number associated with the proposal.</p>
+<p>One of the key additions in the proposal is the ability to range over integers. This allows developers to iterate over a range of numbers, providing a clean shortcut for common loops. For example, instead of writing <code>for i := 0; i &lt; n; i++</code>, developers can simply use <code>for i := range n</code>. This change is expected to simplify code and improve readability.</p>
+<p>Another exciting addition in the proposal is the ability to range over functions. This addresses a long-standing issue for custom containers or Abstract Data Structures in Go. Prior to this proposal, developers had to come up with ad-hoc iteration methods for custom containers. With this change, programmers can now iterate over the elements of their custom containers using the familiar for-range loop.</p>
+<p>The proposal also mentions that approximately half of the 3-clause for loops observed in Go benchmarks can be converted to the &quot;range over int&quot; form, highlighting the potential impact and usefulness of this addition.</p>
+<p>Overall, the proposed changes aim to enhance the versatility and convenience of the Go language, providing developers with more powerful tools for iterating over different types of data structures. This update is expected to be included in a future Go release, making it essential for developers to stay informed about the latest developments in the industry.</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/styles.css"/>
+	</body>
+
+</html>

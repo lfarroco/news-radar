@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+		</style>
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">Jetty 12 – Virtual Threads Support</h1>
+		<div>
+			<small>2023/07/11</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://webtide.com/jetty-12-virtual-threads-support/" target="_blank"> here</a>.
+
+
+		</div>
+		<p>Jetty 12 introduces support for Virtual Threads, a feature that was first introduced in Java 19. This support has been available in Jetty since version 10.0.12 and Jetty 11.0.12. When enabled, applications in Jetty are invoked using a virtual thread, which combines the simplicity of blocking APIs with the scalability benefits of virtual threads.</p>
+<p>Historically, developers have relied on blocking APIs based on InputStream and OutputStream or JDBC. While these APIs are easy to use, they come with a cost. When a thread blocks, all the resources associated with that thread are retained, limiting the scalability of the server.</p>
+<p>To address this, non-blocking asynchronous and reactive APIs were introduced. However, REST APIs like JAX-RS or Jakarta RESTful Web Services have not fully adopted these APIs, resulting in scalability issues for web applications.</p>
+<p>Virtual threads aim to bridge this gap by providing simple-to-use blocking APIs with the scalability of non-blocking APIs. With Jetty 12, developers can leverage the benefits of virtual threads to achieve improved performance and reduced resource usage.</p>
+<p>To demonstrate the power of virtual threads, consider the case of a web application that switched from blocking APIs to non-blocking APIs. The number of threads used by the application decreased from over 1000 to just 10. This significant reduction in thread usage highlights the scalability advantages of virtual threads.</p>
+<p>In terms of architecture, Jetty 12 utilizes an AdaptiveExecutionStrategy, which determines how to efficiently handle requests based on the workload. This architecture ensures that Jetty remains non-blocking and can handle high loads without sacrificing performance.</p>
+<p>Overall, Jetty 12's support for virtual threads is a significant development for developers looking to improve the scalability of their web applications. By combining the simplicity of blocking APIs with the scalability benefits of virtual threads, Jetty 12 empowers developers to build high-performance applications with reduced resource usage.</p>
+<p>To get started with Jetty 12 and virtual threads, developers can refer to the official documentation and examples provided by the Jetty project. The documentation includes instructions for both embedded and standalone usage, enabling developers to seamlessly integrate virtual threads into their applications.</p>
+<p>With Jetty 12's virtual threads support, developers can stay ahead of the curve and leverage the latest advancements in Java to build scalable and efficient web applications.</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/styles.css"/>
+	</body>
+
+</html>

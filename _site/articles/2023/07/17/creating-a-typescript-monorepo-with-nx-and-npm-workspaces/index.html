@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+		</style>
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">Creating a Typescript Monorepo with Nx and NPM Workspaces</h1>
+		<div>
+			<small>2023/07/17</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://itnext.io/easy-typescript-monorepo-with-npm-workspaces-b271d81837e7#1977-3f0b6ce55632" target="_blank"> here</a>.
+
+
+		</div>
+		<p>This article provides a guide on how to create a Typescript monorepo using npm workspaces and Nx. The author explains that simple examples like an even or odd package don't accurately represent a true use case, so they provide a more comprehensive example. The article includes a link to the finished implementation of the monorepo.</p>
+<p>A monorepo is a collection of relevant code grouped together in one repository. It includes multiple applications and libraries that the applications depend on. The author highlights the benefits of using a monorepo, such as easier test running, build operations, and code reusability across multiple applications.</p>
+<p>The article then dives into setting up a monorepo with three Typescript packages, including two applications and one library imported by both applications. The goal is to automatically trigger a re-build of the applications when changes are made to the imported library.</p>
+<p>To solve the problem of duplicating code or publishing sensitive domain data to npm, the author suggests sharing code between the frontend and backend by using a library that both import. This ensures that updates to the library reflect in both applications and any issues are caught during the build pipeline.</p>
+<p>The article guides developers through creating the monorepo using npm workspaces and Nx. It provides commands and instructions for setting up the frontend, backend, and common library.</p>
+<p>Overall, this article serves as a helpful guide for developers looking to create a Typescript monorepo using npm workspaces and Nx. It provides a comprehensive example and highlights the benefits of using a monorepo for code organization and reusability.</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/styles.css"/>
+	</body>
+
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+		</style>
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">GHC 9.6.2 Released: A Bug-Fix Release for Haskell&#39;s Compiler</h1>
+		<div>
+			<small>2023/05/23</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://discourse.haskell.org/t/ghc-9-6-2-is-now-available/6308" target="_blank"> here</a>.
+
+
+		</div>
+		<p>The GHC developers have announced the release of GHC 9.6.2, which is now available for download at downloads.haskell.org. This release is primarily a bug-fix release that addresses several issues found in the previous version.</p>
+<p>Bug Fixes
+The issues addressed in this release include simplifier and specialisation issues (#22761, #22549), a bug resulting in crashes of programs using the new listThreads# primop (#23071), and a compiler crash triggered by certain uses of quantified constraints (#23171). Various bugs in the Javascript backend have also been fixed (#23399, #23360, #23346).</p>
+<p>In addition, a missing write barrier in the non-moving collector's handling of selector thunks resulted in undefined behavior (#22930). The non-moving garbage collector's treatment of weak pointers has been revamped, which should allow more reliable finalization of Weak# closures (#22327). The non-moving garbage collector now bounds the amount of marking it will do during the post-marking stop-the-world phase, greatly reducing tail latencies in some programs (#22929).</p>
+<p>Upgrade Promptly
+As some of the fixed issues do affect correctness, users are encouraged to upgrade promptly. The full list of changes can be found in the release notes.</p>
+<p>Acknowledgments
+The GHC developers would like to thank Microsoft Azure, GitHub, IOG, the Zw3rk stake pool, Well-Typed, Tweag I/O, Serokell, Equinix, SimSpace, Haskell Foundation, and other anonymous contributors for their contributions to this release.</p>
+<p>Haskell is a popular functional programming language used in a variety of industries, including finance, healthcare, and education. It is known for its strong type system, lazy evaluation, and elegant syntax. GHC (Glasgow Haskell Compiler) is the primary compiler for Haskell, and it is widely used in the community.</p>
+<p>For developers who use Haskell, this bug-fix release is an important update that addresses several issues found in the previous version. The revamped treatment of weak pointers and the reduction of tail latencies in some programs are particularly noteworthy improvements. Developers are encouraged to upgrade promptly to take advantage of these fixes.</p>
+<p>Here is an example of a code snippet in Haskell that demonstrates the use of a list comprehension:</p>
+<pre><code class="language-haskell">-- This function takes a list of numbers and returns a list of their squares
+squares :: [Int] -&gt; [Int]
+squares xs = [x * x | x &lt;- xs]
+</code></pre>
+<p>In conclusion, the release of GHC 9.6.2 is an important update for Haskell developers that addresses several issues found in the previous version. The revamped treatment of weak pointers and the reduction of tail latencies in some programs are particularly noteworthy improvements. Developers are encouraged to upgrade promptly to take advantage of these fixes.</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/styles.css"/>
+	</body>
+
+</html>

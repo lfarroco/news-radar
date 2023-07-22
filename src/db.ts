@@ -5,6 +5,8 @@ import { slugify } from "./utils.ts";
 export let client: Client;
 
 export const connect = async (hostname: string, port: number) => {
+
+  console.log(`Connecting to ${hostname}:${port}`);
   client = new Client({
     user: "root",
     hostname,

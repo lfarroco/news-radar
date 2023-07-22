@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+		</style>
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">5 Ways to Write a Go Database Model</h1>
+		<div>
+			<small>2023/07/13</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://pboyd.io/posts/5-ways-to-write-a-go-database-model/" target="_blank"> here</a>.
+
+
+		</div>
+		<p>In this article, the author explores five different approaches to writing a database model in Go, providing examples and code snippets for each. The first approach is the vanilla method, which uses only the standard library and a database driver. While this approach gives developers complete control, it can be tedious and error-prone.</p>
+<p>The second approach introduces struct mappers, such as the sqlx package, which automates the mapping between SQL and a struct using reflection. This approach reduces the amount of boilerplate code and allows for more control while still automating some of the tedious parts.</p>
+<p>The third approach is using SQL builders, like the squirrel package, which simplifies the process of generating SQL queries. This approach is particularly useful for complex queries and fits well in a mostly vanilla database/sql codebase.</p>
+<p>The fourth approach is using an ORM (Object-Relational Mapping) tool like GORM. ORM tools provide a higher level of abstraction and handle many aspects of database interaction, making development faster and easier. GORM, in particular, offers a rich set of features and supports various databases.</p>
+<p>The fifth and final approach is code generation. Tools like go-pg/model and ent generate database models based on Go structs, reducing the need to write boilerplate code manually. Code generation can significantly speed up development and ensure consistency.</p>
+<p>Overall, this article provides developers with a range of options to choose from when writing a database model in Go. Each approach has its advantages and disadvantages, allowing developers to pick the one that best suits their project's requirements and their personal preferences.</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/styles.css"/>
+	</body>
+
+</html>
