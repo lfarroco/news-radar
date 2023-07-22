@@ -53,7 +53,7 @@ export default async () => {
 
   await batch(articles, 5, async ({ link, original }) => {
 
-    if (original.length > 0) {
+    if (original) {
       console.log('article already scraped:', link);
 
       await client.queryArray(
