@@ -1,7 +1,5 @@
 # News Radar
 
-https://dev-radar.com/
-
 This is an experiment on using AI to generate news articles.
 
 The system collects programming news from multiple sources, selects the relevant
@@ -20,19 +18,24 @@ OPENAI_API_KEY=sk-...
 
 The system performs the following steps:
 
-1 - Scanner Collects top items in a given URL Results are stored in a database
-and each item is marked as "pending"
+1 - Scanner\
+Collects top items in a given URL Results are stored in a database and each item
+is marked as "pending"
 
-2 - Revalance filter candidates Picks "pending" items asks chatgpt to identify
-what are the most relevant ones according to the target audience
+2 -
+[Revalance filter](https://github.com/lfarroco/news-radar/blob/main/src/candidates.ts)\
+Picks "pending" items asks chatgpt to identify what are the most relevant ones
+according to the target audience.
 
-3 - Scrapper Picks relevant items that were not digested yet and scrapes the
-article content The content is stored in the database
+3 - Scrapper\
+Picks relevant items that were not digested yet and scrapes the article content
+The content is stored in the database
 
-4 - Writer Feeds chatgpt with the article content and ask it to write a new
-version
+4 - [Writer](https://github.com/lfarroco/news-radar/blob/main/src/writer.ts)\
+Feeds chatgpt with the article content and ask it to write a new version
 
-5 - Publisher Processed items are published to a static website using Lume
+5 - Publisher\
+Processed items are published to a static website using Lume
 
 ### Workflow:
 
