@@ -18,9 +18,6 @@ export const connect = async (hostname: string, port: number) => {
 
 export async function getLatestArticles() {
 
-  if (!client)
-    await connect("localhost", 15432);
-
   const { rows } = await client.queryObject<Article>(`
     SELECT * FROM info 
     WHERE info.status = 'published'
@@ -41,9 +38,6 @@ export async function getLatestArticles() {
 }
 
 export async function getLatestArticlesByTopic(topic: string) {
-
-  if (!client)
-    await connect("localhost", 15432);
 
   const { rows } = await client.queryObject<Article>(`
     SELECT article, date FROM info 
@@ -66,9 +60,6 @@ export async function getLatestArticlesByTopic(topic: string) {
 
 export async function getTopicsList() {
 
-  if (!client)
-    await connect("localhost", 15432);
-
   const { rows } = await client.queryObject<{ topic_id: number, name: string; article_count: number; slug: string; }>(`
     SELECT topic_id, topics.slug, topics.name, count(info.id) as article_count FROM article_topic 
     INNER join info ON info.id = article_id
@@ -82,9 +73,6 @@ export async function getTopicsList() {
 }
 
 export async function getTopicArticles(topicId: number) {
-
-  if (!client)
-    await connect("localhost", 15432);
 
   const query = `
 		select info.id, article, date from article_topic 

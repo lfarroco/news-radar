@@ -3,17 +3,16 @@ import scanner from "./scanner.ts";
 import candidates from "./candidates.ts";
 import scrapper from "./scrapper.ts";
 import writer from "./writer.ts";
+import lume from "./lume.ts"
 
-export default async (hostname = "localhost", port = 15432) => {
+await connect("postgres", 5432)
 
-	await connect(hostname, port)
+await scanner()
 
-	await scanner()
+await candidates()
 
-	await candidates()
+await scrapper()
 
-	await scrapper()
+await writer()
 
-	await writer()
-
-}
+await lume()

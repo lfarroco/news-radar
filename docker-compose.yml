@@ -5,7 +5,8 @@ services:
   # use the Dockerfile in the directory to configure it
   app:
     build: .
-    command: deno task build
+    working_dir: /usr/src/app
+    command: deno run -A src/main.ts
     depends_on:
       - postgres
     volumes:
