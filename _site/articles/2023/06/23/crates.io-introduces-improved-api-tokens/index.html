@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://blog.rust-lang.org/2023/06/23/improved-api-tokens-for-crates-io.html" target="_blank"> here</a>.
-
-
 		</div>
 		<p>Crates.io, the Rust package registry, has recently introduced new features to their API token creation page. These changes provide users with more flexibility and enhanced security options.</p>
 <p>Previously, users were only able to choose a token name when generating a new API token. However, Crates.io's new &quot;New API Token&quot; page now includes two essential features known as &quot;token scopes&quot;. The first feature allows users to restrict API tokens to specific operations, such as only enabling the publishing of new versions for existing crates while disallowing the creation of new crates. The second feature offers an optional restriction where tokens can be limited to only work for specific crate names.</p>

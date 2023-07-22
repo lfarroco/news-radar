@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://grafbase.com/blog/getting-started-with-rust-and-webassembly" target="_blank"> here</a>.
-
-
 		</div>
 		<p>WebAssembly (Wasm) is a binary instruction format supported by major browsers and runtimes. It offers near-native performance and is cross-platform and sandboxed. WebAssembly is commonly used as a compilation target for languages like Rust, C, C++, and C#. JavaScript can interface with WebAssembly, but this should be done carefully due to potential overhead.</p>
 <p>To compile Rust to WebAssembly, there are different methods available. One option is to use Cargo make, which allows defining tasks in .toml files and invoking wasm-bindgen-cli. Another option is wasm-pack, a tool that simplifies workflows for compiling Rust to WebAssembly for use in the browser or Node.js. Webpack's Rust compilation is also an option, providing bundling and additional functionality for JavaScript.</p>

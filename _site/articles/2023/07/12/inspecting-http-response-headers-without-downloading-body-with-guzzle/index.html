@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://chriswhite.is/coding/inspecting-http-response-headers-without-downloading-body-with-guzzle/" target="_blank"> here</a>.
-
-
 		</div>
 		<p>In a recent project, the author needed to inspect the HTTP response headers of a large file download to determine if it was necessary to download the file. They specifically wanted to check the ETag header to see if it had changed since a previous download. However, simply issuing a HEAD request to the URL didn't work in this case, as some of the URLs were signed S3 URLs that only allowed GET requests.</p>
 <p>To solve this problem, the author turned to Guzzle, a popular PHP HTTP client. They discovered the <code>on_headers</code> request option, which allows you to inspect the response headers before the body of the response is downloaded. By throwing a custom exception inside the <code>on_headers</code> callable, they were able to abort the downloading of the response body.</p>

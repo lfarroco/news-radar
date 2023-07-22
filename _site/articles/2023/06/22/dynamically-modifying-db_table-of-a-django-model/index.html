@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/django/comments/14gf2b0/dynamically_modifying_db_table_of_a_model/" target="_blank"> here</a>.
-
-
 		</div>
 		<p>A Reddit user is asking for help with dynamically updating the db_table meta property of a Django model. The user's first attempt resulted in a Programming Error exception when using querysets with the dynamically updated model. The issue seems to be that the original db_table name is cached somewhere, and it is used when generating the column names for the SQL query. Strangely, the query often contains both column names that use the old and the new db_table.</p>
 <p>While there are posts about dynamically creating models from scratch, the user couldn't find anything that maps to their specific use case.</p>

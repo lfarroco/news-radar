@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://danlark.org/2023/06/06/csinc-the-arm-instruction-you-didnt-know-you-wanted/" target="_blank"> here</a>.
-
-
 		</div>
 		<p>When it comes to conditional moves, most developers are familiar with the x86 instruction cmov. However, there's an underrated feature of AArch64 ISA that is often overlooked but used by compilers a lot - csinc. In this article, we'll explore the power of csinc and why it's a hidden gem for developers.</p>
 <p>First, let's take a step back and understand what conditional moves are. Conditional moves are instructions that allow you to conditionally set the value of a register based on a condition. This can be useful in low-level optimization, such as when merging two arrays. Traditionally, conditional moves are associated with the x86 instruction cmov.</p>

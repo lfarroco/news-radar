@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://pkolaczk.github.io/server-slower-than-a-laptop/" target="_blank"> here</a>.
-
-
 		</div>
 		<p>The author of this article shares their experience with a program they wrote for a pleasingly parallel problem, where each thread does its own independent piece of work, and the threads don’t need to coordinate except joining the results at the end. They benchmarked it on a laptop first and found out it scaled nearly perfectly on all of the 4 available cores. However, when they ran it on a big, fancy, multiprocessor machine, expecting even better performance, it actually ran slower than the laptop, no matter how many cores they gave it.</p>
 <p>The author explains that they were working on a Cassandra benchmarking tool called Latte, which is probably the most efficient Cassandra benchmarking tool in terms of CPU and memory use. The tool generates data and executes a bunch of asynchronous CQL statements against Cassandra, and then records how long each iteration took. Finally, it makes a statistical analysis and displays it in various forms.</p>

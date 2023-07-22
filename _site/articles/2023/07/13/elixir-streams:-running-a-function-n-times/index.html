@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://www.elixirstreams.com/tips/run-elixir-function-n-times" target="_blank"> here</a>.
-
-
 		</div>
 		<p>In this article, the author explores how to run a function N times in Elixir using the Stream module. While developers familiar with Ruby on Rails might be accustomed to the concise N.times { do_something } syntax, Elixir offers a slightly more verbose but powerful solution.</p>
 <p>To run a function repeatedly in Elixir, the author suggests using the Stream.repeatedly function. This function allows developers to create a stream of values that can be consumed by other functions in the Stream module. In this case, the desired function is created using Stream.repeatedly and then executed N times using Enum.take(N).</p>

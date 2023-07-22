@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://devsuhas.com/2023/07/09/style-child-components-from-parent-angular/" target="_blank"> here</a>.
-
-
 		</div>
 		<p>In this article, the author explores the topic of styling child components from the parent in Angular. By default, Angular restricts styles to each individual component, preventing inheritance from the parent component to its child. However, the author presents two methods to overcome this limitation.</p>
 <p>The first method is to use <code>ViewEncapsulation.None</code>, which removes the encapsulation of the component's styles. This allows the parent component to apply styles directly to the child component. However, it's important to note that this approach can cause conflicts if other components in the application have the same class names.</p>

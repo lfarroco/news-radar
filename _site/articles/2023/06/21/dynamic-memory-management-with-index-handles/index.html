@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://floooh.github.io/2018/06/17/handles-vs-pointers.html" target="_blank"> here</a>.
-
-
 		</div>
 		<p>In this article, the author discusses a new approach to dynamic memory management in C and C++ using index handles instead of raw- and smart-pointers. The author draws on their experience managing memory in large code bases and highlights the issues with using smart pointers, such as memory fragmentation and fake memory leaks.</p>
 <p>Index handles, according to the author, are a better alternative to pointers because they allow for faster and more efficient memory management. They work by using an index to reference an object in memory, rather than a pointer to the object itself. This approach reduces the number of heap allocations needed and can improve cache performance.</p>

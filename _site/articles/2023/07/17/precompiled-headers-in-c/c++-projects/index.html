@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://maskray.me/blog/2023-07-16-precompiled-headers" target="_blank"> here</a>.
-
-
 		</div>
 		<p>Precompiled headers can greatly improve compile time in C/C++ projects. While C++ modules have emerged as an alternative, precompiled headers still remain relevant for several reasons. This article focuses on Clang precompiled headers (PCH) and provides an example to illustrate their usage.</p>
 <p>To generate a precompiled header, Clang parses a header file and performs semantic analysis. The resulting precompiled header is saved as a serialized AST file. When compiling a source file, the precompiled header can be included as a prefix header using the <code>-include-pch</code> flag.</p>

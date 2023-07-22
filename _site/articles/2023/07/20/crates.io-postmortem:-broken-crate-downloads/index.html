@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://blog.rust-lang.org/inside-rust/2023/07/21/crates-io-postmortem.html" target="_blank"> here</a>.
-
-
 		</div>
 		<p>On July 20, 2023, between 12:17 and 12:30 UTC, crates.io experienced a significant incident that resulted in broken crate downloads. This incident was caused by a bug in the download URL generation during a deployment.</p>
 <p>During the incident, crates.io received an average of 4.71K requests per second, leading to approximately 3.7 million failed requests, including retry attempts from cargo. The issue was initially noticed by a developer who triggered the production deployment and observed elevated request-per-second numbers on the monitoring dashboard. A community member then notified the developer via Zulip, a communication platform for the Rust community.</p>

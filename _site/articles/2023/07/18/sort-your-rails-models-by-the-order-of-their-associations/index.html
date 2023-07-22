@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://blog.saeloun.com/2023/07/18/sort-your-rails-models/" target="_blank"> here</a>.
-
-
 		</div>
 		<p>In this article, the author discusses a problem they encountered while working on a new gem for running seeds in Rails apps efficiently. They wanted to automatically generate a seedie.yml file based on the app's ActiveRecord models and their associations. However, ActiveRecord does not provide a way to determine the order of models based on their associations. To solve this problem, the author introduces a solution using the ActiveRecord::Reflection module to find associations for a model and a custom class called ModelSorter to sort the models based on their dependencies. The article includes code snippets and examples to demonstrate the solution. The author also mentions that they are still working on the gem and will release it soon.</p>
 	</div>

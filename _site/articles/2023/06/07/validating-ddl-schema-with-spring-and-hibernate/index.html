@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://vladmihalcea.com/validate-ddl-schema-spring-hibernate/" target="_blank"> here</a>.
-
-
 		</div>
 		<p>In this article, the author discusses the best way to validate the DDL schema and JPA entity mappings when using Spring and Hibernate. The article begins with an introduction to Hypersistence Optimizer, a tool that can automatically detect JPA and Hibernate performance issues. The author then explains the importance of validating the DDL schema and JPA entity mappings and provides a solution to do so using Spring and Hibernate.</p>
 <p>The article highlights the hbm2ddl validate strategy provided by Hibernate. This strategy can be used to manage or validate the underlying database schema. However, it is best to use an automatic schema management tool like Flyway to manage the database schema. The author also recommends setting the value of spring.jpa.hibernate.ddl-auto=validate to check that Flyway generated tables and entities are in sync.</p>

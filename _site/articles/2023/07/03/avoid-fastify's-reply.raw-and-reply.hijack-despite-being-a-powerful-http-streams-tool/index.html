@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://www.lirantal.com/blog/avoid-fastify-reply-raw-and-reply-hijack-despite-being-a-powerful-http-streams-tool" target="_blank"> here</a>.
-
-
 		</div>
 		<p>As web developers, having fine-grained control over the HTTP request and response process is crucial. Fastify, the blazing-fast web framework for Node.js, offers powerful HTTP response APIs through reply.raw and reply.hijack(). These APIs allow developers to manipulate data streams in real-time, making them a game-changer for handling large file uploads, implementing real-time features, or building proxy servers.</p>
 <p>However, it is important to exercise caution when using these APIs. In this article, the author explains why avoiding raw HTTP replies via reply.raw() should be a last resort. They also delve into the functionality of reply.hijack() and its implications.</p>

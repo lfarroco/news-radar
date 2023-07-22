@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://www.faizanbashir.me/event-driven-scaling-of-golang-applications-in-azure-kubernetes-service-aks-using-keda" target="_blank"> here</a>.
-
-
 		</div>
 		<p>In this article, we will explore how to set up event-driven scaling of a Golang application in Azure Kubernetes Service (AKS) using Kubernetes Event-Driven Autoscaling (KEDA). KEDA is an open-source project that provides event-driven autoscaling for Kubernetes workloads, allowing developers to automatically scale their applications based on events.</p>
 <p>Before diving into the setup process, there are a few prerequisites that need to be in place. Firstly, Go (version 1.16 or later) will be used to write the publisher and subscriber applications. Secondly, Docker will be used to build and package the Go application. Thirdly, kubectl will be used to interact with the Kubernetes cluster. Finally, Helm will be used to deploy KEDA on the Kubernetes cluster. Additionally, an AKS cluster will be required for deploying the application and KEDA.</p>

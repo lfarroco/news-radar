@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://blog.yoshuawuyts.com/totality/" target="_blank"> here</a>.
-
-
 		</div>
 		<p>Rust, a programming language known for its focus on memory safety and performance, offers developers a unique set of features that promote code reliability and robustness. In a recent discussion between Yoshua Wuyts, Eric, and Daan Leijen, the concept of &quot;total functions&quot; and &quot;panic-freedom&quot; in the context of Rust was explored.</p>
 <p>Total functions, a term borrowed from mathematics and category theory, refer to functions that are considered &quot;pure&quot; and can only operate on their inputs and produce outputs. In languages like Haskell and Koka, total functions are the default, ensuring that functions do not loop infinitely or throw exceptions. However, in Rust, while it is possible to write functions that meet the conditions to be total, there is no way to express their totality in the type system. This means that by looking at a function signature in Rust, developers cannot determine whether the function will terminate, may panic, or perform IO operations.</p>

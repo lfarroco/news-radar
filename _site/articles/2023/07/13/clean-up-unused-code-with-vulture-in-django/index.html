@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://adamj.eu/tech/2023/07/12/django-clean-up-unused-code-vulture/" target="_blank"> here</a>.
-
-
 		</div>
 		<p>As projects evolve, old functionality gets removed, often leaving behind unused functions, classes, and other code objects. These unused code objects clutter the codebase and hinder comprehension, making it harder to improve code quality. They can also lead to errors if later used unintentionally. To address this issue, developers can use unused code detectors like Vulture.</p>
 <p>Vulture is a popular unused code detector for Python. It analyzes the Abstract Syntax Trees (ASTs) of Python files and identifies unused class, function, and module-level object names. It reports these unused names along with an approximate confidence level. However, it's important to note that Vulture may sometimes report false positives, especially when used with frameworks like Django that often call code implicitly.</p>

@@ -1,7 +1,7 @@
 lume-buld:
 	deno task lume
 
-lume-serve:
+serve:
 	deno task lume --serve
 
 run:

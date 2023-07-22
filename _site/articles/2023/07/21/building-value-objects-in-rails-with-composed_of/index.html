@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://thoughtbot.com/blog/rails-value-objects" target="_blank"> here</a>.
-
-
 		</div>
 		<p>In this article, the author explores how developers can improve the interface of an Active Record Model in Rails by extracting existing logic into value objects using Rails' composed_of macro. The article starts by discussing the limitations of the existing interface and the need for a simpler way to interact with the Unit instance.</p>
 <p>To address this, the author introduces the composed_of macro provided by Rails, which allows developers to represent attributes as value objects. By adding a measurement attribute to the Run model, developers can now directly call Run#measurement to return a new Unit instance, eliminating the need for a separate convert_to method.</p>

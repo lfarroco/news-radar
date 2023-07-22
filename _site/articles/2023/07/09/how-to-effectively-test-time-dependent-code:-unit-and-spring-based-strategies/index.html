@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://jonasg.io/posts/how-to-effectively-test-time-dependent-code/" target="_blank"> here</a>.
-
-
 		</div>
 		<p>In this article, the author explores strategies for reliable testing of time-dependent code, specifically in Java applications. They highlight the challenges that arise when code depends on the system clock and how a simple configuration change can cause disastrous consequences. To mitigate these issues, the author introduces the concept of java.time.Clock, which allows developers to decouple date-time generation from the system's clock. By passing a clock object to the java.time...now() methods, developers can have more control over time-related aspects and make testing easier. The article also emphasizes the importance of fixating the clock in tests to avoid flaky results. With these strategies, developers can write more robust code and gain better control over time-dependent functionalities.</p>
 <pre><code class="language-java">// Example of fixating the clock in tests

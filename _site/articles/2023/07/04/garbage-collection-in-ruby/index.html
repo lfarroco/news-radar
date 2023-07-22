@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://blog.peterzhu.ca/notes-on-ruby-gc/" target="_blank"> here</a>.
-
-
 		</div>
 		<p>Ruby's garbage collector, located in the gc.c file, is responsible for memory allocation, management, and garbage collection. It handles the entire lifecycle of an object. Ruby objects can be classified into two groups: immediates and heap allocated. Immediates are not managed by the garbage collector and have special representations. All pointers to Ruby objects are aligned at 40-byte boundaries, ensuring that the lowest three bits are always 0.</p>
 <p>Ruby's garbage collector plays a crucial role in managing memory and ensuring efficient memory usage in Ruby programs. It automatically frees up memory occupied by objects that are no longer needed, reducing the risk of memory leaks. This feature is particularly important for developers who want to optimize their code and improve performance.</p>

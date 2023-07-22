@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://kristerw.github.io/2023/07/18/address-calculations/" target="_blank"> here</a>.
-
-
 		</div>
 		<p>In this article, Krister Walfridsson explains the implementation of pysmtgcc and focuses on address calculations in GIMPLE, a representation used by GCC. Address calculations in GIMPLE can be done using ARRAY_REF and COMPONENT_REF, which are used for indexing into arrays and structures. The behavior is undefined if the ARRAY_REF index is outside the accessed object when dereferencing an element. However, it is allowed to take the address of the element &quot;one past&quot; the array.</p>
 <p>The article also discusses the handling of flexible arrays, which are arrays at the end of structures that may be declared without a size. pysmtgcc limits the indexing by the memory block size in this case.</p>

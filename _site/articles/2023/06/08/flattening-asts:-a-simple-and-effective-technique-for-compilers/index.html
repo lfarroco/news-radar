@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://www.cs.cornell.edu/~asampson/blog/flattening.html" target="_blank"> here</a>.
-
-
 		</div>
 		<p>Modern language implementations heavily rely on arenas or regions, which are data structures that manage memory allocation. One specific flavor of arenas that's surprisingly effective for compilers and compiler-like things is data structure flattening. This technique uses an arena that only holds one type, essentially becoming a plain array, and allows developers to use array indices where they would otherwise need pointers.</p>
 <p>In this post, Adrian Sampson introduces the idea of flattening and its many virtues. While the idea of arenas or regions may mean different things to different people, flattening is a simple and effective technique that can be applied to any pointer-laden data structure, including abstract syntax trees (ASTs).</p>

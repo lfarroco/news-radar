@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://sebastiandedeyne.com/event-sourcing/replaying-events/" target="_blank"> here</a>.
-
-
 		</div>
 		<p>Event sourcing is a powerful technique in which the stream of events becomes the source of truth for an application. However, the idea of being able to completely delete and replay events at any time is not as straightforward as it seems.</p>
 <p>One of the main challenges with replays is the potential downtime it can cause. If something goes wrong during the replay process, you could end up with a partially populated database, which can be disastrous. Additionally, deleting data for replays can be application-specific and may require dropping related tables or columns.</p>

@@ -34,5 +34,10 @@ with scraped: -> write -> (status=published)
 
 ### Running
 
-Running `make run` will perform all the steps and publish the output website to
-`_site`
+Running `make run` will perform the following steps:
+
+- start database container
+- start deno container and use it to:
+  - scan and write news
+  - run static website generator, place generated files under `_site`
+- exit containers

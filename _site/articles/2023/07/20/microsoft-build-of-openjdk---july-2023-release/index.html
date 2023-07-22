@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://devblogs.microsoft.com/java/microsoft-build-of-openjdk-july-2023-release/" target="_blank"> here</a>.
-
-
 		</div>
 		<p>Microsoft has released the latest patch and security update for the Microsoft Build of OpenJDK in July 2023. This release brings several changes and enhancements to the OpenJDK binaries. Developers can find the detailed release notes and download or install the binaries from the Microsoft website.</p>
 <p>One notable feature in this release is the enhanced escape analysis, which is now enabled by default in the MS Build of OpenJDK 17 and 11. This feature has shown latency improvements of up to 13% in controlled benchmarks. It has already been utilized by production workloads across Microsoft, LinkedIn, and other systems. However, if developers encounter performance regressions in specific workloads, they can disable this feature using the <code>-XX:-ReduceAllocationMerges</code> flag on the Java launcher command line.</p>

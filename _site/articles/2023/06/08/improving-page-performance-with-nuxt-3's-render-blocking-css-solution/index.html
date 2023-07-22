@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://deltener.com/blog/stop-render-blocking-css-in-nuxt/" target="_blank"> here</a>.
-
-
 		</div>
 		<p>When it comes to page performance and web vitals, small tweaks can make a big difference. One example is Largest Contentful Paint (LCP) and its relationship with Cascading Style Sheets (CSS). When you visit a site, the server should send back a full page of HTML for your browser to start rendering. However, if that HTML contains references to CSS files, the browser can't start rendering the page until that CSS is fully downloaded and parsed. This can cause delays in page load times and affect the user experience.</p>
 <p>Nuxt 3, the latest version of the popular Vue.js framework, offers a solution to this problem with its Render-Blocking CSS feature. By default, Nuxt 3 injects global CSS into a file called entry.css (with a hash), and links to it from the server response. However, this can cause delays in page rendering as the browser must download the CSS file before it can start rendering the page.</p>

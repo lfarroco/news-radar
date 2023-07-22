@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://nodejs.org/en/blog/release/v18.16.1" target="_blank"> here</a>.
-
-
 		</div>
 		<p>Node.js has released version v18.16.1 (LTS) which includes several security fixes. The release addresses five CVEs, with one rated as &quot;High&quot; and the others as &quot;Medium&quot;. The fixes include a bypass of the experimental policy mechanism, privilege escalation via malicious registry key manipulation, process interruption due to invalid public key information, HTTP request smuggling via empty headers, and DiffieHellman not generating keys after setting a private key.</p>
 <p>In addition to the CVE fixes, the release includes updates to OpenSSL and c-ares. OpenSSL has released several security advisories in March, April, and May. The Node.js release includes updates to OpenSSL sources to quictls/openssl-3.0.9-quic1 and updates to archs files for OpenSSL. The release also includes updates to c-ares to version 1.19.1, which includes fixes for four vulnerabilities.</p>

@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://landontclipp.github.io/blog/2023/06/21/introducing-mockerys-new-packages-feature/" target="_blank"> here</a>.
-
-
 		</div>
 		<p>vektra/mockery is a Go package that auto-generates mock implementations of interfaces in your project. The latest update to the code introduces a feature called packages, which offers significant benefits to developers.</p>
 <p>Previously, developers had to use go:generate directives in their code to tell mockery to generate mock implementations. This approach had several issues, including performance and inflexibility. However, with the new packages feature, the configuration model has been improved to align with Go's abstract syntax tree parsing. This change provides more flexibility and control over how mocks are generated.</p>

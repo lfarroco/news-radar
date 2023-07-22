@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://www.willem.dev/articles/build-your-own-slice-append-copy/" target="_blank"> here</a>.
-
-
 		</div>
 		<p>In this article, the author explains the concept of appending to a slice in Go and how it creates a new slice with the elements of the original slice plus the appended elements. The original slice remains untouched. The built-in append function is used for appending, and all elements must be of the same type as the elements of the slice.</p>
 <p>The article also discusses the relationship between slices and arrays, highlighting that a new slice returned by append needs to be backed by an array. If the array of the original slice is large enough, append will use it to back the new slice. Otherwise, it will create a new backing array.</p>

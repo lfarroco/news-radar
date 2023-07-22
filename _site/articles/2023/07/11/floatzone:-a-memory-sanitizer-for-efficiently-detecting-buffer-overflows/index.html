@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://www.vusec.net/projects/floatzone/" target="_blank"> here</a>.
-
-
 		</div>
 		<p>FloatZone is a redzone-based memory sanitizer designed to efficiently detect buffer overflows and use-after-frees by utilizing floating-point underflows. Memory sanitizers are powerful tools used by developers, fuzzers, and software testers to identify spatial and temporal memory errors.</p>
 <p>Traditionally, memory sanitizers like Address Sanitizer (ASan) introduce significant overhead to the execution time, impacting performance. FloatZone aims to address this issue by offloading the checks to the Floating Point Unit (FPU) using a clever trick that expresses comparisons as floating point additions.</p>

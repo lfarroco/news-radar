@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://softwaremill.com/go-like-channels-in-scala-receive-send-and-default-clauses/" target="_blank"> here</a>.
-
-
 		</div>
 		<p>Ox, an experimental concurrency library using Project Loom and Scala 3, offers features such as developer-friendly structured concurrency, scoped values, and implementation of Go-like channels. Channels have been introduced some time ago, along with higher-level combinators, allowing working with streams in both functional and imperative styles, depending on the use-case.</p>
 <p>However, the select operation on channels has been limited to receiving values only. We're now lifting this limitation and extending the feature set of Ox's channels to include support for receive, send, and default clauses.</p>

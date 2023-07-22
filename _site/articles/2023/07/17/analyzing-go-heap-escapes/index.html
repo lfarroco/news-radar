@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://landontclipp.github.io/blog/2023/07/15/analyzing-go-heap-escapes/" target="_blank"> here</a>.
-
-
 		</div>
 		<p>In this article, the author explores the concept of heap escapes in Go and how they can impact performance. The heap in Go contains long-lived memory that exists beyond the scope of function calls, while the stack contains short-lived memory. The Go compiler uses an Escape Analysis Algorithm to determine whether a piece of data should be allocated on the heap or the stack. Heap escapes can lead to memory-intensive garbage collection processes, slowing down the application. To help developers identify heap escapes, the author suggests configuring the gopls language server in VSCode to highlight instances of heap escape in the code. The article also provides code snippets and instructions on how to generate an analysis of the code to identify escape points.</p>
 	</div>

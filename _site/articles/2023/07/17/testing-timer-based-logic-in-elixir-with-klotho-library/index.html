@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://dev.to/savonarola/testing-timer-based-logic-in-elixir-with-klotho-library-2c90" target="_blank"> here</a>.
-
-
 		</div>
 		<p>Testing code that deals with time, timeouts, and timers can be challenging. Traditional approaches, such as using custom reduced timeouts or <code>:timer.sleep/1</code>, have drawbacks and can lead to slow and flaky tests.</p>
 <p>Klotho is a library that provides a different approach to testing timer-based logic in Elixir. It injects timer-based functions globally, allowing developers to control the flow of time in their tests. By using Klotho functions instead of directly calling time-related functions, developers can write tests that are faster, more reliable, and easier to read.</p>

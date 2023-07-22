@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://lwn.net/SubscriberLink/934940/3abb2d4086680b78/" target="_blank"> here</a>.
-
-
 		</div>
 		<p>PostgreSQL, a popular open-source relational database management system, is considering a move from its current process-based model to a threaded model. Currently, a PostgreSQL instance runs as a set of cooperating processes, including one for each connected client. These processes communicate through shared-memory regions using a library that enables the creation of complex data structures. While this model has served the project well for many years, PostgreSQL developers are increasingly thinking that it may be time to make a change.</p>
 <p>At the beginning of June, Heikki Linnakangas proposed the move to a threaded model. The message acknowledged the challenges involved in making such a move and stated that this transition &quot;surely cannot be done fully in one release.&quot; The proposal has sparked discussions among PostgreSQL developers about the potential benefits and drawbacks of a threaded model.</p>

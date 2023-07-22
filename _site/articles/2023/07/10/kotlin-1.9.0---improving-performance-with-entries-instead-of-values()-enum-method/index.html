@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://medium.com/teknasyon-engineering/kotlin-enums-replace-values-with-entries-bbc91caffb2a" target="_blank"> here</a>.
-
-
 		</div>
 		<p>Kotlin enums provide a values() method that returns an array of all enum entries, but it has some issues that can affect performance. Firstly, the method allocates and clones an array on each invocation, which can lead to performance bugs. Secondly, it returns a mutable Array<E> by default, making it less flexible to work with compared to collections. Lastly, writing special extension functions for enums becomes challenging due to the return type of Array<E>.</p>
 <p>To address these issues, Kotlin introduced the entries value in version 1.8.20 as an experimental feature. Now, with the release of Kotlin 1.9.0, entries is stable and offers several advantages.</p>

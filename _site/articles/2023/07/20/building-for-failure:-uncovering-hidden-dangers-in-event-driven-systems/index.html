@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://encore.dev/blog/building-for-failure" target="_blank"> here</a>.
-
-
 		</div>
 		<p>Event-driven systems have become increasingly popular in the world of software development. However, like any other architectural approach, they come with their own set of challenges and potential pitfalls. In this article, we will explore some of the hidden dangers that developers should be aware of when designing event-driven systems, as well as provide best practices for mitigating these risks.</p>
 <p>One of the main trade-offs of adopting an event-driven system is the additional latency it introduces. Messages must traverse multiple hops within the system before they are fully processed, which can result in increased response times. While this latency can be outweighed by the benefits of resiliency and architectural simplicity, it is important to monitor and address any unexpected increases in latency. Lag spikes can significantly impact the user experience and may be caused by factors such as resource constraints or inefficient database queries. Developers need to quickly identify the root cause of these spikes and devise plans to reduce them.</p>

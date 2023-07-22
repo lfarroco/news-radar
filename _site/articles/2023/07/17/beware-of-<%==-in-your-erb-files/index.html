@@ -6,9 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-		</style>
 	</head>
 	<body>
 		<header>
@@ -44,8 +41,6 @@
 	<div class="card-body">
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://andycroll.com/ruby/beware-of-raw-erb/" target="_blank"> here</a>.
-
-
 		</div>
 		<p>XSS protection is a crucial aspect of web development to prevent attackers from injecting malicious scripts into web pages. Ruby on Rails (Rails) provides built-in protection against XSS vulnerabilities by using context-aware output encoding and automatic escaping. However, it is important to be cautious when using the &lt;%== ERB tags in Rails view templates.</p>
 <p>Using &lt;%== is equivalent to &lt;%= raw(something) %&gt;, bypassing the protections offered by Rails' SafeBuffer class. Instead, developers should utilize Rails' sanitization methods to ensure the safety of user-generated content before rendering it in the view.</p>
