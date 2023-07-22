@@ -14,16 +14,18 @@ You need to create a `.env` file with your OpenAI key, in this format
 OPENAI_API_KEY=sk-...
 ```
 
-### Steps:
+### How it works:
+
+The system performs the following steps:
 
 1 - Scanner Collects top items in a given URL Results are stored in a database
 and each item is marked as "pending"
 
-2 - Filter candidates Picks "pending" items asks chatgpt to identify what are
-the most relevant ones according to the target audience
+2 - Revalance filter candidates Picks "pending" items asks chatgpt to identify
+what are the most relevant ones according to the target audience
 
-3 - Article Scrapper Picks relevant items that were not digested yet and scrapes
-the article content The content is stored in the dataabase
+3 - Scrapper Picks relevant items that were not digested yet and scrapes the
+article content The content is stored in the database
 
 4 - Writer Feeds chatgpt with the article content and ask it to write a new
 version
@@ -32,17 +34,19 @@ version
 
 ### Workflow:
 
+The possible status transitions for each article:
+
 scan -> create articles with status=pending
 
 candidates -> submit status=pending articles to relevance check
 
-approved ? -> yes -> (status=approved) -> no -> (status=rejected)
+approved ? either yes -> (status=approved) or no -> (status=rejected)
 
 with approved: -> try scraping
 
-scraped ? -> yes -> (status=scraped) -> no -> (status=error-scraping)
+scraped ? either yes -> (status=scraped) or no -> (status=error-scraping)
 
-with scraped: -> write -> (status=published)
+with each scraped: -> write -> (status=published)
 
 ### Running
 

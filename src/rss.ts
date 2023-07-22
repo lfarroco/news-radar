@@ -70,7 +70,7 @@ export const rss = async (url: string, topics: string[], hasContent = false): Pr
         link,
         url,  // source
         date,
-        hasContent ? 'scraped' : 'pending',  // status
+        'pending',  // status
         hasContent ? description : '' // original
       ],
     );

@@ -50,11 +50,18 @@ export default async () => {
     articles.map((a) => a.title),
   );
 
-  const urls = articles.map((item) =>
-    item.link,
-  );
 
-  await batch(urls, 5, async (link: string) => {
+  await batch(articles, 5, async ({ link, original }) => {
+
+    if (original.length > 0) {
+      console.log('article already scraped:', link);
+
+      await client.queryArray(
+        'UPDATE info SET status = $1 WHERE link = $2;',
+        ['scraped', link],
+      );
+      return;
+    }
 
     const article = await articleScrapper(link);
 
