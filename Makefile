@@ -1,17 +1,17 @@
 serve:
-	docker-compose run --rm --service-ports serve
+	docker-compose run --service-ports app task serve
 
 run:
-	docker-compose run --rm app deno run -A src/main.ts && deno task build
+	docker-compose run app deno run -A src/main.ts
 
 run-db:
-	docker-compose run --rm postgres
+	docker-compose run postgres
 
 open-db:
 	docker exec -it news-radar_postgres_1 psql -U root
 
 build-pages:
-	docker-compose run --rm build
+	docker-compose run app deno task build
 
 stats:
 	docker exec -it news-radar_postgres_1 psql -U root -c "SELECT COUNT(status), status from info GROUP BY status;"

@@ -1,5 +1,5 @@
-import { lume } from "./deps.ts";
 import { connect } from "./db.ts"
+import lume from "lume/mod.ts";
 
 await connect("postgres", 5432)
 

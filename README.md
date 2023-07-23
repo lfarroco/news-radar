@@ -55,13 +55,10 @@ with each scraped: -> write -> (status=published)
 
 ### Running
 
-Running `make run` will perform the following steps:
+Running `make run` will scan the sources and write the news into the database.
 
-- start database container
-- start deno container and use it to:
-  - scan and write news
-  - run static website generator, place generated files under `_site`
-- exit containers
+Running `make build-pages` will use the updated db to generate the static
+website under `_site`
 
 Running `make serve` will build the static website and serve it at port `3000`.
 
