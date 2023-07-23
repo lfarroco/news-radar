@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">Superlifter: A DataLoader for Clojure/script</h1>
+		<div>
+			<small>2023/07/23</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/oliyh/superlifter" target="_blank"> here</a>.
+		</div>
+		<p>Superlifter is an implementation of DataLoader for Clojure that allows developers to decouple different parts of their application without sacrificing performance. It provides a way to batch data-loading requests and distribute data-fetching requirements throughout the application.</p>
+<p>Inspired by Haxl and DataLoader, Superlifter uses Urania, a remote data access library for Clojure/script, to batch similar fetches and deduplicate identical fetches through caching. This integration with Urania enables smooth integration with libraries like lacinia, where GraphQL resolvers are run independently and must return data or promises of data.</p>
+<p>One of the main aims of Superlifter is to provide a way to combine fetches based on time buckets, thresholds, or explicit triggers, rather than by node resolution. This approach simplifies code and avoids the need for prefetching to resolve 1+n problems.</p>
+<p>Superlifter offers various features, including vanilla usage, where a Superlifter instance is started without triggers and must be fetched manually. Other trigger options include queue-size and interval, similar to DataLoader.</p>
+<p>To trigger fetches, developers can either rely on the specified triggers or manually trigger a fetch using <code>(s/with-superlifter context (s/fetch!))</code>. This returns a promise that is delivered when all the fetches in the queue are complete, containing the results of all the fetches.</p>
+<p>Developers using Superlifter should be familiar with Urania, as it is the underlying library used for performing fetches. However, Urania is straightforward to use.</p>
+<p>Superlifter provides an efficient solution for batch data-loading in Clojure applications and offers flexibility in combining fetches based on various triggers. It simplifies code and improves performance by minimizing outgoing data requests.</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/styles.css"/>
+	</body>
+
+</html>

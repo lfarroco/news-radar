@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">Elixir: The Three Most Important Differences for Ruby Developers</h1>
+		<div>
+			<small>2023/07/23</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://phoenixonrails.com/blog/elixir-for-ruby-developers-the-three-most-important-differences" target="_blank"> here</a>.
+		</div>
+		<p>Elixir, a functional programming language, has been gaining popularity among developers, especially those coming from a Ruby background. Created by José Valim, a prominent Ruby developer, Elixir offers a syntax that may resemble Ruby at first glance, but the two languages differ significantly in their underlying designs.</p>
+<p>One of the most crucial differences between Elixir and Ruby is that Elixir is not object-oriented. Unlike Ruby, Elixir does not have classes or instance methods. Instead, Elixir organizes code into modules and functions. This fundamental difference in structure allows Elixir code to be organized in a way that may seem unfamiliar to Ruby developers.</p>
+<p>For instance, in Ruby, strings are instances of the String class, and you can call various instance methods on them using the <code>.-syntax</code>. In Elixir, however, there are no classes. Instead, String is a module that contains functions that operate on strings. To perform operations on a string in Elixir, you would use the syntax <code>String.function_name(string)</code>, rather than <code>string.function_name</code> as in Ruby.</p>
+<p>Elixir also provides modules like Integer, List, and Float, each containing functions specific to their respective types. Additionally, when a function in Elixir requires multiple arguments, the first argument typically has the same type as the module itself.</p>
+<p>If you're a Ruby developer looking to explore Elixir, it's essential to understand these key differences. While the syntax may appear similar, Elixir's functional nature and module-based structure offer a unique approach to coding. By embracing these differences, developers can fully leverage the power and capabilities of Elixir in their projects.</p>
+<p>To get started with Elixir, follow the official installation instructions. Once installed, you can use <code>iex</code>, the Elixir equivalent of <code>irb</code>, to experiment with the language and explore its features.</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/styles.css"/>
+	</body>
+
+</html>
