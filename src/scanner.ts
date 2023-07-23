@@ -26,7 +26,6 @@ const sources = [
   githubRelease('angular/angular', ['Angular', 'TypeScript']),
   githubRelease('denoland/deno', ['Deno', 'TypeScript']),
   githubRelease('rust-lang/rust', ['Rust']),
-  githubRelease('rust-lang/rust', ['Rust']),
 
   // private
   //subreddit('python', 'Python', 50),
