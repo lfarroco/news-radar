@@ -1,26 +1,12 @@
 version: '3.8'
 services:
-  worker:
-    profiles: [ "worker" ]
+  app:
     build: .
     working_dir: /usr/src/app
-    command: sh -c "deno run -A src/main.ts && deno task build"
     depends_on:
       - postgres
     volumes:
       - ./:/usr/src/app/
-
-  serve:
-    profiles: [ "serve" ]
-    build: .
-    working_dir: /usr/src/app
-    command: deno task serve
-    depends_on:
-      - postgres
-    volumes:
-      - ./:/usr/src/app/
-    ports:
-      - "3000:3000"
 
   postgres:
     image: postgres:14.1-alpine
