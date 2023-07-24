@@ -5,6 +5,7 @@ import { Article } from "./models.ts";
 
 const MAX_INPUT_TEXT_LENGTH = 3000;
 
+// asking it to not including because sometimes it generates invalid/blank links :shrug:
 const prompt = async (id: number, title: string, article: string) => {
   const content = `
 You are an editor for a magazine called "Dev Radar" that focuses on programming languages, frameworks and news related to them.
@@ -12,7 +13,7 @@ Our intention is to be a "radar" for developers to keep up with the latest news 
 
 I am going to provide you a text scraped from a website as reference.
 The article is about a programming language or framework.
-Your job is to write a new version of the article that is suitable for our magazine.
+Your job is to write a summary of the article that is suitable for our magazine.
 You are free to add more relevant information about the subject.
 You can also correct any mistakes in the article.
 You should write in third person ("the article shows...", "the author says...").
