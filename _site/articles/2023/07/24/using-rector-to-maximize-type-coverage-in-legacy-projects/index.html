@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">Using Rector to Maximize Type Coverage in Legacy Projects</h1>
+		<div>
+			<small>2023/07/24</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://staabm.github.io/2023/07/23/rector-in-legacy-projects.html" target="_blank"> here</a>.
+		</div>
+		<p>Rector is a powerful tool that can be used to improve the type coverage of a legacy project, resulting in better results from IDEs and static analysis tools. In this article, Markus Staab shares his experience and provides a step-by-step guide on how to utilize Rector effectively.</p>
+<p>The first step is to prepare for using Rector by configuring the relevant source paths and ensuring that the setup works as expected. Rector can be run from the command line on your workstation or integrated into your CI pipeline.</p>
+<p>Once the setup is complete, you can start adding Rector rules one at a time. It is important to review the generated changes and feel confident with them. If the changes become overwhelming, you can revert to a previous state and run the Rector rule on a smaller portion of the project.</p>
+<p>The author suggests starting with adding return types, as it is the least risky change and is usually backwards compatible. Then, move on to adding property types, starting with private properties and gradually adding types to protected properties. Finally, add parameter types, keeping in mind that this change may break backwards compatibility.</p>
+<p>Throughout the process, it is recommended to commit the intermediate states to make it easier to review the differences between steps.</p>
+<p>By following these steps, developers can maximize the type coverage of their legacy projects using Rector, leading to improved code quality and better development experience.</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/styles.css"/>
+	</body>
+
+</html>
