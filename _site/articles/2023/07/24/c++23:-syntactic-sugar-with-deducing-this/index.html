@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">C++23: Syntactic Sugar with Deducing This</h1>
+		<div>
+			<small>2023/07/24</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://www.modernescpp.com/index.php/c-23-syntactic-sugar-with-deducing-this" target="_blank"> here</a>.
+		</div>
+		<p>The article explores the Curiously Recurring Template Pattern (CRTP), a widely used idiom in C++. The author discusses the benefits of deducing this, a feature introduced in C++23, which simplifies the implementation of CRTP.</p>
+<p>CRTP, short for Curiously Recurring Template Pattern, is a technique in which a class called Derived is derived from a class template called Base. The key aspect is that Base takes Derived as a template argument. This pattern is commonly used to achieve static polymorphism, which occurs at compile time without the need for runtime pointer indirection.</p>
+<p>In the past, implementing CRTP in C++98 required explicit object parameters. However, with the introduction of deducing this in C++23, the need for explicit parameters is eliminated. The program deducingThisCRTP.cpp demonstrates a C++23-based implementation of CRTP, where the type of the explicit object parameter is deduced to the derived type and perfectly forwarded. This allows for cleaner and more concise code.</p>
+<p>The article also briefly mentions the use of deducing this in recursive lambdas. While recursive lambdas can be powerful, the author emphasizes the importance of keeping lambdas concise and self-documenting.</p>
+<p>Developers interested in modern C++ and static polymorphism will find the article informative and relevant. The examples provided showcase the evolution of CRTP from C++98 to the upcoming C++23 release. Stay tuned for more updates on C++23 and its new features.</p>
+<hr>
+<p>Note: The original article contained additional content that exceeded the word limit. The generated article focuses on the main topic of CRTP and deducing this in C++23.</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<span class="text-muted">2023 | dev-radar</span>
+			</div>
+		</footer>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/styles.css"/>
+	</body>
+
+</html>
