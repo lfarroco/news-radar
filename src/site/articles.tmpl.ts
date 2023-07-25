@@ -13,7 +13,7 @@ export default async function* () {
 		yield {
 			...row,
 			url: `/articles/${date}/${row.slug}/`,
-			title: row.article,
+			title: row.article_title,
 			content: row.article_content,
 			date,
 			formattedDate: date,

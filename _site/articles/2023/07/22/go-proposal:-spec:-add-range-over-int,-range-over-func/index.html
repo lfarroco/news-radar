@@ -36,7 +36,7 @@
 
 			<article class="card mt-2">
 	<div class="card-header">
-		<h1 class="mb-0">{&quot;title&quot;:&quot;Go Proposal: Spec: Add Range Over Int, Range Over Func&quot;,&quot;article&quot;:&quot;&#92;nThe article shows a proposal to add two new types that a for-range statement can range over in the Go programming language: integers and functions. The proposal suggests that if n is an integer type, then `for x := range n { ... }` would be equivalent to `for x := T(0); x &lt; n; x++ { ... }`, where T is the type of n. The proposal also introduces range over functions, where `for x, y := range f { ... }` is similar to `f(func(x T1, y T2) bool { ... })`, with the loop body moved into the function literal passed to f as yield. The boolean result from yield indicates whether to keep iterating. The article argues that the combination of range over integers and range over functions should make range the preferred form of the for loop for most iterations. The proposal aims to simplify code and make it easier to understand. This addition to the language would provide developers with more flexibility and options when it comes to iterating over integers and functions.&quot;}</h1>
+		<h1 class="mb-0">Go Proposal: Spec: Add Range Over Int, Range Over Func</h1>
 		<div>
 			<small>2023/07/22</small>
 		</div>
