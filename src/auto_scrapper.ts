@@ -5,6 +5,29 @@ import { slugify } from './utils.ts';
 
 await connect("localhost", 15432)
 
+
+const migrate = async () => {
+	const query = `
+SELECT * from info where status = 'published' AND article is not null
+`
+
+	const res = await client.queryObject<{ id: number, article: string, article_title: string, article_content: string, slug: string, date: Date }>(query);
+
+	res.rows.forEach(async row => {
+
+		const parsed = JSON.parse(row.article)
+
+		const query2 = `
+	UPDATE info SET slug = $1, article_title = $2, article_content=$3 WHERE id = $4;
+	`
+
+		await client.queryArray(query2, [slugify(parsed.title), parsed.title.trim(), parsed.article.trim(), row.id])
+
+	})
+
+}
+// migrate()
+
 //did you accidently deleted the db? fear not! the output html pages are sort a backup ;)
 
 const ingestArticle = async (filePath: string) => {
@@ -33,13 +56,13 @@ const ingestArticle = async (filePath: string) => {
 }
 
 
-const files = getFiles({
-	root: './_site/articles/2023',
-});
+// const files = getFiles({
+// 	root: './_site/articles/2023',
+// });
 
-files.forEach(async (file) => {
-	await ingestArticle(file.realPath)
-})
+// files.forEach(async (file) => {
+// 	await ingestArticle(file.realPath)
+// })
 
 const ingestTopic = async (path: string) => {
 
@@ -87,10 +110,11 @@ const ingestTopic = async (path: string) => {
 
 }
 
-const topics = getFiles({
-	root: './_site/topics',
-});
+// const topics = getFiles({
+// 	root: './_site/topics',
+// });
 
-topics.forEach(async file => {
-	await ingestTopic(file.realPath)
-})
+// topics.forEach(async file => {
+// 	await ingestTopic(file.realPath)
+// })
+
