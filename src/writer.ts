@@ -1,5 +1,5 @@
 import { gpt } from './openai.ts';
-import { batch } from './utils.ts';
+import { batch, slugify } from './utils.ts';
 import { client } from "./db.ts"
 import { Article } from "./models.ts";
 
@@ -62,14 +62,9 @@ async function writeArticle(item: Article) {
     item.original.substring(0, MAX_INPUT_TEXT_LENGTH),
   );
 
-  const article = JSON.stringify({
-    title,
-    article: content,
-  });
-
   await client.queryArray(
-    'UPDATE info SET status = $1, article = $2 WHERE id = $3;',
-    ['published', article, id],
+    'UPDATE info SET status = $1, article_title = $2, article_content =$3, slug = $4 WHERE id = $5;',
+    ['published', title, content, slugify(title), id],
   );
   console.log(`wrote article "${title}" with content ${content}...`);
 }
