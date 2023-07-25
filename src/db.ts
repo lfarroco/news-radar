@@ -41,7 +41,7 @@ export async function getLatestArticles() {
 export async function getLatestArticlesByTopic(topic: string) {
 
   const { rows } = await client.queryObject<Article>(`
-    SELECT article_title, article_content, date, slug FROM info 
+    SELECT article_title, article_content, date, info.slug as slug FROM info 
     INNER JOIN article_topic ON article_topic.article_id = info.id
     INNER JOIN topics ON topics.id = article_topic.topic_id
     WHERE info.status = 'published' AND topics.slug = $1
