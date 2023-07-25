@@ -11,7 +11,7 @@ open-db:
 	docker exec -it news-radar_postgres_1 psql -U root
 
 build-pages:
-	docker-compose run app deno task build
+	docker-compose run --rm app deno task build
 
 stats:
 	docker exec -it news-radar_postgres_1 psql -U root -c "SELECT COUNT(status), status from info GROUP BY status;"
