@@ -23,12 +23,12 @@ async function getArticles(topic_id: number) {
 
 	const rows = await getTopicArticles(topic_id);
 
-	return rows.map(({ article_title, date }) => {
+	return rows.map(({ article_title, date, slug }) => {
 
 		const formattedDate = date.toISOString().split('T')[0].replace(/-/g, '/');
 
 		return {
-			url: `/articles/${formattedDate}/${article_title}/`,
+			url: `/articles/${formattedDate}/${slug}/`,
 			title: article_title,
 			date: date.toUTCString(),
 			formattedDate: date.toISOString().split('T')[0],
