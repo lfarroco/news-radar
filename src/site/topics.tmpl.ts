@@ -6,12 +6,12 @@ export const layout = "topic.njk";
 export default async function* () {
 	const rows = await getTopicsList();
 
-	for (const { topic_id, name, slug } of rows) {
+	for (const { topic_id, name } of rows) {
 
 		const articles = await getArticles(topic_id)
 
 		yield {
-			url: `/topics/${slug}/`,
+			url: `/topics/${slugify(name)}/`,
 			title: name,
 			articles
 		};
