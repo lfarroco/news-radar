@@ -9,6 +9,9 @@ export type Article = {
   original: string;
   article: string;
   date: Date;
+  slug: string;
+  article_title: string;
+  article_content: string
 };
 
 

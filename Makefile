@@ -2,7 +2,7 @@ serve:
 	docker-compose run --service-ports app task serve
 
 run:
-	docker-compose run --rm app deno run -A src/main.ts
+	docker-compose run app deno run -A src/main.ts
 
 run-db:
 	docker-compose run postgres

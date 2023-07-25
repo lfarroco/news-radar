@@ -23,15 +23,13 @@ async function getArticles(topic_id: number) {
 
 	const rows = await getTopicArticles(topic_id);
 
-	return rows.map(({ article, date }) => {
-
-		const parsed = JSON.parse(article);
+	return rows.map(({ article_title, slug, date }) => {
 
 		const formattedDate = date.toISOString().split('T')[0].replace(/-/g, '/');
 
 		return {
-			url: `/articles/${formattedDate}/${slugify(parsed.title)}/`,
-			title: parsed.title,
+			url: `/articles/${formattedDate}/${article_title}/`,
+			title: article_title,
 			date: date.toUTCString(),
 			formattedDate: date.toISOString().split('T')[0],
 		}
