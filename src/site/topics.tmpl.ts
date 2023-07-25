@@ -23,7 +23,7 @@ async function getArticles(topic_id: number) {
 
 	const rows = await getTopicArticles(topic_id);
 
-	return rows.map(({ article_title, slug, date }) => {
+	return rows.map(({ article_title, date }) => {
 
 		const formattedDate = date.toISOString().split('T')[0].replace(/-/g, '/');
 
