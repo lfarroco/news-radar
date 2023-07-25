@@ -46,31 +46,32 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/adaszko/complgen/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;complgen is a powerful tool that allows developers to generate completion scripts for major shells such as bash, fish, and zsh from a single, concise EBNF-like grammar. This tool compiles the grammar into a standalone shell script that can be distributed independently. Additionally, complgen can also produce completions directly on stdout, making it ideal for interactive shells.&lt;/p&gt;
-&lt;p&gt;To use complgen, there are two main approaches:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Generating standalone completion scripts for bash, fish, or zsh.&lt;/li&gt;
-&lt;li&gt;Generating completions on stdout by compiling the grammar &amp;quot;just-in-time&amp;quot;.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;The just-in-time mode is designed to integrate with shells, providing completions directly from grammars without the need for compilation and sourcing completion shell script files.&lt;/p&gt;
-&lt;p&gt;To integrate complgen with your shell, follow these instructions:&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Bash Integration:&lt;/strong&gt;
-Assuming your .usage files are stored in the &lt;code&gt;~/.config/complgen&lt;/code&gt; directory, add the following line to your &lt;code&gt;~/.bashrc&lt;/code&gt; file:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;source ~/.config/complgen/bash-completions.sh
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;strong&gt;Fish Integration:&lt;/strong&gt;
-Assuming your .usage files are stored in the &lt;code&gt;~/.config/complgen&lt;/code&gt; directory, add the following line to your &lt;code&gt;~/.config/fish/config.fish&lt;/code&gt; file:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-fish&quot;&gt;source ~/.config/complgen/fish-completions.fish
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;strong&gt;Zsh Integration:&lt;/strong&gt;
-Assuming your .usage files are stored in the &lt;code&gt;~/.config/complgen&lt;/code&gt; directory, add the following line to your &lt;code&gt;~/.zshrc&lt;/code&gt; file:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-zsh&quot;&gt;source ~/.config/complgen/zsh-completions.zsh
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;To install complgen, use the following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;npm install -g complgen
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;For more information on the syntax and usage of complgen, refer to the examples provided in the subdirectory. You can also generate a grammar skeleton quickly by piping through the &lt;code&gt;scrape&lt;/code&gt; subcommand.&lt;/p&gt;
-&lt;p&gt;complgen is a valuable tool for developers who want to streamline their shell completions and improve their productivity. With its ability to generate completions from a single grammar, complgen simplifies the process of creating and distributing completion scripts across different shells. Stay ahead of the game by incorporating complgen into your development workflow.&lt;/p&gt;
+		<p>complgen is a powerful tool that allows developers to generate completion scripts for major shells such as bash, fish, and zsh from a single, concise EBNF-like grammar. This tool compiles the grammar into a standalone shell script that can be distributed independently. Additionally, complgen can also produce completions directly on stdout, making it ideal for interactive shells.</p>
+<p>To use complgen, there are two main approaches:</p>
+<ol>
+<li>Generating standalone completion scripts for bash, fish, or zsh.</li>
+<li>Generating completions on stdout by compiling the grammar &quot;just-in-time&quot;.</li>
+</ol>
+<p>The just-in-time mode is designed to integrate with shells, providing completions directly from grammars without the need for compilation and sourcing completion shell script files.</p>
+<p>To integrate complgen with your shell, follow these instructions:</p>
+<p>**Bash Integration:**Assuming your .usage files are stored in the <code>~/.config/complgen</code> directory, add the following line to your <code>~/.bashrc</code> file:</p>
+<pre><code class="language-bash">source ~/.config/complgen/bash-completions.sh
+
+</code></pre>
+<p>**Fish Integration:**Assuming your .usage files are stored in the <code>~/.config/complgen</code> directory, add the following line to your <code>~/.config/fish/config.fish</code> file:</p>
+<pre><code class="language-fish">source ~/.config/complgen/fish-completions.fish
+
+</code></pre>
+<p>**Zsh Integration:**Assuming your .usage files are stored in the <code>~/.config/complgen</code> directory, add the following line to your <code>~/.zshrc</code> file:</p>
+<pre><code class="language-zsh">source ~/.config/complgen/zsh-completions.zsh
+
+</code></pre>
+<p>To install complgen, use the following command:</p>
+<pre><code class="language-bash">npm install -g complgen
+
+</code></pre>
+<p>For more information on the syntax and usage of complgen, refer to the examples provided in the subdirectory. You can also generate a grammar skeleton quickly by piping through the <code>scrape</code> subcommand.</p>
+<p>complgen is a valuable tool for developers who want to streamline their shell completions and improve their productivity. With its ability to generate completions from a single grammar, complgen simplifies the process of creating and distributing completion scripts across different shells. Stay ahead of the game by incorporating complgen into your development workflow.</p>
 	</div>
 </article>
 

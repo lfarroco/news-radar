@@ -46,17 +46,17 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/FlagAI-Open/FlagAI" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;FlagAI is a fast, easy-to-use, and extensible toolkit for large-scale AI models. It is designed to help developers build and deploy AI models quickly and efficiently. The toolkit is built on top of PyTorch and provides a high-level API that simplifies the process of building and training models.&lt;/p&gt;
-&lt;p&gt;One of the key features of FlagAI is its speed. The toolkit is optimized for large-scale models and can handle massive datasets with ease. This makes it ideal for developers who need to train and deploy models quickly.&lt;/p&gt;
-&lt;p&gt;Another important feature of FlagAI is its extensibility. The toolkit provides a modular architecture that allows developers to easily add new features and functionality. This makes it easy to customize the toolkit to meet the specific needs of a project.&lt;/p&gt;
-&lt;p&gt;FlagAI also includes a number of pre-built models that can be used out of the box. These models cover a wide range of use cases, including image classification, object detection, and natural language processing.&lt;/p&gt;
-&lt;p&gt;To get started with FlagAI, developers can use the high-level API to build and train models. Here is an example of how to train an image classification model using FlagAI:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;import flag
+		<p>FlagAI is a fast, easy-to-use, and extensible toolkit for large-scale AI models. It is designed to help developers build and deploy AI models quickly and efficiently. The toolkit is built on top of PyTorch and provides a high-level API that simplifies the process of building and training models.</p>
+<p>One of the key features of FlagAI is its speed. The toolkit is optimized for large-scale models and can handle massive datasets with ease. This makes it ideal for developers who need to train and deploy models quickly.</p>
+<p>Another important feature of FlagAI is its extensibility. The toolkit provides a modular architecture that allows developers to easily add new features and functionality. This makes it easy to customize the toolkit to meet the specific needs of a project.</p>
+<p>FlagAI also includes a number of pre-built models that can be used out of the box. These models cover a wide range of use cases, including image classification, object detection, and natural language processing.</p>
+<p>To get started with FlagAI, developers can use the high-level API to build and train models. Here is an example of how to train an image classification model using FlagAI:</p>
+<pre><code>import flag
 import torch
 
 # Load the dataset
-train_dataset = flag.data.ImageFolder(&amp;apos;/path/to/train/dataset&amp;apos;)
-val_dataset = flag.data.ImageFolder(&amp;apos;/path/to/val/dataset&amp;apos;)
+train_dataset = flag.data.ImageFolder('/path/to/train/dataset')
+val_dataset = flag.data.ImageFolder('/path/to/val/dataset')
 
 # Create the model
 model = flag.models.resnet18(num_classes=len(train_dataset.classes))
@@ -67,8 +67,9 @@ optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 # Train the model
 trainer = flag.Trainer(model, optimizer, train_dataset, val_dataset)
 trainer.train()
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Overall, FlagAI is a powerful toolkit that can help developers build and deploy large-scale AI models quickly and efficiently. Its speed, extensibility, and pre-built models make it an ideal choice for developers who want to stay on the cutting edge of AI development.&lt;/p&gt;
+
+</code></pre>
+<p>Overall, FlagAI is a powerful toolkit that can help developers build and deploy large-scale AI models quickly and efficiently. Its speed, extensibility, and pre-built models make it an ideal choice for developers who want to stay on the cutting edge of AI development.</p>
 	</div>
 </article>
 

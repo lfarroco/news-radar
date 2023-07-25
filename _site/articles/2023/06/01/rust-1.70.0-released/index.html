@@ -46,25 +46,24 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://blog.rust-lang.org/2023/06/01/Rust-1.70.0.html" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;The Rust team has announced the release of Rust 1.70.0, a programming language that empowers developers to build reliable and efficient software. This version comes with several new features and improvements that make it an exciting release for Rust developers.&lt;/p&gt;
-&lt;p&gt;Sparse by default for crates.io
-One of the most significant changes in Rust 1.70.0 is the default enabling of Cargo&amp;apos;s &amp;quot;sparse&amp;quot; protocol for reading the index from crates.io. This feature was previously stabilized with Rust 1.68.0 but still required configuration to use with crates.io. The plan was to make it the default in 1.70.0, which has now been implemented.&lt;/p&gt;
-&lt;p&gt;This change means that developers should see substantial improvements in performance when fetching information from the crates.io index. However, users behind a restrictive firewall will need to ensure that access to https://index.crates.io is available. If you need to stay with the previous default of using the git index hosted by GitHub, the registries.crates-io.protocol config setting can be used to change the default.&lt;/p&gt;
-&lt;p&gt;Updating to Rust 1.70.0
-If you have a previous version of Rust installed via rustup, you can update to Rust 1.70.0 with the following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;rustup update stable
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;If you don&amp;apos;t have rustup already, you can get it from the Rust website. Once you have rustup installed, you can update to Rust 1.70.0 with the above command.&lt;/p&gt;
-&lt;p&gt;Testing future releases
-Developers who want to help test future releases of Rust can update locally to use the beta channel or the nightly channel. To update to the beta channel, use the following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;rustup default beta
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;To update to the nightly channel, use the following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;rustup default nightly
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;If you come across any bugs while testing future releases, please report them to the Rust team.&lt;/p&gt;
-&lt;p&gt;Conclusion
-Rust 1.70.0 is an exciting release for Rust developers, with the default enabling of Cargo&amp;apos;s &amp;quot;sparse&amp;quot; protocol for reading the index from crates.io being one of the most significant changes. Developers should see substantial improvements in performance when fetching information from the crates.io index. If you&amp;apos;re a Rust developer, make sure to update to Rust 1.70.0 and test future releases to help improve the language.&lt;/p&gt;
+		<p>The Rust team has announced the release of Rust 1.70.0, a programming language that empowers developers to build reliable and efficient software. This version comes with several new features and improvements that make it an exciting release for Rust developers.</p>
+<p>Sparse by default for crates.io One of the most significant changes in Rust 1.70.0 is the default enabling of Cargo's &quot;sparse&quot; protocol for reading the index from crates.io. This feature was previously stabilized with Rust 1.68.0 but still required configuration to use with crates.io. The plan was to make it the default in 1.70.0, which has now been implemented.</p>
+<p>This change means that developers should see substantial improvements in performance when fetching information from the crates.io index. However, users behind a restrictive firewall will need to ensure that access to https://index.crates.io is available. If you need to stay with the previous default of using the git index hosted by GitHub, the registries.crates-io.protocol config setting can be used to change the default.</p>
+<p>Updating to Rust 1.70.0 If you have a previous version of Rust installed via rustup, you can update to Rust 1.70.0 with the following command:</p>
+<pre><code>rustup update stable
+
+</code></pre>
+<p>If you don't have rustup already, you can get it from the Rust website. Once you have rustup installed, you can update to Rust 1.70.0 with the above command.</p>
+<p>Testing future releases Developers who want to help test future releases of Rust can update locally to use the beta channel or the nightly channel. To update to the beta channel, use the following command:</p>
+<pre><code>rustup default beta
+
+</code></pre>
+<p>To update to the nightly channel, use the following command:</p>
+<pre><code>rustup default nightly
+
+</code></pre>
+<p>If you come across any bugs while testing future releases, please report them to the Rust team.</p>
+<p>Conclusion Rust 1.70.0 is an exciting release for Rust developers, with the default enabling of Cargo's &quot;sparse&quot; protocol for reading the index from crates.io being one of the most significant changes. Developers should see substantial improvements in performance when fetching information from the crates.io index. If you're a Rust developer, make sure to update to Rust 1.70.0 and test future releases to help improve the language.</p>
 	</div>
 </article>
 

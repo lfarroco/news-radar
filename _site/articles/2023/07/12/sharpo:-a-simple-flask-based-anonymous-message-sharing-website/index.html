@@ -46,30 +46,31 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://sharpo.pythonanywhere.com/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Sharpo is a unique and innovative website built using the Flask framework. It aims to promote friendly discussions, communication, and idea sharing among users. Unlike other social media platforms that compromise user privacy and often foster echo chambers, Sharpo prioritizes user anonymity and data protection.&lt;/p&gt;
-&lt;p&gt;The website operates on the foundation of five core principles, which are known as the &amp;quot;5 pillars&amp;quot; of Sharpo. These pillars ensure a safe and inclusive environment for users to express their thoughts and engage in meaningful conversations.&lt;/p&gt;
-&lt;p&gt;Flask, a popular Python web framework, provides the backbone for Sharpo&amp;apos;s functionality. Its simplicity and flexibility make it an ideal choice for developing web applications. With Flask, developers can easily create routes, handle user input, and interact with databases.&lt;/p&gt;
-&lt;p&gt;To demonstrate the power of Flask, here&amp;apos;s a code snippet showcasing the basic structure of a Sharpo route:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;from flask import Flask, render_template, request
+		<p>Sharpo is a unique and innovative website built using the Flask framework. It aims to promote friendly discussions, communication, and idea sharing among users. Unlike other social media platforms that compromise user privacy and often foster echo chambers, Sharpo prioritizes user anonymity and data protection.</p>
+<p>The website operates on the foundation of five core principles, which are known as the &quot;5 pillars&quot; of Sharpo. These pillars ensure a safe and inclusive environment for users to express their thoughts and engage in meaningful conversations.</p>
+<p>Flask, a popular Python web framework, provides the backbone for Sharpo's functionality. Its simplicity and flexibility make it an ideal choice for developing web applications. With Flask, developers can easily create routes, handle user input, and interact with databases.</p>
+<p>To demonstrate the power of Flask, here's a code snippet showcasing the basic structure of a Sharpo route:</p>
+<pre><code class="language-python">from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-@app.route(&amp;apos;/&amp;apos;)
+@app.route('/')
 def index():
-    return render_template(&amp;apos;index.html&amp;apos;)
+    return render_template('index.html')
 
-@app.route(&amp;apos;/post&amp;apos;, methods=[&amp;apos;POST&amp;apos;])
+@app.route('/post', methods=['POST'])
 def create_post():
-    message = request.form.get(&amp;apos;message&amp;apos;)
+    message = request.form.get('message')
     # Store the message in the database
-    return &amp;apos;Post created successfully!&amp;apos;
+    return 'Post created successfully!'
 
-if __name__ == &amp;apos;__main__&amp;apos;:
+if __name__ == '__main__':
     app.run()
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;By leveraging Flask&amp;apos;s routing system, developers can define different routes for handling various user interactions. In this example, the &lt;code&gt;/&lt;/code&gt; route renders the main page, while the &lt;code&gt;/post&lt;/code&gt; route handles the creation of new posts.&lt;/p&gt;
-&lt;p&gt;Sharpo&amp;apos;s commitment to user privacy and data protection sets it apart from other platforms. It provides a refreshing alternative for individuals seeking a more secure and respectful online space.&lt;/p&gt;
-&lt;p&gt;Stay tuned to Dev Radar for more updates on Flask-based projects like Sharpo and other exciting developments in the programming world.&lt;/p&gt;
+
+</code></pre>
+<p>By leveraging Flask's routing system, developers can define different routes for handling various user interactions. In this example, the <code>/</code> route renders the main page, while the <code>/post</code> route handles the creation of new posts.</p>
+<p>Sharpo's commitment to user privacy and data protection sets it apart from other platforms. It provides a refreshing alternative for individuals seeking a more secure and respectful online space.</p>
+<p>Stay tuned to Dev Radar for more updates on Flask-based projects like Sharpo and other exciting developments in the programming world.</p>
 	</div>
 </article>
 

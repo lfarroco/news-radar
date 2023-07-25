@@ -46,12 +46,12 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://swiftsenpai.com/swift/asyncstream-callback/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Swift Concurrency has revolutionized asynchronous code handling in Swift, and one powerful component of it is AsyncStream. AsyncStream, a specialized form of AsyncSequence, allows developers to achieve callback- or delegate-like behavior using the async/await syntax.&lt;/p&gt;
-&lt;p&gt;Before Swift Concurrency, closures were used to trigger callbacks and inform callers about events during asynchronous operations. However, with AsyncStream, this approach can be replaced with a more intuitive async/await syntax.&lt;/p&gt;
-&lt;p&gt;In this article, the author demonstrates how to use AsyncStream to track the progress of a download operation. By the end, developers will have a good understanding of AsyncStream and how to use it in their own projects.&lt;/p&gt;
-&lt;p&gt;To showcase the power of AsyncStream, the author creates a sample app that simulates a download operation and displays the progress using a progress bar. The app includes a File struct with a performDownload() method that emulates the waiting period associated with a file download.&lt;/p&gt;
-&lt;p&gt;To utilize AsyncStream, the author creates a FileDownloader class that accepts an array of File objects and downloads them one by one. With AsyncStream, the custom closure yields the downloaded file&amp;apos;s filename every time a download is successful. It&amp;apos;s important to call the continuation&amp;apos;s finish() method after completing all operations to avoid unintended behavior.&lt;/p&gt;
-&lt;p&gt;Finally, the author integrates the FileDownloader with the user interface to display the download progress. The article provides code snippets and explanations throughout, making it easy for developers to understand and implement AsyncStream in their own projects.&lt;/p&gt;
+		<p>Swift Concurrency has revolutionized asynchronous code handling in Swift, and one powerful component of it is AsyncStream. AsyncStream, a specialized form of AsyncSequence, allows developers to achieve callback- or delegate-like behavior using the async/await syntax.</p>
+<p>Before Swift Concurrency, closures were used to trigger callbacks and inform callers about events during asynchronous operations. However, with AsyncStream, this approach can be replaced with a more intuitive async/await syntax.</p>
+<p>In this article, the author demonstrates how to use AsyncStream to track the progress of a download operation. By the end, developers will have a good understanding of AsyncStream and how to use it in their own projects.</p>
+<p>To showcase the power of AsyncStream, the author creates a sample app that simulates a download operation and displays the progress using a progress bar. The app includes a File struct with a performDownload() method that emulates the waiting period associated with a file download.</p>
+<p>To utilize AsyncStream, the author creates a FileDownloader class that accepts an array of File objects and downloads them one by one. With AsyncStream, the custom closure yields the downloaded file's filename every time a download is successful. It's important to call the continuation's finish() method after completing all operations to avoid unintended behavior.</p>
+<p>Finally, the author integrates the FileDownloader with the user interface to display the download progress. The article provides code snippets and explanations throughout, making it easy for developers to understand and implement AsyncStream in their own projects.</p>
 	</div>
 </article>
 

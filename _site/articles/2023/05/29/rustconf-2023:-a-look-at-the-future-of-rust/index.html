@@ -46,20 +46,21 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://blog.rust-lang.org/2023/05/29/RustConf.html" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;RustConf is a conference that brings together developers from all over the world to discuss the latest trends and advancements in the Rust programming language. In this year&amp;apos;s keynote, JeanHeyd Meneide was supposed to share their insights on the future of Rust. However, due to a decision made within the Rust project leadership, the keynote was demoted to a normal talk, causing controversy within the community.&lt;/p&gt;
-&lt;p&gt;The Rust programming language has been gaining popularity among developers due to its focus on safety, speed, and concurrency. Its syntax is similar to that of C++ and it is designed to provide low-level control without sacrificing high-level abstractions. Rust is also known for its memory safety guarantees, which prevent common programming errors such as null pointer dereferences and buffer overflows.&lt;/p&gt;
-&lt;p&gt;Despite its growing popularity, the Rust project has faced some challenges in recent years, including issues with decision-making and communication processes within the leadership chat. The demotion of the keynote at RustConf 2023 is just one example of these challenges.&lt;/p&gt;
-&lt;p&gt;The Rust project leadership has acknowledged the mistake and publicly apologized to JeanHeyd Meneide. They are also taking steps to address the underlying issues that led to the demotion. One of these steps is the creation of a new governance structure that will provide clear rules and processes for decision-making and communication.&lt;/p&gt;
-&lt;p&gt;As developers, it is important to stay informed about the latest developments in programming languages and frameworks. Rust is a language that is worth keeping an eye on, as it offers a unique combination of performance and safety. Here&amp;apos;s an example of Rust code that demonstrates its memory safety features:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-rust&quot;&gt;fn main() {
+		<p>RustConf is a conference that brings together developers from all over the world to discuss the latest trends and advancements in the Rust programming language. In this year's keynote, JeanHeyd Meneide was supposed to share their insights on the future of Rust. However, due to a decision made within the Rust project leadership, the keynote was demoted to a normal talk, causing controversy within the community.</p>
+<p>The Rust programming language has been gaining popularity among developers due to its focus on safety, speed, and concurrency. Its syntax is similar to that of C++ and it is designed to provide low-level control without sacrificing high-level abstractions. Rust is also known for its memory safety guarantees, which prevent common programming errors such as null pointer dereferences and buffer overflows.</p>
+<p>Despite its growing popularity, the Rust project has faced some challenges in recent years, including issues with decision-making and communication processes within the leadership chat. The demotion of the keynote at RustConf 2023 is just one example of these challenges.</p>
+<p>The Rust project leadership has acknowledged the mistake and publicly apologized to JeanHeyd Meneide. They are also taking steps to address the underlying issues that led to the demotion. One of these steps is the creation of a new governance structure that will provide clear rules and processes for decision-making and communication.</p>
+<p>As developers, it is important to stay informed about the latest developments in programming languages and frameworks. Rust is a language that is worth keeping an eye on, as it offers a unique combination of performance and safety. Here's an example of Rust code that demonstrates its memory safety features:</p>
+<pre><code class="language-rust">fn main() {
     let mut v = vec![1, 2, 3];
-    let first = &amp;amp;v[0];
+    let first = &amp;v[0];
     v.push(4); // this will cause a compile-time error
-    println!(&amp;quot;The first element is: {}&amp;quot;, first);
+    println!(&quot;The first element is: {}&quot;, first);
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In this code, the &lt;code&gt;vec!&lt;/code&gt; macro creates a vector of integers. The &lt;code&gt;let&lt;/code&gt; statement creates a reference to the first element of the vector. The &lt;code&gt;push&lt;/code&gt; method is then called on the vector, which would normally cause the reference to become invalid. However, Rust&amp;apos;s ownership and borrowing rules prevent this from happening, and the code will not compile.&lt;/p&gt;
-&lt;p&gt;In conclusion, RustConf 2023 may have had its share of controversy, but the Rust programming language remains a promising option for developers who value safety and performance. As the Rust project continues to evolve, it will be interesting to see how it addresses its challenges and continues to innovate.&lt;/p&gt;
+
+</code></pre>
+<p>In this code, the <code>vec!</code> macro creates a vector of integers. The <code>let</code> statement creates a reference to the first element of the vector. The <code>push</code> method is then called on the vector, which would normally cause the reference to become invalid. However, Rust's ownership and borrowing rules prevent this from happening, and the code will not compile.</p>
+<p>In conclusion, RustConf 2023 may have had its share of controversy, but the Rust programming language remains a promising option for developers who value safety and performance. As the Rust project continues to evolve, it will be interesting to see how it addresses its challenges and continues to innovate.</p>
 	</div>
 </article>
 

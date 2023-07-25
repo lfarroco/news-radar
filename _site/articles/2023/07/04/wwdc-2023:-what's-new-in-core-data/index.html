@@ -46,23 +46,24 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://betterprogramming.pub/wwdc-2023-whats-new-in-core-data-11f49a8e8dad#beff-c913b1d71a5a" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;At WWDC 2023, Apple will be introducing the new data framework SwiftData. However, Core Data, the cornerstone of SwiftData, has also received some enhancements. This article will highlight the new features that Core Data has gained this year.&lt;/p&gt;
-&lt;p&gt;One of the notable additions is the introduction of composite attributes. With composite attributes, developers can now encapsulate complex data types in a customized way. Previously, developers had three optional solutions to add latitude and longitude information to a restaurant entity. However, each solution had its own advantages and disadvantages.&lt;/p&gt;
-&lt;p&gt;Composite attributes provide developers with a brand new option. By customizing a composite attribute in Xcode&amp;apos;s Data Model Editor, developers can add attributes to the custom composite attribute in a similar way to defining an entity. This allows developers to use any property provided by Core Data for the entity, such as string, double, date, etc. Additionally, developers can also use other pre-defined composite attributes, and nesting is fully supported.&lt;/p&gt;
-&lt;p&gt;This enhancement in Core Data offers developers more flexibility and convenience when working with complex data types. It simplifies the process of handling and managing data within the Core Data framework.&lt;/p&gt;
-&lt;p&gt;To demonstrate the usage of composite attributes, here&amp;apos;s an example:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-swift&quot;&gt;// Define a composite attribute for latitude and longitude
+		<p>At WWDC 2023, Apple will be introducing the new data framework SwiftData. However, Core Data, the cornerstone of SwiftData, has also received some enhancements. This article will highlight the new features that Core Data has gained this year.</p>
+<p>One of the notable additions is the introduction of composite attributes. With composite attributes, developers can now encapsulate complex data types in a customized way. Previously, developers had three optional solutions to add latitude and longitude information to a restaurant entity. However, each solution had its own advantages and disadvantages.</p>
+<p>Composite attributes provide developers with a brand new option. By customizing a composite attribute in Xcode's Data Model Editor, developers can add attributes to the custom composite attribute in a similar way to defining an entity. This allows developers to use any property provided by Core Data for the entity, such as string, double, date, etc. Additionally, developers can also use other pre-defined composite attributes, and nesting is fully supported.</p>
+<p>This enhancement in Core Data offers developers more flexibility and convenience when working with complex data types. It simplifies the process of handling and managing data within the Core Data framework.</p>
+<p>To demonstrate the usage of composite attributes, here's an example:</p>
+<pre><code class="language-swift">// Define a composite attribute for latitude and longitude
 let locationAttribute = LocationAttribute()
 locationAttribute.latitude = 37.7749
 locationAttribute.longitude = -122.4194
 
 // Assign the composite attribute to a restaurant entity
 let restaurant = Restaurant()
-restaurant.name = &amp;quot;Sample Restaurant&amp;quot;
+restaurant.name = &quot;Sample Restaurant&quot;
 restaurant.location = locationAttribute
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In this example, a composite attribute called &lt;code&gt;LocationAttribute&lt;/code&gt; is defined to store the latitude and longitude information. The composite attribute is then assigned to a restaurant entity, simplifying the process of adding complex data to the entity.&lt;/p&gt;
-&lt;p&gt;Overall, the addition of composite attributes in Core Data expands the capabilities of the framework and provides developers with more options for handling complex data types.&lt;/p&gt;
+
+</code></pre>
+<p>In this example, a composite attribute called <code>LocationAttribute</code> is defined to store the latitude and longitude information. The composite attribute is then assigned to a restaurant entity, simplifying the process of adding complex data to the entity.</p>
+<p>Overall, the addition of composite attributes in Core Data expands the capabilities of the framework and provides developers with more options for handling complex data types.</p>
 	</div>
 </article>
 

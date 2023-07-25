@@ -46,25 +46,25 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://medium.com/@viniciusschuelter/angular-primitives-extending-the-power-of-angular-signals-eff8ff57eb63" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Angular Signals is a new feature that was introduced in Angular v16, released in May. It generated a lot of controversy in the community, as it extends the declarative way of coding around RxJs. In this article, we will explore what Angular Signals are and how they can be used.&lt;/p&gt;
-&lt;p&gt;Angular Signals is essentially a wrapper around a simple value that registers what depends on that value and notifies those dependents whenever its value changes. This feature is similar to the observer pattern, where an object maintains a list of its dependents and notifies them automatically of any state changes.&lt;/p&gt;
-&lt;p&gt;Despite its simple idea, Angular Signals has been scaring part of the community who feel this new feature could affect the declarative way (FRP) we code around RxJs. However, in the author&amp;apos;s opinion, RxJs will still continue to be a protagonist in Angular development and that Angular Signals came only to help compose this ecosystem.&lt;/p&gt;
-&lt;p&gt;So, what are the possible uses for Angular Signals? The best way to validate the power of Angular Signals is to use it as much as possible. A good starting point is to base ourselves on the example provided in the RFC. Let&amp;apos;s take a look at the code snippet below:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-typescript&quot;&gt;import { Signal } from &amp;apos;@angular/signals&amp;apos;;
+		<p>Angular Signals is a new feature that was introduced in Angular v16, released in May. It generated a lot of controversy in the community, as it extends the declarative way of coding around RxJs. In this article, we will explore what Angular Signals are and how they can be used.</p>
+<p>Angular Signals is essentially a wrapper around a simple value that registers what depends on that value and notifies those dependents whenever its value changes. This feature is similar to the observer pattern, where an object maintains a list of its dependents and notifies them automatically of any state changes.</p>
+<p>Despite its simple idea, Angular Signals has been scaring part of the community who feel this new feature could affect the declarative way (FRP) we code around RxJs. However, in the author's opinion, RxJs will still continue to be a protagonist in Angular development and that Angular Signals came only to help compose this ecosystem.</p>
+<p>So, what are the possible uses for Angular Signals? The best way to validate the power of Angular Signals is to use it as much as possible. A good starting point is to base ourselves on the example provided in the RFC. Let's take a look at the code snippet below:</p>
+<pre><code class="language-typescript">import { Signal } from '@angular/signals';
 
 @Component({
-  selector: &amp;apos;app-root&amp;apos;,
+  selector: 'app-root',
   template: `
-    &amp;lt;input [(ngModel)]=&amp;quot;name&amp;quot;&amp;gt;
-    &amp;lt;p&amp;gt;Hello, {{name}}!&amp;lt;/p&amp;gt;
+    &lt;input [(ngModel)]=&quot;name&quot;&gt;
+    &lt;p&gt;Hello, {{name}}!&lt;/p&gt;
   `
 })
 export class AppComponent {
-  name = &amp;apos;&amp;apos;;
-  nameChanged = new Signal&amp;lt;string&amp;gt;();
+  name = '';
+  nameChanged = new Signal&lt;string&gt;();
 
   constructor() {
-    this.nameChanged.subscribe((name: string) =&amp;gt; {
+    this.nameChanged.subscribe((name: string) =&gt; {
       console.log(`Name changed to ${name}`);
     });
   }
@@ -78,10 +78,11 @@ export class AppComponent {
     return this._name;
   }
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In this example, we have an input field that is bound to the &lt;code&gt;name&lt;/code&gt; property of the component. Whenever the value of the input changes, the &lt;code&gt;name&lt;/code&gt; property is updated and the &lt;code&gt;nameChanged&lt;/code&gt; signal is emitted with the new value. The signal is subscribed to in the constructor of the component, and whenever the signal is emitted, the console logs the new value.&lt;/p&gt;
-&lt;p&gt;This is just a simple example, but it shows the potential of Angular Signals to simplify the code and make it more declarative. By using signals, we can avoid the need for complex event handling and callbacks, and instead rely on a simple and intuitive API.&lt;/p&gt;
-&lt;p&gt;In conclusion, Angular Signals is a powerful new feature that extends the power of Angular and simplifies the way we code around RxJs. While it may be controversial, it has the potential to make our code more declarative and easier to read. As developers, it is important to keep up with the latest news and features in the industry, and Angular Signals is definitely a feature worth exploring.&lt;/p&gt;
+
+</code></pre>
+<p>In this example, we have an input field that is bound to the <code>name</code> property of the component. Whenever the value of the input changes, the <code>name</code> property is updated and the <code>nameChanged</code> signal is emitted with the new value. The signal is subscribed to in the constructor of the component, and whenever the signal is emitted, the console logs the new value.</p>
+<p>This is just a simple example, but it shows the potential of Angular Signals to simplify the code and make it more declarative. By using signals, we can avoid the need for complex event handling and callbacks, and instead rely on a simple and intuitive API.</p>
+<p>In conclusion, Angular Signals is a powerful new feature that extends the power of Angular and simplifies the way we code around RxJs. While it may be controversial, it has the potential to make our code more declarative and easier to read. As developers, it is important to keep up with the latest news and features in the industry, and Angular Signals is definitely a feature worth exploring.</p>
 	</div>
 </article>
 

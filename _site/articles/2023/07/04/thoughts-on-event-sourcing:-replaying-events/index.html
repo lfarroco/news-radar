@@ -46,20 +46,16 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://sebastiandedeyne.com/event-sourcing/replaying-events/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Event sourcing is a powerful technique in which the stream of events becomes the source of truth for an application. However, the idea of being able to completely delete and replay events at any time is not as straightforward as it seems.&lt;/p&gt;
-&lt;p&gt;One of the main challenges with replays is the potential downtime it can cause. If something goes wrong during the replay process, you could end up with a partially populated database, which can be disastrous. Additionally, deleting data for replays can be application-specific and may require dropping related tables or columns.&lt;/p&gt;
-&lt;p&gt;Another issue with replays is their impact on data consistency. If you want to view the state of your data at a specific point in time, replaying events can be problematic. Users may be pulled back in time when they visit the site, leading to confusion and inconsistencies.&lt;/p&gt;
-&lt;p&gt;To address these challenges, there are a couple of strategies that can be employed:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Phased Rollouts: Instead of doing a full replay, a new system can be built alongside the old one. When the new system is deployed, events can be replayed on it to populate the necessary tables. During the transition period, the old system can remain online, allowing time to validate the correctness of the new system on real data. Once confidence is gained, the new system can be made available to external reporting tools.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Small-Batch Replays: In cases where bugs occur or projections need to be rebuilt, small-batch replays can be used. Instead of replaying events for the entire system, specific models or projections can be targeted. By querying relevant events and running them through projectors again, it is possible to rebuild from a clean slate without significant downtime. These scripts are often tailored to the application and projection, ensuring only the necessary events are queried.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;In conclusion, while the promise of being able to replay events in event sourcing is enticing, it is crucial to consider the challenges and potential risks involved. By employing strategies such as phased rollouts and small-batch replays, developers can mitigate these risks and ensure a smoother transition and data consistency in their applications.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;// Example of a small-batch replay script in JavaScript
+		<p>Event sourcing is a powerful technique in which the stream of events becomes the source of truth for an application. However, the idea of being able to completely delete and replay events at any time is not as straightforward as it seems.</p>
+<p>One of the main challenges with replays is the potential downtime it can cause. If something goes wrong during the replay process, you could end up with a partially populated database, which can be disastrous. Additionally, deleting data for replays can be application-specific and may require dropping related tables or columns.</p>
+<p>Another issue with replays is their impact on data consistency. If you want to view the state of your data at a specific point in time, replaying events can be problematic. Users may be pulled back in time when they visit the site, leading to confusion and inconsistencies.</p>
+<p>To address these challenges, there are a couple of strategies that can be employed:</p>
+<ol>
+<li>Phased Rollouts: Instead of doing a full replay, a new system can be built alongside the old one. When the new system is deployed, events can be replayed on it to populate the necessary tables. During the transition period, the old system can remain online, allowing time to validate the correctness of the new system on real data. Once confidence is gained, the new system can be made available to external reporting tools.</li>
+<li>Small-Batch Replays: In cases where bugs occur or projections need to be rebuilt, small-batch replays can be used. Instead of replaying events for the entire system, specific models or projections can be targeted. By querying relevant events and running them through projectors again, it is possible to rebuild from a clean slate without significant downtime. These scripts are often tailored to the application and projection, ensuring only the necessary events are queried.</li>
+</ol>
+<p>In conclusion, while the promise of being able to replay events in event sourcing is enticing, it is crucial to consider the challenges and potential risks involved. By employing strategies such as phased rollouts and small-batch replays, developers can mitigate these risks and ensure a smoother transition and data consistency in their applications.</p>
+<pre><code class="language-javascript">// Example of a small-batch replay script in JavaScript
 
 // Delete projection
 deleteProjection();
@@ -68,13 +64,14 @@ deleteProjection();
 const relevantEvents = queryEvents();
 
 // Run events through projectors
-relevantEvents.forEach(event =&amp;gt; {
+relevantEvents.forEach(event =&gt; {
   runProjector(event);
 });
 
 // Projection is now rebuilt
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Stay tuned to Dev Radar for more insights and news on event sourcing and other programming techniques.&lt;/p&gt;
+
+</code></pre>
+<p>Stay tuned to Dev Radar for more insights and news on event sourcing and other programming techniques.</p>
 	</div>
 </article>
 

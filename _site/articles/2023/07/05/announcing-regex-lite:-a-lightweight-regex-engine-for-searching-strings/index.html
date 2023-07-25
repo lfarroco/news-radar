@@ -46,45 +46,49 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://docs.rs/regex-lite/0.1.*/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;The regex-lite crate provides a lightweight regex engine for searching strings. It offers a syntax that is nearly identical to the popular regex crate. However, regex-lite prioritizes smaller binary sizes and shorter Rust compile times over performance and functionality. As a result, regex searches in this crate may be slower compared to the regex crate. Additionally, regex-lite has limited Unicode support, only matching codepoint by codepoint.&lt;/p&gt;
-&lt;p&gt;To use regex-lite, simply add it as a dependency in your project&amp;apos;s Cargo.toml file. Here&amp;apos;s an example of how to use regex-lite in a Rust project:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Create a new Rust project:&lt;/li&gt;
-&lt;/ol&gt;
-&lt;pre&gt;&lt;code&gt;$ cargo new my_project
+		<p>The regex-lite crate provides a lightweight regex engine for searching strings. It offers a syntax that is nearly identical to the popular regex crate. However, regex-lite prioritizes smaller binary sizes and shorter Rust compile times over performance and functionality. As a result, regex searches in this crate may be slower compared to the regex crate. Additionally, regex-lite has limited Unicode support, only matching codepoint by codepoint.</p>
+<p>To use regex-lite, simply add it as a dependency in your project's Cargo.toml file. Here's an example of how to use regex-lite in a Rust project:</p>
+<ol>
+<li>Create a new Rust project:</li>
+</ol>
+<pre><code>$ cargo new my_project
 $ cd my_project
-&lt;/code&gt;&lt;/pre&gt;
-&lt;ol start=&quot;2&quot;&gt;
-&lt;li&gt;Add regex-lite as a dependency:&lt;/li&gt;
-&lt;/ol&gt;
-&lt;pre&gt;&lt;code&gt;# Cargo.toml
+
+</code></pre>
+<ol>
+<li>Add regex-lite as a dependency:</li>
+</ol>
+<pre><code># Cargo.toml
 [dependencies]
-regex-lite = &amp;quot;0.1&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;ol start=&quot;3&quot;&gt;
-&lt;li&gt;Edit src/main.rs with the following code:&lt;/li&gt;
-&lt;/ol&gt;
-&lt;pre&gt;&lt;code class=&quot;language-rust&quot;&gt;use regex_lite::Regex;
+regex-lite = &quot;0.1&quot;
+
+</code></pre>
+<ol>
+<li>Edit src/main.rs with the following code:</li>
+</ol>
+<pre><code class="language-rust">use regex_lite::Regex;
 
 fn main() {
-    let haystack = &amp;quot;Hello, world!&amp;quot;;
-    let pattern = r&amp;quot;world&amp;quot;;
+    let haystack = &quot;Hello, world!&quot;;
+    let pattern = r&quot;world&quot;;
 
     let re = Regex::new(pattern).unwrap();
     if let Some(captures) = re.captures(haystack) {
         let match_str = captures.get(0).unwrap().as_str();
-        println!(&amp;quot;Found match: {}&amp;quot;, match_str);
+        println!(&quot;Found match: {}&quot;, match_str);
     } else {
-        println!(&amp;quot;No match found&amp;quot;);
+        println!(&quot;No match found&quot;);
     }
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;ol start=&quot;4&quot;&gt;
-&lt;li&gt;Run the program:&lt;/li&gt;
-&lt;/ol&gt;
-&lt;pre&gt;&lt;code&gt;$ cargo run
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This example demonstrates a basic regex search using regex-lite. For more examples and detailed API documentation, refer to the official documentation.&lt;/p&gt;
+
+</code></pre>
+<ol>
+<li>Run the program:</li>
+</ol>
+<pre><code>$ cargo run
+
+</code></pre>
+<p>This example demonstrates a basic regex search using regex-lite. For more examples and detailed API documentation, refer to the official documentation.</p>
 	</div>
 </article>
 

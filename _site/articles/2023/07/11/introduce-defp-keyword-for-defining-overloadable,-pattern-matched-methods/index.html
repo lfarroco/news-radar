@@ -46,18 +46,19 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://bugs.ruby-lang.org/issues/19764" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Ruby developer Zeke Gabrielse proposes the introduction of a new keyword, defp, in Ruby to define methods that apply pattern matching to their arguments. This feature aims to improve code quality and make the developer&amp;apos;s intent clearer by refactoring complex methods that use case statements for handling varied arguments.&lt;/p&gt;
-&lt;p&gt;The proposed defp keyword would allow developers to define smaller, simpler methods that handle specific argument patterns, bringing method overloads to Ruby. Additionally, this feature adds a way to define more typing to the language, similar to what RBS has attempted but in a more Ruby-like way.&lt;/p&gt;
-&lt;p&gt;The idea of automatic dispatching without boilerplate code is appealing, although method overloading has never existed in Ruby. Pattern matching in the method signature, on the other hand, is highly desired by developers.&lt;/p&gt;
-&lt;p&gt;Zeke&amp;apos;s proposal has sparked further discussion within the Ruby community, with many expressing their support for the introduction of the defp keyword.&lt;/p&gt;
-&lt;p&gt;Original idea by Victor Shepelev: &lt;a href=&quot;https://zverok.space/blog/2023-05-05-ruby-types.html&quot;&gt;Read more&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Further discussion: &lt;a href=&quot;https://news.ycombinator.com/item?id=35834351&quot;&gt;Read more&lt;/a&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;def foo(nb =&amp;gt; Integer) # class validation
-def foo(minutes =&amp;gt; 0..59) # range/structure validation
-def foo(if: =&amp;gt; condition) # alias for keyword argument (#18402)
-def foo(v =&amp;gt; @hostname) # easy way to set instance variables (#15192 and many others)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The Ruby community eagerly awaits the implementation of this proposed feature, as it has the potential to significantly enhance the language&amp;apos;s expressiveness and code maintainability.&lt;/p&gt;
+		<p>Ruby developer Zeke Gabrielse proposes the introduction of a new keyword, defp, in Ruby to define methods that apply pattern matching to their arguments. This feature aims to improve code quality and make the developer's intent clearer by refactoring complex methods that use case statements for handling varied arguments.</p>
+<p>The proposed defp keyword would allow developers to define smaller, simpler methods that handle specific argument patterns, bringing method overloads to Ruby. Additionally, this feature adds a way to define more typing to the language, similar to what RBS has attempted but in a more Ruby-like way.</p>
+<p>The idea of automatic dispatching without boilerplate code is appealing, although method overloading has never existed in Ruby. Pattern matching in the method signature, on the other hand, is highly desired by developers.</p>
+<p>Zeke's proposal has sparked further discussion within the Ruby community, with many expressing their support for the introduction of the defp keyword.</p>
+<p>Original idea by Victor Shepelev: <a href="https://zverok.space/blog/2023-05-05-ruby-types.html">Read more</a></p>
+<p>Further discussion: <a href="https://news.ycombinator.com/item?id=35834351">Read more</a></p>
+<pre><code class="language-ruby">def foo(nb =&gt; Integer) # class validation
+def foo(minutes =&gt; 0..59) # range/structure validation
+def foo(if: =&gt; condition) # alias for keyword argument (#18402)
+def foo(v =&gt; @hostname) # easy way to set instance variables (#15192 and many others)
+
+</code></pre>
+<p>The Ruby community eagerly awaits the implementation of this proposed feature, as it has the potential to significantly enhance the language's expressiveness and code maintainability.</p>
 	</div>
 </article>
 

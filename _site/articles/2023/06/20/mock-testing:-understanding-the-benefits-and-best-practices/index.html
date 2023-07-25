@@ -46,17 +46,17 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://www.codium.ai/blog/mock-testing/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Mock testing is a technique used in software development to simulate the behavior of external dependencies. It involves creating mock objects that mimic the behavior of real objects, allowing developers to test their code in isolation and identify issues early on in the development process.&lt;/p&gt;
-&lt;p&gt;Benefits of Mock Testing&lt;/p&gt;
-&lt;p&gt;Mock testing offers several benefits to software developers. First, it helps to identify issues early on in the development process, reducing the likelihood of bugs and errors in the final product. It also allows developers to test their code in isolation, without the need for external dependencies, making it easier to identify and fix issues.&lt;/p&gt;
-&lt;p&gt;Another benefit of mock testing is that it allows developers to test edge cases and error conditions that may be difficult to reproduce in a real-world environment. This can help to improve the overall quality and reliability of the software.&lt;/p&gt;
-&lt;p&gt;Best Practices for Mock Testing&lt;/p&gt;
-&lt;p&gt;To get the most out of mock testing, there are several best practices that developers should follow. First, it is important to ensure that the mock objects accurately mimic the behavior of real objects. This can be achieved by carefully analyzing the behavior of the real objects and designing the mock objects accordingly.&lt;/p&gt;
-&lt;p&gt;It is also important to ensure that the mock objects are easy to use and maintain. This can be achieved by using a consistent naming convention and organizing the mock objects in a logical manner.&lt;/p&gt;
-&lt;p&gt;In addition, it is important to ensure that the mock objects are properly integrated into the testing process. This can be achieved by using a testing framework that supports mock testing, such as JUnit or Mockito.&lt;/p&gt;
-&lt;p&gt;Code Example&lt;/p&gt;
-&lt;p&gt;Here is an example of how mock testing can be used in Java using the Mockito framework:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;public class MyServiceTest {
+		<p>Mock testing is a technique used in software development to simulate the behavior of external dependencies. It involves creating mock objects that mimic the behavior of real objects, allowing developers to test their code in isolation and identify issues early on in the development process.</p>
+<p>Benefits of Mock Testing</p>
+<p>Mock testing offers several benefits to software developers. First, it helps to identify issues early on in the development process, reducing the likelihood of bugs and errors in the final product. It also allows developers to test their code in isolation, without the need for external dependencies, making it easier to identify and fix issues.</p>
+<p>Another benefit of mock testing is that it allows developers to test edge cases and error conditions that may be difficult to reproduce in a real-world environment. This can help to improve the overall quality and reliability of the software.</p>
+<p>Best Practices for Mock Testing</p>
+<p>To get the most out of mock testing, there are several best practices that developers should follow. First, it is important to ensure that the mock objects accurately mimic the behavior of real objects. This can be achieved by carefully analyzing the behavior of the real objects and designing the mock objects accordingly.</p>
+<p>It is also important to ensure that the mock objects are easy to use and maintain. This can be achieved by using a consistent naming convention and organizing the mock objects in a logical manner.</p>
+<p>In addition, it is important to ensure that the mock objects are properly integrated into the testing process. This can be achieved by using a testing framework that supports mock testing, such as JUnit or Mockito.</p>
+<p>Code Example</p>
+<p>Here is an example of how mock testing can be used in Java using the Mockito framework:</p>
+<pre><code>public class MyServiceTest {
 
     @Mock
     private MyDependency myDependency;
@@ -67,20 +67,21 @@
     @Test
     public void testMyService() {
         // Set up mock behavior
-        when(myDependency.doSomething()).thenReturn(&amp;quot;Mocked response&amp;quot;);
+        when(myDependency.doSomething()).thenReturn(&quot;Mocked response&quot;);
 
         // Call the service method
         String result = myService.doSomething();
 
         // Verify the result
-        assertEquals(&amp;quot;Mocked response&amp;quot;, result);
+        assertEquals(&quot;Mocked response&quot;, result);
     }
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In this example, a mock object is created for the &lt;code&gt;MyDependency&lt;/code&gt; class using the &lt;code&gt;@Mock&lt;/code&gt; annotation. The &lt;code&gt;MyService&lt;/code&gt; class is then created using the &lt;code&gt;@InjectMocks&lt;/code&gt; annotation, which automatically injects the mock object into the service.&lt;/p&gt;
-&lt;p&gt;The &lt;code&gt;when&lt;/code&gt; method is used to specify the behavior of the mock object, in this case returning a mocked response. The &lt;code&gt;myService.doSomething()&lt;/code&gt; method is then called, and the result is verified using the &lt;code&gt;assertEquals&lt;/code&gt; method.&lt;/p&gt;
-&lt;p&gt;Conclusion&lt;/p&gt;
-&lt;p&gt;Mock testing is a powerful technique that can help to improve the quality and reliability of software. By simulating the behavior of external dependencies, developers can identify issues early on in the development process and test edge cases and error conditions that may be difficult to reproduce in a real-world environment. By following best practices and using a testing framework that supports mock testing, developers can get the most out of this technique and ensure that their software is of the highest quality.&lt;/p&gt;
+
+</code></pre>
+<p>In this example, a mock object is created for the <code>MyDependency</code> class using the <code>@Mock</code> annotation. The <code>MyService</code> class is then created using the <code>@InjectMocks</code> annotation, which automatically injects the mock object into the service.</p>
+<p>The <code>when</code> method is used to specify the behavior of the mock object, in this case returning a mocked response. The <code>myService.doSomething()</code> method is then called, and the result is verified using the <code>assertEquals</code> method.</p>
+<p>Conclusion</p>
+<p>Mock testing is a powerful technique that can help to improve the quality and reliability of software. By simulating the behavior of external dependencies, developers can identify issues early on in the development process and test edge cases and error conditions that may be difficult to reproduce in a real-world environment. By following best practices and using a testing framework that supports mock testing, developers can get the most out of this technique and ensure that their software is of the highest quality.</p>
 	</div>
 </article>
 

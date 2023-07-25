@@ -46,7 +46,7 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://devblogs.microsoft.com/oldnewthing/20230705-00/?p=108392" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;In this article, Raymond Chen explores how to avoid memory allocation failures in C++ coroutines by preallocating the coroutine frame. The coroutine frame consists of various components, and its size can vary depending on the coroutine body. By anticipating the necessary size, developers can preallocate the memory in the caller&amp;apos;s frame, eliminating the need for dynamic allocation. Chen provides insights into calculating the sizes of different components and determining the compiler overhead experimentally. He also demonstrates how to use a custom operator new to pass the preallocated memory to the coroutine function. This technique can help developers optimize memory usage and improve performance in C++ coroutines.&lt;/p&gt;
+		<p>In this article, Raymond Chen explores how to avoid memory allocation failures in C++ coroutines by preallocating the coroutine frame. The coroutine frame consists of various components, and its size can vary depending on the coroutine body. By anticipating the necessary size, developers can preallocate the memory in the caller's frame, eliminating the need for dynamic allocation. Chen provides insights into calculating the sizes of different components and determining the compiler overhead experimentally. He also demonstrates how to use a custom operator new to pass the preallocated memory to the coroutine function. This technique can help developers optimize memory usage and improve performance in C++ coroutines.</p>
 	</div>
 </article>
 

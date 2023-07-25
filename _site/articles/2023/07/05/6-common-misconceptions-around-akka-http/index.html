@@ -46,28 +46,29 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://www.iteratorshq.com/blog/6-common-misconceptions-around-akka-http-pekko-http/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Akka-HTTP, powered by Akka, is a widely used foundation for many Scala and Java web services. Despite recent controversy surrounding its license changes, there are no signs of it fading away. The Apache Software Foundation has even submitted Pekko, an alternative to Akka-HTTP, to the Apache Incubator, ensuring the continued maintenance and development of the Akka ecosystem.&lt;/p&gt;
-&lt;p&gt;One common misconception is that the routing in akka-http is unreadable. While some code examples may seem overwhelming, the DSL offers flexibility and can be written in a concise and readable manner. By using operators like ~, |, and &amp;amp;, developers can significantly reduce nesting. Additionally, keeping the business logic separate from the routing helps to maintain clarity and simplicity.&lt;/p&gt;
-&lt;p&gt;Compared to other frameworks like Play, which require defining routes in multiple places, akka-http&amp;apos;s approach keeps the routing code in a single location. This allows developers to easily gather information about endpoints and their HTTP methods without switching between files.&lt;/p&gt;
-&lt;p&gt;Overall, Akka-HTTP and its alternative Pekko offer powerful tools for building web services in Scala and Java. Developers can leverage the flexibility of the routing DSL and the declarative nature of directives to create efficient and maintainable code.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-scala&quot;&gt;// Example of concise routing in Akka-HTTP
+		<p>Akka-HTTP, powered by Akka, is a widely used foundation for many Scala and Java web services. Despite recent controversy surrounding its license changes, there are no signs of it fading away. The Apache Software Foundation has even submitted Pekko, an alternative to Akka-HTTP, to the Apache Incubator, ensuring the continued maintenance and development of the Akka ecosystem.</p>
+<p>One common misconception is that the routing in akka-http is unreadable. While some code examples may seem overwhelming, the DSL offers flexibility and can be written in a concise and readable manner. By using operators like ~, |, and &amp;, developers can significantly reduce nesting. Additionally, keeping the business logic separate from the routing helps to maintain clarity and simplicity.</p>
+<p>Compared to other frameworks like Play, which require defining routes in multiple places, akka-http's approach keeps the routing code in a single location. This allows developers to easily gather information about endpoints and their HTTP methods without switching between files.</p>
+<p>Overall, Akka-HTTP and its alternative Pekko offer powerful tools for building web services in Scala and Java. Developers can leverage the flexibility of the routing DSL and the declarative nature of directives to create efficient and maintainable code.</p>
+<pre><code class="language-scala">// Example of concise routing in Akka-HTTP
 trait MyRouter extends Directives {
   val routes: Route = 
-    path(&amp;quot;hello&amp;quot;) {
+    path(&quot;hello&quot;) {
       get {
-        complete(&amp;quot;Hello, World!&amp;quot;)
+        complete(&quot;Hello, World!&quot;)
       }
     } ~
-    path(&amp;quot;users&amp;quot;) {
+    path(&quot;users&quot;) {
       post {
-        entity(as[User]) { user =&amp;gt;
-          complete(s&amp;quot;Created user: $user&amp;quot;)
+        entity(as[User]) { user =&gt;
+          complete(s&quot;Created user: $user&quot;)
         }
       }
     }
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Check out our Scala 3 example of a pekko-http microservice to see how you can leverage these tools in your own projects!&lt;/p&gt;
+
+</code></pre>
+<p>Check out our Scala 3 example of a pekko-http microservice to see how you can leverage these tools in your own projects!</p>
 	</div>
 </article>
 

@@ -46,27 +46,28 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/pola-rs/polars/releases/tag/rs-0.31.1" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Rust Polars, a powerful data manipulation library for Rust, has announced the release of version 0.31.1. This release brings several performance improvements, enhancements, bug fixes, and other improvements. The team behind Rust Polars would like to thank all the contributors who made this release possible.&lt;/p&gt;
-&lt;p&gt;Developers who use Rust Polars can expect better performance in their data manipulation tasks, thanks to the performance improvements introduced in this release. The enhancements and bug fixes address various issues and make the library more robust and reliable.&lt;/p&gt;
-&lt;p&gt;To get started with Rust Polars, developers can check out the documentation and explore the available qualifiers for searching code, repositories, users, issues, and pull requests. The library also supports saved searches, allowing developers to filter results more quickly.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example of how to use Rust Polars to perform a simple data manipulation task:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-rust&quot;&gt;use polars::prelude::*;
+		<p>Rust Polars, a powerful data manipulation library for Rust, has announced the release of version 0.31.1. This release brings several performance improvements, enhancements, bug fixes, and other improvements. The team behind Rust Polars would like to thank all the contributors who made this release possible.</p>
+<p>Developers who use Rust Polars can expect better performance in their data manipulation tasks, thanks to the performance improvements introduced in this release. The enhancements and bug fixes address various issues and make the library more robust and reliable.</p>
+<p>To get started with Rust Polars, developers can check out the documentation and explore the available qualifiers for searching code, repositories, users, issues, and pull requests. The library also supports saved searches, allowing developers to filter results more quickly.</p>
+<p>Here's an example of how to use Rust Polars to perform a simple data manipulation task:</p>
+<pre><code class="language-rust">use polars::prelude::*;
 
 fn main() {
     // Create a DataFrame
     let df = DataFrame::new(vec![
-        Series::new(&amp;quot;name&amp;quot;, &amp;amp;[&amp;quot;Alice&amp;quot;, &amp;quot;Bob&amp;quot;, &amp;quot;Charlie&amp;quot;]),
-        Series::new(&amp;quot;age&amp;quot;, &amp;amp;[25, 30, 35]),
+        Series::new(&quot;name&quot;, &amp;[&quot;Alice&quot;, &quot;Bob&quot;, &quot;Charlie&quot;]),
+        Series::new(&quot;age&quot;, &amp;[25, 30, 35]),
     ]);
 
     // Filter the DataFrame
-    let filtered_df = df.filter(col(&amp;quot;age&amp;quot;).gt(30));
+    let filtered_df = df.filter(col(&quot;age&quot;).gt(30));
 
     // Print the filtered DataFrame
-    println!(&amp;quot;{:?}&amp;quot;, filtered_df);
+    println!(&quot;{:?}&quot;, filtered_df);
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;With its intuitive API and powerful features, Rust Polars is a valuable tool for developers working with data manipulation in Rust. Stay tuned for more updates and news from the Rust Polars community.&lt;/p&gt;
+
+</code></pre>
+<p>With its intuitive API and powerful features, Rust Polars is a valuable tool for developers working with data manipulation in Rust. Stay tuned for more updates and news from the Rust Polars community.</p>
 	</div>
 </article>
 

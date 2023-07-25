@@ -46,19 +46,15 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://blog.arkusonthe.net/typescript-exhaustive-switch/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Switch statements in TypeScript are not exhaustive, which means that the compiler doesn&amp;apos;t warn you if you forget to handle a case in a switch statement. This can lead to bugs that are difficult to track down. For developers who prioritize type safety, this can be concerning.&lt;/p&gt;
-&lt;p&gt;An exhaustive switch statement is one that handles all possible cases. For example, if you have an enum with three variants, your switch statement should have three cases: one for each variant. Unfortunately, if you add a new variant to the enum, the compiler won&amp;apos;t warn you that you need to add a new case to the switch statement. This lack of warning makes the code less type safe.&lt;/p&gt;
-&lt;p&gt;To make your switch statements exhaustive, there are two options:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Use the default case: The easiest way to make your switch statements exhaustive is to use the default case. This makes your switch statement handle all possible cases that aren&amp;apos;t explicitly handled by another case. However, it&amp;apos;s still easy to forget to handle the new variant when it requires special handling.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Use the never type: You can improve the code by using the never type, which makes the compiler throw an error when you forget to handle a case. This provides better type safety and prevents bugs from slipping through.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;Exhaustive switch statements are important because they help avoid elusive bugs. Forgetting to handle a case in a switch statement can lead to issues that may not show up until the code is run. It becomes especially problematic during code refactoring or when a new variant is added to an enum.&lt;/p&gt;
-&lt;p&gt;By making your switch statements exhaustive, you can ensure better type safety and reduce the likelihood of bugs in your code.&lt;/p&gt;
+		<p>Switch statements in TypeScript are not exhaustive, which means that the compiler doesn't warn you if you forget to handle a case in a switch statement. This can lead to bugs that are difficult to track down. For developers who prioritize type safety, this can be concerning.</p>
+<p>An exhaustive switch statement is one that handles all possible cases. For example, if you have an enum with three variants, your switch statement should have three cases: one for each variant. Unfortunately, if you add a new variant to the enum, the compiler won't warn you that you need to add a new case to the switch statement. This lack of warning makes the code less type safe.</p>
+<p>To make your switch statements exhaustive, there are two options:</p>
+<ol>
+<li>Use the default case: The easiest way to make your switch statements exhaustive is to use the default case. This makes your switch statement handle all possible cases that aren't explicitly handled by another case. However, it's still easy to forget to handle the new variant when it requires special handling.</li>
+<li>Use the never type: You can improve the code by using the never type, which makes the compiler throw an error when you forget to handle a case. This provides better type safety and prevents bugs from slipping through.</li>
+</ol>
+<p>Exhaustive switch statements are important because they help avoid elusive bugs. Forgetting to handle a case in a switch statement can lead to issues that may not show up until the code is run. It becomes especially problematic during code refactoring or when a new variant is added to an enum.</p>
+<p>By making your switch statements exhaustive, you can ensure better type safety and reduce the likelihood of bugs in your code.</p>
 	</div>
 </article>
 

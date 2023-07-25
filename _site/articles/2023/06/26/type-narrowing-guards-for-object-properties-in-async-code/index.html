@@ -46,30 +46,31 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/typescript/comments/14jjhyj/type_narrowing_guards_for_object_properties_in/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;In TypeScript, narrowing the type of an object property in async code can lead to inaccurate type inference. This can cause issues when the property&amp;apos;s value changes before the code is executed. However, there is a solution to this problem: type narrowing guards.&lt;/p&gt;
-&lt;p&gt;Type narrowing guards ensure that the type of an object property remains accurate even in async code. By using an &lt;code&gt;if&lt;/code&gt; statement to check the property&amp;apos;s value before using it, TypeScript can narrow the type of the property and prevent any type errors.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example of how type narrowing guards can be used:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;// Some object with a potentially null property
-const obj = { foo: Math.random() &amp;lt; 0.5 ? &amp;quot;bar&amp;quot; : null };
+		<p>In TypeScript, narrowing the type of an object property in async code can lead to inaccurate type inference. This can cause issues when the property's value changes before the code is executed. However, there is a solution to this problem: type narrowing guards.</p>
+<p>Type narrowing guards ensure that the type of an object property remains accurate even in async code. By using an <code>if</code> statement to check the property's value before using it, TypeScript can narrow the type of the property and prevent any type errors.</p>
+<p>Here's an example of how type narrowing guards can be used:</p>
+<pre><code>// Some object with a potentially null property
+const obj = { foo: Math.random() &lt; 0.5 ? &quot;bar&quot; : null };
 
 function doSomethingWith(val: string) {
-  console.log(&amp;quot;Value which is a string:&amp;quot;, val);
+  console.log(&quot;Value which is a string:&quot;, val);
 }
 
 async function main() {
   if (!obj.foo) {
-    throw new Error(&amp;quot;obj.foo is not defined, cannot continue&amp;quot;);
+    throw new Error(&quot;obj.foo is not defined, cannot continue&quot;);
   }
 
   // Now instead of the timeout, we perform some async operation
-  await new Promise(resolve =&amp;gt; setTimeout(resolve, 1000));
+  await new Promise(resolve =&gt; setTimeout(resolve, 1000));
 
   // The type of obj.foo is still accurate because of the type narrowing guard
   doSomethingWith(obj.foo);
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;By using &lt;code&gt;async/await&lt;/code&gt; instead of a timeout, TypeScript can accurately infer the type of &lt;code&gt;obj.foo&lt;/code&gt; even in async code. This ensures that developers can write safe and accurate code without worrying about type errors.&lt;/p&gt;
-&lt;p&gt;Type narrowing guards are a powerful tool for developers working with TypeScript. By using them, developers can ensure that their code is accurate and safe even in async code.&lt;/p&gt;
+
+</code></pre>
+<p>By using <code>async/await</code> instead of a timeout, TypeScript can accurately infer the type of <code>obj.foo</code> even in async code. This ensures that developers can write safe and accurate code without worrying about type errors.</p>
+<p>Type narrowing guards are a powerful tool for developers working with TypeScript. By using them, developers can ensure that their code is accurate and safe even in async code.</p>
 	</div>
 </article>
 

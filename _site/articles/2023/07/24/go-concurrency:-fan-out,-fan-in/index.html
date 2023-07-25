@@ -46,11 +46,9 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://pboyd.io/posts/go-concurrency-fan-out-fan-in/" target="_blank"> here</a>.
 		</div>
-		The article discusses the concept of fan-out, fan-in in Go concurrency, using a mosaic generator as an example. The author explains that the mosaic generator consists of two phases: indexing and swapping, which can be done concurrently. The article provides code examples and explains the use of generators in Go, which are functions that return a channel and emit a stream of values. The author emphasizes the importance of following two rules in Go concurrency: having only one writer for each channel and closing the channel by the writer. 
-
-The article also introduces the concept of fan-out, where multiple copies of a generator function can be run concurrently, each receiving the same input channel. This allows for parallel processing of tasks. The author suggests using `runtime.NumCPU()` as a starting point for determining the number of workers.
-
-For developers interested in Go concurrency, the article provides valuable insights into the fan-out, fan-in pattern and how it can be applied to concurrent processing tasks. The code examples and explanations make it easier for developers to understand and implement this pattern in their own projects.
+		<p>The article discusses the concept of fan-out, fan-in in Go concurrency, using a mosaic generator as an example. The author explains that the mosaic generator consists of two phases: indexing and swapping, which can be done concurrently. The article provides code examples and explains the use of generators in Go, which are functions that return a channel and emit a stream of values. The author emphasizes the importance of following two rules in Go concurrency: having only one writer for each channel and closing the channel by the writer.</p>
+<p>The article also introduces the concept of fan-out, where multiple copies of a generator function can be run concurrently, each receiving the same input channel. This allows for parallel processing of tasks. The author suggests using <code>runtime.NumCPU()</code> as a starting point for determining the number of workers.</p>
+<p>For developers interested in Go concurrency, the article provides valuable insights into the fan-out, fan-in pattern and how it can be applied to concurrent processing tasks. The code examples and explanations make it easier for developers to understand and implement this pattern in their own projects.</p>
 	</div>
 </article>
 

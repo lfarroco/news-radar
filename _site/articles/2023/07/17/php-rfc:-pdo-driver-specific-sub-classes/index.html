@@ -46,30 +46,24 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://wiki.php.net/rfc/pdo_driver_specific_subclasses" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Introduction
-The article discusses a proposal to enhance the PDO (PHP Data Objects) class, which is a generic database class in PHP. Currently, PDO supports various databases, each with its own specific functionality. However, these functionalities are available on the generic PDO class, making it harder to reason about the code. The proposal suggests adding subclasses of PDO for each database, allowing for a more organized and intuitive structure.&lt;/p&gt;
-&lt;p&gt;Proposal
-The proposal consists of two parts. Firstly, new subclasses of PDO will be created for each PDO extension in the PHP source repository. These subclasses will expose functionalities specific to each database, such as PdoSqlite::createFunction() for SQLite. Secondly, a static factory method called &lt;code&gt;connect&lt;/code&gt; will be added to PDO. This method will determine the exact type of database being connected to and return the appropriate sub-class instead of a generic PDO object.&lt;/p&gt;
-&lt;p&gt;Code Example:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;$pdo = PDO::connect($dsn, $username, $password);
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Users will also be able to directly create the database-specific classes through the appropriate constructor.&lt;/p&gt;
-&lt;p&gt;Code Example:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;$pdo = new PdoSqlite($dsn, $username, $password);
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Sqlite Extension Directory INI Setting
-The article also addresses the issue of the Sqlite3 extension requiring users to set an INI setting to allow SQLite extensions to be loaded. The proposal suggests that this requirement may not be necessary, as the vulnerability only arises if someone is able to upload and execute PHP code on a server, in which case the server is already compromised.&lt;/p&gt;
-&lt;p&gt;Backward Incompatible Changes
-There are no known backward incompatible changes resulting from this proposal. However, developers who are currently extending the PDO class directly and wish to extend the specific types will need to write their own connect functions that wrap and proxy those specific types.&lt;/p&gt;
-&lt;p&gt;Proposed PHP Version
-This proposal is intended for PHP 8.3.&lt;/p&gt;
-&lt;p&gt;RFC Impact to SAPIs
-The impact of this proposal on various SAPIs (Server Application Programming Interfaces) such as CLI, development web servers, and embedded PHP is yet to be determined.&lt;/p&gt;
-&lt;p&gt;Open Issues
-There are currently no known issues related to this proposal.&lt;/p&gt;
-&lt;p&gt;Unaffected PHP Functionality
-This proposal does not affect any PHP functionality outside of PDO.&lt;/p&gt;
-&lt;p&gt;Overall, the article highlights the proposal to introduce PDO driver specific sub-classes in PHP. This enhancement aims to improve code organization and make it easier for developers to work with specific database functionalities. The proposal also includes a static factory method and addresses the issue of the Sqlite3 extension&amp;apos;s INI setting. Developers interested in the latest PHP developments should keep an eye on this RFC for potential changes in PHP 8.3.&lt;/p&gt;
+		<p>Introduction The article discusses a proposal to enhance the PDO (PHP Data Objects) class, which is a generic database class in PHP. Currently, PDO supports various databases, each with its own specific functionality. However, these functionalities are available on the generic PDO class, making it harder to reason about the code. The proposal suggests adding subclasses of PDO for each database, allowing for a more organized and intuitive structure.</p>
+<p>Proposal The proposal consists of two parts. Firstly, new subclasses of PDO will be created for each PDO extension in the PHP source repository. These subclasses will expose functionalities specific to each database, such as PdoSqlite::createFunction() for SQLite. Secondly, a static factory method called <code>connect</code> will be added to PDO. This method will determine the exact type of database being connected to and return the appropriate sub-class instead of a generic PDO object.</p>
+<p>Code Example:</p>
+<pre><code class="language-php">$pdo = PDO::connect($dsn, $username, $password);
+
+</code></pre>
+<p>Users will also be able to directly create the database-specific classes through the appropriate constructor.</p>
+<p>Code Example:</p>
+<pre><code class="language-php">$pdo = new PdoSqlite($dsn, $username, $password);
+
+</code></pre>
+<p>Sqlite Extension Directory INI Setting The article also addresses the issue of the Sqlite3 extension requiring users to set an INI setting to allow SQLite extensions to be loaded. The proposal suggests that this requirement may not be necessary, as the vulnerability only arises if someone is able to upload and execute PHP code on a server, in which case the server is already compromised.</p>
+<p>Backward Incompatible Changes There are no known backward incompatible changes resulting from this proposal. However, developers who are currently extending the PDO class directly and wish to extend the specific types will need to write their own connect functions that wrap and proxy those specific types.</p>
+<p>Proposed PHP Version This proposal is intended for PHP 8.3.</p>
+<p>RFC Impact to SAPIs The impact of this proposal on various SAPIs (Server Application Programming Interfaces) such as CLI, development web servers, and embedded PHP is yet to be determined.</p>
+<p>Open Issues There are currently no known issues related to this proposal.</p>
+<p>Unaffected PHP Functionality This proposal does not affect any PHP functionality outside of PDO.</p>
+<p>Overall, the article highlights the proposal to introduce PDO driver specific sub-classes in PHP. This enhancement aims to improve code organization and make it easier for developers to work with specific database functionalities. The proposal also includes a static factory method and addresses the issue of the Sqlite3 extension's INI setting. Developers interested in the latest PHP developments should keep an eye on this RFC for potential changes in PHP 8.3.</p>
 	</div>
 </article>
 

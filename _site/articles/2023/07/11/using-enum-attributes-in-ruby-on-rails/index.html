@@ -46,29 +46,34 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://www.honeybadger.io/blog/how-to-use-enum-attributes-in-ruby-on-rails/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Dive into the world of enums to streamline your code and make it more readable in Ruby on Rails. Learn best practices, how to add and manage enum attributes, and take advantage of Rails&amp;apos; built-in features to efficiently manage finite sets of values in your models.&lt;/p&gt;
-&lt;p&gt;Enums, or enumerations, are a common way to represent options for an attribute of a model in Rails. Instead of using strings or creating additional tables, Rails allows you to represent these options as integers and automatically convert them to strings using built-in methods. This makes presenting options to users as strings while storing them as numbers straightforward and maintainable.&lt;/p&gt;
-&lt;p&gt;In addition to simplifying data representation and storage, enums also come with useful utility methods. Rails automatically generates scope methods for each value, making it easy to query and filter records based on the enum attribute. It also generates methods for each enum value, allowing the code to easily check the current value of an enum attribute in a more readable and expressive manner. Enums are often leveraged in form helpers, making presenting options in a form straightforward.&lt;/p&gt;
-&lt;p&gt;To add an enum attribute to an existing table in Rails, start by creating a new migration. For example, if you want to add an attribute &amp;quot;status&amp;quot; to the model &amp;quot;course,&amp;quot; you can run the following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;rails generate migration AddStatusToCourses status:integer
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;If you want the attribute to have a default value, you can open the newly created migration in the &lt;code&gt;db/migrate&lt;/code&gt; directory and edit the &lt;code&gt;add_column&lt;/code&gt; method call to include the default value you want:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;add_column :courses, :status, :integer, default: 0
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;To apply the migration to your database, run the following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;rails db:migrate
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Next, edit your model to declare the enum and its mappings of strings to integers:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;class Course &amp;lt; ApplicationRecord
+		<p>Dive into the world of enums to streamline your code and make it more readable in Ruby on Rails. Learn best practices, how to add and manage enum attributes, and take advantage of Rails' built-in features to efficiently manage finite sets of values in your models.</p>
+<p>Enums, or enumerations, are a common way to represent options for an attribute of a model in Rails. Instead of using strings or creating additional tables, Rails allows you to represent these options as integers and automatically convert them to strings using built-in methods. This makes presenting options to users as strings while storing them as numbers straightforward and maintainable.</p>
+<p>In addition to simplifying data representation and storage, enums also come with useful utility methods. Rails automatically generates scope methods for each value, making it easy to query and filter records based on the enum attribute. It also generates methods for each enum value, allowing the code to easily check the current value of an enum attribute in a more readable and expressive manner. Enums are often leveraged in form helpers, making presenting options in a form straightforward.</p>
+<p>To add an enum attribute to an existing table in Rails, start by creating a new migration. For example, if you want to add an attribute &quot;status&quot; to the model &quot;course,&quot; you can run the following command:</p>
+<pre><code class="language-ruby">rails generate migration AddStatusToCourses status:integer
+
+</code></pre>
+<p>If you want the attribute to have a default value, you can open the newly created migration in the <code>db/migrate</code> directory and edit the <code>add_column</code> method call to include the default value you want:</p>
+<pre><code class="language-ruby">add_column :courses, :status, :integer, default: 0
+
+</code></pre>
+<p>To apply the migration to your database, run the following command:</p>
+<pre><code class="language-ruby">rails db:migrate
+
+</code></pre>
+<p>Next, edit your model to declare the enum and its mappings of strings to integers:</p>
+<pre><code class="language-ruby">class Course &lt; ApplicationRecord
   enum status: { active: 0, archived: 1, draft: 2 }
 end
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;That&amp;apos;s it! You&amp;apos;ve added an attribute to your model and defined it as an enum. Now you can use the enum attribute in your application.&lt;/p&gt;
-&lt;p&gt;If you don&amp;apos;t already have a model to which you&amp;apos;d like to add an enum, creating a new enum attribute is as easy as any other attribute. Simply generate a new model and define the enum attribute in the migration:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;rails generate model Course name:string status:integer
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Open up the generated migration and ensure it looks like this:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;class CreateCourses &amp;lt; ActiveRecord::Migration[6.0]
+
+</code></pre>
+<p>That's it! You've added an attribute to your model and defined it as an enum. Now you can use the enum attribute in your application.</p>
+<p>If you don't already have a model to which you'd like to add an enum, creating a new enum attribute is as easy as any other attribute. Simply generate a new model and define the enum attribute in the migration:</p>
+<pre><code class="language-ruby">rails generate model Course name:string status:integer
+
+</code></pre>
+<p>Open up the generated migration and ensure it looks like this:</p>
+<pre><code class="language-ruby">class CreateCourses &lt; ActiveRecord::Migration[6.0]
   def change
     create_table :courses do |t|
       t.string :name
@@ -78,11 +83,13 @@ end
     end
   end
 end
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Finally, run the migration to create the new table:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;rails db:migrate
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now you have a new table with an enum attribute ready to be used in your Rails application. Enums provide a powerful and efficient way to manage finite sets of values, making your code more readable and maintainable.&lt;/p&gt;
+
+</code></pre>
+<p>Finally, run the migration to create the new table:</p>
+<pre><code class="language-ruby">rails db:migrate
+
+</code></pre>
+<p>Now you have a new table with an enum attribute ready to be used in your Rails application. Enums provide a powerful and efficient way to manage finite sets of values, making your code more readable and maintainable.</p>
 	</div>
 </article>
 

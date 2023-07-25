@@ -46,35 +46,36 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/typescript/comments/14k95jv/bebop_introduces_jsonoverbebop_for_fast_runtime/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Bebop, a Typescript library, has introduced JSON-Over-Bebop for fast runtime type validation of raw JSON. This library is faster than Zod and other alternatives. The library is available on GitHub and can be downloaded from the &lt;a href=&quot;https://github.com/betwixt-labs/bebop/releases/tag/v2.8.0&quot;&gt;link&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;JSON-Over-Bebop is a library that allows developers to validate the types of JSON data at runtime. This is useful when dealing with untrusted data sources, such as APIs. The library is designed to be fast and efficient, making it a good choice for high-performance applications.&lt;/p&gt;
-&lt;p&gt;To use JSON-Over-Bebop, developers define the types of their JSON data using a simple schema language. The library then generates TypeScript interfaces for these types, which can be used to validate the data at runtime. The library also provides a number of utility functions for working with JSON data, such as parsing and serializing.&lt;/p&gt;
-&lt;p&gt;Here is an example of how to use JSON-Over-Bebop to validate a JSON object:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-typescript&quot;&gt;import { validate } from &amp;apos;json-over-bebop&amp;apos;;
+		<p>Bebop, a Typescript library, has introduced JSON-Over-Bebop for fast runtime type validation of raw JSON. This library is faster than Zod and other alternatives. The library is available on GitHub and can be downloaded from the <a href="https://github.com/betwixt-labs/bebop/releases/tag/v2.8.0">link</a>.</p>
+<p>JSON-Over-Bebop is a library that allows developers to validate the types of JSON data at runtime. This is useful when dealing with untrusted data sources, such as APIs. The library is designed to be fast and efficient, making it a good choice for high-performance applications.</p>
+<p>To use JSON-Over-Bebop, developers define the types of their JSON data using a simple schema language. The library then generates TypeScript interfaces for these types, which can be used to validate the data at runtime. The library also provides a number of utility functions for working with JSON data, such as parsing and serializing.</p>
+<p>Here is an example of how to use JSON-Over-Bebop to validate a JSON object:</p>
+<pre><code class="language-typescript">import { validate } from 'json-over-bebop';
 
 const schema = {
-  type: &amp;apos;object&amp;apos;,
+  type: 'object',
   properties: {
-    name: { type: &amp;apos;string&amp;apos; },
-    age: { type: &amp;apos;number&amp;apos; },
+    name: { type: 'string' },
+    age: { type: 'number' },
   },
-  required: [&amp;apos;name&amp;apos;, &amp;apos;age&amp;apos;],
+  required: ['name', 'age'],
 };
 
 const data = {
-  name: &amp;apos;John&amp;apos;,
+  name: 'John',
   age: 30,
 };
 
 const result = validate(schema, data);
 
 if (result.valid) {
-  console.log(&amp;apos;Data is valid!&amp;apos;);
+  console.log('Data is valid!');
 } else {
-  console.error(&amp;apos;Data is invalid:&amp;apos;, result.errors);
+  console.error('Data is invalid:', result.errors);
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Overall, JSON-Over-Bebop is a useful library for developers who need to validate JSON data at runtime. Its speed and efficiency make it a good choice for high-performance applications.&lt;/p&gt;
+
+</code></pre>
+<p>Overall, JSON-Over-Bebop is a useful library for developers who need to validate JSON data at runtime. Its speed and efficiency make it a good choice for high-performance applications.</p>
 	</div>
 </article>
 

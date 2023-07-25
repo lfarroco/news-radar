@@ -46,41 +46,24 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://kabirgoel.com/p/parse-deps" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;JavaScript is a versatile language that can be used in various ways, including building apps using a spreadsheet-like system called Smoothie. Smoothie allows you to write arbitrary JavaScript snippets that can reference other cells. However, to evaluate these expressions, we need to ensure that all the necessary variables are in scope.&lt;/p&gt;
-&lt;p&gt;In this article, we will explore how to parse out the dependencies of a snippet of code using Babel, a popular JavaScript compiler. We will start by understanding the problem and then dive into the details of how Babel can help us solve it.&lt;/p&gt;
-&lt;p&gt;Understanding the Problem
-Parsing out the dependencies of a snippet of code is not as simple as splitting it on spaces and collecting the parts that look like identifiers. This approach breaks down on complex code, where variables can be defined in different scopes and contexts.&lt;/p&gt;
-&lt;p&gt;Consider the following example:&lt;/p&gt;
-&lt;p&gt;const sum = (a, b) =&amp;gt; Promise.resolve(a + parseInt(b));&lt;/p&gt;
-&lt;p&gt;This snippet takes two arguments, a and b, and returns a Promise that resolves to the sum of a and the parsed integer value of b. If we were to use a simple split-and-collect approach, we would only capture the identifiers a and b, but not parseInt or Promise.&lt;/p&gt;
-&lt;p&gt;To solve this problem, we can use Babel to parse the code and extract the dependencies. Babel is a popular JavaScript compiler that can parse and transform JavaScript code. It can also be used as a library to parse and analyze code without transforming it.&lt;/p&gt;
-&lt;p&gt;Using Babel to Analyze Dependencies
-To use Babel to analyze the dependencies of a JavaScript snippet, we need to install the @babel/parser package. We can then use the parse function to parse the code and generate an abstract syntax tree (AST) that represents the code&amp;apos;s structure.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example of how we can use Babel to parse the sum function and extract its dependencies:&lt;/p&gt;
-&lt;p&gt;const babelParser = require(&amp;apos;@babel/parser&amp;apos;);&lt;/p&gt;
-&lt;p&gt;const code = &lt;code&gt;const sum = (a, b) =&amp;gt; Promise.resolve(a + parseInt(b));&lt;/code&gt;;&lt;/p&gt;
-&lt;p&gt;const ast = babelParser.parse(code);&lt;/p&gt;
-&lt;p&gt;const dependencies = new Set();&lt;/p&gt;
-&lt;p&gt;ast.program.body.forEach(node =&amp;gt; {
-if (node.type === &amp;apos;ImportDeclaration&amp;apos;) {
-node.specifiers.forEach(specifier =&amp;gt; {
-dependencies.add(specifier.local.name);
-});
-} else if (node.type === &amp;apos;VariableDeclaration&amp;apos;) {
-node.declarations.forEach(declaration =&amp;gt; {
-const { name } = declaration.id;
-dependencies.add(name);
-});
-} else if (node.type === &amp;apos;FunctionDeclaration&amp;apos;) {
-const { name } = node.id;
-dependencies.add(name);
-}
-});&lt;/p&gt;
-&lt;p&gt;console.log(dependencies);&lt;/p&gt;
-&lt;p&gt;In this example, we use Babel to parse the code and generate an AST. We then traverse the AST and extract the dependencies by looking for import declarations, variable declarations, and function declarations.&lt;/p&gt;
-&lt;p&gt;Conclusion
-In conclusion, using Babel to analyze the dependencies of a JavaScript snippet can help us ensure that all the necessary variables are in scope. By generating an AST and traversing it, we can extract the dependencies and use them to evaluate the code.&lt;/p&gt;
-&lt;p&gt;As developers, it&amp;apos;s essential to keep up with the latest tools and techniques to improve our workflow and productivity. Babel is a powerful tool that can help us write better code and catch errors early on.&lt;/p&gt;
+		<p>JavaScript is a versatile language that can be used in various ways, including building apps using a spreadsheet-like system called Smoothie. Smoothie allows you to write arbitrary JavaScript snippets that can reference other cells. However, to evaluate these expressions, we need to ensure that all the necessary variables are in scope.</p>
+<p>In this article, we will explore how to parse out the dependencies of a snippet of code using Babel, a popular JavaScript compiler. We will start by understanding the problem and then dive into the details of how Babel can help us solve it.</p>
+<p>Understanding the Problem Parsing out the dependencies of a snippet of code is not as simple as splitting it on spaces and collecting the parts that look like identifiers. This approach breaks down on complex code, where variables can be defined in different scopes and contexts.</p>
+<p>Consider the following example:</p>
+<p>const sum = (a, b) =&gt; Promise.resolve(a + parseInt(b));</p>
+<p>This snippet takes two arguments, a and b, and returns a Promise that resolves to the sum of a and the parsed integer value of b. If we were to use a simple split-and-collect approach, we would only capture the identifiers a and b, but not parseInt or Promise.</p>
+<p>To solve this problem, we can use Babel to parse the code and extract the dependencies. Babel is a popular JavaScript compiler that can parse and transform JavaScript code. It can also be used as a library to parse and analyze code without transforming it.</p>
+<p>Using Babel to Analyze Dependencies To use Babel to analyze the dependencies of a JavaScript snippet, we need to install the @babel/parser package. We can then use the parse function to parse the code and generate an abstract syntax tree (AST) that represents the code's structure.</p>
+<p>Here's an example of how we can use Babel to parse the sum function and extract its dependencies:</p>
+<p>const babelParser = require('@babel/parser');</p>
+<p>const code = <code>const sum = (a, b) =&gt; Promise.resolve(a + parseInt(b));</code>;</p>
+<p>const ast = babelParser.parse(code);</p>
+<p>const dependencies = new Set();</p>
+<p>ast.program.body.forEach(node =&gt; { if (node.type === 'ImportDeclaration') { node.specifiers.forEach(specifier =&gt; { dependencies.add(specifier.local.name); }); } else if (node.type === 'VariableDeclaration') { node.declarations.forEach(declaration =&gt; { const { name } = declaration.id; dependencies.add(name); }); } else if (node.type === 'FunctionDeclaration') { const { name } = node.id; dependencies.add(name); } });</p>
+<p>console.log(dependencies);</p>
+<p>In this example, we use Babel to parse the code and generate an AST. We then traverse the AST and extract the dependencies by looking for import declarations, variable declarations, and function declarations.</p>
+<p>Conclusion In conclusion, using Babel to analyze the dependencies of a JavaScript snippet can help us ensure that all the necessary variables are in scope. By generating an AST and traversing it, we can extract the dependencies and use them to evaluate the code.</p>
+<p>As developers, it's essential to keep up with the latest tools and techniques to improve our workflow and productivity. Babel is a powerful tool that can help us write better code and catch errors early on.</p>
 	</div>
 </article>
 

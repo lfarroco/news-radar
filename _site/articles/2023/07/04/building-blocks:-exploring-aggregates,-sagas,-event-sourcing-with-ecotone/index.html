@@ -46,16 +46,16 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://medium.com/dev-genius/building-blocks-exploring-aggregates-sagas-event-sourcing-with-ecotone-aadd6c00216f" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;In the world of software development, it&amp;apos;s common to face challenges related to technical concerns, infrastructure considerations, and complex integrations. However, Ecotone offers a solution that allows developers to focus primarily on the business logic while abstracting away the complexities of integration and infrastructure.&lt;/p&gt;
-&lt;p&gt;At the core of Ecotone is the concept of building blocks, which can be compared to specialized cells in our bodies. Each building block represents a specific functionality, such as Command or Event Handlers, Aggregates, Sagas, and more. These blocks provide a solid foundation built on resilient messaging, enabling developers to concentrate on the business logic and flow of their applications.&lt;/p&gt;
-&lt;p&gt;For instance, Command Handlers are responsible for handling incoming commands, Event Handlers react to events, and Sagas orchestrate complex workflows. These specialized cells collaborate and communicate, forming a robust architecture for building domain-focused applications.&lt;/p&gt;
-&lt;p&gt;Ecotone goes beyond just handling individual components. It also supports Event Sourcing, a powerful technique for capturing and storing events that represent changes to an application&amp;apos;s state over time. This approach allows developers to reconstruct the application&amp;apos;s state at any point in time, making it easier to debug and analyze the system.&lt;/p&gt;
-&lt;p&gt;To demonstrate the power of Ecotone&amp;apos;s building blocks, let&amp;apos;s take a look at an example of how to implement an Aggregate using this framework:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;@Aggregate
+		<p>In the world of software development, it's common to face challenges related to technical concerns, infrastructure considerations, and complex integrations. However, Ecotone offers a solution that allows developers to focus primarily on the business logic while abstracting away the complexities of integration and infrastructure.</p>
+<p>At the core of Ecotone is the concept of building blocks, which can be compared to specialized cells in our bodies. Each building block represents a specific functionality, such as Command or Event Handlers, Aggregates, Sagas, and more. These blocks provide a solid foundation built on resilient messaging, enabling developers to concentrate on the business logic and flow of their applications.</p>
+<p>For instance, Command Handlers are responsible for handling incoming commands, Event Handlers react to events, and Sagas orchestrate complex workflows. These specialized cells collaborate and communicate, forming a robust architecture for building domain-focused applications.</p>
+<p>Ecotone goes beyond just handling individual components. It also supports Event Sourcing, a powerful technique for capturing and storing events that represent changes to an application's state over time. This approach allows developers to reconstruct the application's state at any point in time, making it easier to debug and analyze the system.</p>
+<p>To demonstrate the power of Ecotone's building blocks, let's take a look at an example of how to implement an Aggregate using this framework:</p>
+<pre><code class="language-java">@Aggregate
 public class OrderAggregate {
     @AggregateIdentifier
     private String orderId;
-    private List&amp;lt;OrderItem&amp;gt; items;
+    private List&lt;OrderItem&gt; items;
 
     // Constructor, getters, and setters
 
@@ -71,10 +71,11 @@ public class OrderAggregate {
 
     // Other event handlers and methods
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In this example, the &lt;code&gt;OrderAggregate&lt;/code&gt; is defined as an Aggregate using the &lt;code&gt;@Aggregate&lt;/code&gt; annotation. It also has an &lt;code&gt;@AggregateIdentifier&lt;/code&gt; field to uniquely identify the aggregate. The &lt;code&gt;@CommandHandler&lt;/code&gt; annotation is used to handle incoming commands, and the &lt;code&gt;@EventSourcingHandler&lt;/code&gt; annotation is used to handle events and update the state of the aggregate.&lt;/p&gt;
-&lt;p&gt;With Ecotone&amp;apos;s building blocks, developers can easily implement complex business logic and leverage the power of Event Sourcing to build resilient, domain-focused applications. By abstracting away the complexities of integration and infrastructure, Ecotone allows developers to focus on what matters most: delivering value to their users.&lt;/p&gt;
-&lt;p&gt;To stay up to date with the latest news and updates in the world of programming languages and frameworks, make sure to follow Dev Radar, your radar for all things related to software development.&lt;/p&gt;
+
+</code></pre>
+<p>In this example, the <code>OrderAggregate</code> is defined as an Aggregate using the <code>@Aggregate</code> annotation. It also has an <code>@AggregateIdentifier</code> field to uniquely identify the aggregate. The <code>@CommandHandler</code> annotation is used to handle incoming commands, and the <code>@EventSourcingHandler</code> annotation is used to handle events and update the state of the aggregate.</p>
+<p>With Ecotone's building blocks, developers can easily implement complex business logic and leverage the power of Event Sourcing to build resilient, domain-focused applications. By abstracting away the complexities of integration and infrastructure, Ecotone allows developers to focus on what matters most: delivering value to their users.</p>
+<p>To stay up to date with the latest news and updates in the world of programming languages and frameworks, make sure to follow Dev Radar, your radar for all things related to software development.</p>
 	</div>
 </article>
 

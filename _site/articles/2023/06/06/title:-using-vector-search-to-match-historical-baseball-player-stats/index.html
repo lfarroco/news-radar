@@ -46,12 +46,12 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://huggingface.co/spaces/NeuML/baseball" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;This article was originally published on the NeuML community space for baseball enthusiasts.&lt;/p&gt;
-&lt;p&gt;As technology advances, so do the ways in which we can analyze and understand data. Vector search is one such tool that is gaining popularity in the world of sports analytics. In particular, it can be used to match historical baseball player stats and identify players with similar performance profiles.&lt;/p&gt;
-&lt;p&gt;Vector search is a technique that involves representing data points as vectors in a high-dimensional space. These vectors can then be compared using distance metrics to identify similar data points. In the case of baseball player stats, we can represent each player&amp;apos;s performance across different categories (e.g. batting average, home runs, RBIs) as a vector. By comparing these vectors, we can identify players with similar performance profiles.&lt;/p&gt;
-&lt;p&gt;One application of this technique is to identify historical players who are similar to current players. For example, we can use vector search to identify players from the past who had similar performance profiles to current stars like Mike Trout or Clayton Kershaw. This can help us gain a better understanding of how these current players compare to historical greats.&lt;/p&gt;
-&lt;p&gt;To implement vector search for baseball player stats, we can use a machine learning library like scikit-learn in Python. Here&amp;apos;s an example code snippet:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;from sklearn.metrics.pairwise import cosine_similarity
+		<p>This article was originally published on the NeuML community space for baseball enthusiasts.</p>
+<p>As technology advances, so do the ways in which we can analyze and understand data. Vector search is one such tool that is gaining popularity in the world of sports analytics. In particular, it can be used to match historical baseball player stats and identify players with similar performance profiles.</p>
+<p>Vector search is a technique that involves representing data points as vectors in a high-dimensional space. These vectors can then be compared using distance metrics to identify similar data points. In the case of baseball player stats, we can represent each player's performance across different categories (e.g. batting average, home runs, RBIs) as a vector. By comparing these vectors, we can identify players with similar performance profiles.</p>
+<p>One application of this technique is to identify historical players who are similar to current players. For example, we can use vector search to identify players from the past who had similar performance profiles to current stars like Mike Trout or Clayton Kershaw. This can help us gain a better understanding of how these current players compare to historical greats.</p>
+<p>To implement vector search for baseball player stats, we can use a machine learning library like scikit-learn in Python. Here's an example code snippet:</p>
+<pre><code>from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
 # Create a matrix of player stats
@@ -67,9 +67,10 @@ similarity_matrix = cosine_similarity(player_stats)
 
 # Identify players with similar performance profiles
 similar_players = np.argsort(similarity_matrix[0])[-2:]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In this example, we create a matrix of player stats where each row represents a player and each column represents a different category of performance. We then compute the cosine similarity between each pair of players to create a similarity matrix. Finally, we identify the players with the most similar performance profiles to the first player in the matrix.&lt;/p&gt;
-&lt;p&gt;Vector search is just one of many tools that can be used to analyze baseball player stats. By leveraging the power of machine learning, we can gain new insights into the game and its history. As the field of sports analytics continues to evolve, we can expect to see even more innovative approaches to analyzing and understanding data in the world of sports.&lt;/p&gt;
+
+</code></pre>
+<p>In this example, we create a matrix of player stats where each row represents a player and each column represents a different category of performance. We then compute the cosine similarity between each pair of players to create a similarity matrix. Finally, we identify the players with the most similar performance profiles to the first player in the matrix.</p>
+<p>Vector search is just one of many tools that can be used to analyze baseball player stats. By leveraging the power of machine learning, we can gain new insights into the game and its history. As the field of sports analytics continues to evolve, we can expect to see even more innovative approaches to analyzing and understanding data in the world of sports.</p>
 	</div>
 </article>
 

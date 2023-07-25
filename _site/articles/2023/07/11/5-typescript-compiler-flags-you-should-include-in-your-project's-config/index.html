@@ -46,20 +46,21 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://egorkonovalov.github.io/flycatcher/posts/3/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;TypeScript 5.0, the latest major update of the programming language, brings several significant changes, including stable decorators and the replacement of regular enums with union enums. However, amidst these changes, the release notes highlight some new compiler options that can greatly enhance your development experience.&lt;/p&gt;
-&lt;p&gt;One such option is &lt;code&gt;noImplicitOverride&lt;/code&gt;, which is particularly useful when working with inheritance. Enabling this flag ensures that the compiler warns you if a method in a child class is not properly overridden from the base class.&lt;/p&gt;
-&lt;p&gt;Another flag, &lt;code&gt;noUncheckedIndexedAccess&lt;/code&gt;, helps you handle objects with indefinite keys. By setting this flag to true, the compiler reminds you to check the validity of unknown properties before accessing them.&lt;/p&gt;
-&lt;p&gt;Additionally, the &lt;code&gt;noPropertyAccessFromIndexSignature&lt;/code&gt; flag promotes style consistency when working with object properties.&lt;/p&gt;
-&lt;p&gt;Including these compiler flags in your &lt;code&gt;tsconfig.json&lt;/code&gt; file can significantly improve your development workflow and help you catch potential errors early on.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-typescript&quot;&gt;{
-  &amp;quot;compilerOptions&amp;quot;: {
-    &amp;quot;noImplicitOverride&amp;quot;: true,
-    &amp;quot;noUncheckedIndexedAccess&amp;quot;: true,
-    &amp;quot;noPropertyAccessFromIndexSignature&amp;quot;: true
+		<p>TypeScript 5.0, the latest major update of the programming language, brings several significant changes, including stable decorators and the replacement of regular enums with union enums. However, amidst these changes, the release notes highlight some new compiler options that can greatly enhance your development experience.</p>
+<p>One such option is <code>noImplicitOverride</code>, which is particularly useful when working with inheritance. Enabling this flag ensures that the compiler warns you if a method in a child class is not properly overridden from the base class.</p>
+<p>Another flag, <code>noUncheckedIndexedAccess</code>, helps you handle objects with indefinite keys. By setting this flag to true, the compiler reminds you to check the validity of unknown properties before accessing them.</p>
+<p>Additionally, the <code>noPropertyAccessFromIndexSignature</code> flag promotes style consistency when working with object properties.</p>
+<p>Including these compiler flags in your <code>tsconfig.json</code> file can significantly improve your development workflow and help you catch potential errors early on.</p>
+<pre><code class="language-typescript">{
+  &quot;compilerOptions&quot;: {
+    &quot;noImplicitOverride&quot;: true,
+    &quot;noUncheckedIndexedAccess&quot;: true,
+    &quot;noPropertyAccessFromIndexSignature&quot;: true
   }
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Stay up-to-date with the latest TypeScript features and make the most out of the language&amp;apos;s capabilities.&lt;/p&gt;
+
+</code></pre>
+<p>Stay up-to-date with the latest TypeScript features and make the most out of the language's capabilities.</p>
 	</div>
 </article>
 

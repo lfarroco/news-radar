@@ -46,19 +46,20 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://engineering.iog.io/2022-12-13-ghc-js-backend-merged/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;The GHC DevX team at IOG has merged a new JavaScript backend into GHC, enabling Haskell for both front-end and back-end web applications. This means that the next release of GHC will be able to emit code that runs in web browsers without requiring any extra tools.&lt;/p&gt;
-&lt;p&gt;In a recent post, the team describes the challenges they faced bringing GHCJS to GHC, how they overcame those challenges, and what&amp;apos;s left to do. They also provide links to skip ahead to the future of GHCJS, product roadmap, how to help, and build instructions.&lt;/p&gt;
-&lt;p&gt;JavaScript was chosen as the target language due to its dominance in the client-side programming market share, with 97.3% at the time of writing. The team believes that JavaScript is not going to disappear anytime soon and will become more entrenched as more interactivity is pushed onto the internet.&lt;/p&gt;
-&lt;p&gt;With this new development, Haskell developers can now write front-end web applications using the same language they use for back-end development. This reduces the need for developers to learn multiple languages, making it easier to maintain and scale web applications.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example of how to write a simple &amp;quot;Hello, World!&amp;quot; program in Haskell using the new GHCJS backend:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-haskell&quot;&gt;import JavaScript.Web.Canvas
+		<p>The GHC DevX team at IOG has merged a new JavaScript backend into GHC, enabling Haskell for both front-end and back-end web applications. This means that the next release of GHC will be able to emit code that runs in web browsers without requiring any extra tools.</p>
+<p>In a recent post, the team describes the challenges they faced bringing GHCJS to GHC, how they overcame those challenges, and what's left to do. They also provide links to skip ahead to the future of GHCJS, product roadmap, how to help, and build instructions.</p>
+<p>JavaScript was chosen as the target language due to its dominance in the client-side programming market share, with 97.3% at the time of writing. The team believes that JavaScript is not going to disappear anytime soon and will become more entrenched as more interactivity is pushed onto the internet.</p>
+<p>With this new development, Haskell developers can now write front-end web applications using the same language they use for back-end development. This reduces the need for developers to learn multiple languages, making it easier to maintain and scale web applications.</p>
+<p>Here's an example of how to write a simple &quot;Hello, World!&quot; program in Haskell using the new GHCJS backend:</p>
+<pre><code class="language-haskell">import JavaScript.Web.Canvas
 
 main = do
-  Just canvas &amp;lt;- getElementById &amp;quot;canvas&amp;quot;
+  Just canvas &lt;- getElementById &quot;canvas&quot;
   withContext canvas $ do
-    fillText &amp;quot;Hello, World!&amp;quot; 10 50
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The team is still working on improving the performance of the generated JavaScript code and making it more compatible with existing JavaScript libraries. However, this is a major step forward for the Haskell community, and we can expect to see more web applications written in Haskell in the future.&lt;/p&gt;
+    fillText &quot;Hello, World!&quot; 10 50
+
+</code></pre>
+<p>The team is still working on improving the performance of the generated JavaScript code and making it more compatible with existing JavaScript libraries. However, this is a major step forward for the Haskell community, and we can expect to see more web applications written in Haskell in the future.</p>
 	</div>
 </article>
 

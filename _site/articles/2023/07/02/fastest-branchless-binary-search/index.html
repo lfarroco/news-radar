@@ -46,23 +46,23 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://mhdm.dev/posts/sb_lower_bound/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;In this article, the author presents the fastest implementation of a general binary search in C++. The implementation provides the same function interface as std::lower_bound but is twice as fast and shorter. The key to its speed is that it is &amp;quot;branchless,&amp;quot; meaning that the if statement compiles down to a conditional move instruction instead of a branch or conditional jump. The article also mentions that there are compiler options, even faster versions, fully branchless implementations, and some caveats that will be explored later on.&lt;/p&gt;
-&lt;p&gt;The article starts with a brief introduction to binary search, explaining that it is used to find the position where a value would fit in a sorted list. In C++, developers typically use std::lower_bound for this purpose. The author then challenges the readers to write their own binary search implementation as a coding interview question.&lt;/p&gt;
-&lt;p&gt;For developers who are not familiar with C++, the author assures that understanding the article only requires knowledge of iterators (pointers to elements in an array) and the concept that they can point one past the last array entry. The article concludes with a mention of the desire for a clean and fast bare-metal language to write this code in.&lt;/p&gt;
-&lt;p&gt;To provide more value to our readers, here&amp;apos;s an example of a binary search implementation in C++:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;template &amp;lt;typename T&amp;gt;
-int binarySearch(const T* arr, int size, const T&amp;amp; value) {
+		<p>In this article, the author presents the fastest implementation of a general binary search in C++. The implementation provides the same function interface as std::lower_bound but is twice as fast and shorter. The key to its speed is that it is &quot;branchless,&quot; meaning that the if statement compiles down to a conditional move instruction instead of a branch or conditional jump. The article also mentions that there are compiler options, even faster versions, fully branchless implementations, and some caveats that will be explored later on.</p>
+<p>The article starts with a brief introduction to binary search, explaining that it is used to find the position where a value would fit in a sorted list. In C++, developers typically use std::lower_bound for this purpose. The author then challenges the readers to write their own binary search implementation as a coding interview question.</p>
+<p>For developers who are not familiar with C++, the author assures that understanding the article only requires knowledge of iterators (pointers to elements in an array) and the concept that they can point one past the last array entry. The article concludes with a mention of the desire for a clean and fast bare-metal language to write this code in.</p>
+<p>To provide more value to our readers, here's an example of a binary search implementation in C++:</p>
+<pre><code class="language-cpp">template &lt;typename T&gt;
+int binarySearch(const T* arr, int size, const T&amp; value) {
     int left = 0;
     int right = size - 1;
 
-    while (left &amp;lt;= right) {
+    while (left &lt;= right) {
         int mid = left + (right - left) / 2;
 
         if (arr[mid] == value) {
             return mid;
         }
 
-        if (arr[mid] &amp;lt; value) {
+        if (arr[mid] &lt; value) {
             left = mid + 1;
         } else {
             right = mid - 1;
@@ -71,9 +71,10 @@ int binarySearch(const T* arr, int size, const T&amp;amp; value) {
 
     return -1; // Value not found
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This implementation takes an array &lt;code&gt;arr&lt;/code&gt;, its size &lt;code&gt;size&lt;/code&gt;, and the value to search for &lt;code&gt;value&lt;/code&gt;. It uses a while loop to iteratively narrow down the search range by comparing the middle element of the current range with the target value. If the middle element is equal to the target value, the function returns the index of that element. If the middle element is less than the target value, the search range is updated to the right half. Otherwise, it is updated to the left half. If the value is not found, the function returns -1.&lt;/p&gt;
-&lt;p&gt;By keeping up with the latest developments in binary search implementations, developers can optimize their code for faster search operations.&lt;/p&gt;
+
+</code></pre>
+<p>This implementation takes an array <code>arr</code>, its size <code>size</code>, and the value to search for <code>value</code>. It uses a while loop to iteratively narrow down the search range by comparing the middle element of the current range with the target value. If the middle element is equal to the target value, the function returns the index of that element. If the middle element is less than the target value, the search range is updated to the right half. Otherwise, it is updated to the left half. If the value is not found, the function returns -1.</p>
+<p>By keeping up with the latest developments in binary search implementations, developers can optimize their code for faster search operations.</p>
 	</div>
 </article>
 

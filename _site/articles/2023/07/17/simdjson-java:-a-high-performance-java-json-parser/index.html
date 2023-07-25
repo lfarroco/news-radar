@@ -46,13 +46,14 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/piotrrzysko/simdjson-java" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;simdjson-java is a Java version of simdjson, a JSON parser that leverages SIMD instructions to achieve high parsing throughput. Based on the paper &amp;quot;Parsing Gigabytes of JSON per Second&amp;quot; by Geoff Langdale and Daniel Lemire, simdjson-java aims to provide developers with a fast and efficient JSON parsing solution.&lt;/p&gt;
-&lt;p&gt;While simdjson-java is still a work in progress and lacks some features available in simdjson, it already offers impressive performance. To benchmark the library, you can run the JMH benchmarks using the provided commands. Additionally, you can run tests to ensure the correctness of the parser.&lt;/p&gt;
-&lt;p&gt;In a performance comparison of different JSON parsers available as Java libraries, simdjson-java showcased its capabilities by parsing and finding all unique users with a default profile in the twitter.json dataset. Although the library is still missing some features, the results demonstrate its potential for high-speed JSON parsing.&lt;/p&gt;
-&lt;p&gt;To reproduce the benchmark results, execute the following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;./gradlew jmh -Pjmh.includes=&amp;apos;.*ParseAndSelectBenchmark.*&amp;apos;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;simdjson-java is a valuable addition to the Java ecosystem, providing developers with a powerful tool for efficient JSON parsing. Stay tuned for further updates and enhancements as the library continues to evolve.&lt;/p&gt;
+		<p>simdjson-java is a Java version of simdjson, a JSON parser that leverages SIMD instructions to achieve high parsing throughput. Based on the paper &quot;Parsing Gigabytes of JSON per Second&quot; by Geoff Langdale and Daniel Lemire, simdjson-java aims to provide developers with a fast and efficient JSON parsing solution.</p>
+<p>While simdjson-java is still a work in progress and lacks some features available in simdjson, it already offers impressive performance. To benchmark the library, you can run the JMH benchmarks using the provided commands. Additionally, you can run tests to ensure the correctness of the parser.</p>
+<p>In a performance comparison of different JSON parsers available as Java libraries, simdjson-java showcased its capabilities by parsing and finding all unique users with a default profile in the twitter.json dataset. Although the library is still missing some features, the results demonstrate its potential for high-speed JSON parsing.</p>
+<p>To reproduce the benchmark results, execute the following command:</p>
+<pre><code>./gradlew jmh -Pjmh.includes='.*ParseAndSelectBenchmark.*'
+
+</code></pre>
+<p>simdjson-java is a valuable addition to the Java ecosystem, providing developers with a powerful tool for efficient JSON parsing. Stay tuned for further updates and enhancements as the library continues to evolve.</p>
 	</div>
 </article>
 

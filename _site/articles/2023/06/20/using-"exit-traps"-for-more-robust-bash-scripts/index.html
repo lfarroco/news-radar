@@ -46,12 +46,12 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="http://redsymbol.net/articles/bash-exit-traps/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Bash scripts can be made more reliable by using &amp;quot;exit traps&amp;quot; to ensure that necessary cleanup operations are always performed, even when something unexpected goes wrong. Bash provides a pseudo-signal called EXIT that can be trapped, allowing commands or functions to execute when the script exits for any reason.&lt;/p&gt;
-&lt;p&gt;To use exit traps, simply define a &amp;quot;finish&amp;quot; function and place any code that needs to be run in it. For example, a common use case is creating a temporary scratch directory and deleting it after. Intermediate or temporary files can then be manipulated in the scratch directory without worry.&lt;/p&gt;
-&lt;p&gt;Without exit traps, cleanup operations can become messy and unreliable. For example, removing a scratch directory without the trap can lead to errors and leftover files.&lt;/p&gt;
-&lt;p&gt;Exit traps can also be useful for keeping services up, even in the face of runtime errors. For example, a script that temporarily stops a server for maintenance can ensure that it starts again at the end, regardless of any errors that may occur.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example of using exit traps to stop and restart a MongoDB server on an Ubuntu machine:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#!/bin/bash
+		<p>Bash scripts can be made more reliable by using &quot;exit traps&quot; to ensure that necessary cleanup operations are always performed, even when something unexpected goes wrong. Bash provides a pseudo-signal called EXIT that can be trapped, allowing commands or functions to execute when the script exits for any reason.</p>
+<p>To use exit traps, simply define a &quot;finish&quot; function and place any code that needs to be run in it. For example, a common use case is creating a temporary scratch directory and deleting it after. Intermediate or temporary files can then be manipulated in the scratch directory without worry.</p>
+<p>Without exit traps, cleanup operations can become messy and unreliable. For example, removing a scratch directory without the trap can lead to errors and leftover files.</p>
+<p>Exit traps can also be useful for keeping services up, even in the face of runtime errors. For example, a script that temporarily stops a server for maintenance can ensure that it starts again at the end, regardless of any errors that may occur.</p>
+<p>Here's an example of using exit traps to stop and restart a MongoDB server on an Ubuntu machine:</p>
+<pre><code>#!/bin/bash
 
 finish () {
   # Restart MongoDB
@@ -65,8 +65,9 @@ sudo service mongodb stop
 
 # Ensure MongoDB is restarted even if there is an error
 trap finish EXIT
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;By using exit traps, Bash scripts can be made more reliable and robust, ensuring that necessary cleanup operations are always performed and services are kept up, no matter what.&lt;/p&gt;
+
+</code></pre>
+<p>By using exit traps, Bash scripts can be made more reliable and robust, ensuring that necessary cleanup operations are always performed and services are kept up, no matter what.</p>
 	</div>
 </article>
 

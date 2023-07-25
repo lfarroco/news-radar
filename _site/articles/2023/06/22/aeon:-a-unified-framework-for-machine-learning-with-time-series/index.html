@@ -46,15 +46,15 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/aeon-toolkit/aeon" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Aeon is a unified framework for machine learning with time series data. It is an open-source project developed by aeon-toolkit and is licensed under the BSD-3-Clause license. Aeon provides a simple and intuitive interface for working with time series data, making it easier for developers to build machine learning models for time series analysis.&lt;/p&gt;
-&lt;p&gt;One of the key features of Aeon is its ability to handle both univariate and multivariate time series data. It also provides a variety of tools for preprocessing, visualization, and analysis of time series data. Aeon&amp;apos;s modular architecture allows developers to easily extend and customize the framework to fit their specific needs.&lt;/p&gt;
-&lt;p&gt;Aeon supports a wide range of machine learning algorithms, including deep learning models such as LSTM and GRU. It also provides a number of evaluation metrics for assessing the performance of machine learning models on time series data.&lt;/p&gt;
-&lt;p&gt;To get started with Aeon, developers can install it using pip and then import it into their Python code. Here&amp;apos;s an example of how to use Aeon for time series forecasting:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;from aeon import TimeSeries
+		<p>Aeon is a unified framework for machine learning with time series data. It is an open-source project developed by aeon-toolkit and is licensed under the BSD-3-Clause license. Aeon provides a simple and intuitive interface for working with time series data, making it easier for developers to build machine learning models for time series analysis.</p>
+<p>One of the key features of Aeon is its ability to handle both univariate and multivariate time series data. It also provides a variety of tools for preprocessing, visualization, and analysis of time series data. Aeon's modular architecture allows developers to easily extend and customize the framework to fit their specific needs.</p>
+<p>Aeon supports a wide range of machine learning algorithms, including deep learning models such as LSTM and GRU. It also provides a number of evaluation metrics for assessing the performance of machine learning models on time series data.</p>
+<p>To get started with Aeon, developers can install it using pip and then import it into their Python code. Here's an example of how to use Aeon for time series forecasting:</p>
+<pre><code>from aeon import TimeSeries
 from aeon.models import LSTM
 
 # Load time series data
-data = TimeSeries.load_csv(&amp;apos;data.csv&amp;apos;)
+data = TimeSeries.load_csv('data.csv')
 
 # Split data into training and test sets
 train_data, test_data = data.split_train_test(0.8)
@@ -68,9 +68,10 @@ predictions = model.predict(test_data)
 
 # Evaluate model performance
 mse = model.evaluate(test_data)
-print(&amp;apos;Mean Squared Error:&amp;apos;, mse)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Overall, Aeon is a powerful and flexible framework for machine learning with time series data. Its user-friendly interface and extensive documentation make it a great choice for developers looking to build machine learning models for time series analysis.&lt;/p&gt;
+print('Mean Squared Error:', mse)
+
+</code></pre>
+<p>Overall, Aeon is a powerful and flexible framework for machine learning with time series data. Its user-friendly interface and extensive documentation make it a great choice for developers looking to build machine learning models for time series analysis.</p>
 	</div>
 </article>
 

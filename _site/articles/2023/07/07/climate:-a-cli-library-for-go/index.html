@@ -46,29 +46,30 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/avamsi/climate" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Climate is a CLI library for Go that aims to simplify the process of creating command-line interfaces. Inspired by python-fire, Climate is built on top of Cobra and comes with &amp;quot;batteries included,&amp;quot; providing features such as help generation, shell completion, and more.&lt;/p&gt;
-&lt;p&gt;With Climate, developers can easily autogenerate CLIs from structs and functions, with support for nested subcommands and global/local flags. The library also offers typo suggestions and allows for easy generation of help documentation from godocs.&lt;/p&gt;
-&lt;p&gt;To demonstrate the usage of Climate, here&amp;apos;s an example code snippet:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;package main
+		<p>Climate is a CLI library for Go that aims to simplify the process of creating command-line interfaces. Inspired by python-fire, Climate is built on top of Cobra and comes with &quot;batteries included,&quot; providing features such as help generation, shell completion, and more.</p>
+<p>With Climate, developers can easily autogenerate CLIs from structs and functions, with support for nested subcommands and global/local flags. The library also offers typo suggestions and allows for easy generation of help documentation from godocs.</p>
+<p>To demonstrate the usage of Climate, here's an example code snippet:</p>
+<pre><code class="language-go">package main
 
 import (
-	&amp;quot;fmt&amp;quot;
-	&amp;quot;github.com/avamsi/climate&amp;quot;
+	&quot;fmt&quot;
+	&quot;github.com/avamsi/climate&quot;
 )
 
 func main() {
 	app := climate.NewCliMate()
-	app.Command(&amp;quot;greet&amp;quot;, &amp;quot;Greet someone&amp;quot;, func(c *climate.CliMate) {
-		name := c.String(&amp;quot;name&amp;quot;, &amp;quot;World&amp;quot;, &amp;quot;The name of the person to greet&amp;quot;)
+	app.Command(&quot;greet&quot;, &quot;Greet someone&quot;, func(c *climate.CliMate) {
+		name := c.String(&quot;name&quot;, &quot;World&quot;, &quot;The name of the person to greet&quot;)
 		c.Action(func() {
-			fmt.Printf(&amp;quot;Hello, %s!&#92;n&amp;quot;, *name)
+			fmt.Printf(&quot;Hello, %s!\n&quot;, *name)
 		})
 	})
 
 	app.Run()
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Climate provides a seamless experience for developers looking to create CLIs in Go. It simplifies the process and offers a range of features that make CLI development more efficient and enjoyable. With its intuitive interface and extensive documentation, Climate is a valuable tool for developers looking to keep up with the latest trends in the industry.&lt;/p&gt;
+
+</code></pre>
+<p>Climate provides a seamless experience for developers looking to create CLIs in Go. It simplifies the process and offers a range of features that make CLI development more efficient and enjoyable. With its intuitive interface and extensive documentation, Climate is a valuable tool for developers looking to keep up with the latest trends in the industry.</p>
 	</div>
 </article>
 

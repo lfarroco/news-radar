@@ -46,22 +46,23 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://grafbase.com/blog/getting-started-with-rust-and-webassembly" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;WebAssembly (Wasm) is a binary instruction format supported by major browsers and runtimes. It offers near-native performance and is cross-platform and sandboxed. WebAssembly is commonly used as a compilation target for languages like Rust, C, C++, and C#. JavaScript can interface with WebAssembly, but this should be done carefully due to potential overhead.&lt;/p&gt;
-&lt;p&gt;To compile Rust to WebAssembly, there are different methods available. One option is to use Cargo make, which allows defining tasks in .toml files and invoking wasm-bindgen-cli. Another option is wasm-pack, a tool that simplifies workflows for compiling Rust to WebAssembly for use in the browser or Node.js. Webpack&amp;apos;s Rust compilation is also an option, providing bundling and additional functionality for JavaScript.&lt;/p&gt;
-&lt;p&gt;In the process of compiling Rust to WebAssembly, a lib.rs file serves as the Rust entry point. It includes the wasm_bindgen library and CLI, which facilitates interactions between Rust and JavaScript.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-rust&quot;&gt;use wasm_bindgen::prelude::*;
+		<p>WebAssembly (Wasm) is a binary instruction format supported by major browsers and runtimes. It offers near-native performance and is cross-platform and sandboxed. WebAssembly is commonly used as a compilation target for languages like Rust, C, C++, and C#. JavaScript can interface with WebAssembly, but this should be done carefully due to potential overhead.</p>
+<p>To compile Rust to WebAssembly, there are different methods available. One option is to use Cargo make, which allows defining tasks in .toml files and invoking wasm-bindgen-cli. Another option is wasm-pack, a tool that simplifies workflows for compiling Rust to WebAssembly for use in the browser or Node.js. Webpack's Rust compilation is also an option, providing bundling and additional functionality for JavaScript.</p>
+<p>In the process of compiling Rust to WebAssembly, a lib.rs file serves as the Rust entry point. It includes the wasm_bindgen library and CLI, which facilitates interactions between Rust and JavaScript.</p>
+<pre><code class="language-rust">use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
-pub fn greeter(name: &amp;amp;str) -&amp;gt; String {
-    format!(&amp;quot;Hello {}!&amp;quot;, name)
+pub fn greeter(name: &amp;str) -&gt; String {
+    format!(&quot;Hello {}!&quot;, name)
 }
 
 #[wasm_bindgen]
 pub fn main() {
     // main function code here
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This example demonstrates the usage of wasm_bindgen&amp;apos;s prelude and the wasm_bindgen attribute. By leveraging Rust and WebAssembly, developers can create high-performance applications that can be executed in various environments.&lt;/p&gt;
+
+</code></pre>
+<p>This example demonstrates the usage of wasm_bindgen's prelude and the wasm_bindgen attribute. By leveraging Rust and WebAssembly, developers can create high-performance applications that can be executed in various environments.</p>
 	</div>
 </article>
 

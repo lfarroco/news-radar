@@ -46,20 +46,21 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://dev.clintonblackburn.com/2023/07/15/upgrading-typeorm-with-jscodeshift.html" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;TypeORM is a popular ORM (Object-Relational Mapping) library used to interact with databases in Node.js applications. In May of this year, the release of TypeORM version 0.3.0 introduced several breaking changes, making it challenging for developers to upgrade their codebases.&lt;/p&gt;
-&lt;p&gt;In a recent article, the author shares their experience upgrading TypeORM from version 0.2.x to 0.3.x in their startup, Vori. They faced hundreds of TypeScript errors during the upgrade process and realized that a simple find-and-replace approach would not be sufficient to fix them.&lt;/p&gt;
-&lt;p&gt;To address this, the author turned to codemods, which are scripts that modify the codebase itself. Codemods are powerful tools that can automate repetitive code changes and make upgrades smoother.&lt;/p&gt;
-&lt;p&gt;In their case, the author used jscodeshift, a tool that provides a jQuery-like API to navigate the abstract syntax tree (AST) of JavaScript and TypeScript code. By using jscodeshift, they were able to automate the necessary code modifications and make the upgrade process more efficient.&lt;/p&gt;
-&lt;p&gt;The author explains that jscodeshift can be initially confusing, but with some experimentation and the help of AST visualizers, developers can quickly grasp its capabilities. They also mention that jscodeshift is a versatile tool that can be used for various code transformations, not just for upgrading libraries like TypeORM.&lt;/p&gt;
-&lt;p&gt;Overall, the article highlights the importance of using codemods and tools like jscodeshift to streamline the process of upgrading libraries and frameworks. It provides valuable insights for developers who are looking to keep up with the latest industry practices and make their codebases more maintainable.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;// Example code snippet using TypeORM
-import { getConnection } from &amp;apos;typeorm&amp;apos;;
+		<p>TypeORM is a popular ORM (Object-Relational Mapping) library used to interact with databases in Node.js applications. In May of this year, the release of TypeORM version 0.3.0 introduced several breaking changes, making it challenging for developers to upgrade their codebases.</p>
+<p>In a recent article, the author shares their experience upgrading TypeORM from version 0.2.x to 0.3.x in their startup, Vori. They faced hundreds of TypeScript errors during the upgrade process and realized that a simple find-and-replace approach would not be sufficient to fix them.</p>
+<p>To address this, the author turned to codemods, which are scripts that modify the codebase itself. Codemods are powerful tools that can automate repetitive code changes and make upgrades smoother.</p>
+<p>In their case, the author used jscodeshift, a tool that provides a jQuery-like API to navigate the abstract syntax tree (AST) of JavaScript and TypeScript code. By using jscodeshift, they were able to automate the necessary code modifications and make the upgrade process more efficient.</p>
+<p>The author explains that jscodeshift can be initially confusing, but with some experimentation and the help of AST visualizers, developers can quickly grasp its capabilities. They also mention that jscodeshift is a versatile tool that can be used for various code transformations, not just for upgrading libraries like TypeORM.</p>
+<p>Overall, the article highlights the importance of using codemods and tools like jscodeshift to streamline the process of upgrading libraries and frameworks. It provides valuable insights for developers who are looking to keep up with the latest industry practices and make their codebases more maintainable.</p>
+<pre><code class="language-javascript">// Example code snippet using TypeORM
+import { getConnection } from 'typeorm';
 
 const user = await getConnection()
   .getRepository(User)
   .findOne({ where: { id: 1 } });
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;By leveraging tools like jscodeshift, developers can save time and effort when upgrading their codebases, allowing them to focus on higher-priority tasks and deliver more reliable software.&lt;/p&gt;
+
+</code></pre>
+<p>By leveraging tools like jscodeshift, developers can save time and effort when upgrading their codebases, allowing them to focus on higher-priority tasks and deliver more reliable software.</p>
 	</div>
 </article>
 

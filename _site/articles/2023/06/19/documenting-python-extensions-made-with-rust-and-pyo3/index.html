@@ -46,38 +46,39 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://blog.savant-ai.io/documenting-native-python-extensions-made-with-rust-and-pyo3-227aff68e481?source=friends_link&amp;sk=f9aa6a2352e63b4db62954137f5eb0e6" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Python is a popular programming language, but sometimes developers need to write native extensions to optimize their code. Rust is a language that is gaining popularity among developers for writing such extensions due to its performance and memory safety. PyO3 is a tool that allows developers to write optimized, GIL-free, memory-safe Python extensions in Rust. In this article, we will discuss how to document Python extensions made with Rust and PyO3.&lt;/p&gt;
-&lt;p&gt;Ivan Kud, a developer who uses PyO3 extensively in his software, faced the challenge of documenting the extensions to help users observe only those parts that are available in Python without looking at the Rust source code. He initially wrote a markdown file with API, but this approach was not suitable for large APIs.&lt;/p&gt;
-&lt;p&gt;To solve this problem, Ivan used Rustdoc, a tool that generates documentation for Rust code. Rustdoc generates documentation in HTML format, which can be easily viewed in a web browser. Ivan used Rustdoc to generate documentation for his Python extensions made with Rust and PyO3. He added doc comments to the Rust code, which Rustdoc used to generate documentation.&lt;/p&gt;
-&lt;p&gt;Rustdoc allows developers to write documentation in Markdown format. Rustdoc also supports adding examples to the documentation. Examples can be written in Rust or Python, which makes it easy for developers to understand how to use the extensions.&lt;/p&gt;
-&lt;p&gt;Here is an example of how to use Rustdoc to generate documentation for a Python extension made with Rust and PyO3:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-rust&quot;&gt;//! A Python module implemented in Rust.
+		<p>Python is a popular programming language, but sometimes developers need to write native extensions to optimize their code. Rust is a language that is gaining popularity among developers for writing such extensions due to its performance and memory safety. PyO3 is a tool that allows developers to write optimized, GIL-free, memory-safe Python extensions in Rust. In this article, we will discuss how to document Python extensions made with Rust and PyO3.</p>
+<p>Ivan Kud, a developer who uses PyO3 extensively in his software, faced the challenge of documenting the extensions to help users observe only those parts that are available in Python without looking at the Rust source code. He initially wrote a markdown file with API, but this approach was not suitable for large APIs.</p>
+<p>To solve this problem, Ivan used Rustdoc, a tool that generates documentation for Rust code. Rustdoc generates documentation in HTML format, which can be easily viewed in a web browser. Ivan used Rustdoc to generate documentation for his Python extensions made with Rust and PyO3. He added doc comments to the Rust code, which Rustdoc used to generate documentation.</p>
+<p>Rustdoc allows developers to write documentation in Markdown format. Rustdoc also supports adding examples to the documentation. Examples can be written in Rust or Python, which makes it easy for developers to understand how to use the extensions.</p>
+<p>Here is an example of how to use Rustdoc to generate documentation for a Python extension made with Rust and PyO3:</p>
+<pre><code class="language-rust">//! A Python module implemented in Rust.
 //!
 //! This module provides a function `add` that adds two numbers.
 //!
 //! # Examples
 //!
 //! ```python
-//! &amp;gt;&amp;gt;&amp;gt; import my_module
-//! &amp;gt;&amp;gt;&amp;gt; my_module.add(2, 3)
+//! &gt;&gt;&gt; import my_module
+//! &gt;&gt;&gt; my_module.add(2, 3)
 //! 5
 //! ```
 
 use pyo3::prelude::*;
 
 #[pyfunction]
-fn add(a: i64, b: i64) -&amp;gt; PyResult&amp;lt;i64&amp;gt; {
+fn add(a: i64, b: i64) -&gt; PyResult&lt;i64&gt; {
     Ok(a + b)
 }
 
 #[pymodule]
-fn my_module(_py: Python, m: &amp;amp;PyModule) -&amp;gt; PyResult&amp;lt;()&amp;gt; {
+fn my_module(_py: Python, m: &amp;PyModule) -&gt; PyResult&lt;()&gt; {
     m.add_function(wrap_pyfunction!(add, m)?)?;
     Ok(())
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In the above example, the &lt;code&gt;//!&lt;/code&gt; syntax is used to add doc comments to the Rust code. The &lt;code&gt;# Examples&lt;/code&gt; section shows how to use the &lt;code&gt;add&lt;/code&gt; function in Python. Rustdoc will generate documentation in HTML format, which can be easily viewed in a web browser.&lt;/p&gt;
-&lt;p&gt;In conclusion, documenting Python extensions made with Rust and PyO3 is essential for developers to understand how to use the extensions. Rustdoc is a tool that can be used to generate documentation for Rust code. Rustdoc supports Markdown format and examples, which makes it easy for developers to understand how to use the extensions. With Rust and PyO3, developers can write optimized, GIL-free, memory-safe Python extensions that can improve the performance of their code.&lt;/p&gt;
+
+</code></pre>
+<p>In the above example, the <code>//!</code> syntax is used to add doc comments to the Rust code. The <code># Examples</code> section shows how to use the <code>add</code> function in Python. Rustdoc will generate documentation in HTML format, which can be easily viewed in a web browser.</p>
+<p>In conclusion, documenting Python extensions made with Rust and PyO3 is essential for developers to understand how to use the extensions. Rustdoc is a tool that can be used to generate documentation for Rust code. Rustdoc supports Markdown format and examples, which makes it easy for developers to understand how to use the extensions. With Rust and PyO3, developers can write optimized, GIL-free, memory-safe Python extensions that can improve the performance of their code.</p>
 	</div>
 </article>
 

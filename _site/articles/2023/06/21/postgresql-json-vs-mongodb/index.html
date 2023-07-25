@@ -46,19 +46,20 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/django/comments/14f68rz/postgresql_json_vs_mongodb/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;PostgreSQL, a relational database management system, supports JSON data. A recent blog post compared the performance of using Postgres JSON fields instead of MongoDB and found that Postgres actually provides better performance.&lt;/p&gt;
-&lt;p&gt;For developers who work with both relational and unstructured data, managing two databases can be tedious. However, using Postgres for both types of data can simplify the development process, especially for those using Python with Django.&lt;/p&gt;
-&lt;p&gt;While MongoDB is still a popular choice for new projects, the tradeoffs should be considered. Postgres offers better performance for JSON data and has the advantage of being a relational database, which can be useful for complex queries. MongoDB, on the other hand, is a document-oriented database that can handle large amounts of unstructured data and is flexible in terms of schema changes.&lt;/p&gt;
-&lt;p&gt;For developers looking to keep up with the latest news in the industry, it&amp;apos;s important to consider the strengths and weaknesses of different database management systems. Below is an example of how to use JSON fields in Postgres:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-sql&quot;&gt;CREATE TABLE example (
+		<p>PostgreSQL, a relational database management system, supports JSON data. A recent blog post compared the performance of using Postgres JSON fields instead of MongoDB and found that Postgres actually provides better performance.</p>
+<p>For developers who work with both relational and unstructured data, managing two databases can be tedious. However, using Postgres for both types of data can simplify the development process, especially for those using Python with Django.</p>
+<p>While MongoDB is still a popular choice for new projects, the tradeoffs should be considered. Postgres offers better performance for JSON data and has the advantage of being a relational database, which can be useful for complex queries. MongoDB, on the other hand, is a document-oriented database that can handle large amounts of unstructured data and is flexible in terms of schema changes.</p>
+<p>For developers looking to keep up with the latest news in the industry, it's important to consider the strengths and weaknesses of different database management systems. Below is an example of how to use JSON fields in Postgres:</p>
+<pre><code class="language-sql">CREATE TABLE example (
     id SERIAL PRIMARY KEY,
     data JSON
 );
 
 INSERT INTO example (data)
-VALUES (&amp;apos;{&amp;quot;name&amp;quot;: &amp;quot;John&amp;quot;, &amp;quot;age&amp;quot;: 30}&amp;apos;);
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In conclusion, while both Postgres and MongoDB have their strengths, developers should consider using Postgres for both relational and unstructured data. With its support for JSON data and better performance, it can simplify the development process.&lt;/p&gt;
+VALUES ('{&quot;name&quot;: &quot;John&quot;, &quot;age&quot;: 30}');
+
+</code></pre>
+<p>In conclusion, while both Postgres and MongoDB have their strengths, developers should consider using Postgres for both relational and unstructured data. With its support for JSON data and better performance, it can simplify the development process.</p>
 	</div>
 </article>
 

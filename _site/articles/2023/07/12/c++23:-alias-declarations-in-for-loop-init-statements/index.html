@@ -46,23 +46,24 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://www.sandordargo.com/blog/2023/07/12/cpp23-extended-init-statement-with-alias-declaration" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;In the latest update on C++23 features, the article highlights a small yet significant addition to the language. With the introduction of alias declarations in for loop init-statements, developers now have more flexibility in scoping typedefs and creating aliases.&lt;/p&gt;
-&lt;p&gt;Previously, C++20 allowed the declaration and initialization of new variables in init statements for range-based for loops. However, it did not support the use of aliases. Thanks to Jens Mauer&amp;apos;s paper P2360R0, C++23 now permits the use of alias declarations in for loop init-statements.&lt;/p&gt;
-&lt;p&gt;This new feature brings improved readability and wider usability, as using aliases is often preferred over typedefs. Developers can now leverage this feature to enhance the scoping of typedefs within for loop bodies.&lt;/p&gt;
-&lt;p&gt;To illustrate the usage of alias declarations in for loop init-statements, consider the following code snippet:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;for (using MyType = int; auto&amp;amp; element : myContainer)
+		<p>In the latest update on C++23 features, the article highlights a small yet significant addition to the language. With the introduction of alias declarations in for loop init-statements, developers now have more flexibility in scoping typedefs and creating aliases.</p>
+<p>Previously, C++20 allowed the declaration and initialization of new variables in init statements for range-based for loops. However, it did not support the use of aliases. Thanks to Jens Mauer's paper P2360R0, C++23 now permits the use of alias declarations in for loop init-statements.</p>
+<p>This new feature brings improved readability and wider usability, as using aliases is often preferred over typedefs. Developers can now leverage this feature to enhance the scoping of typedefs within for loop bodies.</p>
+<p>To illustrate the usage of alias declarations in for loop init-statements, consider the following code snippet:</p>
+<pre><code class="language-cpp">for (using MyType = int; auto&amp; element : myContainer)
 {
     // Access elements using MyType alias
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;By utilizing this feature, developers can streamline their code and improve its maintainability. C++23 continues to evolve, bringing new enhancements and improvements to the language. Stay tuned for more updates on the latest features and changes in the C++ programming landscape.&lt;/p&gt;
-&lt;p&gt;Further Reading:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;link-to-article&quot;&gt;C++23: How lambdas are going to change?&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;link-to-article&quot;&gt;C++23: auto(x) and decay copy&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;link-to-article&quot;&gt;C++23: std::out_ptr and std::inout_ptr&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Trending Tags: C++23, Programming Languages, C++ Features, Alias Declarations, For Loop Init-Statements&lt;/p&gt;
+
+</code></pre>
+<p>By utilizing this feature, developers can streamline their code and improve its maintainability. C++23 continues to evolve, bringing new enhancements and improvements to the language. Stay tuned for more updates on the latest features and changes in the C++ programming landscape.</p>
+<p>Further Reading:</p>
+<ul>
+<li><a href="link-to-article">C++23: How lambdas are going to change?</a></li>
+<li><a href="link-to-article">C++23: auto(x) and decay copy</a></li>
+<li><a href="link-to-article">C++23: std::out_ptr and std::inout_ptr</a></li>
+</ul>
+<p>Trending Tags: C++23, Programming Languages, C++ Features, Alias Declarations, For Loop Init-Statements</p>
 	</div>
 </article>
 

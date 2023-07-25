@@ -46,21 +46,22 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/LemmyNet/lemmy" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Lemmy is an open-source link aggregator and forum for the fediverse, written in Rust. It allows users to create their own communities, share links and discussions, and vote and comment on posts. Lemmy is designed to be decentralized, meaning that no single entity controls the platform, and users can connect to different instances of the software.&lt;/p&gt;
-&lt;p&gt;Lemmy&amp;apos;s codebase is available on GitHub under the AGPL-3.0 license, and it has gained popularity in the Rust community, with over 10,000 stars and 653 forks. The project is actively maintained, with frequent updates and bug fixes.&lt;/p&gt;
-&lt;p&gt;Developers interested in contributing to Lemmy can start by checking out the project&amp;apos;s issues on GitHub. The project&amp;apos;s codebase is written in Rust, a language known for its safety and performance. Rust&amp;apos;s ownership and borrowing system make it easier to write efficient and secure code, which is important in a project like Lemmy that deals with user-generated content.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example of how to use Lemmy&amp;apos;s API to fetch posts from a community:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-rust&quot;&gt;use reqwest::Client;
+		<p>Lemmy is an open-source link aggregator and forum for the fediverse, written in Rust. It allows users to create their own communities, share links and discussions, and vote and comment on posts. Lemmy is designed to be decentralized, meaning that no single entity controls the platform, and users can connect to different instances of the software.</p>
+<p>Lemmy's codebase is available on GitHub under the AGPL-3.0 license, and it has gained popularity in the Rust community, with over 10,000 stars and 653 forks. The project is actively maintained, with frequent updates and bug fixes.</p>
+<p>Developers interested in contributing to Lemmy can start by checking out the project's issues on GitHub. The project's codebase is written in Rust, a language known for its safety and performance. Rust's ownership and borrowing system make it easier to write efficient and secure code, which is important in a project like Lemmy that deals with user-generated content.</p>
+<p>Here's an example of how to use Lemmy's API to fetch posts from a community:</p>
+<pre><code class="language-rust">use reqwest::Client;
 
-fn main() -&amp;gt; Result&amp;lt;(), Box&amp;lt;dyn std::error::Error&amp;gt;&amp;gt; {
+fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     let client = Client::new();
-    let response = client.get(&amp;quot;https://lemmy.ml/api/v3/c/programming/posts&amp;quot;).send()?;
-    let posts: Vec&amp;lt;lemmy_api::Post&amp;gt; = response.json()?;
-    println!(&amp;quot;{:#?}&amp;quot;, posts);
+    let response = client.get(&quot;https://lemmy.ml/api/v3/c/programming/posts&quot;).send()?;
+    let posts: Vec&lt;lemmy_api::Post&gt; = response.json()?;
+    println!(&quot;{:#?}&quot;, posts);
     Ok(())
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Lemmy is a promising project that offers a decentralized alternative to centralized social media platforms. Its use of Rust makes it a secure and reliable option for developers looking to build decentralized applications.&lt;/p&gt;
+
+</code></pre>
+<p>Lemmy is a promising project that offers a decentralized alternative to centralized social media platforms. Its use of Rust makes it a secure and reliable option for developers looking to build decentralized applications.</p>
 	</div>
 </article>
 

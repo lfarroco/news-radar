@@ -46,13 +46,13 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://avivcarmi.com/the-tragic-death-of-inheritance/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;In recent years, programming languages like Rust and Go have been challenging the traditional concept of inheritance. Many engineers are joining the movement, but what is the reason behind this shift? Is inheritance really on its way out?&lt;/p&gt;
-&lt;p&gt;Aviv Carmi, a seasoned developer, shares his personal journey in an article titled &amp;quot;The Tragic Death of Inheritance.&amp;quot; Initially, Carmi was a strong advocate for inheritance, having worked with languages like Java, JavaScript, Python, C#, and PHP. However, after five years of extensive coding in Go, he had a change of heart.&lt;/p&gt;
-&lt;p&gt;Go, unlike other languages, does not support inheritance or abstract classes. At first, Carmi still argued for inheritance, but over time, he realized the power of composition. He now believes that composition is a superior choice in most cases.&lt;/p&gt;
-&lt;p&gt;So, what led to this shift in perspective? Carmi breaks it down in his article, highlighting the benefits of composition over inheritance. He emphasizes that changing one&amp;apos;s mind is never easy, but it is essential for growth and improvement.&lt;/p&gt;
-&lt;p&gt;For developers keeping up with the latest industry trends, this article serves as a reminder that inheritance is not the only approach to object-oriented programming. By exploring alternatives like composition, developers can write more flexible and maintainable code.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example of how composition can be used in Go:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;type Car struct {
+		<p>In recent years, programming languages like Rust and Go have been challenging the traditional concept of inheritance. Many engineers are joining the movement, but what is the reason behind this shift? Is inheritance really on its way out?</p>
+<p>Aviv Carmi, a seasoned developer, shares his personal journey in an article titled &quot;The Tragic Death of Inheritance.&quot; Initially, Carmi was a strong advocate for inheritance, having worked with languages like Java, JavaScript, Python, C#, and PHP. However, after five years of extensive coding in Go, he had a change of heart.</p>
+<p>Go, unlike other languages, does not support inheritance or abstract classes. At first, Carmi still argued for inheritance, but over time, he realized the power of composition. He now believes that composition is a superior choice in most cases.</p>
+<p>So, what led to this shift in perspective? Carmi breaks it down in his article, highlighting the benefits of composition over inheritance. He emphasizes that changing one's mind is never easy, but it is essential for growth and improvement.</p>
+<p>For developers keeping up with the latest industry trends, this article serves as a reminder that inheritance is not the only approach to object-oriented programming. By exploring alternatives like composition, developers can write more flexible and maintainable code.</p>
+<p>Here's an example of how composition can be used in Go:</p>
+<pre><code class="language-go">type Car struct {
     engine Engine
     wheels []Wheel
 }
@@ -72,10 +72,11 @@ func (c *Car) Start() {
 func (c *Car) Drive() {
     // driving logic
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In this example, a &lt;code&gt;Car&lt;/code&gt; struct is composed of an &lt;code&gt;Engine&lt;/code&gt; and a slice of &lt;code&gt;Wheel&lt;/code&gt; structs. The &lt;code&gt;Car&lt;/code&gt; can start and drive by utilizing the methods of its composed components.&lt;/p&gt;
-&lt;p&gt;As the industry evolves, it is crucial for developers to embrace new paradigms and challenge established conventions. The death of inheritance may not be imminent, but it is essential to explore alternatives like composition to create more robust and scalable software.&lt;/p&gt;
-&lt;p&gt;Read Aviv Carmi&amp;apos;s full article &lt;a href=&quot;link-to-the-article&quot;&gt;here&lt;/a&gt; to gain a deeper understanding of the shift away from inheritance and the rise of composition in modern programming languages.&lt;/p&gt;
+
+</code></pre>
+<p>In this example, a <code>Car</code> struct is composed of an <code>Engine</code> and a slice of <code>Wheel</code> structs. The <code>Car</code> can start and drive by utilizing the methods of its composed components.</p>
+<p>As the industry evolves, it is crucial for developers to embrace new paradigms and challenge established conventions. The death of inheritance may not be imminent, but it is essential to explore alternatives like composition to create more robust and scalable software.</p>
+<p>Read Aviv Carmi's full article <a href="link-to-the-article">here</a> to gain a deeper understanding of the shift away from inheritance and the rise of composition in modern programming languages.</p>
 	</div>
 </article>
 

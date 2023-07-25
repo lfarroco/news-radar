@@ -46,15 +46,16 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://hurl.dev/blog/2023/06/30/announcing-hurl-4.0.0.html" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;The Hurl team is excited to announce the release of Hurl 4.0.0! Hurl is a command line tool powered by curl that allows developers to run HTTP requests defined in a simple plain text format.&lt;/p&gt;
-&lt;p&gt;One of the major updates in this release is the improved HTML report with a request waterfall. The HTML report is now pure HTML, without any JavaScript, and has inlined CSS, making it easy to integrate into your favorite CI/CD solution, such as GitLab CI/CD or GitHub Actions. The report provides a detailed view of each run, including timings used to construct the requests timeline.&lt;/p&gt;
-&lt;p&gt;Additionally, the --json option now exposes a structured view of a Hurl run, including errors, asserts, certificates, captures, cookies, and timings. Developers can even use this option to generate their own custom report.&lt;/p&gt;
-&lt;p&gt;The new release also brings attention to the importance of rich visualization. It can reveal hidden or not obvious issues that may impact performance. For example, the analysis of a sample test showed gaps between requests caused by a large number of assertions on the HTTP response. Hurl 4.0.0 introduces a naive approach to asserts computation, where each assert of the same response is independent, resulting in improved speed.&lt;/p&gt;
-&lt;p&gt;With these updates, Hurl continues to provide developers with a powerful tool for testing and analyzing HTTP requests. Stay tuned for more exciting features and improvements from the Hurl team!&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# Example of running an HTTP request with Hurl
+		<p>The Hurl team is excited to announce the release of Hurl 4.0.0! Hurl is a command line tool powered by curl that allows developers to run HTTP requests defined in a simple plain text format.</p>
+<p>One of the major updates in this release is the improved HTML report with a request waterfall. The HTML report is now pure HTML, without any JavaScript, and has inlined CSS, making it easy to integrate into your favorite CI/CD solution, such as GitLab CI/CD or GitHub Actions. The report provides a detailed view of each run, including timings used to construct the requests timeline.</p>
+<p>Additionally, the --json option now exposes a structured view of a Hurl run, including errors, asserts, certificates, captures, cookies, and timings. Developers can even use this option to generate their own custom report.</p>
+<p>The new release also brings attention to the importance of rich visualization. It can reveal hidden or not obvious issues that may impact performance. For example, the analysis of a sample test showed gaps between requests caused by a large number of assertions on the HTTP response. Hurl 4.0.0 introduces a naive approach to asserts computation, where each assert of the same response is independent, resulting in improved speed.</p>
+<p>With these updates, Hurl continues to provide developers with a powerful tool for testing and analyzing HTTP requests. Stay tuned for more exciting features and improvements from the Hurl team!</p>
+<pre><code class="language-bash"># Example of running an HTTP request with Hurl
 hurl get https://example.com
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;For more information, check out the &lt;a href=&quot;https://hurl.dev&quot;&gt;Hurl documentation&lt;/a&gt; and &lt;a href=&quot;https://github.com/your-hurl-repo&quot;&gt;GitHub repository&lt;/a&gt;.&lt;/p&gt;
+
+</code></pre>
+<p>For more information, check out the <a href="https://hurl.dev">Hurl documentation</a> and <a href="https://github.com/your-hurl-repo">GitHub repository</a>.</p>
 	</div>
 </article>
 

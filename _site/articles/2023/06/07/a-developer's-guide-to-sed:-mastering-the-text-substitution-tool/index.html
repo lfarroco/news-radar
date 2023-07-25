@@ -46,54 +46,60 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://sebastiancarlos.com/a-visual-guide-to-sed-a7a8abd2f675?sk=d2e0680225744c54ad6ee96e2075c877" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;If you&amp;apos;re a developer who works with text files, then you&amp;apos;ve probably heard of sed. Sed is a command-line tool that allows you to perform text substitution, just like the &amp;quot;Find and Replace&amp;quot; feature in GUI editors. While there are newer tools like sd that offer a better user experience, learning sed is still worthwhile for developers who want to have a deeper understanding of text processing.&lt;/p&gt;
-&lt;p&gt;At its core, sed is a non-interactive text editor that comes with a built-in Turing machine. This means that you can even run games like Tetris on it! However, mastering sed takes some time, and this guide aims to help you get started with the basics.&lt;/p&gt;
-&lt;p&gt;Invocation and Basic Syntax&lt;/p&gt;
-&lt;p&gt;The typical invocation of sed is sed SCRIPT FILE. For example, to replace all occurrences of &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot; in a file called input.txt, you would use the following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;sed &amp;apos;s/foo/bar/g&amp;apos; input.txt
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The &amp;quot;s&amp;quot; in the command stands for &amp;quot;substitute&amp;quot;, and the &amp;quot;g&amp;quot; at the end stands for &amp;quot;global&amp;quot;, which means that sed will replace all occurrences of &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot; in the file.&lt;/p&gt;
-&lt;p&gt;By default, sed prints all processed input, reflecting any modifications made. You can suppress this output with the -n/--quiet/--silent option. In that case, you need to run specific commands to get any output at all, like the &amp;quot;p&amp;quot; command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;sed -n &amp;apos;s/foo/bar/p&amp;apos; input.txt
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Here, the &amp;quot;p&amp;quot; command tells sed to print only the lines that have been modified.&lt;/p&gt;
-&lt;p&gt;Commands and Addressing&lt;/p&gt;
-&lt;p&gt;A sed script consists of one or more commands that follow the basic syntax [addr]x[options]. The &amp;quot;addr&amp;quot; part specifies the lines to which the command applies, and the &amp;quot;x&amp;quot; part specifies the action to be performed. For example, the command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;3s/foo/bar/g
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;will search for the word &amp;quot;foo&amp;quot; on line 3 and replace it with &amp;quot;bar&amp;quot;. You can also specify a range of lines by separating two addresses with a comma. For example, the command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;2,5s/foo/bar/g
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;will replace all occurrences of &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot; on lines 2 through 5.&lt;/p&gt;
-&lt;p&gt;Here are some of the most commonly used sed commands:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&amp;quot;s&amp;quot;: substitute&lt;/li&gt;
-&lt;li&gt;&amp;quot;d&amp;quot;: delete&lt;/li&gt;
-&lt;li&gt;&amp;quot;p&amp;quot;: print&lt;/li&gt;
-&lt;li&gt;&amp;quot;a&amp;quot;: append&lt;/li&gt;
-&lt;li&gt;&amp;quot;i&amp;quot;: insert&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;For example, the command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;sed &amp;apos;2,5d&amp;apos; input.txt
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;will delete lines 2 through 5 from the file.&lt;/p&gt;
-&lt;p&gt;Regular Expressions&lt;/p&gt;
-&lt;p&gt;One of the most powerful features of sed is its support for regular expressions. Regular expressions allow you to search for patterns in text, rather than just exact matches. Here are some examples of regular expressions that you can use with sed:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&amp;quot;.&amp;quot; matches any character&lt;/li&gt;
-&lt;li&gt;&amp;quot;^&amp;quot; matches the beginning of a line&lt;/li&gt;
-&lt;li&gt;&amp;quot;$&amp;quot; matches the end of a line&lt;/li&gt;
-&lt;li&gt;&amp;quot;[abc]&amp;quot; matches any of the characters &amp;quot;a&amp;quot;, &amp;quot;b&amp;quot;, or &amp;quot;c&amp;quot;&lt;/li&gt;
-&lt;li&gt;&amp;quot;[a-z]&amp;quot; matches any lowercase letter&lt;/li&gt;
-&lt;li&gt;&amp;quot;[A-Z]&amp;quot; matches any uppercase letter&lt;/li&gt;
-&lt;li&gt;&amp;quot;[0-9]&amp;quot; matches any digit&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;For example, the command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;sed &amp;apos;s/^foo/bar/g&amp;apos; input.txt
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;will replace all occurrences of &amp;quot;foo&amp;quot; at the beginning of a line with &amp;quot;bar&amp;quot;.&lt;/p&gt;
-&lt;p&gt;Conclusion&lt;/p&gt;
-&lt;p&gt;Sed is a powerful tool that can help you perform text substitution and processing tasks quickly and efficiently. While it may take some time to master, learning sed is a valuable skill for any developer who works with text files. In this guide, we covered the basics of sed, including its invocation, syntax, commands, addressing, and regular expressions. With this knowledge, you can start using sed to automate your text processing tasks and become a more efficient developer.&lt;/p&gt;
+		<p>If you're a developer who works with text files, then you've probably heard of sed. Sed is a command-line tool that allows you to perform text substitution, just like the &quot;Find and Replace&quot; feature in GUI editors. While there are newer tools like sd that offer a better user experience, learning sed is still worthwhile for developers who want to have a deeper understanding of text processing.</p>
+<p>At its core, sed is a non-interactive text editor that comes with a built-in Turing machine. This means that you can even run games like Tetris on it! However, mastering sed takes some time, and this guide aims to help you get started with the basics.</p>
+<p>Invocation and Basic Syntax</p>
+<p>The typical invocation of sed is sed SCRIPT FILE. For example, to replace all occurrences of &quot;foo&quot; with &quot;bar&quot; in a file called input.txt, you would use the following command:</p>
+<pre><code>sed 's/foo/bar/g' input.txt
+
+</code></pre>
+<p>The &quot;s&quot; in the command stands for &quot;substitute&quot;, and the &quot;g&quot; at the end stands for &quot;global&quot;, which means that sed will replace all occurrences of &quot;foo&quot; with &quot;bar&quot; in the file.</p>
+<p>By default, sed prints all processed input, reflecting any modifications made. You can suppress this output with the -n/--quiet/--silent option. In that case, you need to run specific commands to get any output at all, like the &quot;p&quot; command:</p>
+<pre><code>sed -n 's/foo/bar/p' input.txt
+
+</code></pre>
+<p>Here, the &quot;p&quot; command tells sed to print only the lines that have been modified.</p>
+<p>Commands and Addressing</p>
+<p>A sed script consists of one or more commands that follow the basic syntax [addr]x[options]. The &quot;addr&quot; part specifies the lines to which the command applies, and the &quot;x&quot; part specifies the action to be performed. For example, the command:</p>
+<pre><code>3s/foo/bar/g
+
+</code></pre>
+<p>will search for the word &quot;foo&quot; on line 3 and replace it with &quot;bar&quot;. You can also specify a range of lines by separating two addresses with a comma. For example, the command:</p>
+<pre><code>2,5s/foo/bar/g
+
+</code></pre>
+<p>will replace all occurrences of &quot;foo&quot; with &quot;bar&quot; on lines 2 through 5.</p>
+<p>Here are some of the most commonly used sed commands:</p>
+<ul>
+<li>&quot;s&quot;: substitute</li>
+<li>&quot;d&quot;: delete</li>
+<li>&quot;p&quot;: print</li>
+<li>&quot;a&quot;: append</li>
+<li>&quot;i&quot;: insert</li>
+</ul>
+<p>For example, the command:</p>
+<pre><code>sed '2,5d' input.txt
+
+</code></pre>
+<p>will delete lines 2 through 5 from the file.</p>
+<p>Regular Expressions</p>
+<p>One of the most powerful features of sed is its support for regular expressions. Regular expressions allow you to search for patterns in text, rather than just exact matches. Here are some examples of regular expressions that you can use with sed:</p>
+<ul>
+<li>&quot;.&quot; matches any character</li>
+<li>&quot;^&quot; matches the beginning of a line</li>
+<li>&quot;$&quot; matches the end of a line</li>
+<li>&quot;[abc]&quot; matches any of the characters &quot;a&quot;, &quot;b&quot;, or &quot;c&quot;</li>
+<li>&quot;[a-z]&quot; matches any lowercase letter</li>
+<li>&quot;[A-Z]&quot; matches any uppercase letter</li>
+<li>&quot;[0-9]&quot; matches any digit</li>
+</ul>
+<p>For example, the command:</p>
+<pre><code>sed 's/^foo/bar/g' input.txt
+
+</code></pre>
+<p>will replace all occurrences of &quot;foo&quot; at the beginning of a line with &quot;bar&quot;.</p>
+<p>Conclusion</p>
+<p>Sed is a powerful tool that can help you perform text substitution and processing tasks quickly and efficiently. While it may take some time to master, learning sed is a valuable skill for any developer who works with text files. In this guide, we covered the basics of sed, including its invocation, syntax, commands, addressing, and regular expressions. With this knowledge, you can start using sed to automate your text processing tasks and become a more efficient developer.</p>
 	</div>
 </article>
 

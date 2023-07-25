@@ -46,49 +46,52 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://blog.appsignal.com/2023/06/20/create-and-open-a-modal-in-phoenix-1-7.html" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Phoenix 1.7, released this year, comes packed with exciting features such as verified routes and built-in Tailwind components. While these components provide a great starting point, they may not always fit specific design needs. In this article, we will learn how to create and open a modal in a Phoenix app.&lt;/p&gt;
-&lt;p&gt;Setting up the UI
-To demonstrate the process, we will create a UI for a pet shop called Petacular. To begin, we need to bootstrap the app. If you don&amp;apos;t have the latest Phoenix installer, install it with the following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;mix archive.install hex phx_new
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Then, create the project with:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;mix phx.new petacular
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This will generate the core components we will use in our examples.&lt;/p&gt;
-&lt;p&gt;Creating a Modal
-To create a modal, we will use the &lt;code&gt;phx-modal&lt;/code&gt; component provided by Phoenix. This component is not included in the default installation, so we need to add it to our project by including the &lt;code&gt;phoenix_html&lt;/code&gt; dependency in our &lt;code&gt;mix.exs&lt;/code&gt; file:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-elixir&quot;&gt;defp deps do
+		<p>Phoenix 1.7, released this year, comes packed with exciting features such as verified routes and built-in Tailwind components. While these components provide a great starting point, they may not always fit specific design needs. In this article, we will learn how to create and open a modal in a Phoenix app.</p>
+<p>Setting up the UI To demonstrate the process, we will create a UI for a pet shop called Petacular. To begin, we need to bootstrap the app. If you don't have the latest Phoenix installer, install it with the following command:</p>
+<pre><code>mix archive.install hex phx_new
+
+</code></pre>
+<p>Then, create the project with:</p>
+<pre><code>mix phx.new petacular
+
+</code></pre>
+<p>This will generate the core components we will use in our examples.</p>
+<p>Creating a Modal To create a modal, we will use the <code>phx-modal</code> component provided by Phoenix. This component is not included in the default installation, so we need to add it to our project by including the <code>phoenix_html</code> dependency in our <code>mix.exs</code> file:</p>
+<pre><code class="language-elixir">defp deps do
   [
-    {:phoenix_html, &amp;quot;~&amp;gt; 3.0&amp;quot;},
+    {:phoenix_html, &quot;~&gt; 3.0&quot;},
     # other dependencies
   ]
 end
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;After adding the dependency, we need to install it by running &lt;code&gt;mix deps.get&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Next, we need to add the &lt;code&gt;phx-modal&lt;/code&gt; component to our page. We can do this by adding the following code to our template file:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;%= render_modal @my_modal %&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Here, &lt;code&gt;@my_modal&lt;/code&gt; is a variable that we will use to control the modal.&lt;/p&gt;
-&lt;p&gt;To open the modal, we need to add a button or link that triggers the &lt;code&gt;phx-modal&lt;/code&gt; component. We can do this by adding the following code to our template file:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;button phx-click=&amp;quot;phx-modal-show&amp;quot; phx-target=&amp;quot;my_modal&amp;quot;&amp;gt;Open Modal&amp;lt;/button&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Here, &lt;code&gt;phx-click&lt;/code&gt; and &lt;code&gt;phx-target&lt;/code&gt; are attributes that tell Phoenix to show the &lt;code&gt;my_modal&lt;/code&gt; modal when the button is clicked.&lt;/p&gt;
-&lt;p&gt;Finally, we need to define the &lt;code&gt;my_modal&lt;/code&gt; variable in our template file. We can do this by adding the following code:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;%= modal &amp;quot;my_modal&amp;quot;, fn(modal) -&amp;gt; %&amp;gt;
-  &amp;lt;div class=&amp;quot;modal-header&amp;quot;&amp;gt;
-    &amp;lt;h4 class=&amp;quot;modal-title&amp;quot;&amp;gt;Modal Title&amp;lt;/h4&amp;gt;
-    &amp;lt;button type=&amp;quot;button&amp;quot; class=&amp;quot;close&amp;quot; phx-click=&amp;quot;phx-modal-hide&amp;quot; aria-label=&amp;quot;Close&amp;quot;&amp;gt;
-      &amp;lt;span aria-hidden=&amp;quot;true&amp;quot;&amp;gt;&amp;amp;times;&amp;lt;/span&amp;gt;
-    &amp;lt;/button&amp;gt;
-  &amp;lt;/div&amp;gt;
-  &amp;lt;div class=&amp;quot;modal-body&amp;quot;&amp;gt;
+
+</code></pre>
+<p>After adding the dependency, we need to install it by running <code>mix deps.get</code>.</p>
+<p>Next, we need to add the <code>phx-modal</code> component to our page. We can do this by adding the following code to our template file:</p>
+<pre><code class="language-html">&lt;%= render_modal @my_modal %&gt;
+
+</code></pre>
+<p>Here, <code>@my_modal</code> is a variable that we will use to control the modal.</p>
+<p>To open the modal, we need to add a button or link that triggers the <code>phx-modal</code> component. We can do this by adding the following code to our template file:</p>
+<pre><code class="language-html">&lt;button phx-click=&quot;phx-modal-show&quot; phx-target=&quot;my_modal&quot;&gt;Open Modal&lt;/button&gt;
+
+</code></pre>
+<p>Here, <code>phx-click</code> and <code>phx-target</code> are attributes that tell Phoenix to show the <code>my_modal</code> modal when the button is clicked.</p>
+<p>Finally, we need to define the <code>my_modal</code> variable in our template file. We can do this by adding the following code:</p>
+<pre><code class="language-html">&lt;%= modal &quot;my_modal&quot;, fn(modal) -&gt; %&gt;
+  &lt;div class=&quot;modal-header&quot;&gt;
+    &lt;h4 class=&quot;modal-title&quot;&gt;Modal Title&lt;/h4&gt;
+    &lt;button type=&quot;button&quot; class=&quot;close&quot; phx-click=&quot;phx-modal-hide&quot; aria-label=&quot;Close&quot;&gt;
+      &lt;span aria-hidden=&quot;true&quot;&gt;&amp;times;&lt;/span&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;modal-body&quot;&gt;
     Modal Content
-  &amp;lt;/div&amp;gt;
-&amp;lt;% end %&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Here, &lt;code&gt;modal&lt;/code&gt; is a helper function provided by Phoenix that generates the modal HTML.&lt;/p&gt;
-&lt;p&gt;Conclusion
-Creating and opening a modal in Phoenix 1.7 is a straightforward process that can be achieved using the &lt;code&gt;phx-modal&lt;/code&gt; component. By following the steps outlined in this article, developers can add modals to their Phoenix apps and improve the user experience.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;% end %&gt;
+
+</code></pre>
+<p>Here, <code>modal</code> is a helper function provided by Phoenix that generates the modal HTML.</p>
+<p>Conclusion Creating and opening a modal in Phoenix 1.7 is a straightforward process that can be achieved using the <code>phx-modal</code> component. By following the steps outlined in this article, developers can add modals to their Phoenix apps and improve the user experience.</p>
 	</div>
 </article>
 

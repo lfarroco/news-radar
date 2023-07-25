@@ -46,12 +46,12 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://checkerframework.org/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;The Checker Framework is a powerful tool for Java developers who want to enhance the language&amp;apos;s type system and prevent common errors such as null pointer exceptions, unintended side effects, SQL injections, concurrency errors, and mistaken equality tests. By using compiler plug-ins called &amp;quot;checkers,&amp;quot; developers can find bugs or verify their absence in their Java programs.&lt;/p&gt;
-&lt;p&gt;The Checker Framework also offers the flexibility to write custom compiler plug-ins, allowing developers to tailor the tool to their specific needs. This makes it a valuable resource for improving code quality and reducing the likelihood of runtime errors.&lt;/p&gt;
-&lt;p&gt;To support the community, the Checker Framework provides extensive documentation, including manuals that address common questions and issues. Additionally, developers can seek assistance through the mailing lists, where they can ask questions, share case studies, and contribute to the improvement of the framework.&lt;/p&gt;
-&lt;p&gt;If you encounter any problems or bugs, the Checker Framework encourages you to submit a bug report so that the issues can be addressed promptly.&lt;/p&gt;
-&lt;p&gt;Overall, the Checker Framework is a valuable asset for Java developers who want to strengthen their code and minimize errors. By leveraging its features and community support, developers can ensure the reliability and robustness of their Java programs.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;// Example code snippet using the Checker Framework
+		<p>The Checker Framework is a powerful tool for Java developers who want to enhance the language's type system and prevent common errors such as null pointer exceptions, unintended side effects, SQL injections, concurrency errors, and mistaken equality tests. By using compiler plug-ins called &quot;checkers,&quot; developers can find bugs or verify their absence in their Java programs.</p>
+<p>The Checker Framework also offers the flexibility to write custom compiler plug-ins, allowing developers to tailor the tool to their specific needs. This makes it a valuable resource for improving code quality and reducing the likelihood of runtime errors.</p>
+<p>To support the community, the Checker Framework provides extensive documentation, including manuals that address common questions and issues. Additionally, developers can seek assistance through the mailing lists, where they can ask questions, share case studies, and contribute to the improvement of the framework.</p>
+<p>If you encounter any problems or bugs, the Checker Framework encourages you to submit a bug report so that the issues can be addressed promptly.</p>
+<p>Overall, the Checker Framework is a valuable asset for Java developers who want to strengthen their code and minimize errors. By leveraging its features and community support, developers can ensure the reliability and robustness of their Java programs.</p>
+<pre><code class="language-java">// Example code snippet using the Checker Framework
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
@@ -62,15 +62,16 @@ public class Example {
     }
     
     public static void printName(@NonNull String name) {
-        System.out.println(&amp;quot;Name: &amp;quot; + name);
+        System.out.println(&quot;Name: &quot; + name);
     }
     
     public static String getName() {
         return null; // Compiler error: Null value returned
     }
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In the above example, the Checker Framework&amp;apos;s &lt;code&gt;@NonNull&lt;/code&gt; annotation is used to indicate that the &lt;code&gt;name&lt;/code&gt; parameter in the &lt;code&gt;printName&lt;/code&gt; method cannot be null. This helps catch potential null pointer exceptions at compile-time, improving code reliability.&lt;/p&gt;
+
+</code></pre>
+<p>In the above example, the Checker Framework's <code>@NonNull</code> annotation is used to indicate that the <code>name</code> parameter in the <code>printName</code> method cannot be null. This helps catch potential null pointer exceptions at compile-time, improving code reliability.</p>
 	</div>
 </article>
 

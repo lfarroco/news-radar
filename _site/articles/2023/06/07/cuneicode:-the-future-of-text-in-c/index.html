@@ -46,23 +46,23 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://thephd.dev/cuneicode-and-the-future-of-text-in-c" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Cuneicode is a new programming language that aims to revolutionize the way we handle text in C. As developers, we know that C has been the go-to language for system programming for decades, but it has always had its limitations when it comes to handling text. Cuneicode aims to address these limitations and provide a better way to handle text in C.&lt;/p&gt;
-&lt;p&gt;In this article, we will take a closer look at Cuneicode and its features. We will also discuss the challenges that C and C++ APIs present when it comes to handling text and how Cuneicode aims to overcome these challenges.&lt;/p&gt;
-&lt;p&gt;Cuneicode is a high-level programming language that is designed to be easy to read and write. It is built on top of C, which means that it is compatible with existing C code. Cuneicode is a statically-typed language, which means that it catches errors at compile-time rather than run-time. This makes it easier to write bug-free code.&lt;/p&gt;
-&lt;p&gt;One of the key features of Cuneicode is its support for Unicode. Unicode is a character encoding standard that allows us to represent characters from different languages and scripts. Cuneicode supports Unicode natively, which means that we can write code that handles text in any language.&lt;/p&gt;
-&lt;p&gt;Cuneicode also provides a rich set of string manipulation functions that make it easier to work with text. These functions are designed to be safe and efficient, which means that they are less prone to buffer overflows and other security vulnerabilities.&lt;/p&gt;
-&lt;p&gt;Now, let&amp;apos;s talk about the challenges that C and C++ APIs present when it comes to handling text. C and C++ APIs were designed in an era when ASCII was the dominant character encoding standard. As a result, these APIs are not well-suited for handling text in different languages and scripts.&lt;/p&gt;
-&lt;p&gt;One of the biggest challenges with C and C++ APIs is that they are not Unicode-aware. This means that they cannot handle characters that are outside the ASCII range. To work around this limitation, developers have to use complex and error-prone techniques such as multi-byte encodings and wide-character strings.&lt;/p&gt;
-&lt;p&gt;Another challenge with C and C++ APIs is that they are prone to buffer overflows and other security vulnerabilities. This is because these APIs do not perform bounds checking on string operations. As a result, it is easy to write code that overflows a buffer and causes a security vulnerability.&lt;/p&gt;
-&lt;p&gt;Cuneicode addresses these challenges by providing a modern, Unicode-aware API for handling text. Cuneicode&amp;apos;s API is designed to be safe and efficient, which means that it is less prone to security vulnerabilities. Cuneicode also provides a rich set of string manipulation functions that make it easier to work with text.&lt;/p&gt;
-&lt;p&gt;Let&amp;apos;s take a look at some code examples to see how Cuneicode works. Here&amp;apos;s a simple program that reads a file and prints its contents to the console:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;cuneicode.h&amp;gt;
-#include &amp;lt;stdio.h&amp;gt;
+		<p>Cuneicode is a new programming language that aims to revolutionize the way we handle text in C. As developers, we know that C has been the go-to language for system programming for decades, but it has always had its limitations when it comes to handling text. Cuneicode aims to address these limitations and provide a better way to handle text in C.</p>
+<p>In this article, we will take a closer look at Cuneicode and its features. We will also discuss the challenges that C and C++ APIs present when it comes to handling text and how Cuneicode aims to overcome these challenges.</p>
+<p>Cuneicode is a high-level programming language that is designed to be easy to read and write. It is built on top of C, which means that it is compatible with existing C code. Cuneicode is a statically-typed language, which means that it catches errors at compile-time rather than run-time. This makes it easier to write bug-free code.</p>
+<p>One of the key features of Cuneicode is its support for Unicode. Unicode is a character encoding standard that allows us to represent characters from different languages and scripts. Cuneicode supports Unicode natively, which means that we can write code that handles text in any language.</p>
+<p>Cuneicode also provides a rich set of string manipulation functions that make it easier to work with text. These functions are designed to be safe and efficient, which means that they are less prone to buffer overflows and other security vulnerabilities.</p>
+<p>Now, let's talk about the challenges that C and C++ APIs present when it comes to handling text. C and C++ APIs were designed in an era when ASCII was the dominant character encoding standard. As a result, these APIs are not well-suited for handling text in different languages and scripts.</p>
+<p>One of the biggest challenges with C and C++ APIs is that they are not Unicode-aware. This means that they cannot handle characters that are outside the ASCII range. To work around this limitation, developers have to use complex and error-prone techniques such as multi-byte encodings and wide-character strings.</p>
+<p>Another challenge with C and C++ APIs is that they are prone to buffer overflows and other security vulnerabilities. This is because these APIs do not perform bounds checking on string operations. As a result, it is easy to write code that overflows a buffer and causes a security vulnerability.</p>
+<p>Cuneicode addresses these challenges by providing a modern, Unicode-aware API for handling text. Cuneicode's API is designed to be safe and efficient, which means that it is less prone to security vulnerabilities. Cuneicode also provides a rich set of string manipulation functions that make it easier to work with text.</p>
+<p>Let's take a look at some code examples to see how Cuneicode works. Here's a simple program that reads a file and prints its contents to the console:</p>
+<pre><code>#include &lt;cuneicode.h&gt;
+#include &lt;stdio.h&gt;
 
 int main() {
-  FILE* file = fopen(&amp;quot;example.txt&amp;quot;, &amp;quot;r&amp;quot;);
+  FILE* file = fopen(&quot;example.txt&quot;, &quot;r&quot;);
   if (file == NULL) {
-    printf(&amp;quot;Error: could not open file&#92;n&amp;quot;);
+    printf(&quot;Error: could not open file\n&quot;);
     return 1;
   }
 
@@ -72,14 +72,15 @@ int main() {
     cuni_string_append_cstr(contents, buffer);
   }
 
-  printf(&amp;quot;%s&amp;quot;, cuni_string_cstr(contents));
+  printf(&quot;%s&quot;, cuni_string_cstr(contents));
   cuni_string_free(contents);
   fclose(file);
   return 0;
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In this example, we use the &lt;code&gt;cuni_string_t&lt;/code&gt; type to handle the file contents. This type is a Unicode-aware string type that is provided by Cuneicode. We read the file contents into a buffer using the &lt;code&gt;fgets&lt;/code&gt; function, and then append the buffer to the &lt;code&gt;cuni_string_t&lt;/code&gt; using the &lt;code&gt;cuni_string_append_cstr&lt;/code&gt; function. Finally, we print the contents of the &lt;code&gt;cuni_string_t&lt;/code&gt; using the &lt;code&gt;cuni_string_cstr&lt;/code&gt; function.&lt;/p&gt;
-&lt;p&gt;In conclusion, Cuneicode is a promising new programming language that aims to revolutionize the way we handle text in C. Its support for Unicode and modern, safe API make it a great choice for developers who want to work with text in different languages and scripts. As developers, we should keep an eye on Cuneicode and its development, as it has the potential to become the future of text in C.&lt;/p&gt;
+
+</code></pre>
+<p>In this example, we use the <code>cuni_string_t</code> type to handle the file contents. This type is a Unicode-aware string type that is provided by Cuneicode. We read the file contents into a buffer using the <code>fgets</code> function, and then append the buffer to the <code>cuni_string_t</code> using the <code>cuni_string_append_cstr</code> function. Finally, we print the contents of the <code>cuni_string_t</code> using the <code>cuni_string_cstr</code> function.</p>
+<p>In conclusion, Cuneicode is a promising new programming language that aims to revolutionize the way we handle text in C. Its support for Unicode and modern, safe API make it a great choice for developers who want to work with text in different languages and scripts. As developers, we should keep an eye on Cuneicode and its development, as it has the potential to become the future of text in C.</p>
 	</div>
 </article>
 

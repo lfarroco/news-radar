@@ -46,10 +46,10 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://blog.peterzhu.ca/notes-on-ruby-gc/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Ruby&amp;apos;s garbage collector, located in the gc.c file, is responsible for memory allocation, management, and garbage collection. It handles the entire lifecycle of an object. Ruby objects can be classified into two groups: immediates and heap allocated. Immediates are not managed by the garbage collector and have special representations. All pointers to Ruby objects are aligned at 40-byte boundaries, ensuring that the lowest three bits are always 0.&lt;/p&gt;
-&lt;p&gt;Ruby&amp;apos;s garbage collector plays a crucial role in managing memory and ensuring efficient memory usage in Ruby programs. It automatically frees up memory occupied by objects that are no longer needed, reducing the risk of memory leaks. This feature is particularly important for developers who want to optimize their code and improve performance.&lt;/p&gt;
-&lt;p&gt;To better understand how Ruby&amp;apos;s garbage collector works, let&amp;apos;s take a look at an example:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;def calculate_sum(n)
+		<p>Ruby's garbage collector, located in the gc.c file, is responsible for memory allocation, management, and garbage collection. It handles the entire lifecycle of an object. Ruby objects can be classified into two groups: immediates and heap allocated. Immediates are not managed by the garbage collector and have special representations. All pointers to Ruby objects are aligned at 40-byte boundaries, ensuring that the lowest three bits are always 0.</p>
+<p>Ruby's garbage collector plays a crucial role in managing memory and ensuring efficient memory usage in Ruby programs. It automatically frees up memory occupied by objects that are no longer needed, reducing the risk of memory leaks. This feature is particularly important for developers who want to optimize their code and improve performance.</p>
+<p>To better understand how Ruby's garbage collector works, let's take a look at an example:</p>
+<pre><code class="language-ruby">def calculate_sum(n)
   sum = 0
   (1..n).each do |num|
     sum += num
@@ -59,9 +59,10 @@ end
 
 result = calculate_sum(100)
 puts result
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In this example, the garbage collector automatically frees up memory occupied by the &lt;code&gt;sum&lt;/code&gt; variable after the &lt;code&gt;calculate_sum&lt;/code&gt; method finishes executing. This ensures that memory is efficiently managed and available for other parts of the program.&lt;/p&gt;
-&lt;p&gt;Understanding how garbage collection works in Ruby is essential for developers who want to write efficient and performant code. By keeping up with the latest news and updates on Ruby&amp;apos;s garbage collector, developers can optimize their code and improve the overall performance of their Ruby applications.&lt;/p&gt;
+
+</code></pre>
+<p>In this example, the garbage collector automatically frees up memory occupied by the <code>sum</code> variable after the <code>calculate_sum</code> method finishes executing. This ensures that memory is efficiently managed and available for other parts of the program.</p>
+<p>Understanding how garbage collection works in Ruby is essential for developers who want to write efficient and performant code. By keeping up with the latest news and updates on Ruby's garbage collector, developers can optimize their code and improve the overall performance of their Ruby applications.</p>
 	</div>
 </article>
 

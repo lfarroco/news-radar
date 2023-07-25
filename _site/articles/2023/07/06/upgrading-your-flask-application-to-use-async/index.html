@@ -46,39 +46,44 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://www.vidavolta.io/how-to-upgrade-your-flask-application-using-async/?utm_source=pocket_saves" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Flask, a popular Python web framework, has long been known for its simplicity and ease of use. However, in the past, Flask applications were limited to synchronous operations, which could hinder performance in certain scenarios. With the introduction of Python 3 and its native support for asynchronous operations, Flask developers now have the opportunity to upgrade their applications and take advantage of improved performance.&lt;/p&gt;
-&lt;p&gt;In this article, the author explores the benefits of using asynchronous web servers in Flask applications. They explain how synchronous Python web servers work and the limitations they impose on concurrency and throughput. The article then introduces the concept of asynchronous web servers and demonstrates how they can significantly improve application performance, especially in network or IO-bound scenarios.&lt;/p&gt;
-&lt;p&gt;To illustrate the difference, the author provides a code example of a synchronous Flask web server and measures its throughput and latency under load. They then show how to upgrade the server to use an asynchronous framework like Quart or FastAPI, and compare the performance metrics again. The results clearly highlight the advantages of using asynchronous operations in Flask applications.&lt;/p&gt;
-&lt;p&gt;This article is a must-read for anyone who wants to optimize their Flask applications and learn about the synchronous and asynchronous web framework paradigms. By upgrading to an asynchronous web server, developers can unlock the full potential of their Flask applications and provide better user experiences.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;from flask import Flask
+		<p>Flask, a popular Python web framework, has long been known for its simplicity and ease of use. However, in the past, Flask applications were limited to synchronous operations, which could hinder performance in certain scenarios. With the introduction of Python 3 and its native support for asynchronous operations, Flask developers now have the opportunity to upgrade their applications and take advantage of improved performance.</p>
+<p>In this article, the author explores the benefits of using asynchronous web servers in Flask applications. They explain how synchronous Python web servers work and the limitations they impose on concurrency and throughput. The article then introduces the concept of asynchronous web servers and demonstrates how they can significantly improve application performance, especially in network or IO-bound scenarios.</p>
+<p>To illustrate the difference, the author provides a code example of a synchronous Flask web server and measures its throughput and latency under load. They then show how to upgrade the server to use an asynchronous framework like Quart or FastAPI, and compare the performance metrics again. The results clearly highlight the advantages of using asynchronous operations in Flask applications.</p>
+<p>This article is a must-read for anyone who wants to optimize their Flask applications and learn about the synchronous and asynchronous web framework paradigms. By upgrading to an asynchronous web server, developers can unlock the full potential of their Flask applications and provide better user experiences.</p>
+<pre><code class="language-python">from flask import Flask
 
 app = Flask(__name__)
 
-@app.route(&amp;apos;/&amp;apos;)
+@app.route('/')
 def index():
-    return &amp;apos;Hello, World!&amp;apos;
+    return 'Hello, World!'
 
-if __name__ == &amp;apos;__main__&amp;apos;:
+if __name__ == '__main__':
     app.run()
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ python app.py
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ pip install quart
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;from quart import Quart
+
+</code></pre>
+<pre><code class="language-bash">$ python app.py
+
+</code></pre>
+<pre><code class="language-bash">$ pip install quart
+
+</code></pre>
+<pre><code class="language-python">from quart import Quart
 
 app = Quart(__name__)
 
-@app.route(&amp;apos;/&amp;apos;)
+@app.route('/')
 async def index():
-    return &amp;apos;Hello, World!&amp;apos;
+    return 'Hello, World!'
 
-if __name__ == &amp;apos;__main__&amp;apos;:
+if __name__ == '__main__':
     app.run()
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ quart run
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;By following the steps outlined in this article, Flask developers can easily upgrade their applications to leverage asynchronous operations and achieve better performance. Stay ahead of the curve and explore the world of asynchronous web servers in Flask.&lt;/p&gt;
+
+</code></pre>
+<pre><code class="language-bash">$ quart run
+
+</code></pre>
+<p>By following the steps outlined in this article, Flask developers can easily upgrade their applications to leverage asynchronous operations and achieve better performance. Stay ahead of the curve and explore the world of asynchronous web servers in Flask.</p>
 	</div>
 </article>
 

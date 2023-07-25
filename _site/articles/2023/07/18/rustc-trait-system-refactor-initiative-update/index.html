@@ -46,11 +46,11 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://blog.rust-lang.org/inside-rust/2023/07/17/trait-system-refactor-initiative.html" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;The Rust Types Team has been working on a major refactor of the trait solver in rustc, as announced earlier this year. This refactor aims to improve the existing implementation by fixing bugs and inefficiencies, resulting in faster compilation speed and fewer bugs. The new trait solver will also enable future changes, such as removing restrictions on Generic Associated Types (GATs) and fixing long-standing unsound issues.&lt;/p&gt;
-&lt;p&gt;Developers can test the new trait solver implementation on nightly builds using the &lt;code&gt;-Ztrait-solver=next&lt;/code&gt; flag. The team is now exclusively relying on the new implementation when the feature flag is enabled. While there are still some less common bugs to address, many crates and regression tests successfully compile with the new solver.&lt;/p&gt;
-&lt;p&gt;Two main failure causes have been identified: issues with the implementation of &lt;code&gt;impl Trait&lt;/code&gt; for nested return positions, and the inference of implicit &lt;code&gt;Unsize&lt;/code&gt; coercions. The team is actively working on resolving these issues.&lt;/p&gt;
-&lt;p&gt;After addressing the current open issues, the team plans to gradually move parts of rustc to the new trait solver implementation, starting with coherence checking.&lt;/p&gt;
-&lt;p&gt;For more details and progress updates on the new trait solver, developers can refer to the tracking issue on GitHub.&lt;/p&gt;
+		<p>The Rust Types Team has been working on a major refactor of the trait solver in rustc, as announced earlier this year. This refactor aims to improve the existing implementation by fixing bugs and inefficiencies, resulting in faster compilation speed and fewer bugs. The new trait solver will also enable future changes, such as removing restrictions on Generic Associated Types (GATs) and fixing long-standing unsound issues.</p>
+<p>Developers can test the new trait solver implementation on nightly builds using the <code>-Ztrait-solver=next</code> flag. The team is now exclusively relying on the new implementation when the feature flag is enabled. While there are still some less common bugs to address, many crates and regression tests successfully compile with the new solver.</p>
+<p>Two main failure causes have been identified: issues with the implementation of <code>impl Trait</code> for nested return positions, and the inference of implicit <code>Unsize</code> coercions. The team is actively working on resolving these issues.</p>
+<p>After addressing the current open issues, the team plans to gradually move parts of rustc to the new trait solver implementation, starting with coherence checking.</p>
+<p>For more details and progress updates on the new trait solver, developers can refer to the tracking issue on GitHub.</p>
 	</div>
 </article>
 

@@ -46,24 +46,25 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/rogerkeays/unchecked" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Unchecked Java is a compiler plugin that allows developers to treat Java&amp;apos;s checked exceptions as though they were unchecked. This eliminates the need for cumbersome try-catch blocks and rethrowing exceptions as RuntimeExceptions.&lt;/p&gt;
-&lt;p&gt;Before using Unchecked Java, developers often had to rethrow checked exceptions as RuntimeExceptions when they couldn&amp;apos;t handle them. However, this practice not only polluted the code but also hid the root cause of exceptions, sometimes leading to lost information. With Unchecked Java, wrapping checked exceptions is no longer necessary as the exception will be passed back up the call stack automatically.&lt;/p&gt;
-&lt;p&gt;One of the key benefits of Unchecked Java is that it converts checked exception errors to warnings. This means that the JVM does not need to know about checked exceptions, allowing developers to bypass the compiler&amp;apos;s restrictions. As a result, Unchecked Java does not make any changes to the bytecode, making it compatible with existing codebases.&lt;/p&gt;
-&lt;p&gt;To get started with Unchecked Java, simply download the jar file, place it on your classpath, and run javac with the &lt;code&gt;-Xplugin:unchecked&lt;/code&gt; flag. You can also suppress warnings about checked exceptions using the &lt;code&gt;nowarn&lt;/code&gt; option.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example of how to use Unchecked Java:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;import unchecked.Unchecked;
+		<p>Unchecked Java is a compiler plugin that allows developers to treat Java's checked exceptions as though they were unchecked. This eliminates the need for cumbersome try-catch blocks and rethrowing exceptions as RuntimeExceptions.</p>
+<p>Before using Unchecked Java, developers often had to rethrow checked exceptions as RuntimeExceptions when they couldn't handle them. However, this practice not only polluted the code but also hid the root cause of exceptions, sometimes leading to lost information. With Unchecked Java, wrapping checked exceptions is no longer necessary as the exception will be passed back up the call stack automatically.</p>
+<p>One of the key benefits of Unchecked Java is that it converts checked exception errors to warnings. This means that the JVM does not need to know about checked exceptions, allowing developers to bypass the compiler's restrictions. As a result, Unchecked Java does not make any changes to the bytecode, making it compatible with existing codebases.</p>
+<p>To get started with Unchecked Java, simply download the jar file, place it on your classpath, and run javac with the <code>-Xplugin:unchecked</code> flag. You can also suppress warnings about checked exceptions using the <code>nowarn</code> option.</p>
+<p>Here's an example of how to use Unchecked Java:</p>
+<pre><code class="language-java">import unchecked.Unchecked;
 
 public class Main {
     public static void main(String[] args) {
-        Unchecked.unchecked(() -&amp;gt; {
+        Unchecked.unchecked(() -&gt; {
             // Code that throws checked exceptions
         });
     }
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Unchecked Java can be easily integrated into your Maven or Gradle projects. Simply add the appropriate dependency and configure the compiler plugin. Unchecked Java is also compatible with other javac plugins, such as Lombok and Fluent.&lt;/p&gt;
-&lt;p&gt;With Unchecked Java, developers can say goodbye to the hassle of checked exceptions and focus on writing clean and concise code. It&amp;apos;s a valuable tool for any Java developer looking to streamline their exception handling process.&lt;/p&gt;
-&lt;p&gt;Note: This article is based on the original article &amp;quot;Unchecked Java: Say Goodbye to Checked Exceptions Forever&amp;quot; by Roger Keays.&lt;/p&gt;
+
+</code></pre>
+<p>Unchecked Java can be easily integrated into your Maven or Gradle projects. Simply add the appropriate dependency and configure the compiler plugin. Unchecked Java is also compatible with other javac plugins, such as Lombok and Fluent.</p>
+<p>With Unchecked Java, developers can say goodbye to the hassle of checked exceptions and focus on writing clean and concise code. It's a valuable tool for any Java developer looking to streamline their exception handling process.</p>
+<p>Note: This article is based on the original article &quot;Unchecked Java: Say Goodbye to Checked Exceptions Forever&quot; by Roger Keays.</p>
 	</div>
 </article>
 

@@ -46,36 +46,38 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/flask/comments/14fw34j/sending_large_audio_file_after_recording_from_web/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Are you struggling to send large audio files from your web app to Flask? If you&amp;apos;re receiving a &amp;quot;413 (Request Entity Too Large)&amp;quot; error, there are a few things you can try.&lt;/p&gt;
-&lt;p&gt;First, make sure you&amp;apos;ve set the Flask app.config[&amp;apos;MAX_CONTENT_LENGTH&amp;apos;] to a high enough value. For example, setting it to 36 * 1024 * 1024 (36mb) should work for most audio files.&lt;/p&gt;
-&lt;p&gt;If that doesn&amp;apos;t solve the issue, you can try chunking the audio file into smaller parts before sending it to Flask. Here&amp;apos;s an example of how to do it in JavaScript:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;const CHUNK_SIZE = 16 * 1024; // 16kb chunks
-const file = document.querySelector(&amp;apos;input[type=&amp;quot;file&amp;quot;]&amp;apos;).files[0];
+		<p>Are you struggling to send large audio files from your web app to Flask? If you're receiving a &quot;413 (Request Entity Too Large)&quot; error, there are a few things you can try.</p>
+<p>First, make sure you've set the Flask app.config['MAX_CONTENT_LENGTH'] to a high enough value. For example, setting it to 36 * 1024 * 1024 (36mb) should work for most audio files.</p>
+<p>If that doesn't solve the issue, you can try chunking the audio file into smaller parts before sending it to Flask. Here's an example of how to do it in JavaScript:</p>
+<pre><code>const CHUNK_SIZE = 16 * 1024; // 16kb chunks
+const file = document.querySelector('input[type=&quot;file&quot;]').files[0];
 let start = 0;
 
-while (start &amp;lt; file.size) {
+while (start &lt; file.size) {
   const chunk = file.slice(start, start + CHUNK_SIZE);
   const formData = new FormData();
-  formData.append(&amp;apos;chunk&amp;apos;, chunk);
+  formData.append('chunk', chunk);
 
   // Send the chunk to Flask using fetch or XMLHttpRequest
   // ...
 
   start += CHUNK_SIZE;
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;On the Flask side, you can receive the chunks and concatenate them into the original file:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;@app.route(&amp;apos;/upload-audio&amp;apos;, methods=[&amp;apos;POST&amp;apos;])
+
+</code></pre>
+<p>On the Flask side, you can receive the chunks and concatenate them into the original file:</p>
+<pre><code>@app.route('/upload-audio', methods=['POST'])
 def upload_audio():
-  file = request.files[&amp;apos;chunk&amp;apos;]
+  file = request.files['chunk']
   chunk = file.read()
 
   # Append the chunk to the original file
   # ...
 
-  return &amp;apos;OK&amp;apos;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;By chunking the audio file, you can avoid hitting the MAX_CONTENT_LENGTH limit and ensure that your web app can handle large audio files without any issues.&lt;/p&gt;
+  return 'OK'
+
+</code></pre>
+<p>By chunking the audio file, you can avoid hitting the MAX_CONTENT_LENGTH limit and ensure that your web app can handle large audio files without any issues.</p>
 	</div>
 </article>
 

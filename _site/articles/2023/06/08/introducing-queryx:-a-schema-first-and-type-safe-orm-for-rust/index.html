@@ -46,13 +46,13 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/swiftcarrot/queryx" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;QueryX is a new ORM (Object-Relational Mapping) library for Rust that provides a schema-first and type-safe approach to database interactions. It allows developers to define their database schema in Rust code and then generate type-safe Rust structs and functions to interact with the database.&lt;/p&gt;
-&lt;p&gt;One of the main advantages of QueryX is its focus on type safety. By defining the database schema in Rust code, developers can catch errors at compile-time rather than runtime. This can save a lot of time and effort in debugging and testing. Additionally, QueryX generates Rust code that is type-safe, meaning that developers can be confident that their code is interacting with the database in a safe and predictable way.&lt;/p&gt;
-&lt;p&gt;QueryX also supports a wide range of databases, including PostgreSQL, MySQL, SQLite, and more. This makes it a versatile choice for developers who need to work with different databases in their projects.&lt;/p&gt;
-&lt;p&gt;Let&amp;apos;s take a closer look at how QueryX works.&lt;/p&gt;
-&lt;p&gt;Defining the Database Schema&lt;/p&gt;
-&lt;p&gt;The first step in using QueryX is to define the database schema in Rust code. This is done using a simple and intuitive syntax that is similar to defining a Rust struct. Here&amp;apos;s an example:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-rust&quot;&gt;use queryx::queryx;
+		<p>QueryX is a new ORM (Object-Relational Mapping) library for Rust that provides a schema-first and type-safe approach to database interactions. It allows developers to define their database schema in Rust code and then generate type-safe Rust structs and functions to interact with the database.</p>
+<p>One of the main advantages of QueryX is its focus on type safety. By defining the database schema in Rust code, developers can catch errors at compile-time rather than runtime. This can save a lot of time and effort in debugging and testing. Additionally, QueryX generates Rust code that is type-safe, meaning that developers can be confident that their code is interacting with the database in a safe and predictable way.</p>
+<p>QueryX also supports a wide range of databases, including PostgreSQL, MySQL, SQLite, and more. This makes it a versatile choice for developers who need to work with different databases in their projects.</p>
+<p>Let's take a closer look at how QueryX works.</p>
+<p>Defining the Database Schema</p>
+<p>The first step in using QueryX is to define the database schema in Rust code. This is done using a simple and intuitive syntax that is similar to defining a Rust struct. Here's an example:</p>
+<pre><code class="language-rust">use queryx::queryx;
 
 #[derive(Debug, Clone, PartialEq, Eq, queryx::FromRow)]
 struct User {
@@ -60,22 +60,24 @@ struct User {
     name: String,
     email: String,
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In this example, we define a &lt;code&gt;User&lt;/code&gt; struct that has three fields: &lt;code&gt;id&lt;/code&gt;, &lt;code&gt;name&lt;/code&gt;, and &lt;code&gt;email&lt;/code&gt;. The &lt;code&gt;queryx::FromRow&lt;/code&gt; attribute tells QueryX that this struct can be used to represent a row in the database.&lt;/p&gt;
-&lt;p&gt;Generating the Rust Code&lt;/p&gt;
-&lt;p&gt;Once we have defined the database schema, we can use QueryX to generate Rust code that interacts with the database. This is done using the &lt;code&gt;query_as!&lt;/code&gt; macro, which takes a SQL query and a Rust struct and generates code that executes the query and returns the results as instances of the struct.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-rust&quot;&gt;let users: Vec&amp;lt;User&amp;gt; = query_as!(
+
+</code></pre>
+<p>In this example, we define a <code>User</code> struct that has three fields: <code>id</code>, <code>name</code>, and <code>email</code>. The <code>queryx::FromRow</code> attribute tells QueryX that this struct can be used to represent a row in the database.</p>
+<p>Generating the Rust Code</p>
+<p>Once we have defined the database schema, we can use QueryX to generate Rust code that interacts with the database. This is done using the <code>query_as!</code> macro, which takes a SQL query and a Rust struct and generates code that executes the query and returns the results as instances of the struct.</p>
+<p>Here's an example:</p>
+<pre><code class="language-rust">let users: Vec&lt;User&gt; = query_as!(
     User,
-    &amp;quot;SELECT id, name, email FROM users WHERE name = $1&amp;quot;,
-    &amp;quot;Alice&amp;quot;
+    &quot;SELECT id, name, email FROM users WHERE name = $1&quot;,
+    &quot;Alice&quot;
 )
-.fetch_all(&amp;amp;pool)
+.fetch_all(&amp;pool)
 .await?;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In this example, we use the &lt;code&gt;query_as!&lt;/code&gt; macro to generate code that executes a SQL query to select all users with the name &amp;quot;Alice&amp;quot;. The &lt;code&gt;User&lt;/code&gt; struct is used to represent the rows returned by the query. The &lt;code&gt;fetch_all&lt;/code&gt; method executes the query and returns a vector of &lt;code&gt;User&lt;/code&gt; instances.&lt;/p&gt;
-&lt;p&gt;Conclusion&lt;/p&gt;
-&lt;p&gt;QueryX is a new ORM library for Rust that provides a schema-first and type-safe approach to database interactions. It allows developers to define their database schema in Rust code and then generate type-safe Rust structs and functions to interact with the database. QueryX is a versatile choice for developers who need to work with different databases in their projects and provides a high level of type safety that can save a lot of time and effort in debugging and testing.&lt;/p&gt;
+
+</code></pre>
+<p>In this example, we use the <code>query_as!</code> macro to generate code that executes a SQL query to select all users with the name &quot;Alice&quot;. The <code>User</code> struct is used to represent the rows returned by the query. The <code>fetch_all</code> method executes the query and returns a vector of <code>User</code> instances.</p>
+<p>Conclusion</p>
+<p>QueryX is a new ORM library for Rust that provides a schema-first and type-safe approach to database interactions. It allows developers to define their database schema in Rust code and then generate type-safe Rust structs and functions to interact with the database. QueryX is a versatile choice for developers who need to work with different databases in their projects and provides a high level of type safety that can save a lot of time and effort in debugging and testing.</p>
 	</div>
 </article>
 

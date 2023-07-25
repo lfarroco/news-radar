@@ -46,12 +46,12 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://admirlive.medium.com/refactoring-code-taming-the-spaghetti-325b68452dd0?source=friends_link&amp;sk=4cc79a6b0aa4df218c9c6008647ccf0b" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;As developers, we&amp;apos;ve all come across code that resembles a bowl of spaghetti. It&amp;apos;s complex, tangled, and difficult to understand. This is where refactoring comes in - the process of untangling chaotic code and transforming it into an elegant, modular, and comprehensible solution. In this article, we&amp;apos;ll explore the realm of refactoring and provide tips on how to tame the spaghetti.&lt;/p&gt;
-&lt;p&gt;What is Spaghetti Code?&lt;/p&gt;
-&lt;p&gt;Spaghetti code refers to source code that is messy and difficult to understand. It has a tangled structure, making it hard to maintain and likely to have errors. The code lacks modularity and often has long, complex functions that perform multiple tasks.&lt;/p&gt;
-&lt;p&gt;Untangling the Mess&lt;/p&gt;
-&lt;p&gt;Let&amp;apos;s take a look at an example of spaghetti code:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;function Main() {
+		<p>As developers, we've all come across code that resembles a bowl of spaghetti. It's complex, tangled, and difficult to understand. This is where refactoring comes in - the process of untangling chaotic code and transforming it into an elegant, modular, and comprehensible solution. In this article, we'll explore the realm of refactoring and provide tips on how to tame the spaghetti.</p>
+<p>What is Spaghetti Code?</p>
+<p>Spaghetti code refers to source code that is messy and difficult to understand. It has a tangled structure, making it hard to maintain and likely to have errors. The code lacks modularity and often has long, complex functions that perform multiple tasks.</p>
+<p>Untangling the Mess</p>
+<p>Let's take a look at an example of spaghetti code:</p>
+<pre><code>function Main() {
   var a = 1;
   var b = 2;
   var c = 3;
@@ -63,22 +63,23 @@
   var i = 9;
   var j = 10;
   
-  if (a &amp;lt; b) {
-    if (c &amp;gt; d) {
-      if (e &amp;lt; f) {
-        if (g &amp;gt; h) {
-          if (i &amp;lt; j) {
-            console.log(&amp;quot;Success!&amp;quot;);
+  if (a &lt; b) {
+    if (c &gt; d) {
+      if (e &lt; f) {
+        if (g &gt; h) {
+          if (i &lt; j) {
+            console.log(&quot;Success!&quot;);
           }
         }
       }
     }
   }
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The first step in untangling this mess is to identify the problem. In this case, the lack of meaningful variable names makes the code difficult to understand. To improve readability, we can rename variables so that they accurately represent their purpose. This best practice improves our own understanding and helps future developers working on the code.&lt;/p&gt;
-&lt;p&gt;Next, we can break down the oversized &lt;code&gt;Main&lt;/code&gt; function and identify separate functionalities. These can be extracted into their own functions or classes, making the code more modular and easier to maintain. For example:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;function Main() {
+
+</code></pre>
+<p>The first step in untangling this mess is to identify the problem. In this case, the lack of meaningful variable names makes the code difficult to understand. To improve readability, we can rename variables so that they accurately represent their purpose. This best practice improves our own understanding and helps future developers working on the code.</p>
+<p>Next, we can break down the oversized <code>Main</code> function and identify separate functionalities. These can be extracted into their own functions or classes, making the code more modular and easier to maintain. For example:</p>
+<pre><code>function Main() {
   var a = 1;
   var b = 2;
   var c = 3;
@@ -90,27 +91,28 @@
   var i = 9;
   var j = 10;
   
-  if (compareNumbers(a, b) &amp;amp;&amp;amp; compareNumbers(c, d) &amp;amp;&amp;amp; compareNumbers(e, f) &amp;amp;&amp;amp; compareNumbers(g, h) &amp;amp;&amp;amp; compareNumbers(i, j)) {
-    console.log(&amp;quot;Success!&amp;quot;);
+  if (compareNumbers(a, b) &amp;&amp; compareNumbers(c, d) &amp;&amp; compareNumbers(e, f) &amp;&amp; compareNumbers(g, h) &amp;&amp; compareNumbers(i, j)) {
+    console.log(&quot;Success!&quot;);
   }
 }
 
 function compareNumbers(num1, num2) {
-  return num1 &amp;lt; num2;
+  return num1 &lt; num2;
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In this refactored code, we&amp;apos;ve extracted the comparison logic into a separate function, making the code more modular and easier to understand. We&amp;apos;ve also given the variables more meaningful names, improving readability.&lt;/p&gt;
-&lt;p&gt;Benefits of Refactoring&lt;/p&gt;
-&lt;p&gt;Refactoring code has many benefits, including:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Improved code readability and maintainability&lt;/li&gt;
-&lt;li&gt;Reduced complexity and increased modularity&lt;/li&gt;
-&lt;li&gt;Better performance and fewer errors&lt;/li&gt;
-&lt;li&gt;Easier collaboration with other developers&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Refactoring is an ongoing process and should be done regularly to keep code clean and maintainable. It&amp;apos;s important to strike a balance between refactoring and adding new features, as too much refactoring can lead to wasted time and effort.&lt;/p&gt;
-&lt;p&gt;Conclusion&lt;/p&gt;
-&lt;p&gt;In conclusion, refactoring code is an essential practice for developers. It helps us tame the spaghetti and transform messy, complex code into an elegant, modular, and comprehensible solution. By identifying problems, breaking down functions, and improving variable names, we can improve code readability and maintainability, reduce complexity, and increase modularity. So, don&amp;apos;t be afraid to refactor your code - your future self (and your fellow developers) will thank you!&lt;/p&gt;
+
+</code></pre>
+<p>In this refactored code, we've extracted the comparison logic into a separate function, making the code more modular and easier to understand. We've also given the variables more meaningful names, improving readability.</p>
+<p>Benefits of Refactoring</p>
+<p>Refactoring code has many benefits, including:</p>
+<ul>
+<li>Improved code readability and maintainability</li>
+<li>Reduced complexity and increased modularity</li>
+<li>Better performance and fewer errors</li>
+<li>Easier collaboration with other developers</li>
+</ul>
+<p>Refactoring is an ongoing process and should be done regularly to keep code clean and maintainable. It's important to strike a balance between refactoring and adding new features, as too much refactoring can lead to wasted time and effort.</p>
+<p>Conclusion</p>
+<p>In conclusion, refactoring code is an essential practice for developers. It helps us tame the spaghetti and transform messy, complex code into an elegant, modular, and comprehensible solution. By identifying problems, breaking down functions, and improving variable names, we can improve code readability and maintainability, reduce complexity, and increase modularity. So, don't be afraid to refactor your code - your future self (and your fellow developers) will thank you!</p>
 	</div>
 </article>
 

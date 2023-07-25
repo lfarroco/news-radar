@@ -46,26 +46,25 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://testdriven.io/blog/django-rest-authjs/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;This article explores how to implement a Django REST-based authentication system using Django REST Framework and integrate it with Auth.js (formerly known as NextAuth.js) on the frontend. It covers setting up credentials-based authentication as well as social authentication with Google.&lt;/p&gt;
-&lt;p&gt;Django&amp;apos;s default authentication system is a great solution for full-stack Django projects, but it can be challenging to use with Django REST Framework and client-server architecture. Additionally, Django lacks native support for social authentication. However, you can expose Django&amp;apos;s authentication system as an API and add social auth support using community-developed packages like django-allauth and dj-rest-auth.&lt;/p&gt;
-&lt;p&gt;To simplify the process of adding social authentication for different providers, Auth.js comes into play. Auth.js is an open-source authentication solution for Next.js, SvelteKit, and SolidStart. It offers credentials-based authentication, passwordless authentication, social authentication, and support for over 60 social providers.&lt;/p&gt;
-&lt;p&gt;In this tutorial, you&amp;apos;ll learn how to implement a Django REST-based authentication system and connect it to a Next.js frontend. By the end, you&amp;apos;ll have a fully functional authentication system with social authentication support.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Objectives:&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Implement a Django REST-based authentication system&lt;/li&gt;
-&lt;li&gt;Connect the authentication system to a Next.js frontend&lt;/li&gt;
-&lt;li&gt;Support social authentication&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;Backend:&lt;/strong&gt;
-In the backend section, you&amp;apos;ll create a new Django project, set up an authentication app, install dependencies, and test the authentication system using cURL. If you already have a Django project, feel free to skip the setup and follow along with your project.&lt;/p&gt;
-&lt;p&gt;To get started:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Create a new directory for your project and set up a virtual environment.&lt;/li&gt;
-&lt;li&gt;Install Django and create a new project.&lt;/li&gt;
-&lt;li&gt;Migrate the database and run the server.&lt;/li&gt;
-&lt;li&gt;Open your web browser and navigate to http://localhost:8000 to see the default Django landing page.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;Next, you&amp;apos;ll create an authentication app to organize your project better.&lt;/p&gt;
+		<p>This article explores how to implement a Django REST-based authentication system using Django REST Framework and integrate it with Auth.js (formerly known as NextAuth.js) on the frontend. It covers setting up credentials-based authentication as well as social authentication with Google.</p>
+<p>Django's default authentication system is a great solution for full-stack Django projects, but it can be challenging to use with Django REST Framework and client-server architecture. Additionally, Django lacks native support for social authentication. However, you can expose Django's authentication system as an API and add social auth support using community-developed packages like django-allauth and dj-rest-auth.</p>
+<p>To simplify the process of adding social authentication for different providers, Auth.js comes into play. Auth.js is an open-source authentication solution for Next.js, SvelteKit, and SolidStart. It offers credentials-based authentication, passwordless authentication, social authentication, and support for over 60 social providers.</p>
+<p>In this tutorial, you'll learn how to implement a Django REST-based authentication system and connect it to a Next.js frontend. By the end, you'll have a fully functional authentication system with social authentication support.</p>
+<p><strong>Objectives:</strong></p>
+<ul>
+<li>Implement a Django REST-based authentication system</li>
+<li>Connect the authentication system to a Next.js frontend</li>
+<li>Support social authentication</li>
+</ul>
+<p>**Backend:**In the backend section, you'll create a new Django project, set up an authentication app, install dependencies, and test the authentication system using cURL. If you already have a Django project, feel free to skip the setup and follow along with your project.</p>
+<p>To get started:</p>
+<ol>
+<li>Create a new directory for your project and set up a virtual environment.</li>
+<li>Install Django and create a new project.</li>
+<li>Migrate the database and run the server.</li>
+<li>Open your web browser and navigate to http://localhost:8000 to see the default Django landing page.</li>
+</ol>
+<p>Next, you'll create an authentication app to organize your project better.</p>
 	</div>
 </article>
 

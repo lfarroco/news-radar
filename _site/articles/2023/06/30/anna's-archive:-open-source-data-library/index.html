@@ -46,18 +46,19 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://annas-archive.org/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Anna&amp;apos;s Archive is a non-profit project that aims to preserve various forms of media, including books, papers, comics, and magazines. By consolidating materials from different shadow libraries, Anna&amp;apos;s Archive ensures that this data is easily accessible and can be duplicated in bulk, guaranteeing its preservation across the globe. This open-source data library is not only resilient to takedowns but also promotes the free and easy accessibility of its collections to everyone.&lt;/p&gt;
-&lt;p&gt;Developers can benefit from Anna&amp;apos;s Archive by exploring its vast catalog and leveraging its datasets for their projects. The website&amp;apos;s search functionality allows users to find specific items of interest, making it a valuable resource for research and digital preservation.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example of how developers can interact with Anna&amp;apos;s Archive&amp;apos;s API using Python:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;import requests
+		<p>Anna's Archive is a non-profit project that aims to preserve various forms of media, including books, papers, comics, and magazines. By consolidating materials from different shadow libraries, Anna's Archive ensures that this data is easily accessible and can be duplicated in bulk, guaranteeing its preservation across the globe. This open-source data library is not only resilient to takedowns but also promotes the free and easy accessibility of its collections to everyone.</p>
+<p>Developers can benefit from Anna's Archive by exploring its vast catalog and leveraging its datasets for their projects. The website's search functionality allows users to find specific items of interest, making it a valuable resource for research and digital preservation.</p>
+<p>Here's an example of how developers can interact with Anna's Archive's API using Python:</p>
+<pre><code class="language-python">import requests
 
-response = requests.get(&amp;apos;https://annasarchive.com/api/catalog&amp;apos;)
+response = requests.get('https://annasarchive.com/api/catalog')
 data = response.json()
 
-for book in data[&amp;apos;books&amp;apos;]:
-    print(book[&amp;apos;title&amp;apos;])
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;By utilizing Anna&amp;apos;s Archive&amp;apos;s open-source code and datasets, developers can contribute to the preservation of human knowledge while also gaining access to a wealth of valuable resources.&lt;/p&gt;
+for book in data['books']:
+    print(book['title'])
+
+</code></pre>
+<p>By utilizing Anna's Archive's open-source code and datasets, developers can contribute to the preservation of human knowledge while also gaining access to a wealth of valuable resources.</p>
 	</div>
 </article>
 

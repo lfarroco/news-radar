@@ -46,23 +46,24 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://softwaremill.com/go-like-channels-in-scala-receive-send-and-default-clauses/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Ox, an experimental concurrency library using Project Loom and Scala 3, offers features such as developer-friendly structured concurrency, scoped values, and implementation of Go-like channels. Channels have been introduced some time ago, along with higher-level combinators, allowing working with streams in both functional and imperative styles, depending on the use-case.&lt;/p&gt;
-&lt;p&gt;However, the select operation on channels has been limited to receiving values only. We&amp;apos;re now lifting this limitation and extending the feature set of Ox&amp;apos;s channels to include support for receive, send, and default clauses.&lt;/p&gt;
-&lt;p&gt;The select method is what distinguishes channels from ordinary queues. Given a select invocation with a number of clauses, exactly one of them will be satisfied. Most often, this is useful for receiving a value from exactly one channel while keeping the others intact.&lt;/p&gt;
-&lt;p&gt;Now, it&amp;apos;s also possible to select among both send and receive operations. This can be done by creating clauses, which are then passed to select. It is guaranteed that exactly one such clause will be satisfied, returning a clause-specific result.&lt;/p&gt;
-&lt;p&gt;For example, developers can block until a value is sent to channel c, or received from channel d:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-scala&quot;&gt;val result = select(
+		<p>Ox, an experimental concurrency library using Project Loom and Scala 3, offers features such as developer-friendly structured concurrency, scoped values, and implementation of Go-like channels. Channels have been introduced some time ago, along with higher-level combinators, allowing working with streams in both functional and imperative styles, depending on the use-case.</p>
+<p>However, the select operation on channels has been limited to receiving values only. We're now lifting this limitation and extending the feature set of Ox's channels to include support for receive, send, and default clauses.</p>
+<p>The select method is what distinguishes channels from ordinary queues. Given a select invocation with a number of clauses, exactly one of them will be satisfied. Most often, this is useful for receiving a value from exactly one channel while keeping the others intact.</p>
+<p>Now, it's also possible to select among both send and receive operations. This can be done by creating clauses, which are then passed to select. It is guaranteed that exactly one such clause will be satisfied, returning a clause-specific result.</p>
+<p>For example, developers can block until a value is sent to channel c, or received from channel d:</p>
+<pre><code class="language-scala">val result = select(
   send(c, value) {
     // handle send operation
   },
   receive(d) {
-    case receivedValue =&amp;gt; // handle receive operation
+    case receivedValue =&gt; // handle receive operation
   }
 )
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The result of the select operation can be inspected using a pattern match, allowing developers to handle different cases based on the clause that was satisfied.&lt;/p&gt;
-&lt;p&gt;This new feature in Ox provides developers with more flexibility in working with channels, allowing them to handle both send and receive operations in a concise and expressive manner. It opens up new possibilities for concurrent programming in Scala and makes it easier to build robust and efficient systems.&lt;/p&gt;
-&lt;p&gt;To learn more about the select operation and other features in Ox, refer to the official documentation and explore the examples provided. Stay tuned for more updates on Ox and other programming languages and frameworks in Dev Radar magazine.&lt;/p&gt;
+
+</code></pre>
+<p>The result of the select operation can be inspected using a pattern match, allowing developers to handle different cases based on the clause that was satisfied.</p>
+<p>This new feature in Ox provides developers with more flexibility in working with channels, allowing them to handle both send and receive operations in a concise and expressive manner. It opens up new possibilities for concurrent programming in Scala and makes it easier to build robust and efficient systems.</p>
+<p>To learn more about the select operation and other features in Ox, refer to the official documentation and explore the examples provided. Stay tuned for more updates on Ox and other programming languages and frameworks in Dev Radar magazine.</p>
 	</div>
 </article>
 

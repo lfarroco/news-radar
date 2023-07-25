@@ -46,9 +46,9 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/django/comments/14fxdrf/how_to_log_registration_and_login_events_with/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Dj-rest-auth is a popular package for handling authentication in Django. However, adding logging functionality to it can be a challenge. In this article, we will explore the simplest method to add success and failure logs for login and registration events, including the user_id.&lt;/p&gt;
-&lt;p&gt;First, let&amp;apos;s install the django-structlog package, which provides a structured logging interface for Django. We can then add a custom middleware to our project that logs authentication events using django-structlog. Here&amp;apos;s an example of what the middleware might look like:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;import structlog
+		<p>Dj-rest-auth is a popular package for handling authentication in Django. However, adding logging functionality to it can be a challenge. In this article, we will explore the simplest method to add success and failure logs for login and registration events, including the user_id.</p>
+<p>First, let's install the django-structlog package, which provides a structured logging interface for Django. We can then add a custom middleware to our project that logs authentication events using django-structlog. Here's an example of what the middleware might look like:</p>
+<pre><code class="language-python">import structlog
 
 logger = structlog.get_logger()
 
@@ -58,26 +58,28 @@ class AuthLoggingMiddleware:
 
     def __call__(self, request):
         response = self.get_response(request)
-        if request.path == &amp;apos;/auth/login/&amp;apos;:
+        if request.path == '/auth/login/':
             if response.status_code == 200:
-                logger.info(&amp;apos;login.success&amp;apos;, user_id=request.user.id)
+                logger.info('login.success', user_id=request.user.id)
             else:
-                logger.warning(&amp;apos;login.failure&amp;apos;)
-        elif request.path == &amp;apos;/auth/registration/&amp;apos;:
+                logger.warning('login.failure')
+        elif request.path == '/auth/registration/':
             if response.status_code == 201:
-                logger.info(&amp;apos;registration.success&amp;apos;, user_id=request.user.id)
+                logger.info('registration.success', user_id=request.user.id)
             else:
-                logger.warning(&amp;apos;registration.failure&amp;apos;)
+                logger.warning('registration.failure')
         return response
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We can then add this middleware to our Django settings:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;MIDDLEWARE = [
+
+</code></pre>
+<p>We can then add this middleware to our Django settings:</p>
+<pre><code class="language-python">MIDDLEWARE = [
     # ...
-    &amp;apos;path.to.AuthLoggingMiddleware&amp;apos;,
+    'path.to.AuthLoggingMiddleware',
 ]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;With this middleware in place, we can now see structured logs for authentication events in our Django logs. This can be incredibly useful for debugging and auditing purposes.&lt;/p&gt;
-&lt;p&gt;In conclusion, adding logging functionality to dj-rest-auth can be achieved through the use of django-structlog and a custom middleware. By doing so, developers can easily track and audit authentication events in their Django projects.&lt;/p&gt;
+
+</code></pre>
+<p>With this middleware in place, we can now see structured logs for authentication events in our Django logs. This can be incredibly useful for debugging and auditing purposes.</p>
+<p>In conclusion, adding logging functionality to dj-rest-auth can be achieved through the use of django-structlog and a custom middleware. By doing so, developers can easily track and audit authentication events in their Django projects.</p>
 	</div>
 </article>
 

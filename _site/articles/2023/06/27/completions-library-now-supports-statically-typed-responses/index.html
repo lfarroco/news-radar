@@ -46,32 +46,33 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/typescript/comments/14k6jj7/getting_json_with_typescript_types_from_chatgpt/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;The completions library has been updated to support statically typed responses. This update allows developers to receive JSON responses with TypeScript types from ChatGPT. The library now generates a prompt that is sent to the API using the &amp;quot;expect&amp;quot; parameter. The prompt contains a schema that the response must satisfy and examples of what the response should look like.&lt;/p&gt;
-&lt;p&gt;Here is an example of how to use the updated library:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;const response = await chat.sendMessage(&amp;quot;Suggest a random startup name&amp;quot;, {
+		<p>The completions library has been updated to support statically typed responses. This update allows developers to receive JSON responses with TypeScript types from ChatGPT. The library now generates a prompt that is sent to the API using the &quot;expect&quot; parameter. The prompt contains a schema that the response must satisfy and examples of what the response should look like.</p>
+<p>Here is an example of how to use the updated library:</p>
+<pre><code class="language-ts">const response = await chat.sendMessage(&quot;Suggest a random startup name&quot;, {
   expect: {
     examples: [
       {
-        name: &amp;quot;OpenAI&amp;quot;,
-        domain: &amp;quot;openai.com&amp;quot;,
+        name: &quot;OpenAI&quot;,
+        domain: &quot;openai.com&quot;,
       },
     ],
     schema: {
       additionalProperties: false,
-      type: &amp;quot;object&amp;quot;,
+      type: &quot;object&quot;,
       properties: {
-        name: { type: &amp;quot;string&amp;quot; },
-        domain: { type: &amp;quot;string&amp;quot; },
+        name: { type: &quot;string&quot; },
+        domain: { type: &quot;string&quot; },
       },
-      required: [&amp;quot;name&amp;quot;, &amp;quot;domain&amp;quot;],
+      required: [&quot;name&quot;, &quot;domain&quot;],
     },
   },
 });
 
 console.log(response.content); // { name: string; domain: string }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The &amp;quot;expect&amp;quot; parameter is used to generate a prompt that is sent to the API. The prompt contains a schema that the response must satisfy and examples of what the response should look like. The library then generates a statically typed response with TypeScript types.&lt;/p&gt;
-&lt;p&gt;This update to the completions library is a useful tool for developers who want to receive statically typed JSON responses from ChatGPT. It simplifies the process of generating responses and ensures that the responses are valid.&lt;/p&gt;
+
+</code></pre>
+<p>The &quot;expect&quot; parameter is used to generate a prompt that is sent to the API. The prompt contains a schema that the response must satisfy and examples of what the response should look like. The library then generates a statically typed response with TypeScript types.</p>
+<p>This update to the completions library is a useful tool for developers who want to receive statically typed JSON responses from ChatGPT. It simplifies the process of generating responses and ensures that the responses are valid.</p>
 	</div>
 </article>
 

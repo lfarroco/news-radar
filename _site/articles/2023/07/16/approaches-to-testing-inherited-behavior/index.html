@@ -46,23 +46,24 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://kevinjmurphy.com/posts/testing-inherited-behavior/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;In this article, Kevin Murphy, a software developer, discusses different approaches to testing inherited behavior in object-oriented languages, focusing specifically on Ruby code. He raises the question of whether testing should be done to verify the correctness of the code or to document expected behavior.&lt;/p&gt;
-&lt;p&gt;One approach mentioned is duplicating the tests. By considering inheritance as an implementation detail, the author suggests testing how the subclass behaves when receiving messages that the superclass responds to. This approach documents the public API surface of the unit under test but requires maintaining tests for both the superclass and the subclass.&lt;/p&gt;
-&lt;p&gt;Another approach is to view testing inherited behavior as an integration test. While some argue that unit tests should only test the behavior of the unit itself, others believe it&amp;apos;s acceptable to test the inherited behavior as well. The author acknowledges that the line between unit and integration tests can be blurry, especially when dealing with private methods in the subclass.&lt;/p&gt;
-&lt;p&gt;The article concludes by questioning where to draw the line when it comes to testing inherited behavior. While it may not be practical to test all inherited behavior, the author suggests focusing on explicitly inherited behavior and not duplicating tests unnecessarily.&lt;/p&gt;
-&lt;p&gt;Overall, the article provides insights into different perspectives on testing inherited behavior and encourages developers to consider their testing goals and the trade-offs involved in each approach.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;class VinylAlbum
+		<p>In this article, Kevin Murphy, a software developer, discusses different approaches to testing inherited behavior in object-oriented languages, focusing specifically on Ruby code. He raises the question of whether testing should be done to verify the correctness of the code or to document expected behavior.</p>
+<p>One approach mentioned is duplicating the tests. By considering inheritance as an implementation detail, the author suggests testing how the subclass behaves when receiving messages that the superclass responds to. This approach documents the public API surface of the unit under test but requires maintaining tests for both the superclass and the subclass.</p>
+<p>Another approach is to view testing inherited behavior as an integration test. While some argue that unit tests should only test the behavior of the unit itself, others believe it's acceptable to test the inherited behavior as well. The author acknowledges that the line between unit and integration tests can be blurry, especially when dealing with private methods in the subclass.</p>
+<p>The article concludes by questioning where to draw the line when it comes to testing inherited behavior. While it may not be practical to test all inherited behavior, the author suggests focusing on explicitly inherited behavior and not duplicating tests unnecessarily.</p>
+<p>Overall, the article provides insights into different perspectives on testing inherited behavior and encourages developers to consider their testing goals and the trade-offs involved in each approach.</p>
+<pre><code class="language-ruby">class VinylAlbum
   def max_minutes
     # implementation details
   end
 end
 
-class Ep &amp;lt; VinylAlbum
+class Ep &lt; VinylAlbum
   def max_minutes
     # overridden implementation details
   end
 end
-&lt;/code&gt;&lt;/pre&gt;
+
+</code></pre>
 	</div>
 </article>
 

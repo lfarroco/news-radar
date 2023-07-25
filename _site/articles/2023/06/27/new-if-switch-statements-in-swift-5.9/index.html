@@ -46,25 +46,28 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/swift/comments/14k64pi/make_code_easier_to_read_with_new_ifswitch/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Swift 5.9 introduces new improvements to the if-switch statements, making code more readable and concise. The new syntax allows developers to combine if and switch statements into a single statement, reducing the need for nested if statements.&lt;/p&gt;
-&lt;p&gt;The new syntax allows developers to write an if statement that switches on a value, like this:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;if case .success(let data) = result {
+		<p>Swift 5.9 introduces new improvements to the if-switch statements, making code more readable and concise. The new syntax allows developers to combine if and switch statements into a single statement, reducing the need for nested if statements.</p>
+<p>The new syntax allows developers to write an if statement that switches on a value, like this:</p>
+<pre><code>if case .success(let data) = result {
     // do something with data
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This code checks if the result is a success case and extracts the associated data. It&amp;apos;s a more concise and readable way of writing the same code as:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;if case let .success(data) = result {
+
+</code></pre>
+<p>This code checks if the result is a success case and extracts the associated data. It's a more concise and readable way of writing the same code as:</p>
+<pre><code>if case let .success(data) = result {
     // do something with data
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In addition, Swift 5.9 introduces a new switch statement syntax that allows developers to switch on a value and check for multiple cases at once:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;switch result {
+
+</code></pre>
+<p>In addition, Swift 5.9 introduces a new switch statement syntax that allows developers to switch on a value and check for multiple cases at once:</p>
+<pre><code>switch result {
 case .success(let data), .failure(let error):
     // handle both cases at once
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This code handles both success and failure cases in a single switch statement, reducing the need for separate if statements.&lt;/p&gt;
-&lt;p&gt;These improvements to the if-switch statements in Swift 5.9 make code more readable and concise, reducing the need for nested if statements and separate switch statements. Developers can take advantage of these new features to write cleaner and more efficient code.&lt;/p&gt;
+
+</code></pre>
+<p>This code handles both success and failure cases in a single switch statement, reducing the need for separate if statements.</p>
+<p>These improvements to the if-switch statements in Swift 5.9 make code more readable and concise, reducing the need for nested if statements and separate switch statements. Developers can take advantage of these new features to write cleaner and more efficient code.</p>
 	</div>
 </article>
 

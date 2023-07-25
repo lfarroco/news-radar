@@ -46,48 +46,48 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://robjohnson.dev/posts/elisp-cheat-sheet-for-clojure-devs/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;If you&amp;apos;re a Clojure developer looking to learn Elisp, you have a great head start since you already know a Lisp dialect. This concise guide focuses on the main differences between the two languages.&lt;/p&gt;
-&lt;p&gt;Numeric Types:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Elisp has integers and floats, which can be mixed in arithmetic functions as expected.&lt;/li&gt;
-&lt;li&gt;Unlike Clojure, Elisp doesn&amp;apos;t have a ratio type, so integer division works similarly to most other languages.&lt;/li&gt;
-&lt;li&gt;Integers can be expressed in multiple ways, and the printed representation of REPL output may look odd at first, but it&amp;apos;s simply showing alternate representations of the integer.&lt;/li&gt;
-&lt;li&gt;Floats can be expressed in scientific notation, similar to Clojure.&lt;/li&gt;
-&lt;li&gt;Elisp allows arbitrarily large integers.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Character Types:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Elisp has strings and characters, represented and escaped in a similar way to Clojure.&lt;/li&gt;
-&lt;li&gt;Character literals are displayed using a &amp;apos;?&amp;apos; prefix.&lt;/li&gt;
-&lt;li&gt;Characters are actually integers, but not all integers are valid characters.&lt;/li&gt;
-&lt;li&gt;String formatting can be done using the format function, similar to Clojure.&lt;/li&gt;
-&lt;li&gt;Messages can be displayed in the minibuffer using the message function, which is also helpful for debugging.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Conditional Logic:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;In Elisp, nil and the empty list &amp;apos;()&amp;apos; are falsy, while everything else is truthy.&lt;/li&gt;
-&lt;li&gt;Elisp doesn&amp;apos;t have a separate Boolean type; instead, the symbol &amp;apos;t&amp;apos; represents true and &amp;apos;nil&amp;apos; represents false.&lt;/li&gt;
-&lt;li&gt;Predicate functions conventionally have a &amp;apos;p&amp;apos; suffix, unlike Clojure&amp;apos;s &amp;apos;?&amp;apos; suffix.&lt;/li&gt;
-&lt;li&gt;Comparison functions like &amp;apos;=&amp;apos; and &amp;apos;string=&amp;apos; are case-sensitive.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Functions:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Functions are defined using &amp;apos;defun&amp;apos;, with arguments enclosed in parentheses.&lt;/li&gt;
-&lt;li&gt;Docstrings are slightly different in Elisp.&lt;/li&gt;
-&lt;li&gt;Variadic functions can be created using &amp;apos;&amp;amp;rest&amp;apos;.&lt;/li&gt;
-&lt;li&gt;Elisp doesn&amp;apos;t support true multi-arity functions, but optional arguments can be used instead.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Let Forms:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;For let bindings, use &amp;apos;let*&amp;apos;. Each binding pair needs to be placed in its own list.&lt;/li&gt;
-&lt;li&gt;&amp;apos;let&amp;apos; also exists in Elisp, but it doesn&amp;apos;t allow the use of earlier bindings within later ones.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Comments, Namespaces, and Access Modifiers:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Elisp doesn&amp;apos;t have namespaces or access modifiers.&lt;/li&gt;
-&lt;li&gt;By convention, packages prefix their functions and variables with a package name prefix.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;This cheat sheet provides a quick overview of the main differences between Emacs Lisp and Clojure. It can serve as a handy reference for Clojure developers venturing into Elisp development.&lt;/p&gt;
+		<p>If you're a Clojure developer looking to learn Elisp, you have a great head start since you already know a Lisp dialect. This concise guide focuses on the main differences between the two languages.</p>
+<p>Numeric Types:</p>
+<ul>
+<li>Elisp has integers and floats, which can be mixed in arithmetic functions as expected.</li>
+<li>Unlike Clojure, Elisp doesn't have a ratio type, so integer division works similarly to most other languages.</li>
+<li>Integers can be expressed in multiple ways, and the printed representation of REPL output may look odd at first, but it's simply showing alternate representations of the integer.</li>
+<li>Floats can be expressed in scientific notation, similar to Clojure.</li>
+<li>Elisp allows arbitrarily large integers.</li>
+</ul>
+<p>Character Types:</p>
+<ul>
+<li>Elisp has strings and characters, represented and escaped in a similar way to Clojure.</li>
+<li>Character literals are displayed using a '?' prefix.</li>
+<li>Characters are actually integers, but not all integers are valid characters.</li>
+<li>String formatting can be done using the format function, similar to Clojure.</li>
+<li>Messages can be displayed in the minibuffer using the message function, which is also helpful for debugging.</li>
+</ul>
+<p>Conditional Logic:</p>
+<ul>
+<li>In Elisp, nil and the empty list '()' are falsy, while everything else is truthy.</li>
+<li>Elisp doesn't have a separate Boolean type; instead, the symbol 't' represents true and 'nil' represents false.</li>
+<li>Predicate functions conventionally have a 'p' suffix, unlike Clojure's '?' suffix.</li>
+<li>Comparison functions like '=' and 'string=' are case-sensitive.</li>
+</ul>
+<p>Functions:</p>
+<ul>
+<li>Functions are defined using 'defun', with arguments enclosed in parentheses.</li>
+<li>Docstrings are slightly different in Elisp.</li>
+<li>Variadic functions can be created using '&amp;rest'.</li>
+<li>Elisp doesn't support true multi-arity functions, but optional arguments can be used instead.</li>
+</ul>
+<p>Let Forms:</p>
+<ul>
+<li>For let bindings, use 'let*'. Each binding pair needs to be placed in its own list.</li>
+<li>'let' also exists in Elisp, but it doesn't allow the use of earlier bindings within later ones.</li>
+</ul>
+<p>Comments, Namespaces, and Access Modifiers:</p>
+<ul>
+<li>Elisp doesn't have namespaces or access modifiers.</li>
+<li>By convention, packages prefix their functions and variables with a package name prefix.</li>
+</ul>
+<p>This cheat sheet provides a quick overview of the main differences between Emacs Lisp and Clojure. It can serve as a handy reference for Clojure developers venturing into Elisp development.</p>
 	</div>
 </article>
 

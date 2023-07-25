@@ -46,31 +46,32 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://dev.to/ifeolwaisaiah/how-to-validate-an-html-form-with-javascript-55fb" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;In this tutorial, the author shows how to validate an HTML form using JavaScript. The tutorial assumes some familiarity with JavaScript, but the coding is not too advanced. A login page is used as a real-life demo, and the author provides the simple HTML code for it.&lt;/p&gt;
-&lt;p&gt;To validate the form, the author uses JavaScript to check whether the form is empty before submitting it. The author provides the code for the validation function, which checks each input field for a value. If any of the fields are empty, the function displays an error message and prevents the form from submitting.&lt;/p&gt;
-&lt;p&gt;The tutorial is useful for developers who want to create forms and ensure that they submit valid data. The author&amp;apos;s approach is straightforward and can be adapted to different types of forms. The tutorial also highlights the importance of validating user input to prevent errors and improve the user experience.&lt;/p&gt;
-&lt;p&gt;Here is an example of the JavaScript code used to validate the form:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;function validateForm() {
-  const inputs = document.querySelectorAll(&amp;apos;.input-field&amp;apos;);
+		<p>In this tutorial, the author shows how to validate an HTML form using JavaScript. The tutorial assumes some familiarity with JavaScript, but the coding is not too advanced. A login page is used as a real-life demo, and the author provides the simple HTML code for it.</p>
+<p>To validate the form, the author uses JavaScript to check whether the form is empty before submitting it. The author provides the code for the validation function, which checks each input field for a value. If any of the fields are empty, the function displays an error message and prevents the form from submitting.</p>
+<p>The tutorial is useful for developers who want to create forms and ensure that they submit valid data. The author's approach is straightforward and can be adapted to different types of forms. The tutorial also highlights the importance of validating user input to prevent errors and improve the user experience.</p>
+<p>Here is an example of the JavaScript code used to validate the form:</p>
+<pre><code class="language-javascript">function validateForm() {
+  const inputs = document.querySelectorAll('.input-field');
   let valid = true;
-  inputs.forEach((input) =&amp;gt; {
+  inputs.forEach((input) =&gt; {
     if (!input.value) {
       valid = false;
       const error = input.nextElementSibling;
-      error.style.display = &amp;apos;block&amp;apos;;
+      error.style.display = 'block';
     }
   });
   return valid;
 }
 
-const form = document.querySelector(&amp;apos;.form&amp;apos;);
-form.addEventListener(&amp;apos;submit&amp;apos;, (event) =&amp;gt; {
+const form = document.querySelector('.form');
+form.addEventListener('submit', (event) =&gt; {
   if (!validateForm()) {
     event.preventDefault();
   }
 });
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Overall, the tutorial provides a useful introduction to validating HTML forms with JavaScript. Developers who want to improve their skills in this area can use the tutorial as a starting point for more advanced techniques.&lt;/p&gt;
+
+</code></pre>
+<p>Overall, the tutorial provides a useful introduction to validating HTML forms with JavaScript. Developers who want to improve their skills in this area can use the tutorial as a starting point for more advanced techniques.</p>
 	</div>
 </article>
 

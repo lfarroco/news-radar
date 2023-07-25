@@ -46,11 +46,11 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://dev.to/savonarola/testing-timer-based-logic-in-elixir-with-klotho-library-2c90" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Testing code that deals with time, timeouts, and timers can be challenging. Traditional approaches, such as using custom reduced timeouts or &lt;code&gt;:timer.sleep/1&lt;/code&gt;, have drawbacks and can lead to slow and flaky tests.&lt;/p&gt;
-&lt;p&gt;Klotho is a library that provides a different approach to testing timer-based logic in Elixir. It injects timer-based functions globally, allowing developers to control the flow of time in their tests. By using Klotho functions instead of directly calling time-related functions, developers can write tests that are faster, more reliable, and easier to read.&lt;/p&gt;
-&lt;p&gt;For example, when testing a module that implements a timeout map, Klotho can be used to replace &lt;code&gt;:erlang.cancel_timer/1&lt;/code&gt; and &lt;code&gt;:erlang.start_timer/3&lt;/code&gt; with &lt;code&gt;Klotho.cancel_timer/1&lt;/code&gt; and &lt;code&gt;Klotho.start_timer/3&lt;/code&gt;. This allows developers to use arbitrary timeouts in tests without relying on sleeps, resulting in faster and more stable tests.&lt;/p&gt;
-&lt;p&gt;While Klotho is not suitable for all cases and does not provide beam-wide time injection, it is designed to be used in a wide but limited scope of cases where the code deals with medium-intensive self-contained time-related logic.&lt;/p&gt;
-&lt;p&gt;By leveraging Klotho, developers can simplify the testing of timer-based logic in Elixir and improve the overall quality of their code.&lt;/p&gt;
+		<p>Testing code that deals with time, timeouts, and timers can be challenging. Traditional approaches, such as using custom reduced timeouts or <code>:timer.sleep/1</code>, have drawbacks and can lead to slow and flaky tests.</p>
+<p>Klotho is a library that provides a different approach to testing timer-based logic in Elixir. It injects timer-based functions globally, allowing developers to control the flow of time in their tests. By using Klotho functions instead of directly calling time-related functions, developers can write tests that are faster, more reliable, and easier to read.</p>
+<p>For example, when testing a module that implements a timeout map, Klotho can be used to replace <code>:erlang.cancel_timer/1</code> and <code>:erlang.start_timer/3</code> with <code>Klotho.cancel_timer/1</code> and <code>Klotho.start_timer/3</code>. This allows developers to use arbitrary timeouts in tests without relying on sleeps, resulting in faster and more stable tests.</p>
+<p>While Klotho is not suitable for all cases and does not provide beam-wide time injection, it is designed to be used in a wide but limited scope of cases where the code deals with medium-intensive self-contained time-related logic.</p>
+<p>By leveraging Klotho, developers can simplify the testing of timer-based logic in Elixir and improve the overall quality of their code.</p>
 	</div>
 </article>
 

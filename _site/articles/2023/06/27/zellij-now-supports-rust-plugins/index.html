@@ -46,33 +46,34 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/rust/comments/14k6ukw/come_build_zellij_webassembly_rust_plugins_for/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Zellij, a terminal workspace manager, has announced that its plugin system is now ready for Rust developers. The plugin system allows developers to build and share small terminal applets with each other. This new terminal ecosystem provides UI components for the terminal to automate workflows, add a visual element, and enable easy concurrency to pipelines. The Zellij maintainers have overhauled the plugin system over the past few months to provide a better experience for developers.&lt;/p&gt;
-&lt;p&gt;Rust developers are invited to join the Zellij community and build plugins for the terminal. The plugin system is built using WebAssembly, which allows for fast and efficient execution of Rust code in the terminal. Developers can express their creativity and imagination while building plugins for the terminal.&lt;/p&gt;
-&lt;p&gt;To get started, developers can visit the Zellij website and read more about the new plugin system. The website provides documentation on how to build and share plugins with the community. The Zellij community is active and supportive, making it an excellent place for developers to learn and grow.&lt;/p&gt;
-&lt;p&gt;Here is an example of a Rust plugin for Zellij that prints &amp;quot;Hello, world!&amp;quot; in the terminal:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-rust&quot;&gt;use zellij_plugin::prelude::*;
+		<p>Zellij, a terminal workspace manager, has announced that its plugin system is now ready for Rust developers. The plugin system allows developers to build and share small terminal applets with each other. This new terminal ecosystem provides UI components for the terminal to automate workflows, add a visual element, and enable easy concurrency to pipelines. The Zellij maintainers have overhauled the plugin system over the past few months to provide a better experience for developers.</p>
+<p>Rust developers are invited to join the Zellij community and build plugins for the terminal. The plugin system is built using WebAssembly, which allows for fast and efficient execution of Rust code in the terminal. Developers can express their creativity and imagination while building plugins for the terminal.</p>
+<p>To get started, developers can visit the Zellij website and read more about the new plugin system. The website provides documentation on how to build and share plugins with the community. The Zellij community is active and supportive, making it an excellent place for developers to learn and grow.</p>
+<p>Here is an example of a Rust plugin for Zellij that prints &quot;Hello, world!&quot; in the terminal:</p>
+<pre><code class="language-rust">use zellij_plugin::prelude::*;
 
 #[derive(Default)]
 struct HelloWorld;
 
 impl ZellijPlugin for HelloWorld {
-    fn load(&amp;amp;mut self) -&amp;gt; anyhow::Result&amp;lt;()&amp;gt; {
-        println!(&amp;quot;Hello, world!&amp;quot;);
+    fn load(&amp;mut self) -&gt; anyhow::Result&lt;()&gt; {
+        println!(&quot;Hello, world!&quot;);
         Ok(())
     }
 }
 
 inventory::submit!(PluginDescription {
-    name: &amp;quot;HelloWorld&amp;quot;,
-    author: &amp;quot;Your Name&amp;quot;,
-    description: &amp;quot;Prints &amp;apos;Hello, world!&amp;apos; in the terminal&amp;quot;,
-    version: &amp;quot;0.1.0&amp;quot;,
-    license: &amp;quot;MIT&amp;quot;,
+    name: &quot;HelloWorld&quot;,
+    author: &quot;Your Name&quot;,
+    description: &quot;Prints 'Hello, world!' in the terminal&quot;,
+    version: &quot;0.1.0&quot;,
+    license: &quot;MIT&quot;,
     features: Default::default(),
     plugin_type: PluginType::Other(Box::new(|| Box::new(HelloWorld::default()))),
 });
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Zellij provides a unique opportunity for Rust developers to build plugins for the terminal and share them with the community. The new plugin system is easy to use and provides a great experience for developers. Join the Zellij community today and start building plugins for the terminal.&lt;/p&gt;
+
+</code></pre>
+<p>Zellij provides a unique opportunity for Rust developers to build plugins for the terminal and share them with the community. The new plugin system is easy to use and provides a great experience for developers. Join the Zellij community today and start building plugins for the terminal.</p>
 	</div>
 </article>
 

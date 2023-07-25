@@ -46,24 +46,25 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/oktaysenkan/style-variants" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Style Variants is a powerful and easy-to-use solution for creating dynamic and reusable styles in React Native applications. It helps developers build consistent UI components with predefined styles and variants that are easy to maintain and update.&lt;/p&gt;
-&lt;p&gt;To install the package, developers can use the following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;npm install style-variants
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Once installed, developers can define style variants for their custom components and apply them dynamically based on their desired behavior. For example, to create style variants for a Button component with multiple size and color variants, and a disabled state, developers can use the following code snippet:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;import { createStyleVariant } from &amp;apos;style-variants&amp;apos;;
+		<p>Style Variants is a powerful and easy-to-use solution for creating dynamic and reusable styles in React Native applications. It helps developers build consistent UI components with predefined styles and variants that are easy to maintain and update.</p>
+<p>To install the package, developers can use the following command:</p>
+<pre><code>npm install style-variants
 
-const Button = ({ size, color, disabled, children }) =&amp;gt; {
+</code></pre>
+<p>Once installed, developers can define style variants for their custom components and apply them dynamically based on their desired behavior. For example, to create style variants for a Button component with multiple size and color variants, and a disabled state, developers can use the following code snippet:</p>
+<pre><code>import { createStyleVariant } from 'style-variants';
+
+const Button = ({ size, color, disabled, children }) =&gt; {
   const styleVariant = createStyleVariant({
     base: {
       borderRadius: 8,
       paddingVertical: 12,
       paddingHorizontal: 16,
       backgroundColor: color,
-      color: &amp;apos;#fff&amp;apos;,
+      color: '#fff',
       fontSize: 16,
-      fontWeight: &amp;apos;bold&amp;apos;,
-      textAlign: &amp;apos;center&amp;apos;,
+      fontWeight: 'bold',
+      textAlign: 'center',
     },
     size: {
       small: {
@@ -83,13 +84,14 @@ const Button = ({ size, color, disabled, children }) =&amp;gt; {
   }, { size, color, disabled });
 
   return (
-    &amp;lt;TouchableOpacity style={styleVariant}&amp;gt;
+    &lt;TouchableOpacity style={styleVariant}&gt;
       {children}
-    &amp;lt;/TouchableOpacity&amp;gt;
+    &lt;/TouchableOpacity&gt;
   );
 };
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;With Style Variants, developers can easily create and apply style variants to their components, making their code more organized and easier to maintain.&lt;/p&gt;
+
+</code></pre>
+<p>With Style Variants, developers can easily create and apply style variants to their components, making their code more organized and easier to maintain.</p>
 	</div>
 </article>
 

@@ -46,30 +46,32 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/flask/comments/14g36j8/custom_valudation/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Flask is a popular Python web framework that allows developers to build web applications quickly and efficiently. One important aspect of web development is data validation, which ensures that the data entered by users is correct and meets certain criteria. In a recent Reddit post, a user asked how to implement custom validation for usernames and categories in Flask.&lt;/p&gt;
-&lt;p&gt;To validate a username, the user suggested creating a function that checks whether the username already exists in the database before adding it. This can be achieved using Flask&amp;apos;s built-in &lt;code&gt;request&lt;/code&gt; and &lt;code&gt;flash&lt;/code&gt; modules. Here&amp;apos;s an example code snippet:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;from flask import request, flash
+		<p>Flask is a popular Python web framework that allows developers to build web applications quickly and efficiently. One important aspect of web development is data validation, which ensures that the data entered by users is correct and meets certain criteria. In a recent Reddit post, a user asked how to implement custom validation for usernames and categories in Flask.</p>
+<p>To validate a username, the user suggested creating a function that checks whether the username already exists in the database before adding it. This can be achieved using Flask's built-in <code>request</code> and <code>flash</code> modules. Here's an example code snippet:</p>
+<pre><code class="language-python">from flask import request, flash
 
-@app.route(&amp;apos;/register&amp;apos;, methods=[&amp;apos;POST&amp;apos;])
+@app.route('/register', methods=['POST'])
 def register():
-    username = request.form[&amp;apos;username&amp;apos;]
+    username = request.form['username']
     if User.query.filter_by(username=username).first():
-        flash(&amp;apos;Username already exists&amp;apos;)
-        return redirect(url_for(&amp;apos;register&amp;apos;))
+        flash('Username already exists')
+        return redirect(url_for('register'))
     # add user to database
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;To add similar functionality for categories, you can modify the code as follows:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;from flask import request, flash
 
-@app.route(&amp;apos;/add_category&amp;apos;, methods=[&amp;apos;POST&amp;apos;])
+</code></pre>
+<p>To add similar functionality for categories, you can modify the code as follows:</p>
+<pre><code class="language-python">from flask import request, flash
+
+@app.route('/add_category', methods=['POST'])
 def add_category():
-    category = request.form[&amp;apos;category&amp;apos;]
+    category = request.form['category']
     if Category.query.filter_by(name=category).first():
-        flash(&amp;apos;Category already exists&amp;apos;)
-        return redirect(url_for(&amp;apos;add_category&amp;apos;))
+        flash('Category already exists')
+        return redirect(url_for('add_category'))
     # add category to database
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;By using custom validation, developers can ensure that their web applications only accept valid data and avoid potential errors and security vulnerabilities.&lt;/p&gt;
+
+</code></pre>
+<p>By using custom validation, developers can ensure that their web applications only accept valid data and avoid potential errors and security vulnerabilities.</p>
 	</div>
 </article>
 

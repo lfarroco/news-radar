@@ -46,23 +46,27 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/boyter/cs" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;If you&amp;apos;re a developer who spends a lot of time navigating through codebases, you know how important it is to have a good code search tool. That&amp;apos;s where cs comes in. cs is a command line tool written in Go that makes it easy to search through code quickly and efficiently. In this article, we&amp;apos;ll take a closer look at cs and how it can help you be more productive.&lt;/p&gt;
-&lt;p&gt;One of the key features of cs is its simplicity. It&amp;apos;s a lightweight tool that doesn&amp;apos;t require a lot of setup or configuration. Once you&amp;apos;ve installed it, you can start using it right away. To search for a string in a codebase, all you need to do is run the following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;cs &amp;lt;search term&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This will search through all files in the current directory and its subdirectories for the specified search term. You can also specify a file extension to limit the search to specific file types. For example, to search only for Python files, you can run:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;cs &amp;lt;search term&amp;gt; --ext py
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;cs also supports regular expressions, which can be useful for more complex searches. To use regular expressions, simply add the &lt;code&gt;-r&lt;/code&gt; flag to your search command. For example:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;cs &amp;apos;foo.*bar&amp;apos; -r
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Another useful feature of cs is its ability to search through Git repositories. If you&amp;apos;re working on a project that uses Git, you can use cs to search through the code history. To search through the Git history, simply add the &lt;code&gt;--git&lt;/code&gt; flag to your search command. For example:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;cs &amp;lt;search term&amp;gt; --git
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This will search through all commits in the Git history for the specified search term.&lt;/p&gt;
-&lt;p&gt;One thing to keep in mind when using cs is that it&amp;apos;s designed to be a fast, lightweight tool. It&amp;apos;s not meant to replace more advanced code search tools like grep or ack. However, for simple searches or quick lookups, cs can be a great tool to have in your toolbox.&lt;/p&gt;
-&lt;p&gt;In terms of performance, cs is quite fast. It&amp;apos;s written in Go, which is known for its speed and efficiency. This means that even for large codebases, cs can search through files quickly and without using too many system resources.&lt;/p&gt;
-&lt;p&gt;In conclusion, cs is a simple and efficient command line code search tool that can help you be more productive as a developer. Whether you&amp;apos;re searching through a small codebase or a large Git repository, cs can help you find what you&amp;apos;re looking for quickly and easily. So why not give it a try and see how it can improve your workflow?&lt;/p&gt;
+		<p>If you're a developer who spends a lot of time navigating through codebases, you know how important it is to have a good code search tool. That's where cs comes in. cs is a command line tool written in Go that makes it easy to search through code quickly and efficiently. In this article, we'll take a closer look at cs and how it can help you be more productive.</p>
+<p>One of the key features of cs is its simplicity. It's a lightweight tool that doesn't require a lot of setup or configuration. Once you've installed it, you can start using it right away. To search for a string in a codebase, all you need to do is run the following command:</p>
+<pre><code>cs &lt;search term&gt;
+
+</code></pre>
+<p>This will search through all files in the current directory and its subdirectories for the specified search term. You can also specify a file extension to limit the search to specific file types. For example, to search only for Python files, you can run:</p>
+<pre><code>cs &lt;search term&gt; --ext py
+
+</code></pre>
+<p>cs also supports regular expressions, which can be useful for more complex searches. To use regular expressions, simply add the <code>-r</code> flag to your search command. For example:</p>
+<pre><code>cs 'foo.*bar' -r
+
+</code></pre>
+<p>Another useful feature of cs is its ability to search through Git repositories. If you're working on a project that uses Git, you can use cs to search through the code history. To search through the Git history, simply add the <code>--git</code> flag to your search command. For example:</p>
+<pre><code>cs &lt;search term&gt; --git
+
+</code></pre>
+<p>This will search through all commits in the Git history for the specified search term.</p>
+<p>One thing to keep in mind when using cs is that it's designed to be a fast, lightweight tool. It's not meant to replace more advanced code search tools like grep or ack. However, for simple searches or quick lookups, cs can be a great tool to have in your toolbox.</p>
+<p>In terms of performance, cs is quite fast. It's written in Go, which is known for its speed and efficiency. This means that even for large codebases, cs can search through files quickly and without using too many system resources.</p>
+<p>In conclusion, cs is a simple and efficient command line code search tool that can help you be more productive as a developer. Whether you're searching through a small codebase or a large Git repository, cs can help you find what you're looking for quickly and easily. So why not give it a try and see how it can improve your workflow?</p>
 	</div>
 </article>
 

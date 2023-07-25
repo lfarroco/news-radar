@@ -46,32 +46,31 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://a0.to/reddit-flask-basic-authentication" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Flask Authentication Guide
-Flask is a popular Python web framework that allows developers to build web applications quickly and easily. One important aspect of web development is authentication, which ensures that only authorized users can access certain parts of an application. In this article, we&amp;apos;ll take a look at how to implement authentication in Flask using Auth0.&lt;/p&gt;
-&lt;p&gt;Auth0 is a powerful identity management platform that provides authentication and authorization as a service. It offers a variety of authentication methods, including social login, multi-factor authentication, and passwordless authentication. With Auth0, developers can quickly and easily add authentication to their applications without having to worry about the complexities of identity management.&lt;/p&gt;
-&lt;p&gt;To get started with Flask and Auth0, developers can follow the step-by-step guides provided in the Auth0 documentation. These guides cover everything from setting up an Auth0 account to integrating Auth0 with Flask.&lt;/p&gt;
-&lt;p&gt;One important aspect of authentication in Flask is the use of Flask-Login, a Flask extension that provides user session management. Flask-Login allows developers to easily manage user sessions and implement features such as remember me functionality and user authentication.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example of how to use Flask-Login with Auth0:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;from flask import Flask, redirect, url_for
+		<p>Flask Authentication Guide Flask is a popular Python web framework that allows developers to build web applications quickly and easily. One important aspect of web development is authentication, which ensures that only authorized users can access certain parts of an application. In this article, we'll take a look at how to implement authentication in Flask using Auth0.</p>
+<p>Auth0 is a powerful identity management platform that provides authentication and authorization as a service. It offers a variety of authentication methods, including social login, multi-factor authentication, and passwordless authentication. With Auth0, developers can quickly and easily add authentication to their applications without having to worry about the complexities of identity management.</p>
+<p>To get started with Flask and Auth0, developers can follow the step-by-step guides provided in the Auth0 documentation. These guides cover everything from setting up an Auth0 account to integrating Auth0 with Flask.</p>
+<p>One important aspect of authentication in Flask is the use of Flask-Login, a Flask extension that provides user session management. Flask-Login allows developers to easily manage user sessions and implement features such as remember me functionality and user authentication.</p>
+<p>Here's an example of how to use Flask-Login with Auth0:</p>
+<pre><code class="language-python">from flask import Flask, redirect, url_for
 from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
 from authlib.integrations.flask_client import OAuth
 
 app = Flask(__name__)
-app.secret_key = &amp;apos;super secret key&amp;apos;
+app.secret_key = 'super secret key'
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 
 oauth = OAuth(app)
 auth0 = oauth.register(
-    &amp;apos;auth0&amp;apos;,
-    client_id=&amp;apos;&amp;lt;your-client-id&amp;gt;&amp;apos;,
-    client_secret=&amp;apos;&amp;lt;your-client-secret&amp;gt;&amp;apos;,
-    api_base_url=&amp;apos;https://&amp;lt;your-domain&amp;gt;.auth0.com&amp;apos;,
-    access_token_url=&amp;apos;https://&amp;lt;your-domain&amp;gt;.auth0.com/oauth/token&amp;apos;,
-    authorize_url=&amp;apos;https://&amp;lt;your-domain&amp;gt;.auth0.com/authorize&amp;apos;,
+    'auth0',
+    client_id='&lt;your-client-id&gt;',
+    client_secret='&lt;your-client-secret&gt;',
+    api_base_url='https://&lt;your-domain&gt;.auth0.com',
+    access_token_url='https://&lt;your-domain&gt;.auth0.com/oauth/token',
+    authorize_url='https://&lt;your-domain&gt;.auth0.com/authorize',
     client_kwargs={
-        &amp;apos;scope&amp;apos;: &amp;apos;openid profile email&amp;apos;,
+        'scope': 'openid profile email',
     },
 )
 
@@ -83,42 +82,43 @@ class User(UserMixin):
 def load_user(user_id):
     return User(user_id)
 
-@app.route(&amp;apos;/&amp;apos;)
+@app.route('/')
 def index():
-    return &amp;apos;Hello, World!&amp;apos;
+    return 'Hello, World!'
 
-@app.route(&amp;apos;/login&amp;apos;)
+@app.route('/login')
 def login():
-    return auth0.authorize_redirect(redirect_uri=url_for(&amp;apos;callback&amp;apos;, _external=True))
+    return auth0.authorize_redirect(redirect_uri=url_for('callback', _external=True))
 
-@app.route(&amp;apos;/callback&amp;apos;)
+@app.route('/callback')
 def callback():
     token = auth0.authorize_access_token()
-    resp = auth0.get(&amp;apos;userinfo&amp;apos;)
+    resp = auth0.get('userinfo')
     userinfo = resp.json()
 
-    user_id = userinfo[&amp;apos;sub&amp;apos;]
+    user_id = userinfo['sub']
     user = User(user_id)
     login_user(user)
 
-    return redirect(url_for(&amp;apos;dashboard&amp;apos;))
+    return redirect(url_for('dashboard'))
 
-@app.route(&amp;apos;/dashboard&amp;apos;)
+@app.route('/dashboard')
 @login_required
 def dashboard():
-    return &amp;apos;Welcome to the dashboard!&amp;apos;
+    return 'Welcome to the dashboard!'
 
-@app.route(&amp;apos;/logout&amp;apos;)
+@app.route('/logout')
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for(&amp;apos;index&amp;apos;))
+    return redirect(url_for('index'))
 
-if __name__ == &amp;apos;__main__&amp;apos;:
+if __name__ == '__main__':
     app.run()
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In this example, we&amp;apos;re using the Flask-Login extension to manage user sessions. We&amp;apos;re also using the Auth0 OAuth client to handle authentication. When a user logs in, we store their user ID in the session and redirect them to the dashboard. When a user logs out, we remove their user ID from the session and redirect them to the index page.&lt;/p&gt;
-&lt;p&gt;Overall, Flask and Auth0 make it easy for developers to implement authentication in their web applications. With the help of Flask-Login and the Auth0 platform, developers can quickly and easily add authentication to their applications without having to worry about the complexities of identity management.&lt;/p&gt;
+
+</code></pre>
+<p>In this example, we're using the Flask-Login extension to manage user sessions. We're also using the Auth0 OAuth client to handle authentication. When a user logs in, we store their user ID in the session and redirect them to the dashboard. When a user logs out, we remove their user ID from the session and redirect them to the index page.</p>
+<p>Overall, Flask and Auth0 make it easy for developers to implement authentication in their web applications. With the help of Flask-Login and the Auth0 platform, developers can quickly and easily add authentication to their applications without having to worry about the complexities of identity management.</p>
 	</div>
 </article>
 

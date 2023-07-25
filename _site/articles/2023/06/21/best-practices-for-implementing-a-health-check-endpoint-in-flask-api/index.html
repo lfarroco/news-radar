@@ -46,23 +46,24 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/flask/comments/14fgypg/flask_api_healthcheck_endpoint_best_practices/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Flask is a popular Python micro-framework used for building web applications. It is known for its simplicity and flexibility. However, when building an API with Flask, it is important to ensure that the application is always up and running. This is where a health-check endpoint comes in.&lt;/p&gt;
-&lt;p&gt;A health-check endpoint is a path or blueprint that can be used to check the status of the application. It can be used to check database connectivity, pings, roundtrip request timings, and other important metrics.&lt;/p&gt;
-&lt;p&gt;To implement a health-check endpoint in Flask, there are a few best practices to follow. First, it is recommended to create a separate blueprint for the health-check endpoint. This makes it easier to manage and test the endpoint separately from the rest of the application.&lt;/p&gt;
-&lt;p&gt;Secondly, the endpoint should return a JSON response with a status code of 200 if the application is healthy. If there are any issues, the endpoint should return a status code of 500 along with an error message.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example of how to implement a health-check endpoint in Flask:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;from flask import Blueprint, jsonify
+		<p>Flask is a popular Python micro-framework used for building web applications. It is known for its simplicity and flexibility. However, when building an API with Flask, it is important to ensure that the application is always up and running. This is where a health-check endpoint comes in.</p>
+<p>A health-check endpoint is a path or blueprint that can be used to check the status of the application. It can be used to check database connectivity, pings, roundtrip request timings, and other important metrics.</p>
+<p>To implement a health-check endpoint in Flask, there are a few best practices to follow. First, it is recommended to create a separate blueprint for the health-check endpoint. This makes it easier to manage and test the endpoint separately from the rest of the application.</p>
+<p>Secondly, the endpoint should return a JSON response with a status code of 200 if the application is healthy. If there are any issues, the endpoint should return a status code of 500 along with an error message.</p>
+<p>Here's an example of how to implement a health-check endpoint in Flask:</p>
+<pre><code class="language-python">from flask import Blueprint, jsonify
 
-health_check_bp = Blueprint(&amp;apos;health_check&amp;apos;, __name__)
+health_check_bp = Blueprint('health_check', __name__)
 
-@health_check_bp.route(&amp;apos;/health-check&amp;apos;)
+@health_check_bp.route('/health-check')
 def health_check():
     # Check database connectivity, pings, roundtrip request timings, etc
     # Return a JSON response with a status code of 200 if the application is healthy
     # Return a status code of 500 along with an error message if there are any issues
-    return jsonify({&amp;apos;status&amp;apos;: &amp;apos;ok&amp;apos;}), 200
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;By following these best practices, developers can ensure that their Flask API is always up and running. It also makes it easier to diagnose and fix any issues that may arise.&lt;/p&gt;
+    return jsonify({'status': 'ok'}), 200
+
+</code></pre>
+<p>By following these best practices, developers can ensure that their Flask API is always up and running. It also makes it easier to diagnose and fix any issues that may arise.</p>
 	</div>
 </article>
 

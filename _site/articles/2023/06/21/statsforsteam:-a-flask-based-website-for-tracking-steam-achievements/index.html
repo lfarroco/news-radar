@@ -46,23 +46,24 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/flask/comments/14ertc4/created_a_website_with_flask_for_tracking/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;StatsForSteam is a Flask-based website that allows users to track their Steam achievements and engage in discussions around them. The website is designed to make achievement hunting easier and more enjoyable for gamers.&lt;/p&gt;
-&lt;p&gt;The website&amp;apos;s creator has open-sourced all of the code on GitHub, inviting other developers to provide feedback and use the code in their own projects. The website&amp;apos;s features include a summary of a user&amp;apos;s achievements, an easy-to-use search function, and a discussion forum for each achievement.&lt;/p&gt;
-&lt;p&gt;The website&amp;apos;s frontend is built with HTML, CSS, and JavaScript, while the backend is powered by Flask, a Python-based web framework. The website also uses SQLite as its database management system.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example of how to use Flask to create a simple web application:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;from flask import Flask, render_template
+		<p>StatsForSteam is a Flask-based website that allows users to track their Steam achievements and engage in discussions around them. The website is designed to make achievement hunting easier and more enjoyable for gamers.</p>
+<p>The website's creator has open-sourced all of the code on GitHub, inviting other developers to provide feedback and use the code in their own projects. The website's features include a summary of a user's achievements, an easy-to-use search function, and a discussion forum for each achievement.</p>
+<p>The website's frontend is built with HTML, CSS, and JavaScript, while the backend is powered by Flask, a Python-based web framework. The website also uses SQLite as its database management system.</p>
+<p>Here's an example of how to use Flask to create a simple web application:</p>
+<pre><code class="language-python">from flask import Flask, render_template
 
 app = Flask(__name__)
 
-@app.route(&amp;apos;/&amp;apos;)
+@app.route('/')
 def index():
-    return render_template(&amp;apos;index.html&amp;apos;)
+    return render_template('index.html')
 
-if __name__ == &amp;apos;__main__&amp;apos;:
+if __name__ == '__main__':
     app.run(debug=True)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In this example, Flask is used to create a simple web application that renders an HTML template when the user visits the root URL. The &lt;code&gt;render_template&lt;/code&gt; function is used to render the HTML template, which can include variables that are passed in from the Python code.&lt;/p&gt;
-&lt;p&gt;StatsForSteam is a great example of how Flask can be used to create a powerful web application that meets the needs of a specific user base. As more and more gamers turn to online platforms to track their achievements and connect with other players, Flask-based websites like StatsForSteam are likely to become increasingly popular.&lt;/p&gt;
+
+</code></pre>
+<p>In this example, Flask is used to create a simple web application that renders an HTML template when the user visits the root URL. The <code>render_template</code> function is used to render the HTML template, which can include variables that are passed in from the Python code.</p>
+<p>StatsForSteam is a great example of how Flask can be used to create a powerful web application that meets the needs of a specific user base. As more and more gamers turn to online platforms to track their achievements and connect with other players, Flask-based websites like StatsForSteam are likely to become increasingly popular.</p>
 	</div>
 </article>
 

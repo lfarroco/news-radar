@@ -46,11 +46,11 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://www.vusec.net/projects/floatzone/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;FloatZone is a redzone-based memory sanitizer designed to efficiently detect buffer overflows and use-after-frees by utilizing floating-point underflows. Memory sanitizers are powerful tools used by developers, fuzzers, and software testers to identify spatial and temporal memory errors.&lt;/p&gt;
-&lt;p&gt;Traditionally, memory sanitizers like Address Sanitizer (ASan) introduce significant overhead to the execution time, impacting performance. FloatZone aims to address this issue by offloading the checks to the Floating Point Unit (FPU) using a clever trick that expresses comparisons as floating point additions.&lt;/p&gt;
-&lt;p&gt;By surrounding objects with 0x8b redzones, FloatZone can detect buffer overflows and underflows. It adds and removes redzones on object allocation and deallocation respectively, enabling spatial memory error detection. Additionally, it marks objects as invalid upon free and places them in a quarantine for temporal memory error detection.&lt;/p&gt;
-&lt;p&gt;In evaluations, FloatZone outperformed existing systems, with just a 37% runtime overhead on SPEC CPU2006 and CPU2017 benchmarks. It also achieved an average 2.87x increase in fuzzing throughput compared to the state of the art.&lt;/p&gt;
-&lt;p&gt;Developers looking to enhance their memory sanitization capabilities can benefit from FloatZone&amp;apos;s efficient detection and improved performance.&lt;/p&gt;
+		<p>FloatZone is a redzone-based memory sanitizer designed to efficiently detect buffer overflows and use-after-frees by utilizing floating-point underflows. Memory sanitizers are powerful tools used by developers, fuzzers, and software testers to identify spatial and temporal memory errors.</p>
+<p>Traditionally, memory sanitizers like Address Sanitizer (ASan) introduce significant overhead to the execution time, impacting performance. FloatZone aims to address this issue by offloading the checks to the Floating Point Unit (FPU) using a clever trick that expresses comparisons as floating point additions.</p>
+<p>By surrounding objects with 0x8b redzones, FloatZone can detect buffer overflows and underflows. It adds and removes redzones on object allocation and deallocation respectively, enabling spatial memory error detection. Additionally, it marks objects as invalid upon free and places them in a quarantine for temporal memory error detection.</p>
+<p>In evaluations, FloatZone outperformed existing systems, with just a 37% runtime overhead on SPEC CPU2006 and CPU2017 benchmarks. It also achieved an average 2.87x increase in fuzzing throughput compared to the state of the art.</p>
+<p>Developers looking to enhance their memory sanitization capabilities can benefit from FloatZone's efficient detection and improved performance.</p>
 	</div>
 </article>
 

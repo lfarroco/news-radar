@@ -46,15 +46,11 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/KingMob/TrueGrit" target="_blank"> here</a>.
 		</div>
-		True Grit is a data-driven, functionally-oriented, idiomatic Clojure library that serves as a wrapper for Resilience4j, one of the top resilience Java libraries. The library offers various features such as circuit breakers, bulkheads, retries, rate limiters, and timeouts, allowing developers to build more resilient applications.
-
-One of the main use cases for True Grit is wrapping functions that make network calls. With True Grit, developers can set timeouts, specify the number of retries in case of intermittent network failures, track failure rates, and implement circuit breakers to temporarily halt functions if a certain failure threshold is reached. This helps prevent overwhelming downstream services.
-
-To use True Grit, developers can start with the `net.modulolotus.truegrit` namespace and explore the individual policy namespaces for more advanced needs. The library provides all-in-one functions that take a function and a configuration map, returning a wrapped function with the resilience policy attached. The wrapped functions return the same results as the original, except for thread-pool-based bulkheads, which return Futures.
-
-True Grit is stable and actively maintained, with bug fixes and updates to Resilience4j being the only planned future work. Developers can add True Grit to their projects using Leiningen or deps.edn.
-
-Overall, True Grit offers a convenient and powerful way for Clojure developers to enhance the resilience of their applications when dealing with network services.
+		<p>True Grit is a data-driven, functionally-oriented, idiomatic Clojure library that serves as a wrapper for Resilience4j, one of the top resilience Java libraries. The library offers various features such as circuit breakers, bulkheads, retries, rate limiters, and timeouts, allowing developers to build more resilient applications.</p>
+<p>One of the main use cases for True Grit is wrapping functions that make network calls. With True Grit, developers can set timeouts, specify the number of retries in case of intermittent network failures, track failure rates, and implement circuit breakers to temporarily halt functions if a certain failure threshold is reached. This helps prevent overwhelming downstream services.</p>
+<p>To use True Grit, developers can start with the <code>net.modulolotus.truegrit</code> namespace and explore the individual policy namespaces for more advanced needs. The library provides all-in-one functions that take a function and a configuration map, returning a wrapped function with the resilience policy attached. The wrapped functions return the same results as the original, except for thread-pool-based bulkheads, which return Futures.</p>
+<p>True Grit is stable and actively maintained, with bug fixes and updates to Resilience4j being the only planned future work. Developers can add True Grit to their projects using Leiningen or deps.edn.</p>
+<p>Overall, True Grit offers a convenient and powerful way for Clojure developers to enhance the resilience of their applications when dealing with network services.</p>
 	</div>
 </article>
 

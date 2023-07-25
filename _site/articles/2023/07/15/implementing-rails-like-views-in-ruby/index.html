@@ -46,14 +46,15 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://www.akshaykhot.com/how-to-implement-rails-views-in-ruby/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;In this article, the author presents a way to implement the controller-to-view data handoff using instance variables, similar to Rails, and following the same conventions. Although it&amp;apos;s a simplified implementation, it provides a fun way to learn something new. The author shares their initial confusion about accessing controller&amp;apos;s instance variables in views and their attempts to understand the underlying mechanism. As part of a series on building a web application in Ruby without Rails, the author successfully implements a way to make controller instance variables available in views.&lt;/p&gt;
-&lt;p&gt;To achieve this, the author suggests assigning the plain text response from the action method to an instance variable. For example:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;@title = &amp;quot;Hello, Dev Radar!&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Then, the corresponding view can access the instance variable &lt;code&gt;@title&lt;/code&gt;, similar to Rails.&lt;/p&gt;
-&lt;p&gt;To understand the concept of binding in Ruby, the author recommends reading a post that introduces it. The &lt;code&gt;binding&lt;/code&gt; method returns the current binding object, which encapsulates the current programming environment, including variables and methods. This concept extends to instance variables of a class as well. By obtaining the binding in the scope of an instance, it contains the instance variables that can be used in an ERB template.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;class Person
+		<p>In this article, the author presents a way to implement the controller-to-view data handoff using instance variables, similar to Rails, and following the same conventions. Although it's a simplified implementation, it provides a fun way to learn something new. The author shares their initial confusion about accessing controller's instance variables in views and their attempts to understand the underlying mechanism. As part of a series on building a web application in Ruby without Rails, the author successfully implements a way to make controller instance variables available in views.</p>
+<p>To achieve this, the author suggests assigning the plain text response from the action method to an instance variable. For example:</p>
+<pre><code class="language-ruby">@title = &quot;Hello, Dev Radar!&quot;
+
+</code></pre>
+<p>Then, the corresponding view can access the instance variable <code>@title</code>, similar to Rails.</p>
+<p>To understand the concept of binding in Ruby, the author recommends reading a post that introduces it. The <code>binding</code> method returns the current binding object, which encapsulates the current programming environment, including variables and methods. This concept extends to instance variables of a class as well. By obtaining the binding in the scope of an instance, it contains the instance variables that can be used in an ERB template.</p>
+<p>Here's an example:</p>
+<pre><code class="language-ruby">class Person
   def initialize(name, age)
     @name = name
     @age = age
@@ -64,12 +65,13 @@
   end
 end
 
-person = Person.new(&amp;quot;John Doe&amp;quot;, 25)
-erb_template = ERB.new(&amp;quot;My name is &amp;lt;%= @name %&amp;gt; and I&amp;apos;m &amp;lt;%= @age %&amp;gt; years old.&amp;quot;)
+person = Person.new(&quot;John Doe&quot;, 25)
+erb_template = ERB.new(&quot;My name is &lt;%= @name %&gt; and I'm &lt;%= @age %&gt; years old.&quot;)
 result = erb_template.result(person.get_binding)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In the above code, &lt;code&gt;person.get_binding&lt;/code&gt; returns the binding of the &lt;code&gt;person&lt;/code&gt; instance, which includes the instance variables &lt;code&gt;@name&lt;/code&gt; and &lt;code&gt;@age&lt;/code&gt;. These variables are then used by the ERB template to fill in the string.&lt;/p&gt;
-&lt;p&gt;By understanding these concepts, developers can implement Rails-like views in Ruby and have access to controller instance variables in views. This article provides a valuable resource for developers looking to build web applications in Ruby without relying on Rails.&lt;/p&gt;
+
+</code></pre>
+<p>In the above code, <code>person.get_binding</code> returns the binding of the <code>person</code> instance, which includes the instance variables <code>@name</code> and <code>@age</code>. These variables are then used by the ERB template to fill in the string.</p>
+<p>By understanding these concepts, developers can implement Rails-like views in Ruby and have access to controller instance variables in views. This article provides a valuable resource for developers looking to build web applications in Ruby without relying on Rails.</p>
 	</div>
 </article>
 

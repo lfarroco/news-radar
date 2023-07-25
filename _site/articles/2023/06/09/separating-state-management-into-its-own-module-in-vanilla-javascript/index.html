@@ -46,58 +46,67 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://dev.to/chovy/state-management-into-its-own-module-in-vanilla-javascript-58mf" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;State management is an essential part of any application, and it can become complex as the application grows. It is crucial to organize the code in a way that makes it easy to manage and maintain. Separating the state management into its own module is an effective way to do this.&lt;/p&gt;
-&lt;p&gt;In this article, we will show you how to separate state management into its own module in vanilla JavaScript. We will provide you with an example that you can use in your own projects.&lt;/p&gt;
-&lt;p&gt;To begin with, we will create a file called store.js, which will contain the state management code. The first step is to define the initial state. In our example, we will create a state object that contains a count property, which is initialized to 0.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;// Define the initial state
+		<p>State management is an essential part of any application, and it can become complex as the application grows. It is crucial to organize the code in a way that makes it easy to manage and maintain. Separating the state management into its own module is an effective way to do this.</p>
+<p>In this article, we will show you how to separate state management into its own module in vanilla JavaScript. We will provide you with an example that you can use in your own projects.</p>
+<p>To begin with, we will create a file called store.js, which will contain the state management code. The first step is to define the initial state. In our example, we will create a state object that contains a count property, which is initialized to 0.</p>
+<pre><code>// Define the initial state
 let state = { count: 0 };
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Next, we will define a list of subscribers. These are functions that will be called whenever the state changes. In our example, we will create an empty array called subscribers.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;// Define a list of subscribers
+
+</code></pre>
+<p>Next, we will define a list of subscribers. These are functions that will be called whenever the state changes. In our example, we will create an empty array called subscribers.</p>
+<pre><code>// Define a list of subscribers
 let subscribers = [];
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We will then define a function called setState, which will update the state and notify the subscribers. The function takes a new state object as an argument and updates the state variable. It then loops over the subscribers array and calls each function with the new state object.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;// Define a function to update the state and notify subscribers
+
+</code></pre>
+<p>We will then define a function called setState, which will update the state and notify the subscribers. The function takes a new state object as an argument and updates the state variable. It then loops over the subscribers array and calls each function with the new state object.</p>
+<pre><code>// Define a function to update the state and notify subscribers
 function setState(newState) {
   state = newState;
   // Notify subscribers
-  for (let i = 0; i &amp;lt; subscribers.length; i++) {
+  for (let i = 0; i &lt; subscribers.length; i++) {
     subscribers[i](newState);
   }
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We will also define a function called subscribe, which allows other parts of the application to subscribe to state changes. The function takes a callback function as an argument and adds it to the subscribers array.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;// Define a function to subscribe to state changes
+
+</code></pre>
+<p>We will also define a function called subscribe, which allows other parts of the application to subscribe to state changes. The function takes a callback function as an argument and adds it to the subscribers array.</p>
+<pre><code>// Define a function to subscribe to state changes
 function subscribe(callback) {
   subscribers.push(callback);
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Finally, we will export the state, setState, and subscribe functions so that they can be used in other parts of the application.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;// Export the state, setState, and subscribe functions
+
+</code></pre>
+<p>Finally, we will export the state, setState, and subscribe functions so that they can be used in other parts of the application.</p>
+<pre><code>// Export the state, setState, and subscribe functions
 export { state, setState, subscribe };
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now that we have defined the state management code in store.js, we can use it in other parts of the application. In our example, we will create a file called main.js, which will contain the code that uses the state management module.&lt;/p&gt;
-&lt;p&gt;First, we will import the state, setState, and subscribe functions from store.js.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;import { state, setState, subscribe } from &amp;apos;./store.js&amp;apos;;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We will then subscribe a function that updates the DOM to state changes. In our example, we will update the count element with the new count value.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;// Subscribe a function that updates the DOM to state changes
+
+</code></pre>
+<p>Now that we have defined the state management code in store.js, we can use it in other parts of the application. In our example, we will create a file called main.js, which will contain the code that uses the state management module.</p>
+<p>First, we will import the state, setState, and subscribe functions from store.js.</p>
+<pre><code>import { state, setState, subscribe } from './store.js';
+
+</code></pre>
+<p>We will then subscribe a function that updates the DOM to state changes. In our example, we will update the count element with the new count value.</p>
+<pre><code>// Subscribe a function that updates the DOM to state changes
 subscribe(function(newState) {
-  document.getElementById(&amp;apos;count&amp;apos;).textContent = &amp;quot;Count: &amp;quot; + newState.count;
+  document.getElementById('count').textContent = &quot;Count: &quot; + newState.count;
 });
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Next, we will define a function called incrementCount, which will increment the count property of the state object by 1.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;// Define a function to increment the count
+
+</code></pre>
+<p>Next, we will define a function called incrementCount, which will increment the count property of the state object by 1.</p>
+<pre><code>// Define a function to increment the count
 function incrementCount() {
   setState({ count: state.count + 1 });
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Finally, we will call the incrementCount function to increment the count value.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;// Call the function to increment the count
+
+</code></pre>
+<p>Finally, we will call the incrementCount function to increment the count value.</p>
+<pre><code>// Call the function to increment the count
 incrementCount();
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;By separating the state management into its own module, we have made it easier to manage and maintain the code. We can now add more functionality to the state management module without affecting the rest of the application.&lt;/p&gt;
-&lt;p&gt;In conclusion, separating state management into its own module is an effective way to organize code in vanilla JavaScript. It makes it easier to manage and maintain the code as the application grows. The example we provided can be used as a starting point for your own projects.&lt;/p&gt;
+
+</code></pre>
+<p>By separating the state management into its own module, we have made it easier to manage and maintain the code. We can now add more functionality to the state management module without affecting the rest of the application.</p>
+<p>In conclusion, separating state management into its own module is an effective way to organize code in vanilla JavaScript. It makes it easier to manage and maintain the code as the application grows. The example we provided can be used as a starting point for your own projects.</p>
 	</div>
 </article>
 

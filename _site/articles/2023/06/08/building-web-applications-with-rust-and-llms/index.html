@@ -46,25 +46,26 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://workshop.shuttle.rs" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Rust is a programming language that has been gaining popularity among developers in recent years. It is known for its speed, safety, and performance, making it an excellent choice for building web applications. In this article, we will explore how Rust can be used to build web applications that utilize LLMs.&lt;/p&gt;
-&lt;p&gt;What are LLMs?&lt;/p&gt;
-&lt;p&gt;LLMs, or Large Language Models, are a type of artificial intelligence that can understand natural language. They are used in a variety of applications, such as chatbots, language translation, and text summarization. OpenAI is one of the leading companies in this field, and they offer a set of APIs that developers can use to integrate LLMs into their applications.&lt;/p&gt;
-&lt;p&gt;Why use Rust for building web applications?&lt;/p&gt;
-&lt;p&gt;Rust is a systems programming language that is designed to be fast, safe, and concurrent. It has a number of features that make it well-suited for building web applications, such as:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Memory safety: Rust&amp;apos;s ownership model ensures that memory is managed safely, preventing common issues like null pointer dereferencing and buffer overflows.&lt;/li&gt;
-&lt;li&gt;Speed: Rust is compiled to machine code, which makes it faster than interpreted languages like Python or JavaScript.&lt;/li&gt;
-&lt;li&gt;Concurrency: Rust&amp;apos;s lightweight threads and async/await syntax make it easy to write concurrent code.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Building a web application with Rust and LLMs&lt;/p&gt;
-&lt;p&gt;To demonstrate how Rust can be used to build web applications that utilize LLMs, we will create a simple web application that uses OpenAI&amp;apos;s GPT-3 API to generate text based on user input.&lt;/p&gt;
-&lt;p&gt;First, we will need to create a Rust project and add the necessary dependencies. We will use the &lt;code&gt;reqwest&lt;/code&gt; crate for making HTTP requests and the &lt;code&gt;serde&lt;/code&gt; crate for serializing and deserializing JSON.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-rust&quot;&gt;[dependencies]
-reqwest = { version = &amp;quot;0.11&amp;quot;, features = [&amp;quot;blocking&amp;quot;, &amp;quot;json&amp;quot;] }
-serde = { version = &amp;quot;1.0&amp;quot;, features = [&amp;quot;derive&amp;quot;] }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Next, we will create a simple web server using the &lt;code&gt;actix-web&lt;/code&gt; crate. This server will respond to POST requests to the &lt;code&gt;/generate&lt;/code&gt; endpoint, which will contain the user&amp;apos;s input.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-rust&quot;&gt;use actix_web::{post, web, App, HttpResponse, HttpServer, Responder};
+		<p>Rust is a programming language that has been gaining popularity among developers in recent years. It is known for its speed, safety, and performance, making it an excellent choice for building web applications. In this article, we will explore how Rust can be used to build web applications that utilize LLMs.</p>
+<p>What are LLMs?</p>
+<p>LLMs, or Large Language Models, are a type of artificial intelligence that can understand natural language. They are used in a variety of applications, such as chatbots, language translation, and text summarization. OpenAI is one of the leading companies in this field, and they offer a set of APIs that developers can use to integrate LLMs into their applications.</p>
+<p>Why use Rust for building web applications?</p>
+<p>Rust is a systems programming language that is designed to be fast, safe, and concurrent. It has a number of features that make it well-suited for building web applications, such as:</p>
+<ul>
+<li>Memory safety: Rust's ownership model ensures that memory is managed safely, preventing common issues like null pointer dereferencing and buffer overflows.</li>
+<li>Speed: Rust is compiled to machine code, which makes it faster than interpreted languages like Python or JavaScript.</li>
+<li>Concurrency: Rust's lightweight threads and async/await syntax make it easy to write concurrent code.</li>
+</ul>
+<p>Building a web application with Rust and LLMs</p>
+<p>To demonstrate how Rust can be used to build web applications that utilize LLMs, we will create a simple web application that uses OpenAI's GPT-3 API to generate text based on user input.</p>
+<p>First, we will need to create a Rust project and add the necessary dependencies. We will use the <code>reqwest</code> crate for making HTTP requests and the <code>serde</code> crate for serializing and deserializing JSON.</p>
+<pre><code class="language-rust">[dependencies]
+reqwest = { version = &quot;0.11&quot;, features = [&quot;blocking&quot;, &quot;json&quot;] }
+serde = { version = &quot;1.0&quot;, features = [&quot;derive&quot;] }
+
+</code></pre>
+<p>Next, we will create a simple web server using the <code>actix-web</code> crate. This server will respond to POST requests to the <code>/generate</code> endpoint, which will contain the user's input.</p>
+<pre><code class="language-rust">use actix_web::{post, web, App, HttpResponse, HttpServer, Responder};
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize)]
@@ -77,45 +78,46 @@ struct GenerateResponse {
     output: String,
 }
 
-#[post(&amp;quot;/generate&amp;quot;)]
-async fn generate(request: web::Json&amp;lt;GenerateRequest&amp;gt;) -&amp;gt; impl Responder {
-    let input = &amp;amp;request.input;
+#[post(&quot;/generate&quot;)]
+async fn generate(request: web::Json&lt;GenerateRequest&gt;) -&gt; impl Responder {
+    let input = &amp;request.input;
     let response = reqwest::Client::new()
-        .post(&amp;quot;https://api.openai.com/v1/engines/davinci-codex/completions&amp;quot;)
-        .header(&amp;quot;Authorization&amp;quot;, &amp;quot;Bearer &amp;lt;YOUR_API_KEY&amp;gt;&amp;quot;)
-        .json(&amp;amp;json!({
-            &amp;quot;prompt&amp;quot;: input,
-            &amp;quot;max_tokens&amp;quot;: 100,
-            &amp;quot;temperature&amp;quot;: 0.5,
-            &amp;quot;n&amp;quot;: 1,
-            &amp;quot;stop&amp;quot;: &amp;quot;&#92;n&amp;quot;
+        .post(&quot;https://api.openai.com/v1/engines/davinci-codex/completions&quot;)
+        .header(&quot;Authorization&quot;, &quot;Bearer &lt;YOUR_API_KEY&gt;&quot;)
+        .json(&amp;json!({
+            &quot;prompt&quot;: input,
+            &quot;max_tokens&quot;: 100,
+            &quot;temperature&quot;: 0.5,
+            &quot;n&quot;: 1,
+            &quot;stop&quot;: &quot;\n&quot;
         }))
         .send()
         .await
         .unwrap()
-        .json::&amp;lt;serde_json::Value&amp;gt;()
+        .json::&lt;serde_json::Value&gt;()
         .await
         .unwrap();
 
-    let output = response[&amp;quot;choices&amp;quot;][0][&amp;quot;text&amp;quot;].as_str().unwrap().to_owned();
+    let output = response[&quot;choices&quot;][0][&quot;text&quot;].as_str().unwrap().to_owned();
 
     HttpResponse::Ok().json(GenerateResponse { output })
 }
 
 #[actix_web::main]
-async fn main() -&amp;gt; std::io::Result&amp;lt;()&amp;gt; {
+async fn main() -&gt; std::io::Result&lt;()&gt; {
     HttpServer::new(|| {
         App::new()
             .service(generate)
     })
-    .bind(&amp;quot;127.0.0.1:8080&amp;quot;)?
+    .bind(&quot;127.0.0.1:8080&quot;)?
     .run()
     .await
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In this code, we define a &lt;code&gt;GenerateRequest&lt;/code&gt; struct that contains the user&amp;apos;s input, and a &lt;code&gt;GenerateResponse&lt;/code&gt; struct that contains the generated output. The &lt;code&gt;generate&lt;/code&gt; function uses the &lt;code&gt;reqwest&lt;/code&gt; crate to make a POST request to the OpenAI API, passing in the user&amp;apos;s input as the prompt. The response is then parsed and the generated output is extracted. Finally, the output is returned as a JSON response.&lt;/p&gt;
-&lt;p&gt;Conclusion&lt;/p&gt;
-&lt;p&gt;In this article, we have explored how Rust can be used to build web applications that utilize LLMs. We have seen how Rust&amp;apos;s speed, safety, and concurrency make it an excellent choice for building high-performance web applications. By integrating LLMs into our applications, we can create intelligent systems that can understand natural language and provide more personalized experiences for our users.&lt;/p&gt;
+
+</code></pre>
+<p>In this code, we define a <code>GenerateRequest</code> struct that contains the user's input, and a <code>GenerateResponse</code> struct that contains the generated output. The <code>generate</code> function uses the <code>reqwest</code> crate to make a POST request to the OpenAI API, passing in the user's input as the prompt. The response is then parsed and the generated output is extracted. Finally, the output is returned as a JSON response.</p>
+<p>Conclusion</p>
+<p>In this article, we have explored how Rust can be used to build web applications that utilize LLMs. We have seen how Rust's speed, safety, and concurrency make it an excellent choice for building high-performance web applications. By integrating LLMs into our applications, we can create intelligent systems that can understand natural language and provide more personalized experiences for our users.</p>
 	</div>
 </article>
 

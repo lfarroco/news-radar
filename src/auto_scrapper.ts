@@ -2,31 +2,28 @@ import { cheerio } from './deps.ts';
 import { connect, client } from './db.ts';
 import getFiles from "https://deno.land/x/getfiles@v1.0.0/mod.ts";
 import { slugify } from './utils.ts';
+import htmlToMD from 'npm:node-html-markdown';
 
 await connect("localhost", 15432)
 
 
 const migrate = async () => {
 	const query = `
-SELECT * from info where status = 'published' AND article is not null
-`
-
-	const res = await client.queryObject<{ id: number, article: string, article_title: string, article_content: string, slug: string, date: Date }>(query);
-
-	res.rows.forEach(async row => {
-
-		const parsed = JSON.parse(row.article)
-
-		const query2 = `
-	UPDATE info SET slug = $1, article_title = $2, article_content=$3 WHERE id = $4;
+	SELECT * from info where source = 'restore-script'
 	`
+	const items = await client.queryObject<{ id: number, article_content: string }>(query)
 
-		await client.queryArray(query2, [slugify(parsed.title), parsed.title.trim(), parsed.article.trim(), row.id])
-
-	})
+	for (const item of items.rows) {
+		const { id, article_content } = item
+		const result = htmlToMD.NodeHtmlMarkdown.translate(article_content)
+		const updateQuery = `
+		UPDATE info SET article_content = $1 WHERE id = $2;
+		`
+		await client.queryArray(updateQuery, [result, id])
+	}
 
 }
-// migrate()
+migrate()
 
 //did you accidently deleted the db? fear not! the output html pages are sort a backup ;)
 

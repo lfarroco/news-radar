@@ -46,23 +46,24 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/node/comments/14jhzjz/am_i_supposed_to_shut_down_my_nodejs_webserver/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;When upgrading a major version of Amazon RDS, developers using Sequelize or Prisma queries in their Node.js webserver may wonder if they need to shut down the server. According to the official documentation, it is not necessary to shut down the server during the upgrade process. However, it is recommended to test the application after the upgrade to ensure that everything is working correctly.&lt;/p&gt;
-&lt;p&gt;Developers can also take advantage of the RDS snapshot feature to create a backup of their database before upgrading. This way, if something goes wrong during the upgrade process, they can easily restore the database to its previous state.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example of how to create an RDS snapshot using the AWS SDK for Node.js:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;const AWS = require(&amp;apos;aws-sdk&amp;apos;);
+		<p>When upgrading a major version of Amazon RDS, developers using Sequelize or Prisma queries in their Node.js webserver may wonder if they need to shut down the server. According to the official documentation, it is not necessary to shut down the server during the upgrade process. However, it is recommended to test the application after the upgrade to ensure that everything is working correctly.</p>
+<p>Developers can also take advantage of the RDS snapshot feature to create a backup of their database before upgrading. This way, if something goes wrong during the upgrade process, they can easily restore the database to its previous state.</p>
+<p>Here's an example of how to create an RDS snapshot using the AWS SDK for Node.js:</p>
+<pre><code class="language-javascript">const AWS = require('aws-sdk');
 const rds = new AWS.RDS();
 
 const params = {
-  DBInstanceIdentifier: &amp;apos;your-db-instance-id&amp;apos;,
-  DBSnapshotIdentifier: &amp;apos;your-db-snapshot-id&amp;apos;
+  DBInstanceIdentifier: 'your-db-instance-id',
+  DBSnapshotIdentifier: 'your-db-snapshot-id'
 };
 
-rds.createDBSnapshot(params, (err, data) =&amp;gt; {
+rds.createDBSnapshot(params, (err, data) =&gt; {
   if (err) console.log(err, err.stack);
   else console.log(data);
 });
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In conclusion, upgrading RDS with Sequelize or Prisma queries in Node.js does not require shutting down the server. However, developers should test their application after the upgrade and consider creating an RDS snapshot as a backup.&lt;/p&gt;
+
+</code></pre>
+<p>In conclusion, upgrading RDS with Sequelize or Prisma queries in Node.js does not require shutting down the server. However, developers should test their application after the upgrade and consider creating an RDS snapshot as a backup.</p>
 	</div>
 </article>
 

@@ -46,11 +46,11 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/java/comments/14k6w76/spring_data_jpa_query_by_example/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Spring Data JPA is a powerful tool for managing data in Java applications. One of its most useful features is Query By Example (QBE), which allows developers to easily construct queries based on the structure of their entities.&lt;/p&gt;
-&lt;p&gt;In a recent article, the author explains how to use QBE with Spring Data JPA. They start by showing how to create a simple entity class and repository interface. Then, they demonstrate how to use the QBE API to construct queries based on the properties of the entity.&lt;/p&gt;
-&lt;p&gt;The article also covers more advanced features of QBE, such as using nested properties and specifying match modes. The author provides code examples throughout the article to illustrate their points.&lt;/p&gt;
-&lt;p&gt;Overall, the article is a great resource for developers who want to learn more about using QBE with Spring Data JPA. By following the examples in the article, developers can quickly start building powerful queries that are tailored to their specific needs.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;// Example entity class
+		<p>Spring Data JPA is a powerful tool for managing data in Java applications. One of its most useful features is Query By Example (QBE), which allows developers to easily construct queries based on the structure of their entities.</p>
+<p>In a recent article, the author explains how to use QBE with Spring Data JPA. They start by showing how to create a simple entity class and repository interface. Then, they demonstrate how to use the QBE API to construct queries based on the properties of the entity.</p>
+<p>The article also covers more advanced features of QBE, such as using nested properties and specifying match modes. The author provides code examples throughout the article to illustrate their points.</p>
+<p>Overall, the article is a great resource for developers who want to learn more about using QBE with Spring Data JPA. By following the examples in the article, developers can quickly start building powerful queries that are tailored to their specific needs.</p>
+<pre><code class="language-java">// Example entity class
 @Entity
 public class User {
   @Id
@@ -62,18 +62,19 @@ public class User {
 }
 
 // Example repository interface
-public interface UserRepository extends JpaRepository&amp;lt;User, Long&amp;gt; {
+public interface UserRepository extends JpaRepository&lt;User, Long&gt; {
   // Query By Example method
-  List&amp;lt;User&amp;gt; findAll(Example&amp;lt;User&amp;gt; example);
+  List&lt;User&gt; findAll(Example&lt;User&gt; example);
 }
 
 // Example QBE query
 User user = new User();
-user.setFirstName(&amp;quot;John&amp;quot;);
+user.setFirstName(&quot;John&quot;);
 user.setAge(30);
-Example&amp;lt;User&amp;gt; example = Example.of(user);
-List&amp;lt;User&amp;gt; users = userRepository.findAll(example);
-&lt;/code&gt;&lt;/pre&gt;
+Example&lt;User&gt; example = Example.of(user);
+List&lt;User&gt; users = userRepository.findAll(example);
+
+</code></pre>
 	</div>
 </article>
 

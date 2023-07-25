@@ -46,32 +46,23 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://devinterrupted.substack.com/p/dora-metrics-weve-been-using-them-00c" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;DORA metrics have become a popular reference guide for engineering leaders to measure the performance of their teams. However, many businesses are using them incorrectly, leading to confusion and ineffective use of these metrics. In this article, we will explore what DORA metrics are, how they are used, and how to use them effectively to drive engineering improvement and achieve better business outcomes.&lt;/p&gt;
-&lt;p&gt;DORA Metrics Defined
-The DevOps Research and Assessment (DORA) group established four metrics to help engineering teams figure out what it looks like to operate as an elite team and how they compare to the industry. These metrics are:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Deployment Frequency - Measures how often code is deployed to production.&lt;/li&gt;
-&lt;li&gt;Cycle Time (sometimes called Lead Time for Changes) - Measures the time it takes to go from code committed to code successfully running in production.&lt;/li&gt;
-&lt;li&gt;Change Failure Rate - Measures the percentage of production deployments that result in a failure.&lt;/li&gt;
-&lt;li&gt;Mean Time to Restore (sometimes called Time to Restore Service) - Measures the time it takes to restore service after a production failure.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;According to DORA, measuring these values and continuously iterating to improve on them can significantly improve business outcomes.&lt;/p&gt;
-&lt;p&gt;Using DORA Metrics Effectively
-Measuring DORA metrics alone does not lead to improvement or better business outcomes. To use them effectively, businesses need to understand how to translate these metrics into something they understand and care about. Here are some tips on how to use DORA metrics effectively:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Align Metrics with Business Goals - DORA metrics should align with business goals to drive improvement and better outcomes. For example, if the business goal is to increase revenue, then measuring deployment frequency and cycle time can help achieve this goal by enabling faster delivery of new features and improvements.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Use Metrics for Continuous Improvement - DORA metrics should be used to identify areas for improvement and continuously iterate to achieve better outcomes. For example, if the change failure rate is high, then the team can focus on improving the quality of code and testing processes to reduce the failure rate.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Use Metrics to Drive Collaboration - DORA metrics can be used to drive collaboration between teams and departments. For example, if the mean time to restore is high, then the team can collaborate with the operations team to improve the process of restoring service after a production failure.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;Code Snippet Example:
-Here is an example of how to use DORA metrics in code:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;# Calculate deployment frequency
+		<p>DORA metrics have become a popular reference guide for engineering leaders to measure the performance of their teams. However, many businesses are using them incorrectly, leading to confusion and ineffective use of these metrics. In this article, we will explore what DORA metrics are, how they are used, and how to use them effectively to drive engineering improvement and achieve better business outcomes.</p>
+<p>DORA Metrics Defined The DevOps Research and Assessment (DORA) group established four metrics to help engineering teams figure out what it looks like to operate as an elite team and how they compare to the industry. These metrics are:</p>
+<ol>
+<li>Deployment Frequency - Measures how often code is deployed to production.</li>
+<li>Cycle Time (sometimes called Lead Time for Changes) - Measures the time it takes to go from code committed to code successfully running in production.</li>
+<li>Change Failure Rate - Measures the percentage of production deployments that result in a failure.</li>
+<li>Mean Time to Restore (sometimes called Time to Restore Service) - Measures the time it takes to restore service after a production failure.</li>
+</ol>
+<p>According to DORA, measuring these values and continuously iterating to improve on them can significantly improve business outcomes.</p>
+<p>Using DORA Metrics Effectively Measuring DORA metrics alone does not lead to improvement or better business outcomes. To use them effectively, businesses need to understand how to translate these metrics into something they understand and care about. Here are some tips on how to use DORA metrics effectively:</p>
+<ol>
+<li>Align Metrics with Business Goals - DORA metrics should align with business goals to drive improvement and better outcomes. For example, if the business goal is to increase revenue, then measuring deployment frequency and cycle time can help achieve this goal by enabling faster delivery of new features and improvements.</li>
+<li>Use Metrics for Continuous Improvement - DORA metrics should be used to identify areas for improvement and continuously iterate to achieve better outcomes. For example, if the change failure rate is high, then the team can focus on improving the quality of code and testing processes to reduce the failure rate.</li>
+<li>Use Metrics to Drive Collaboration - DORA metrics can be used to drive collaboration between teams and departments. For example, if the mean time to restore is high, then the team can collaborate with the operations team to improve the process of restoring service after a production failure.</li>
+</ol>
+<p>Code Snippet Example: Here is an example of how to use DORA metrics in code:</p>
+<pre><code># Calculate deployment frequency
 deployments = get_deployments()
 deployment_frequency = len(deployments) / total_time
 
@@ -88,9 +79,9 @@ change_failure_rate = failures / len(deployments)
 failures = get_failures()
 restore_time = get_restore_time()
 mean_time_to_restore = restore_time / len(failures)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Conclusion
-DORA metrics are a powerful tool to drive engineering improvement and achieve better business outcomes. However, businesses need to use them effectively by aligning them with business goals, using them for continuous improvement, and driving collaboration between teams and departments. By using DORA metrics effectively, businesses can achieve significant improvements in their software development processes and outcomes.&lt;/p&gt;
+
+</code></pre>
+<p>Conclusion DORA metrics are a powerful tool to drive engineering improvement and achieve better business outcomes. However, businesses need to use them effectively by aligning them with business goals, using them for continuous improvement, and driving collaboration between teams and departments. By using DORA metrics effectively, businesses can achieve significant improvements in their software development processes and outcomes.</p>
 	</div>
 </article>
 

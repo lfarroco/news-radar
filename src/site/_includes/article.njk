@@ -14,6 +14,6 @@ layout: main.njk
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="{{link}}" target="_blank"> here</a>.
 		</div>
-		{{ content }}
+		{{ content | md | safe }}
 	</div>
 </article>

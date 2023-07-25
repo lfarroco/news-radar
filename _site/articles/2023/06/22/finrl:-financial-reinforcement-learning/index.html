@@ -46,25 +46,26 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/AI4Finance-Foundation/FinRL" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;FinRL is a Python library for financial reinforcement learning. It provides a set of tools to train and test reinforcement learning agents in financial scenarios. The library is built on top of OpenAI Gym and Stable Baselines, two popular libraries for reinforcement learning.&lt;/p&gt;
-&lt;p&gt;The library includes a set of pre-built environments for different financial scenarios, such as portfolio optimization and trading. It also includes a set of pre-built agents, such as DDPG and PPO, that can be used to train and test the environments.&lt;/p&gt;
-&lt;p&gt;FinRL is designed to be easy to use and extend. It provides a simple API for defining new environments and agents, as well as a set of tools for visualizing and analyzing the results of experiments.&lt;/p&gt;
-&lt;p&gt;The library is actively maintained by the AI4Finance-Foundation, a non-profit organization dedicated to advancing the use of artificial intelligence in finance. It is released under the MIT license and has a growing community of contributors and users.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example of how to use FinRL to train a reinforcement learning agent for portfolio optimization:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;import finrl
+		<p>FinRL is a Python library for financial reinforcement learning. It provides a set of tools to train and test reinforcement learning agents in financial scenarios. The library is built on top of OpenAI Gym and Stable Baselines, two popular libraries for reinforcement learning.</p>
+<p>The library includes a set of pre-built environments for different financial scenarios, such as portfolio optimization and trading. It also includes a set of pre-built agents, such as DDPG and PPO, that can be used to train and test the environments.</p>
+<p>FinRL is designed to be easy to use and extend. It provides a simple API for defining new environments and agents, as well as a set of tools for visualizing and analyzing the results of experiments.</p>
+<p>The library is actively maintained by the AI4Finance-Foundation, a non-profit organization dedicated to advancing the use of artificial intelligence in finance. It is released under the MIT license and has a growing community of contributors and users.</p>
+<p>Here's an example of how to use FinRL to train a reinforcement learning agent for portfolio optimization:</p>
+<pre><code class="language-python">import finrl
 
-env = finrl.make_env(&amp;quot;portfolio_optimization&amp;quot;)
-agent = finrl.make_agent(&amp;quot;ddpg&amp;quot;, env)
+env = finrl.make_env(&quot;portfolio_optimization&quot;)
+agent = finrl.make_agent(&quot;ddpg&quot;, env)
 
 for i in range(100):
     agent.train()
 
     if i % 10 == 0:
         rewards = agent.test()
-        print(f&amp;quot;Test rewards: {rewards}&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This code creates an environment for portfolio optimization and an agent using the DDPG algorithm. It then trains the agent for 100 episodes and tests it every 10 episodes. The results of the tests are printed to the console.&lt;/p&gt;
-&lt;p&gt;FinRL is a powerful tool for developers interested in using reinforcement learning in finance. Its pre-built environments and agents make it easy to get started, while its extensible API allows for customization and experimentation.&lt;/p&gt;
+        print(f&quot;Test rewards: {rewards}&quot;)
+
+</code></pre>
+<p>This code creates an environment for portfolio optimization and an agent using the DDPG algorithm. It then trains the agent for 100 episodes and tests it every 10 episodes. The results of the tests are printed to the console.</p>
+<p>FinRL is a powerful tool for developers interested in using reinforcement learning in finance. Its pre-built environments and agents make it easy to get started, while its extensible API allows for customization and experimentation.</p>
 	</div>
 </article>
 

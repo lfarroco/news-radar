@@ -46,15 +46,16 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://dev.to/brojenuel/dont-use-innerhtml-4p26" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;The &lt;code&gt;innerHTML&lt;/code&gt; function is a popular way to manipulate the content of an HTML element. However, if not used properly, it can lead to security vulnerabilities in your web application.&lt;/p&gt;
-&lt;p&gt;In a recent article, the author explains the risks associated with using &lt;code&gt;innerHTML&lt;/code&gt; and provides code samples to demonstrate how it can be misused. The article also offers an alternative function, &lt;code&gt;setHTML(&amp;amp;lt;value&amp;amp;gt;)&lt;/code&gt;, which is currently in an experimental state and may not be supported by all browsers.&lt;/p&gt;
-&lt;p&gt;Developers should be aware of the potential risks when using &lt;code&gt;innerHTML&lt;/code&gt; and ensure that it is used correctly to avoid security vulnerabilities. It is important to sanitize any user input before using it with &lt;code&gt;innerHTML&lt;/code&gt; to prevent cross-site scripting (XSS) attacks.&lt;/p&gt;
-&lt;p&gt;Here is an example of how to properly sanitize user input before using &lt;code&gt;innerHTML&lt;/code&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;const userInput = document.getElementById(&amp;apos;userInput&amp;apos;).value;
-const sanitizedInput = userInput.replace(/&amp;lt;/g, &amp;apos;&amp;amp;lt;&amp;apos;).replace(/&amp;gt;/g, &amp;apos;&amp;amp;gt;&amp;apos;);
-document.getElementById(&amp;apos;output&amp;apos;).innerHTML = sanitizedInput;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;By following best practices and properly sanitizing user input, developers can safely use &lt;code&gt;innerHTML&lt;/code&gt; to manipulate HTML content in their web applications.&lt;/p&gt;
+		<p>The <code>innerHTML</code> function is a popular way to manipulate the content of an HTML element. However, if not used properly, it can lead to security vulnerabilities in your web application.</p>
+<p>In a recent article, the author explains the risks associated with using <code>innerHTML</code> and provides code samples to demonstrate how it can be misused. The article also offers an alternative function, <code>setHTML(&amp;lt;value&amp;gt;)</code>, which is currently in an experimental state and may not be supported by all browsers.</p>
+<p>Developers should be aware of the potential risks when using <code>innerHTML</code> and ensure that it is used correctly to avoid security vulnerabilities. It is important to sanitize any user input before using it with <code>innerHTML</code> to prevent cross-site scripting (XSS) attacks.</p>
+<p>Here is an example of how to properly sanitize user input before using <code>innerHTML</code>:</p>
+<pre><code class="language-javascript">const userInput = document.getElementById('userInput').value;
+const sanitizedInput = userInput.replace(/&lt;/g, '&amp;lt;').replace(/&gt;/g, '&amp;gt;');
+document.getElementById('output').innerHTML = sanitizedInput;
+
+</code></pre>
+<p>By following best practices and properly sanitizing user input, developers can safely use <code>innerHTML</code> to manipulate HTML content in their web applications.</p>
 	</div>
 </article>
 

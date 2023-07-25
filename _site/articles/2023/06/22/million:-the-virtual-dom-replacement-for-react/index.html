@@ -46,23 +46,24 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/aidenybai/million" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Million is a virtual DOM replacement for React that aims to provide better performance and developer experience. It was created by Aiden Bai and is licensed under the MIT license.&lt;/p&gt;
-&lt;p&gt;According to the author, Million is up to 10 times faster than React in some cases. It achieves this by optimizing the diffing algorithm and reducing the amount of work done during updates. Additionally, Million provides a simpler API and better TypeScript support.&lt;/p&gt;
-&lt;p&gt;To use Million, developers can simply replace their React import with a Million import and start using the new API. Million also provides a compatibility layer for React components, allowing developers to gradually migrate their codebase.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example of how to create a Million component:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-typescript&quot;&gt;import { h, mount } from &amp;apos;million&amp;apos;;
+		<p>Million is a virtual DOM replacement for React that aims to provide better performance and developer experience. It was created by Aiden Bai and is licensed under the MIT license.</p>
+<p>According to the author, Million is up to 10 times faster than React in some cases. It achieves this by optimizing the diffing algorithm and reducing the amount of work done during updates. Additionally, Million provides a simpler API and better TypeScript support.</p>
+<p>To use Million, developers can simply replace their React import with a Million import and start using the new API. Million also provides a compatibility layer for React components, allowing developers to gradually migrate their codebase.</p>
+<p>Here's an example of how to create a Million component:</p>
+<pre><code class="language-typescript">import { h, mount } from 'million';
 
 function MyComponent(props) {
-  return h(&amp;apos;div&amp;apos;, { class: &amp;apos;my-component&amp;apos; }, [
-    h(&amp;apos;h1&amp;apos;, {}, props.title),
-    h(&amp;apos;p&amp;apos;, {}, props.text),
+  return h('div', { class: 'my-component' }, [
+    h('h1', {}, props.title),
+    h('p', {}, props.text),
   ]);
 }
 
-mount(MyComponent({ title: &amp;apos;Hello&amp;apos;, text: &amp;apos;World&amp;apos; }), document.body);
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In this example, Million&amp;apos;s &lt;code&gt;h&lt;/code&gt; function is used to create a virtual DOM tree, which is then mounted to the actual DOM using the &lt;code&gt;mount&lt;/code&gt; function.&lt;/p&gt;
-&lt;p&gt;Overall, Million is an interesting alternative to React that promises better performance and developer experience. While it&amp;apos;s still a relatively new project, it&amp;apos;s worth keeping an eye on for developers looking to optimize their web applications.&lt;/p&gt;
+mount(MyComponent({ title: 'Hello', text: 'World' }), document.body);
+
+</code></pre>
+<p>In this example, Million's <code>h</code> function is used to create a virtual DOM tree, which is then mounted to the actual DOM using the <code>mount</code> function.</p>
+<p>Overall, Million is an interesting alternative to React that promises better performance and developer experience. While it's still a relatively new project, it's worth keeping an eye on for developers looking to optimize their web applications.</p>
 	</div>
 </article>
 

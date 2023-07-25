@@ -46,11 +46,11 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://vladmihalcea.com/fetch-multiple-to-many-jooq-multiset/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;jOOQ is a popular Java Object-oriented Querying library that allows developers to write typesafe SQL queries. In this article, we will explore how to fetch multiple to-many relationships with jOOQ MULTISET.&lt;/p&gt;
-&lt;p&gt;The approach taken by jOOQ is truly revolutionary since it offers a solution that allows you to fetch multiple to-many relationships using a single type-safe query.&lt;/p&gt;
-&lt;p&gt;Domain Model&lt;/p&gt;
-&lt;p&gt;Let&amp;#x2019;s assume that we have the following database tables:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;CREATE TABLE post (
+		<p>jOOQ is a popular Java Object-oriented Querying library that allows developers to write typesafe SQL queries. In this article, we will explore how to fetch multiple to-many relationships with jOOQ MULTISET.</p>
+<p>The approach taken by jOOQ is truly revolutionary since it offers a solution that allows you to fetch multiple to-many relationships using a single type-safe query.</p>
+<p>Domain Model</p>
+<p>Let’s assume that we have the following database tables:</p>
+<pre><code>CREATE TABLE post (
     id BIGINT PRIMARY KEY,
     title VARCHAR(255) NOT NULL
 );
@@ -67,27 +67,29 @@ CREATE TABLE post_tag (
     FOREIGN KEY (post_id) REFERENCES post(id),
     FOREIGN KEY (tag_id) REFERENCES tag(id)
 );
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We have a many-to-many relationship between &lt;code&gt;post&lt;/code&gt; and &lt;code&gt;tag&lt;/code&gt; entities, which is represented by the &lt;code&gt;post_tag&lt;/code&gt; join table.&lt;/p&gt;
-&lt;p&gt;Fetching Multiple To-Many Relationships&lt;/p&gt;
-&lt;p&gt;With jOOQ, we can use the &lt;code&gt;MULTISET&lt;/code&gt; function to fetch multiple to-many relationships in a single query. Here&amp;#x2019;s an example:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;List&amp;lt;Post&amp;gt; posts = dsl.selectFrom(POST)
+
+</code></pre>
+<p>We have a many-to-many relationship between <code>post</code> and <code>tag</code> entities, which is represented by the <code>post_tag</code> join table.</p>
+<p>Fetching Multiple To-Many Relationships</p>
+<p>With jOOQ, we can use the <code>MULTISET</code> function to fetch multiple to-many relationships in a single query. Here’s an example:</p>
+<pre><code>List&lt;Post&gt; posts = dsl.selectFrom(POST)
     .leftJoin(POST_TAG).on(POST.ID.eq(POST_TAG.POST_ID))
     .leftJoin(TAG).on(POST_TAG.TAG_ID.eq(TAG.ID))
     .groupBy(POST.ID)
     .orderBy(POST.ID)
     .fetchInto(Post.class, 
         POST.ID, POST.TITLE, 
-        multiset(TAG.ID, TAG.NAME).convertFrom(r -&amp;gt; 
+        multiset(TAG.ID, TAG.NAME).convertFrom(r -&gt; 
             new Tag(r.get(TAG.ID), r.get(TAG.NAME))
         )
     );
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In the above query, we&amp;#x2019;re fetching all posts and their associated tags using the &lt;code&gt;MULTISET&lt;/code&gt; function. The &lt;code&gt;multiset&lt;/code&gt; function takes two arguments: the columns to fetch and a lambda function to convert the fetched rows into the desired object.&lt;/p&gt;
-&lt;p&gt;In this case, we&amp;#x2019;re converting the fetched rows into a &lt;code&gt;Tag&lt;/code&gt; object using the &lt;code&gt;r -&amp;gt; new Tag(r.get(TAG.ID), r.get(TAG.NAME))&lt;/code&gt; lambda function.&lt;/p&gt;
-&lt;p&gt;Conclusion&lt;/p&gt;
-&lt;p&gt;In this article, we&amp;#x2019;ve seen how to fetch multiple to-many relationships with jOOQ MULTISET. This approach allows us to avoid Cartesian Products and write type-safe queries that are easy to maintain.&lt;/p&gt;
-&lt;p&gt;jOOQ is a powerful library that can help developers write complex SQL queries with ease. If you&amp;#x2019;re interested in learning more about jOOQ, be sure to check out their official documentation.&lt;/p&gt;
+
+</code></pre>
+<p>In the above query, we’re fetching all posts and their associated tags using the <code>MULTISET</code> function. The <code>multiset</code> function takes two arguments: the columns to fetch and a lambda function to convert the fetched rows into the desired object.</p>
+<p>In this case, we’re converting the fetched rows into a <code>Tag</code> object using the <code>r -&gt; new Tag(r.get(TAG.ID), r.get(TAG.NAME))</code> lambda function.</p>
+<p>Conclusion</p>
+<p>In this article, we’ve seen how to fetch multiple to-many relationships with jOOQ MULTISET. This approach allows us to avoid Cartesian Products and write type-safe queries that are easy to maintain.</p>
+<p>jOOQ is a powerful library that can help developers write complex SQL queries with ease. If you’re interested in learning more about jOOQ, be sure to check out their official documentation.</p>
 	</div>
 </article>
 

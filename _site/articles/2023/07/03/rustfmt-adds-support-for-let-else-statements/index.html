@@ -46,19 +46,20 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://blog.rust-lang.org/2023/07/01/rustfmt-supports-let-else-statements.html" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Rustfmt, the Rust code formatter, will soon include support for formatting let-else statements. This feature will be available starting with the nightly 2023-07-02 toolchain and is expected to be part of the stable Rust 1.72 release.&lt;/p&gt;
-&lt;p&gt;Let-else statements were introduced in Rust 1.65.0, but until now, Rustfmt did not have formatting support for them. As a result, developers had to manually style these statements. With the upcoming update, Rustfmt will automatically apply the let-else formatting rules.&lt;/p&gt;
-&lt;p&gt;The addition of let-else formatting support addresses a long-standing request from the Rust community. The Rust project has implemented measures to ensure that formatting support is provided more promptly after feature stabilization.&lt;/p&gt;
-&lt;p&gt;For developers using Rust, this update will streamline their coding process and maintain consistent formatting across their projects. Here&amp;apos;s an example of how a let-else statement will be formatted by Rustfmt:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-rust&quot;&gt;let result = if condition {
+		<p>Rustfmt, the Rust code formatter, will soon include support for formatting let-else statements. This feature will be available starting with the nightly 2023-07-02 toolchain and is expected to be part of the stable Rust 1.72 release.</p>
+<p>Let-else statements were introduced in Rust 1.65.0, but until now, Rustfmt did not have formatting support for them. As a result, developers had to manually style these statements. With the upcoming update, Rustfmt will automatically apply the let-else formatting rules.</p>
+<p>The addition of let-else formatting support addresses a long-standing request from the Rust community. The Rust project has implemented measures to ensure that formatting support is provided more promptly after feature stabilization.</p>
+<p>For developers using Rust, this update will streamline their coding process and maintain consistent formatting across their projects. Here's an example of how a let-else statement will be formatted by Rustfmt:</p>
+<pre><code class="language-rust">let result = if condition {
     // code block for if branch
     ...
 } else {
     // code block for else branch
     ...
 };
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This improvement aligns with Rust&amp;apos;s commitment to providing a clean and readable codebase. Developers can refer to the official Rust Style Guide for more information on the default formatting style for Rust code.&lt;/p&gt;
+
+</code></pre>
+<p>This improvement aligns with Rust's commitment to providing a clean and readable codebase. Developers can refer to the official Rust Style Guide for more information on the default formatting style for Rust code.</p>
 	</div>
 </article>
 

@@ -46,12 +46,13 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://jonasg.io/posts/how-to-effectively-test-time-dependent-code/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;In this article, the author explores strategies for reliable testing of time-dependent code, specifically in Java applications. They highlight the challenges that arise when code depends on the system clock and how a simple configuration change can cause disastrous consequences. To mitigate these issues, the author introduces the concept of java.time.Clock, which allows developers to decouple date-time generation from the system&amp;apos;s clock. By passing a clock object to the java.time...now() methods, developers can have more control over time-related aspects and make testing easier. The article also emphasizes the importance of fixating the clock in tests to avoid flaky results. With these strategies, developers can write more robust code and gain better control over time-dependent functionalities.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;// Example of fixating the clock in tests
-Clock fixedClock = Clock.fixed(Instant.parse(&amp;quot;2022-01-01T00:00:00Z&amp;quot;), ZoneId.of(&amp;quot;UTC&amp;quot;));
+		<p>In this article, the author explores strategies for reliable testing of time-dependent code, specifically in Java applications. They highlight the challenges that arise when code depends on the system clock and how a simple configuration change can cause disastrous consequences. To mitigate these issues, the author introduces the concept of java.time.Clock, which allows developers to decouple date-time generation from the system's clock. By passing a clock object to the java.time...now() methods, developers can have more control over time-related aspects and make testing easier. The article also emphasizes the importance of fixating the clock in tests to avoid flaky results. With these strategies, developers can write more robust code and gain better control over time-dependent functionalities.</p>
+<pre><code class="language-java">// Example of fixating the clock in tests
+Clock fixedClock = Clock.fixed(Instant.parse(&quot;2022-01-01T00:00:00Z&quot;), ZoneId.of(&quot;UTC&quot;));
 ZonedDateTime fixedDateTime = ZonedDateTime.now(fixedClock);
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;By implementing these strategies, developers can ensure their time-dependent code is reliable and avoid unexpected issues caused by changes in the system clock.&lt;/p&gt;
+
+</code></pre>
+<p>By implementing these strategies, developers can ensure their time-dependent code is reliable and avoid unexpected issues caused by changes in the system clock.</p>
 	</div>
 </article>
 

@@ -46,25 +46,26 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/Kotlin/comments/14j4nf1/meet_kobweb_a_web_frame_framework_for_kotlin/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Kobweb is a web framework built for Kotlin, a programming language that runs on the Java Virtual Machine. It is designed to be lightweight, easy to use, and highly extensible. Kobweb uses a functional programming style and provides a DSL for defining routes and handling HTTP requests.&lt;/p&gt;
-&lt;p&gt;One of the key features of Kobweb is its support for asynchronous programming. It uses Kotlin&amp;apos;s coroutines to allow developers to write non-blocking code that can handle a large number of concurrent requests. This makes Kobweb a great choice for building high-performance web applications.&lt;/p&gt;
-&lt;p&gt;Kobweb also provides a number of built-in features that make it easy to develop web applications. It includes support for templating engines, such as Mustache and Handlebars, as well as support for serving static files. Additionally, Kobweb supports sessions and cookies out of the box.&lt;/p&gt;
-&lt;p&gt;One of the benefits of using Kobweb is its seamless integration with other Kotlin libraries. For example, it can be used with Ktor, a popular Kotlin web framework, to build even more complex web applications.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example of how to define a simple route in Kobweb:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-kotlin&quot;&gt;import kobweb.*
+		<p>Kobweb is a web framework built for Kotlin, a programming language that runs on the Java Virtual Machine. It is designed to be lightweight, easy to use, and highly extensible. Kobweb uses a functional programming style and provides a DSL for defining routes and handling HTTP requests.</p>
+<p>One of the key features of Kobweb is its support for asynchronous programming. It uses Kotlin's coroutines to allow developers to write non-blocking code that can handle a large number of concurrent requests. This makes Kobweb a great choice for building high-performance web applications.</p>
+<p>Kobweb also provides a number of built-in features that make it easy to develop web applications. It includes support for templating engines, such as Mustache and Handlebars, as well as support for serving static files. Additionally, Kobweb supports sessions and cookies out of the box.</p>
+<p>One of the benefits of using Kobweb is its seamless integration with other Kotlin libraries. For example, it can be used with Ktor, a popular Kotlin web framework, to build even more complex web applications.</p>
+<p>Here's an example of how to define a simple route in Kobweb:</p>
+<pre><code class="language-kotlin">import kobweb.*
 
 fun main() {
     val app = kobweb()
 
-    app.get(&amp;quot;/hello&amp;quot;) { _, res -&amp;gt;
-        res.send(&amp;quot;Hello, world!&amp;quot;)
+    app.get(&quot;/hello&quot;) { _, res -&gt;
+        res.send(&quot;Hello, world!&quot;)
     }
 
     app.start()
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In this example, we define a route that responds to GET requests to the &amp;quot;/hello&amp;quot; path. When a request is received, Kobweb sends the string &amp;quot;Hello, world!&amp;quot; as the response.&lt;/p&gt;
-&lt;p&gt;Overall, Kobweb is a promising web framework for Kotlin developers who want to build high-performance web applications. Its support for asynchronous programming and seamless integration with other Kotlin libraries make it a great choice for building complex web applications.&lt;/p&gt;
+
+</code></pre>
+<p>In this example, we define a route that responds to GET requests to the &quot;/hello&quot; path. When a request is received, Kobweb sends the string &quot;Hello, world!&quot; as the response.</p>
+<p>Overall, Kobweb is a promising web framework for Kotlin developers who want to build high-performance web applications. Its support for asynchronous programming and seamless integration with other Kotlin libraries make it a great choice for building complex web applications.</p>
 	</div>
 </article>
 

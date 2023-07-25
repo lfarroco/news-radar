@@ -46,26 +46,27 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://www.elixirstreams.com/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Elixir is a functional programming language that runs on the Erlang virtual machine. It was created in 2011 by Jos&amp;#xE9; Valim, a former Rails core team member. Elixir is known for its scalability, fault-tolerance, and ease of use. Phoenix, on the other hand, is a web framework for Elixir that is similar to Ruby on Rails. It was created in 2014 by Chris McCord, and it has gained a lot of popularity in recent years.&lt;/p&gt;
-&lt;p&gt;If you&amp;apos;re interested in learning more about Elixir and Phoenix, you might want to check out Elixir Streams. It&amp;apos;s a new website that provides tips, tricks, and courses on Elixir and Phoenix.&lt;/p&gt;
-&lt;p&gt;The website is divided into several sections. The first section is called &amp;quot;Tips and Tricks,&amp;quot; and it provides short articles on various topics related to Elixir and Phoenix. For example, you can learn how to use Ecto, a database wrapper for Elixir, or how to use Phoenix LiveView, a real-time web framework.&lt;/p&gt;
-&lt;p&gt;The second section is called &amp;quot;Courses,&amp;quot; and it provides in-depth courses on Elixir and Phoenix. The courses are created by experienced developers, and they cover a wide range of topics. For example, you can learn how to build a real-time chat application with Phoenix LiveView, or how to use GenServer, a behaviour in Elixir that allows you to create processes.&lt;/p&gt;
-&lt;p&gt;The third section is called &amp;quot;Community,&amp;quot; and it provides a forum where you can ask questions and share your knowledge with other developers. The forum is moderated by experienced developers, so you can be sure that you&amp;apos;ll get high-quality answers to your questions.&lt;/p&gt;
-&lt;p&gt;Overall, Elixir Streams is a great resource for developers who want to learn more about Elixir and Phoenix. The website is well-designed, easy to navigate, and provides a lot of valuable information. If you&amp;apos;re interested in functional programming or web development, you should definitely check it out.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example of how to use Ecto to query a database in Elixir:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-elixir&quot;&gt;defmodule MyApp.Repo do
+		<p>Elixir is a functional programming language that runs on the Erlang virtual machine. It was created in 2011 by José Valim, a former Rails core team member. Elixir is known for its scalability, fault-tolerance, and ease of use. Phoenix, on the other hand, is a web framework for Elixir that is similar to Ruby on Rails. It was created in 2014 by Chris McCord, and it has gained a lot of popularity in recent years.</p>
+<p>If you're interested in learning more about Elixir and Phoenix, you might want to check out Elixir Streams. It's a new website that provides tips, tricks, and courses on Elixir and Phoenix.</p>
+<p>The website is divided into several sections. The first section is called &quot;Tips and Tricks,&quot; and it provides short articles on various topics related to Elixir and Phoenix. For example, you can learn how to use Ecto, a database wrapper for Elixir, or how to use Phoenix LiveView, a real-time web framework.</p>
+<p>The second section is called &quot;Courses,&quot; and it provides in-depth courses on Elixir and Phoenix. The courses are created by experienced developers, and they cover a wide range of topics. For example, you can learn how to build a real-time chat application with Phoenix LiveView, or how to use GenServer, a behaviour in Elixir that allows you to create processes.</p>
+<p>The third section is called &quot;Community,&quot; and it provides a forum where you can ask questions and share your knowledge with other developers. The forum is moderated by experienced developers, so you can be sure that you'll get high-quality answers to your questions.</p>
+<p>Overall, Elixir Streams is a great resource for developers who want to learn more about Elixir and Phoenix. The website is well-designed, easy to navigate, and provides a lot of valuable information. If you're interested in functional programming or web development, you should definitely check it out.</p>
+<p>Here's an example of how to use Ecto to query a database in Elixir:</p>
+<pre><code class="language-elixir">defmodule MyApp.Repo do
   use Ecto.Repo,
     otp_app: :my_app,
     adapter: Ecto.Adapters.Postgres
 
   def get_users_by_name(name) do
     from(u in User, where: u.name == ^name)
-    |&amp;gt; Repo.all()
+    |&gt; Repo.all()
   end
 end
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In this example, we define a module called &lt;code&gt;MyApp.Repo&lt;/code&gt; that uses Ecto to query a database. We define a function called &lt;code&gt;get_users_by_name&lt;/code&gt; that takes a name as an argument and returns a list of users with that name. We use the &lt;code&gt;from&lt;/code&gt; macro to construct a query, and we use the &lt;code&gt;where&lt;/code&gt; macro to filter the results. Finally, we use the &lt;code&gt;Repo.all&lt;/code&gt; function to execute the query and return the results.&lt;/p&gt;
-&lt;p&gt;In conclusion, Elixir Streams is a valuable resource for developers who want to learn more about Elixir and Phoenix. Whether you&amp;apos;re a beginner or an experienced developer, you&amp;apos;ll find a lot of useful information on the website. So why not give it a try and see what you can learn?&lt;/p&gt;
+
+</code></pre>
+<p>In this example, we define a module called <code>MyApp.Repo</code> that uses Ecto to query a database. We define a function called <code>get_users_by_name</code> that takes a name as an argument and returns a list of users with that name. We use the <code>from</code> macro to construct a query, and we use the <code>where</code> macro to filter the results. Finally, we use the <code>Repo.all</code> function to execute the query and return the results.</p>
+<p>In conclusion, Elixir Streams is a valuable resource for developers who want to learn more about Elixir and Phoenix. Whether you're a beginner or an experienced developer, you'll find a lot of useful information on the website. So why not give it a try and see what you can learn?</p>
 	</div>
 </article>
 

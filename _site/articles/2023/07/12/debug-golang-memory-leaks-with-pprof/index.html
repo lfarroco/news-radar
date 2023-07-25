@@ -46,37 +46,38 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://www.codereliant.io/memory-leaks-with-pprof/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Managing memory effectively is important for the performance of any application. While Golang&amp;apos;s garbage collector typically does an excellent job of managing memory, memory leaks can still occur. A memory leak arises when an application doesn&amp;apos;t release memory back to the operating system, even if it&amp;apos;s no longer in use. In large applications, these leaks can lead to Out of Memory (OOM) errors and can impact application availability.&lt;/p&gt;
-&lt;p&gt;In Golang, memory leaks often happen due to infinite loops, improper use of goroutines, or not releasing references to memory once they&amp;apos;re no longer needed. In this post, we&amp;apos;ll discuss how pprof can be used for memory profiling and fixing leaks in Go.&lt;/p&gt;
-&lt;h2&gt;Analyze the Signals&lt;/h2&gt;
-&lt;p&gt;High memory usage might indicate a memory leak, but you need to confirm this first, since Linux uses an aggressive page caching mechanism which can lead to high reported memory usage (and it can be especially alarming in containerized environments where you have a fairly low resource ceiling). Here are some key signals that can help you understand if you have a problem:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;RSS (Resident Set Size)&lt;/strong&gt;: The amount of memory that the operating system has allocated to the process.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;HeapAlloc&lt;/strong&gt;: The amount of memory allocated by the Go runtime.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;HeapInuse&lt;/strong&gt;: The amount of memory in use by the application&amp;apos;s live objects.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;HeapReleased&lt;/strong&gt;: The amount of memory released back to the operating system.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;By keeping an eye on these metrics and using the relevant commands, you can confirm whether your application is suffering from a memory leak or not.&lt;/p&gt;
-&lt;h2&gt;Enable Profiling&lt;/h2&gt;
-&lt;p&gt;If you have confirmed that you actually have a leak, the first debugging tool to reach for should be pprof, a built-in Go library for profiling Go programs.&lt;/p&gt;
-&lt;p&gt;The &lt;code&gt;net/http/pprof&lt;/code&gt; package allows you to serve runtime profiling data in HTTP format. To use pprof, you need to import &lt;code&gt;_ &amp;quot;net/http/pprof&amp;quot;&lt;/code&gt; in your main package, and start an HTTP server with &lt;code&gt;http.ListenAndServe&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;You can then use &lt;code&gt;go tool pprof&lt;/code&gt; to interactively explore the data.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s a command to start a pprof session:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;go tool pprof http://localhost:8080/debug/pprof/heap
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The pprof tool provides various commands to help analyze the profile:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;top&lt;/strong&gt;: Displays the top memory consumers.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;list&lt;/strong&gt;: Shows the source code around a specific function.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;web&lt;/strong&gt;: Opens a web-based visualization of the profile.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;Let&amp;apos;s Try It!&lt;/h2&gt;
-&lt;p&gt;Consider the following Go HTTP server:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;package main
+		<p>Managing memory effectively is important for the performance of any application. While Golang's garbage collector typically does an excellent job of managing memory, memory leaks can still occur. A memory leak arises when an application doesn't release memory back to the operating system, even if it's no longer in use. In large applications, these leaks can lead to Out of Memory (OOM) errors and can impact application availability.</p>
+<p>In Golang, memory leaks often happen due to infinite loops, improper use of goroutines, or not releasing references to memory once they're no longer needed. In this post, we'll discuss how pprof can be used for memory profiling and fixing leaks in Go.</p>
+<h2>Analyze the Signals</h2>
+<p>High memory usage might indicate a memory leak, but you need to confirm this first, since Linux uses an aggressive page caching mechanism which can lead to high reported memory usage (and it can be especially alarming in containerized environments where you have a fairly low resource ceiling). Here are some key signals that can help you understand if you have a problem:</p>
+<ul>
+<li><strong>RSS (Resident Set Size)</strong>: The amount of memory that the operating system has allocated to the process.</li>
+<li><strong>HeapAlloc</strong>: The amount of memory allocated by the Go runtime.</li>
+<li><strong>HeapInuse</strong>: The amount of memory in use by the application's live objects.</li>
+<li><strong>HeapReleased</strong>: The amount of memory released back to the operating system.</li>
+</ul>
+<p>By keeping an eye on these metrics and using the relevant commands, you can confirm whether your application is suffering from a memory leak or not.</p>
+<h2>Enable Profiling</h2>
+<p>If you have confirmed that you actually have a leak, the first debugging tool to reach for should be pprof, a built-in Go library for profiling Go programs.</p>
+<p>The <code>net/http/pprof</code> package allows you to serve runtime profiling data in HTTP format. To use pprof, you need to import <code>_ &quot;net/http/pprof&quot;</code> in your main package, and start an HTTP server with <code>http.ListenAndServe</code>.</p>
+<p>You can then use <code>go tool pprof</code> to interactively explore the data.</p>
+<p>Here's a command to start a pprof session:</p>
+<pre><code class="language-shell">go tool pprof http://localhost:8080/debug/pprof/heap
+
+</code></pre>
+<p>The pprof tool provides various commands to help analyze the profile:</p>
+<ul>
+<li><strong>top</strong>: Displays the top memory consumers.</li>
+<li><strong>list</strong>: Shows the source code around a specific function.</li>
+<li><strong>web</strong>: Opens a web-based visualization of the profile.</li>
+</ul>
+<h2>Let's Try It!</h2>
+<p>Consider the following Go HTTP server:</p>
+<pre><code class="language-go">package main
 
 import (
-	&amp;quot;fmt&amp;quot;
-	&amp;quot;net/http&amp;quot;
+	&quot;fmt&quot;
+	&quot;net/http&quot;
 )
 
 type UserCache struct {
@@ -85,46 +86,52 @@ type UserCache struct {
 
 func (uc *UserCache) handleRequest(w http.ResponseWriter, r *http.Request) {
 	// Simulate memory leak by not removing old user data from the cache
-	userID := r.URL.Query().Get(&amp;quot;user_id&amp;quot;)
-	uc.data[userID] = &amp;quot;some data&amp;quot;
-	fmt.Fprint(w, &amp;quot;Data stored in cache&amp;quot;)
+	userID := r.URL.Query().Get(&quot;user_id&quot;)
+	uc.data[userID] = &quot;some data&quot;
+	fmt.Fprint(w, &quot;Data stored in cache&quot;)
 }
 
 func main() {
-	uc := &amp;amp;UserCache{
+	uc := &amp;UserCache{
 		data: make(map[string]string),
 	}
 
-	http.HandleFunc(&amp;quot;/leaky-endpoint&amp;quot;, uc.handleRequest)
-	http.ListenAndServe(&amp;quot;:8080&amp;quot;, nil)
+	http.HandleFunc(&quot;/leaky-endpoint&quot;, uc.handleRequest)
+	http.ListenAndServe(&quot;:8080&quot;, nil)
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In this example, the server stores data for each user in the &lt;code&gt;UserCache&lt;/code&gt;. On every request to &lt;code&gt;/leaky-endpoint&lt;/code&gt;, new user data is created and added to the cache. However, there&amp;apos;s no code to remove old user data from the cache.&lt;/p&gt;
-&lt;p&gt;You can simulate the leak by bombarding the server with a large number of requests using a tool like curl or ab.&lt;/p&gt;
-&lt;p&gt;Once the requests are completed, you can generate a heap profile by executing the following command in another terminal:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;go tool pprof http://localhost:8080/debug/pprof/heap
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;As we can see, &lt;code&gt;handleRequest&lt;/code&gt; is where the most allocations happen. It can also be confirmed by visual representation by doing:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;go tool pprof -http=:8081 http://localhost:8080/debug/pprof/heap
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Let&amp;apos;s look at &lt;code&gt;handleRequest&lt;/code&gt; more closely to identify where the leak comes from.&lt;/p&gt;
-&lt;p&gt;We were able to identify the exact line where the allocations happen, so now we can fix it by, for example, introducing a cache eviction policy.&lt;/p&gt;
-&lt;h2&gt;Bonus: More Pprof Goodies&lt;/h2&gt;
-&lt;p&gt;In addition to the techniques discussed earlier, pprof provides additional features and functionalities that can further enhance your profiling experience. Let&amp;apos;s explore a few of these:&lt;/p&gt;
-&lt;h3&gt;Profiling CPU Usage&lt;/h3&gt;
-&lt;p&gt;You can profile your application&amp;apos;s CPU usage using the goroutine and threadcreate profiles. To generate a CPU profile, execute the following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;go tool pprof http://localhost:8080/debug/pprof/profile
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Profiling Goroutines&lt;/h3&gt;
-&lt;p&gt;You can profile the goroutines in your application using the goroutine profile. To generate a goroutine profile, execute the following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;go tool pprof http://localhost:8080/debug/pprof/goroutine
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Profiling Mutex Contention&lt;/h3&gt;
-&lt;p&gt;You can profile the mutex contention in your application using the mutex profile. To generate a mutex profile, execute the following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;go tool pprof http://localhost:8080/debug/pprof/mutex
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;These additional profiling features can help you gain deeper insights into the performance of your Go applications and identify any bottlenecks or issues that may be affecting their performance.&lt;/p&gt;
-&lt;p&gt;In conclusion, pprof is a powerful tool for debugging and profiling memory leaks in Golang applications. By utilizing its features and functionalities, developers can effectively manage memory and optimize the performance of their applications.&lt;/p&gt;
+
+</code></pre>
+<p>In this example, the server stores data for each user in the <code>UserCache</code>. On every request to <code>/leaky-endpoint</code>, new user data is created and added to the cache. However, there's no code to remove old user data from the cache.</p>
+<p>You can simulate the leak by bombarding the server with a large number of requests using a tool like curl or ab.</p>
+<p>Once the requests are completed, you can generate a heap profile by executing the following command in another terminal:</p>
+<pre><code class="language-shell">go tool pprof http://localhost:8080/debug/pprof/heap
+
+</code></pre>
+<p>As we can see, <code>handleRequest</code> is where the most allocations happen. It can also be confirmed by visual representation by doing:</p>
+<pre><code class="language-shell">go tool pprof -http=:8081 http://localhost:8080/debug/pprof/heap
+
+</code></pre>
+<p>Let's look at <code>handleRequest</code> more closely to identify where the leak comes from.</p>
+<p>We were able to identify the exact line where the allocations happen, so now we can fix it by, for example, introducing a cache eviction policy.</p>
+<h2>Bonus: More Pprof Goodies</h2>
+<p>In addition to the techniques discussed earlier, pprof provides additional features and functionalities that can further enhance your profiling experience. Let's explore a few of these:</p>
+<h3>Profiling CPU Usage</h3>
+<p>You can profile your application's CPU usage using the goroutine and threadcreate profiles. To generate a CPU profile, execute the following command:</p>
+<pre><code class="language-shell">go tool pprof http://localhost:8080/debug/pprof/profile
+
+</code></pre>
+<h3>Profiling Goroutines</h3>
+<p>You can profile the goroutines in your application using the goroutine profile. To generate a goroutine profile, execute the following command:</p>
+<pre><code class="language-shell">go tool pprof http://localhost:8080/debug/pprof/goroutine
+
+</code></pre>
+<h3>Profiling Mutex Contention</h3>
+<p>You can profile the mutex contention in your application using the mutex profile. To generate a mutex profile, execute the following command:</p>
+<pre><code class="language-shell">go tool pprof http://localhost:8080/debug/pprof/mutex
+
+</code></pre>
+<p>These additional profiling features can help you gain deeper insights into the performance of your Go applications and identify any bottlenecks or issues that may be affecting their performance.</p>
+<p>In conclusion, pprof is a powerful tool for debugging and profiling memory leaks in Golang applications. By utilizing its features and functionalities, developers can effectively manage memory and optimize the performance of their applications.</p>
 	</div>
 </article>
 

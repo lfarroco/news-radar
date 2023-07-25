@@ -46,16 +46,18 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/rogerkeays/fluent" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Fluent is a library that brings static extension methods to Java, allowing developers to call static Java methods as if they were object methods. This eliminates the need for verbose syntax and improves code readability.&lt;/p&gt;
-&lt;p&gt;Instead of writing:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;StringUtils.isEmpty(str)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;With Fluent, developers can write:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;str.isEmpty()
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Fluent achieves this by transforming the abstract syntax tree during compilation. If a method cannot be resolved using Java&amp;apos;s normal rules, Fluent will rewrite it to look for a static method taking the object as its first parameter. Any static methods that are in scope can be used, whether they are written or imported.&lt;/p&gt;
-&lt;p&gt;To import static methods from another class, developers need to use the &lt;code&gt;import static&lt;/code&gt; syntax for them to be resolved. No annotations are required.&lt;/p&gt;
-&lt;p&gt;With Fluent, developers can write more concise and expressive code, improving their productivity and making their codebase more maintainable.&lt;/p&gt;
+		<p>Fluent is a library that brings static extension methods to Java, allowing developers to call static Java methods as if they were object methods. This eliminates the need for verbose syntax and improves code readability.</p>
+<p>Instead of writing:</p>
+<pre><code>StringUtils.isEmpty(str)
+
+</code></pre>
+<p>With Fluent, developers can write:</p>
+<pre><code>str.isEmpty()
+
+</code></pre>
+<p>Fluent achieves this by transforming the abstract syntax tree during compilation. If a method cannot be resolved using Java's normal rules, Fluent will rewrite it to look for a static method taking the object as its first parameter. Any static methods that are in scope can be used, whether they are written or imported.</p>
+<p>To import static methods from another class, developers need to use the <code>import static</code> syntax for them to be resolved. No annotations are required.</p>
+<p>With Fluent, developers can write more concise and expressive code, improving their productivity and making their codebase more maintainable.</p>
 	</div>
 </article>
 

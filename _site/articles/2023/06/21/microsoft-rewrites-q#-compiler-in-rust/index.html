@@ -46,11 +46,11 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/microsoft/qsharp" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Microsoft has rewritten the Q# compiler in Rust, a systems programming language that is known for its speed, safety, and concurrency. Q# is a domain-specific language used for quantum programming, and it is used in Microsoft&amp;apos;s Quantum Development Kit. The Q# compiler is responsible for translating Q# code into executable quantum operations that can run on a quantum computer.&lt;/p&gt;
-&lt;p&gt;The decision to rewrite the Q# compiler in Rust was driven by the need for a faster and more efficient compiler. Rust&amp;apos;s performance and safety features make it an ideal choice for this task. The new compiler is expected to be faster, more reliable, and easier to maintain than the previous version.&lt;/p&gt;
-&lt;p&gt;Developers who are interested in quantum programming can use the Quantum Development Kit to write Q# code and run it on a simulator or a quantum computer. The kit includes a library of quantum algorithms and tools for debugging and testing quantum programs.&lt;/p&gt;
-&lt;p&gt;Here is an example of a simple Q# program that creates a quantum circuit and measures its output:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-qsharp&quot;&gt;open Microsoft.Quantum.Primitive;
+		<p>Microsoft has rewritten the Q# compiler in Rust, a systems programming language that is known for its speed, safety, and concurrency. Q# is a domain-specific language used for quantum programming, and it is used in Microsoft's Quantum Development Kit. The Q# compiler is responsible for translating Q# code into executable quantum operations that can run on a quantum computer.</p>
+<p>The decision to rewrite the Q# compiler in Rust was driven by the need for a faster and more efficient compiler. Rust's performance and safety features make it an ideal choice for this task. The new compiler is expected to be faster, more reliable, and easier to maintain than the previous version.</p>
+<p>Developers who are interested in quantum programming can use the Quantum Development Kit to write Q# code and run it on a simulator or a quantum computer. The kit includes a library of quantum algorithms and tools for debugging and testing quantum programs.</p>
+<p>Here is an example of a simple Q# program that creates a quantum circuit and measures its output:</p>
+<pre><code class="language-qsharp">open Microsoft.Quantum.Primitive;
 
 operation SimpleQuantumProgram() : Result {
     using (q = Qubit()) {
@@ -58,9 +58,10 @@ operation SimpleQuantumProgram() : Result {
         return M(q);
     }
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The &lt;code&gt;SimpleQuantumProgram&lt;/code&gt; operation creates a qubit, applies a Hadamard gate to it, and measures its output. The &lt;code&gt;using&lt;/code&gt; statement ensures that the qubit is properly disposed of after the program finishes running.&lt;/p&gt;
-&lt;p&gt;With the Q# compiler now written in Rust, developers can expect faster and more efficient compilation of their quantum programs. This is just one example of how Rust is being used in the development of cutting-edge technologies.&lt;/p&gt;
+
+</code></pre>
+<p>The <code>SimpleQuantumProgram</code> operation creates a qubit, applies a Hadamard gate to it, and measures its output. The <code>using</code> statement ensures that the qubit is properly disposed of after the program finishes running.</p>
+<p>With the Q# compiler now written in Rust, developers can expect faster and more efficient compilation of their quantum programs. This is just one example of how Rust is being used in the development of cutting-edge technologies.</p>
 	</div>
 </article>
 

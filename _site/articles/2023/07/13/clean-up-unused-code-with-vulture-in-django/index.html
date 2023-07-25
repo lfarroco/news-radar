@@ -46,18 +46,18 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://adamj.eu/tech/2023/07/12/django-clean-up-unused-code-vulture/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;As projects evolve, old functionality gets removed, often leaving behind unused functions, classes, and other code objects. These unused code objects clutter the codebase and hinder comprehension, making it harder to improve code quality. They can also lead to errors if later used unintentionally. To address this issue, developers can use unused code detectors like Vulture.&lt;/p&gt;
-&lt;p&gt;Vulture is a popular unused code detector for Python. It analyzes the Abstract Syntax Trees (ASTs) of Python files and identifies unused class, function, and module-level object names. It reports these unused names along with an approximate confidence level. However, it&amp;apos;s important to note that Vulture may sometimes report false positives, especially when used with frameworks like Django that often call code implicitly.&lt;/p&gt;
-&lt;p&gt;To make Vulture more effective with Django projects, developers can configure it to ignore certain files, object names, and functions using the exclude, ignore_decorators, and ignore_names settings. These configurations can be added to the pyproject.toml file.&lt;/p&gt;
-&lt;p&gt;To run Vulture with the Django-oriented configuration, developers need to follow these steps:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Install Vulture.&lt;/li&gt;
-&lt;li&gt;Add the configuration to the pyproject.toml file.&lt;/li&gt;
-&lt;li&gt;Adjust the paths to include the list of the project&amp;apos;s top-level modules.&lt;/li&gt;
-&lt;li&gt;Run Vulture.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;The output of Vulture includes the names of unused code objects along with the line numbers where they are defined. Developers can investigate these objects and decide whether to delete them. Before removing any code, it is recommended to grep for usage, especially in templates that Vulture doesn&amp;apos;t check, and to check the Git log for when the last usage was removed or why an object exists in the first place.&lt;/p&gt;
-&lt;p&gt;By using Vulture, developers can effectively clean up unused code in their Django projects, improving codebase quality and reducing potential errors.&lt;/p&gt;
+		<p>As projects evolve, old functionality gets removed, often leaving behind unused functions, classes, and other code objects. These unused code objects clutter the codebase and hinder comprehension, making it harder to improve code quality. They can also lead to errors if later used unintentionally. To address this issue, developers can use unused code detectors like Vulture.</p>
+<p>Vulture is a popular unused code detector for Python. It analyzes the Abstract Syntax Trees (ASTs) of Python files and identifies unused class, function, and module-level object names. It reports these unused names along with an approximate confidence level. However, it's important to note that Vulture may sometimes report false positives, especially when used with frameworks like Django that often call code implicitly.</p>
+<p>To make Vulture more effective with Django projects, developers can configure it to ignore certain files, object names, and functions using the exclude, ignore_decorators, and ignore_names settings. These configurations can be added to the pyproject.toml file.</p>
+<p>To run Vulture with the Django-oriented configuration, developers need to follow these steps:</p>
+<ol>
+<li>Install Vulture.</li>
+<li>Add the configuration to the pyproject.toml file.</li>
+<li>Adjust the paths to include the list of the project's top-level modules.</li>
+<li>Run Vulture.</li>
+</ol>
+<p>The output of Vulture includes the names of unused code objects along with the line numbers where they are defined. Developers can investigate these objects and decide whether to delete them. Before removing any code, it is recommended to grep for usage, especially in templates that Vulture doesn't check, and to check the Git log for when the last usage was removed or why an object exists in the first place.</p>
+<p>By using Vulture, developers can effectively clean up unused code in their Django projects, improving codebase quality and reducing potential errors.</p>
 	</div>
 </article>
 

@@ -46,22 +46,15 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://deltener.com/blog/stop-render-blocking-css-in-nuxt/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;When it comes to page performance and web vitals, small tweaks can make a big difference. One example is Largest Contentful Paint (LCP) and its relationship with Cascading Style Sheets (CSS). When you visit a site, the server should send back a full page of HTML for your browser to start rendering. However, if that HTML contains references to CSS files, the browser can&amp;apos;t start rendering the page until that CSS is fully downloaded and parsed. This can cause delays in page load times and affect the user experience.&lt;/p&gt;
-&lt;p&gt;Nuxt 3, the latest version of the popular Vue.js framework, offers a solution to this problem with its Render-Blocking CSS feature. By default, Nuxt 3 injects global CSS into a file called entry.css (with a hash), and links to it from the server response. However, this can cause delays in page rendering as the browser must download the CSS file before it can start rendering the page.&lt;/p&gt;
-&lt;p&gt;To address this issue, Nuxt 3&amp;apos;s Render-Blocking CSS solution allows developers to split their CSS into critical and non-critical parts. Critical CSS is inlined into the HTML, while non-critical CSS is loaded asynchronously. This allows the browser to start rendering the page with the critical CSS, while the non-critical CSS is downloaded and parsed in the background.&lt;/p&gt;
-&lt;p&gt;To use Render-Blocking CSS in Nuxt 3, developers can use the &lt;client-only&gt; component to load non-critical CSS asynchronously. Here&amp;apos;s an example:&lt;/client-only&gt;&lt;/p&gt;
-&lt;template&gt;
-  &lt;div&gt;
-    &lt;h1&gt;Hello World!&lt;/h1&gt;
-    &lt;client-only&gt;
-      &lt;link rel=&quot;stylesheet&quot; href=&quot;/non-critical.css&quot;&gt;
-    &lt;/client-only&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
-&lt;p&gt;In this example, the non-critical CSS is loaded asynchronously using the &lt;client-only&gt; component. This allows the browser to start rendering the page with the critical CSS, while the non-critical CSS is downloaded and parsed in the background.&lt;/client-only&gt;&lt;/p&gt;
-&lt;p&gt;By using Nuxt 3&amp;apos;s Render-Blocking CSS solution, developers can improve page performance and user experience by reducing page load times. This is especially important for websites with large CSS files, such as those that use UI frameworks like Tailwind.&lt;/p&gt;
-&lt;p&gt;In addition to Render-Blocking CSS, Nuxt 3 offers a range of other performance optimizations, including automatic image optimization, code splitting, and lazy loading. These features make it easier for developers to create fast and responsive websites that meet the latest web performance standards.&lt;/p&gt;
-&lt;p&gt;In conclusion, Nuxt 3&amp;apos;s Render-Blocking CSS solution is a powerful tool for improving page performance and user experience. By splitting CSS into critical and non-critical parts, developers can reduce page load times and ensure that their websites meet the latest web performance standards.&lt;/p&gt;
+		<p>When it comes to page performance and web vitals, small tweaks can make a big difference. One example is Largest Contentful Paint (LCP) and its relationship with Cascading Style Sheets (CSS). When you visit a site, the server should send back a full page of HTML for your browser to start rendering. However, if that HTML contains references to CSS files, the browser can't start rendering the page until that CSS is fully downloaded and parsed. This can cause delays in page load times and affect the user experience.</p>
+<p>Nuxt 3, the latest version of the popular Vue.js framework, offers a solution to this problem with its Render-Blocking CSS feature. By default, Nuxt 3 injects global CSS into a file called entry.css (with a hash), and links to it from the server response. However, this can cause delays in page rendering as the browser must download the CSS file before it can start rendering the page.</p>
+<p>To address this issue, Nuxt 3's Render-Blocking CSS solution allows developers to split their CSS into critical and non-critical parts. Critical CSS is inlined into the HTML, while non-critical CSS is loaded asynchronously. This allows the browser to start rendering the page with the critical CSS, while the non-critical CSS is downloaded and parsed in the background.</p>
+<p>To use Render-Blocking CSS in Nuxt 3, developers can use the  component to load non-critical CSS asynchronously. Here's an example:</p>
+<h1>Hello World!</h1>
+<p>In this example, the non-critical CSS is loaded asynchronously using the  component. This allows the browser to start rendering the page with the critical CSS, while the non-critical CSS is downloaded and parsed in the background.</p>
+<p>By using Nuxt 3's Render-Blocking CSS solution, developers can improve page performance and user experience by reducing page load times. This is especially important for websites with large CSS files, such as those that use UI frameworks like Tailwind.</p>
+<p>In addition to Render-Blocking CSS, Nuxt 3 offers a range of other performance optimizations, including automatic image optimization, code splitting, and lazy loading. These features make it easier for developers to create fast and responsive websites that meet the latest web performance standards.</p>
+<p>In conclusion, Nuxt 3's Render-Blocking CSS solution is a powerful tool for improving page performance and user experience. By splitting CSS into critical and non-critical parts, developers can reduce page load times and ensure that their websites meet the latest web performance standards.</p>
 	</div>
 </article>
 

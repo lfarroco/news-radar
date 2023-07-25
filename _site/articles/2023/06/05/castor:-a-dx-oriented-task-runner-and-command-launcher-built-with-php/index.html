@@ -46,21 +46,22 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/jolicode/castor" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Castor is a task runner and command launcher built with PHP by JoliCode. It is designed to simplify development workflows by automating repetitive tasks and providing a simple interface for executing commands.&lt;/p&gt;
-&lt;p&gt;One of the key features of Castor is its focus on developer experience (DX). It provides a simple and intuitive API for defining tasks, making it easy to create custom workflows tailored to specific projects. Castor also includes a number of built-in tasks for common tasks like running tests, building assets, and deploying code.&lt;/p&gt;
-&lt;p&gt;Castor is built on top of Symfony Console, a popular PHP package for building CLI applications. This makes it easy to integrate with existing Symfony projects, or to use Castor as a standalone tool.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example of a simple Castor task:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;use Castor&#92;Task;
+		<p>Castor is a task runner and command launcher built with PHP by JoliCode. It is designed to simplify development workflows by automating repetitive tasks and providing a simple interface for executing commands.</p>
+<p>One of the key features of Castor is its focus on developer experience (DX). It provides a simple and intuitive API for defining tasks, making it easy to create custom workflows tailored to specific projects. Castor also includes a number of built-in tasks for common tasks like running tests, building assets, and deploying code.</p>
+<p>Castor is built on top of Symfony Console, a popular PHP package for building CLI applications. This makes it easy to integrate with existing Symfony projects, or to use Castor as a standalone tool.</p>
+<p>Here's an example of a simple Castor task:</p>
+<pre><code class="language-php">use Castor\Task;
 
-Task::create(&amp;apos;greet&amp;apos;)
-    -&amp;gt;description(&amp;apos;Say hello&amp;apos;)
-    -&amp;gt;run(function () {
-        $name = $this-&amp;gt;ask(&amp;apos;What is your name?&amp;apos;);
-        $this-&amp;gt;writeln(&amp;quot;Hello, $name!&amp;quot;);
+Task::create('greet')
+    -&gt;description('Say hello')
+    -&gt;run(function () {
+        $name = $this-&gt;ask('What is your name?');
+        $this-&gt;writeln(&quot;Hello, $name!&quot;);
     });
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This task prompts the user for their name and then prints a greeting. Castor tasks can also be chained together to create more complex workflows.&lt;/p&gt;
-&lt;p&gt;Overall, Castor is a powerful tool for simplifying development workflows and improving developer experience. Its focus on DX and its integration with Symfony make it a great choice for PHP developers looking to streamline their workflows.&lt;/p&gt;
+
+</code></pre>
+<p>This task prompts the user for their name and then prints a greeting. Castor tasks can also be chained together to create more complex workflows.</p>
+<p>Overall, Castor is a powerful tool for simplifying development workflows and improving developer experience. Its focus on DX and its integration with Symfony make it a great choice for PHP developers looking to streamline their workflows.</p>
 	</div>
 </article>
 

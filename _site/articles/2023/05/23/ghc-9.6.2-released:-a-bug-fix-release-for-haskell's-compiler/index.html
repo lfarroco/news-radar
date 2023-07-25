@@ -46,22 +46,20 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://discourse.haskell.org/t/ghc-9-6-2-is-now-available/6308" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;The GHC developers have announced the release of GHC 9.6.2, which is now available for download at downloads.haskell.org. This release is primarily a bug-fix release that addresses several issues found in the previous version.&lt;/p&gt;
-&lt;p&gt;Bug Fixes
-The issues addressed in this release include simplifier and specialisation issues (#22761, #22549), a bug resulting in crashes of programs using the new listThreads# primop (#23071), and a compiler crash triggered by certain uses of quantified constraints (#23171). Various bugs in the Javascript backend have also been fixed (#23399, #23360, #23346).&lt;/p&gt;
-&lt;p&gt;In addition, a missing write barrier in the non-moving collector&amp;apos;s handling of selector thunks resulted in undefined behavior (#22930). The non-moving garbage collector&amp;apos;s treatment of weak pointers has been revamped, which should allow more reliable finalization of Weak# closures (#22327). The non-moving garbage collector now bounds the amount of marking it will do during the post-marking stop-the-world phase, greatly reducing tail latencies in some programs (#22929).&lt;/p&gt;
-&lt;p&gt;Upgrade Promptly
-As some of the fixed issues do affect correctness, users are encouraged to upgrade promptly. The full list of changes can be found in the release notes.&lt;/p&gt;
-&lt;p&gt;Acknowledgments
-The GHC developers would like to thank Microsoft Azure, GitHub, IOG, the Zw3rk stake pool, Well-Typed, Tweag I/O, Serokell, Equinix, SimSpace, Haskell Foundation, and other anonymous contributors for their contributions to this release.&lt;/p&gt;
-&lt;p&gt;Haskell is a popular functional programming language used in a variety of industries, including finance, healthcare, and education. It is known for its strong type system, lazy evaluation, and elegant syntax. GHC (Glasgow Haskell Compiler) is the primary compiler for Haskell, and it is widely used in the community.&lt;/p&gt;
-&lt;p&gt;For developers who use Haskell, this bug-fix release is an important update that addresses several issues found in the previous version. The revamped treatment of weak pointers and the reduction of tail latencies in some programs are particularly noteworthy improvements. Developers are encouraged to upgrade promptly to take advantage of these fixes.&lt;/p&gt;
-&lt;p&gt;Here is an example of a code snippet in Haskell that demonstrates the use of a list comprehension:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-haskell&quot;&gt;-- This function takes a list of numbers and returns a list of their squares
-squares :: [Int] -&amp;gt; [Int]
-squares xs = [x * x | x &amp;lt;- xs]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In conclusion, the release of GHC 9.6.2 is an important update for Haskell developers that addresses several issues found in the previous version. The revamped treatment of weak pointers and the reduction of tail latencies in some programs are particularly noteworthy improvements. Developers are encouraged to upgrade promptly to take advantage of these fixes.&lt;/p&gt;
+		<p>The GHC developers have announced the release of GHC 9.6.2, which is now available for download at downloads.haskell.org. This release is primarily a bug-fix release that addresses several issues found in the previous version.</p>
+<p>Bug Fixes The issues addressed in this release include simplifier and specialisation issues (#22761, #22549), a bug resulting in crashes of programs using the new listThreads# primop (#23071), and a compiler crash triggered by certain uses of quantified constraints (#23171). Various bugs in the Javascript backend have also been fixed (#23399, #23360, #23346).</p>
+<p>In addition, a missing write barrier in the non-moving collector's handling of selector thunks resulted in undefined behavior (#22930). The non-moving garbage collector's treatment of weak pointers has been revamped, which should allow more reliable finalization of Weak# closures (#22327). The non-moving garbage collector now bounds the amount of marking it will do during the post-marking stop-the-world phase, greatly reducing tail latencies in some programs (#22929).</p>
+<p>Upgrade Promptly As some of the fixed issues do affect correctness, users are encouraged to upgrade promptly. The full list of changes can be found in the release notes.</p>
+<p>Acknowledgments The GHC developers would like to thank Microsoft Azure, GitHub, IOG, the Zw3rk stake pool, Well-Typed, Tweag I/O, Serokell, Equinix, SimSpace, Haskell Foundation, and other anonymous contributors for their contributions to this release.</p>
+<p>Haskell is a popular functional programming language used in a variety of industries, including finance, healthcare, and education. It is known for its strong type system, lazy evaluation, and elegant syntax. GHC (Glasgow Haskell Compiler) is the primary compiler for Haskell, and it is widely used in the community.</p>
+<p>For developers who use Haskell, this bug-fix release is an important update that addresses several issues found in the previous version. The revamped treatment of weak pointers and the reduction of tail latencies in some programs are particularly noteworthy improvements. Developers are encouraged to upgrade promptly to take advantage of these fixes.</p>
+<p>Here is an example of a code snippet in Haskell that demonstrates the use of a list comprehension:</p>
+<pre><code class="language-haskell">-- This function takes a list of numbers and returns a list of their squares
+squares :: [Int] -&gt; [Int]
+squares xs = [x * x | x &lt;- xs]
+
+</code></pre>
+<p>In conclusion, the release of GHC 9.6.2 is an important update for Haskell developers that addresses several issues found in the previous version. The revamped treatment of weak pointers and the reduction of tail latencies in some programs are particularly noteworthy improvements. Developers are encouraged to upgrade promptly to take advantage of these fixes.</p>
 	</div>
 </article>
 

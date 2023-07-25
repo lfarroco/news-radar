@@ -46,34 +46,35 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://nathanfries.com/posts/rabbitmq-playground/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;If you are looking to get started with RabbitMQ, this article provides a simple playground and example code for getting up and running with RabbitMQ in Docker using amqplib and Docker Compose. RabbitMQ is a lightweight, flexible, and open-source message broker that requires very little configuration. It is commonly used for implementing message queues and supporting services that rely on asynchronous communication.&lt;/p&gt;
-&lt;p&gt;The article starts with an introduction to RabbitMQ and its importance in event-driven architectures. It then explains the dependencies required for the project and provides a single command setup to start the environment using Docker Compose.&lt;/p&gt;
-&lt;p&gt;The article also covers the key components of RabbitMQ, such as exchanges and queues, and how they work together to enable message publishing and consumption. It includes code snippets and explanations to help developers understand the concepts.&lt;/p&gt;
-&lt;p&gt;If you are already familiar with RabbitMQ but want to dive deeper into its load balancing or exchanges, the article provides a Playground Overview section with additional information.&lt;/p&gt;
-&lt;p&gt;Overall, this article is a valuable resource for developers who want to explore RabbitMQ and its capabilities in a Docker environment. The provided code snippets and explanations make it easy to get started and understand the fundamentals of RabbitMQ.&lt;/p&gt;
-&lt;p&gt;Code Snippet:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;const amqp = require(&amp;apos;amqplib&amp;apos;);
+		<p>If you are looking to get started with RabbitMQ, this article provides a simple playground and example code for getting up and running with RabbitMQ in Docker using amqplib and Docker Compose. RabbitMQ is a lightweight, flexible, and open-source message broker that requires very little configuration. It is commonly used for implementing message queues and supporting services that rely on asynchronous communication.</p>
+<p>The article starts with an introduction to RabbitMQ and its importance in event-driven architectures. It then explains the dependencies required for the project and provides a single command setup to start the environment using Docker Compose.</p>
+<p>The article also covers the key components of RabbitMQ, such as exchanges and queues, and how they work together to enable message publishing and consumption. It includes code snippets and explanations to help developers understand the concepts.</p>
+<p>If you are already familiar with RabbitMQ but want to dive deeper into its load balancing or exchanges, the article provides a Playground Overview section with additional information.</p>
+<p>Overall, this article is a valuable resource for developers who want to explore RabbitMQ and its capabilities in a Docker environment. The provided code snippets and explanations make it easy to get started and understand the fundamentals of RabbitMQ.</p>
+<p>Code Snippet:</p>
+<pre><code class="language-javascript">const amqp = require('amqplib');
 
 async function sendMessage() {
-  const connection = await amqp.connect(&amp;apos;amqp://localhost&amp;apos;);
+  const connection = await amqp.connect('amqp://localhost');
   const channel = await connection.createChannel();
   
-  const exchange = &amp;apos;myExchange&amp;apos;;
-  const routingKey = &amp;apos;myKey&amp;apos;;
-  const message = &amp;apos;Hello, RabbitMQ!&amp;apos;;
+  const exchange = 'myExchange';
+  const routingKey = 'myKey';
+  const message = 'Hello, RabbitMQ!';
   
-  await channel.assertExchange(exchange, &amp;apos;direct&amp;apos;, { durable: true });
+  await channel.assertExchange(exchange, 'direct', { durable: true });
   await channel.publish(exchange, routingKey, Buffer.from(message));
   
-  console.log(&amp;apos;Message sent successfully!&amp;apos;);
+  console.log('Message sent successfully!');
   
   await channel.close();
   await connection.close();
 }
 
 sendMessage().catch(console.error);
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;For more information and the complete code, please refer to the original article.&lt;/p&gt;
+
+</code></pre>
+<p>For more information and the complete code, please refer to the original article.</p>
 	</div>
 </article>
 

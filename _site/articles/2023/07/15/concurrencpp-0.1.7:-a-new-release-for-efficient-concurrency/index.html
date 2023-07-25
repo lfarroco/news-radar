@@ -46,13 +46,13 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/David-Haim/concurrencpp/releases/tag/v.0.1.7" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;The latest version of Concurrencpp, version 0.1.7, has been released, bringing exciting new features and improvements to this efficient concurrency library.&lt;/p&gt;
-&lt;p&gt;Concurrencpp is a C++ library that aims to simplify the process of writing concurrent and parallel code. It provides developers with a set of high-level abstractions and utilities for managing threads, tasks, and asynchronous operations. With Concurrencpp, developers can easily harness the power of modern hardware and take advantage of multi-core processors to build highly performant and scalable applications.&lt;/p&gt;
-&lt;p&gt;One of the key highlights of this release is the introduction of a new feature called &amp;quot;Task Flow&amp;quot;. Task Flow allows developers to express complex workflows and dependencies between tasks in a concise and intuitive manner. This feature enables developers to write more expressive and maintainable concurrent code.&lt;/p&gt;
-&lt;p&gt;In addition to Task Flow, version 0.1.7 also includes various bug fixes and performance improvements. The development team has worked diligently to address reported issues and enhance the overall stability and reliability of the library.&lt;/p&gt;
-&lt;p&gt;To demonstrate the power and simplicity of Concurrencpp, here&amp;apos;s an example of how to use the library to perform a parallel computation:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;#include &amp;lt;concurrencpp/concurrencpp.h&amp;gt;
-#include &amp;lt;iostream&amp;gt;
+		<p>The latest version of Concurrencpp, version 0.1.7, has been released, bringing exciting new features and improvements to this efficient concurrency library.</p>
+<p>Concurrencpp is a C++ library that aims to simplify the process of writing concurrent and parallel code. It provides developers with a set of high-level abstractions and utilities for managing threads, tasks, and asynchronous operations. With Concurrencpp, developers can easily harness the power of modern hardware and take advantage of multi-core processors to build highly performant and scalable applications.</p>
+<p>One of the key highlights of this release is the introduction of a new feature called &quot;Task Flow&quot;. Task Flow allows developers to express complex workflows and dependencies between tasks in a concise and intuitive manner. This feature enables developers to write more expressive and maintainable concurrent code.</p>
+<p>In addition to Task Flow, version 0.1.7 also includes various bug fixes and performance improvements. The development team has worked diligently to address reported issues and enhance the overall stability and reliability of the library.</p>
+<p>To demonstrate the power and simplicity of Concurrencpp, here's an example of how to use the library to perform a parallel computation:</p>
+<pre><code class="language-cpp">#include &lt;concurrencpp/concurrencpp.h&gt;
+#include &lt;iostream&gt;
 
 int main() {
     concurrencpp::runtime runtime;
@@ -64,14 +64,15 @@ int main() {
 
     auto result = runtime.blocking_await(task);
 
-    std::cout &amp;lt;&amp;lt; &amp;quot;Result: &amp;quot; &amp;lt;&amp;lt; result.get() &amp;lt;&amp;lt; std::endl;
+    std::cout &lt;&lt; &quot;Result: &quot; &lt;&lt; result.get() &lt;&lt; std::endl;
 
     return 0;
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This example showcases how Concurrencpp allows developers to easily create and execute tasks in parallel using its intuitive API.&lt;/p&gt;
-&lt;p&gt;With each new release, Concurrencpp continues to evolve and improve, providing developers with a powerful tool for writing efficient and scalable concurrent code. To stay up to date with the latest news and updates on Concurrencpp, be sure to follow the official documentation and join the active community of developers.&lt;/p&gt;
-&lt;p&gt;So, if you&amp;apos;re looking for a reliable and efficient concurrency library for your C++ projects, give Concurrencpp a try and unlock the full potential of your multi-core processors.&lt;/p&gt;
+
+</code></pre>
+<p>This example showcases how Concurrencpp allows developers to easily create and execute tasks in parallel using its intuitive API.</p>
+<p>With each new release, Concurrencpp continues to evolve and improve, providing developers with a powerful tool for writing efficient and scalable concurrent code. To stay up to date with the latest news and updates on Concurrencpp, be sure to follow the official documentation and join the active community of developers.</p>
+<p>So, if you're looking for a reliable and efficient concurrency library for your C++ projects, give Concurrencpp a try and unlock the full potential of your multi-core processors.</p>
 	</div>
 </article>
 

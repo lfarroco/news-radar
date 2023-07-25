@@ -46,32 +46,33 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://bannalia.blogspot.com/2023/07/inside-boostconcurrentflatmap.html" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Boost::concurrent_flat_map, introduced in Boost 1.83, is a powerful associative container designed specifically for high-load parallel scenarios. This container leverages the work done for boost::unordered_flat_map but introduces innovative features in low-contention operation and API design.&lt;/p&gt;
-&lt;p&gt;In the world of C++ concurrent hashmaps, there are various competing techniques, ranging from traditional lock-based structures to specialized approaches like hazard pointers and Read-Copy-Update (RCU). Boost::concurrent_flat_map stands out as a general-purpose container, offering a reference interface that is flexible and efficient.&lt;/p&gt;
-&lt;p&gt;One notable design decision is the absence of iterators. Instead, boost::concurrent_flat_map provides an access API based on internal visitation. This approach eliminates the potential risks of unsafe or blocking iterators, reducing contention and the possibility of deadlocks.&lt;/p&gt;
-&lt;p&gt;Under the hood, boost::concurrent_flat_map adopts the open-addressing layout used by boost::unordered_flat_map. The bucket array is split into 2n groups, each with 15 slots and an associated 16-byte metadata word for SIMD-based reduced-hash matching and insertion overflow control. This layout ensures efficient and scalable performance.&lt;/p&gt;
-&lt;p&gt;To maintain thread safety, boost::concurrent_flat_map incorporates two levels of synchronization. The core algorithms are variations of those found in boost::unordered_flat_map, with minimal modifications to prevent data races and minimize group-level contention.&lt;/p&gt;
-&lt;p&gt;The lookup algorithm of boost::concurrent_flat_map is predominantly lock-free, with only a few steps executed within the scope of a group lock. SIMD matching plays a crucial role in identifying potential candidates, while double-checking for slot occupancy and element comparison are performed within the group lock.&lt;/p&gt;
-&lt;p&gt;Boost::concurrent_flat_map is a valuable addition to the Boost library, providing developers with a high-performance concurrent hashmap that meets the demands of parallel scenarios. Its efficient design and flexible API make it a go-to choice for developers working on parallel applications.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;#include &amp;lt;boost/concurrent_flat_map.hpp&amp;gt;
+		<p>Boost::concurrent_flat_map, introduced in Boost 1.83, is a powerful associative container designed specifically for high-load parallel scenarios. This container leverages the work done for boost::unordered_flat_map but introduces innovative features in low-contention operation and API design.</p>
+<p>In the world of C++ concurrent hashmaps, there are various competing techniques, ranging from traditional lock-based structures to specialized approaches like hazard pointers and Read-Copy-Update (RCU). Boost::concurrent_flat_map stands out as a general-purpose container, offering a reference interface that is flexible and efficient.</p>
+<p>One notable design decision is the absence of iterators. Instead, boost::concurrent_flat_map provides an access API based on internal visitation. This approach eliminates the potential risks of unsafe or blocking iterators, reducing contention and the possibility of deadlocks.</p>
+<p>Under the hood, boost::concurrent_flat_map adopts the open-addressing layout used by boost::unordered_flat_map. The bucket array is split into 2n groups, each with 15 slots and an associated 16-byte metadata word for SIMD-based reduced-hash matching and insertion overflow control. This layout ensures efficient and scalable performance.</p>
+<p>To maintain thread safety, boost::concurrent_flat_map incorporates two levels of synchronization. The core algorithms are variations of those found in boost::unordered_flat_map, with minimal modifications to prevent data races and minimize group-level contention.</p>
+<p>The lookup algorithm of boost::concurrent_flat_map is predominantly lock-free, with only a few steps executed within the scope of a group lock. SIMD matching plays a crucial role in identifying potential candidates, while double-checking for slot occupancy and element comparison are performed within the group lock.</p>
+<p>Boost::concurrent_flat_map is a valuable addition to the Boost library, providing developers with a high-performance concurrent hashmap that meets the demands of parallel scenarios. Its efficient design and flexible API make it a go-to choice for developers working on parallel applications.</p>
+<pre><code class="language-cpp">#include &lt;boost/concurrent_flat_map.hpp&gt;
 
 int main() {
-  boost::concurrent_flat_map&amp;lt;int, std::string&amp;gt; map;
+  boost::concurrent_flat_map&lt;int, std::string&gt; map;
 
   // Insert key-value pairs
-  map.emplace(1, &amp;quot;One&amp;quot;);
-  map.emplace(2, &amp;quot;Two&amp;quot;);
-  map.emplace(3, &amp;quot;Three&amp;quot;);
+  map.emplace(1, &quot;One&quot;);
+  map.emplace(2, &quot;Two&quot;);
+  map.emplace(3, &quot;Three&quot;);
 
   // Access values
-  std::cout &amp;lt;&amp;lt; map[1] &amp;lt;&amp;lt; std::endl;  // Output: &amp;quot;One&amp;quot;
-  std::cout &amp;lt;&amp;lt; map[2] &amp;lt;&amp;lt; std::endl;  // Output: &amp;quot;Two&amp;quot;
-  std::cout &amp;lt;&amp;lt; map[3] &amp;lt;&amp;lt; std::endl;  // Output: &amp;quot;Three&amp;quot;
+  std::cout &lt;&lt; map[1] &lt;&lt; std::endl;  // Output: &quot;One&quot;
+  std::cout &lt;&lt; map[2] &lt;&lt; std::endl;  // Output: &quot;Two&quot;
+  std::cout &lt;&lt; map[3] &lt;&lt; std::endl;  // Output: &quot;Three&quot;
 
   return 0;
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Boost::concurrent_flat_map empowers developers to handle parallel scenarios efficiently while maintaining thread safety. With its robust design and intuitive API, this container is a valuable tool for modern C++ developers. Stay tuned for more updates and news on Boost and other programming languages and frameworks in Dev Radar magazine.&lt;/p&gt;
+
+</code></pre>
+<p>Boost::concurrent_flat_map empowers developers to handle parallel scenarios efficiently while maintaining thread safety. With its robust design and intuitive API, this container is a valuable tool for modern C++ developers. Stay tuned for more updates and news on Boost and other programming languages and frameworks in Dev Radar magazine.</p>
 	</div>
 </article>
 

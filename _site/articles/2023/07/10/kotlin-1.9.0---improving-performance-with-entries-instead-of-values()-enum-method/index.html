@@ -46,16 +46,16 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://medium.com/teknasyon-engineering/kotlin-enums-replace-values-with-entries-bbc91caffb2a" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Kotlin enums provide a values() method that returns an array of all enum entries, but it has some issues that can affect performance. Firstly, the method allocates and clones an array on each invocation, which can lead to performance bugs. Secondly, it returns a mutable Array&lt;e&gt; by default, making it less flexible to work with compared to collections. Lastly, writing special extension functions for enums becomes challenging due to the return type of Array&lt;e&gt;.&lt;/e&gt;&lt;/e&gt;&lt;/p&gt;
-&lt;p&gt;To address these issues, Kotlin introduced the entries value in version 1.8.20 as an experimental feature. Now, with the release of Kotlin 1.9.0, entries is stable and offers several advantages.&lt;/p&gt;
-&lt;p&gt;Firstly, entries returns a pre-allocated list, ensuring consistent performance. Secondly, the returned list is immutable, making it easier to work with. Lastly, entries returns EnumEntries&lt;e&gt;, which extends List&lt;e&gt;, allowing developers to utilize all list interface functions and extensions. This also enables the creation of custom extensions for enums.&lt;/e&gt;&lt;/e&gt;&lt;/p&gt;
-&lt;p&gt;Developers can now leverage the entries method to improve performance and enhance their code when working with enums in Kotlin.&lt;/p&gt;
-&lt;p&gt;Useful resources:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Official Kotlin documentation on enums: &lt;a href=&quot;https://kotlinlang.org/docs/enum-classes.html&quot;&gt;link&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Kotlin 1.9.0 release notes: &lt;a href=&quot;https://blog.jetbrains.com/kotlin/2021/11/kotlin-1-9-0-released/&quot;&gt;link&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Written by ilyas ipek, Android developer at Teknasyon Engineering.&lt;/p&gt;
+		<p>Kotlin enums provide a values() method that returns an array of all enum entries, but it has some issues that can affect performance. Firstly, the method allocates and clones an array on each invocation, which can lead to performance bugs. Secondly, it returns a mutable Array by default, making it less flexible to work with compared to collections. Lastly, writing special extension functions for enums becomes challenging due to the return type of Array.</p>
+<p>To address these issues, Kotlin introduced the entries value in version 1.8.20 as an experimental feature. Now, with the release of Kotlin 1.9.0, entries is stable and offers several advantages.</p>
+<p>Firstly, entries returns a pre-allocated list, ensuring consistent performance. Secondly, the returned list is immutable, making it easier to work with. Lastly, entries returns EnumEntries, which extends List, allowing developers to utilize all list interface functions and extensions. This also enables the creation of custom extensions for enums.</p>
+<p>Developers can now leverage the entries method to improve performance and enhance their code when working with enums in Kotlin.</p>
+<p>Useful resources:</p>
+<ul>
+<li>Official Kotlin documentation on enums: <a href="https://kotlinlang.org/docs/enum-classes.html">link</a></li>
+<li>Kotlin 1.9.0 release notes: <a href="https://blog.jetbrains.com/kotlin/2021/11/kotlin-1-9-0-released/">link</a></li>
+</ul>
+<p>Written by ilyas ipek, Android developer at Teknasyon Engineering.</p>
 	</div>
 </article>
 

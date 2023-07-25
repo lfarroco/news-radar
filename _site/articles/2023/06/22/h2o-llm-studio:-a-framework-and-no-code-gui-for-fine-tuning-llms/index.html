@@ -46,23 +46,24 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/h2oai/h2o-llmstudio" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;H2O.ai has released H2O LLM Studio, a framework and no-code GUI for fine-tuning LLMs (Linear Learning Models). LLMs are a class of models that are widely used in machine learning for regression and classification tasks. H2O LLM Studio allows users to fine-tune these models without writing a single line of code.&lt;/p&gt;
-&lt;p&gt;The framework is built on top of H2O.ai&amp;apos;s open-source machine learning platform, H2O-3. It provides a user-friendly interface that allows users to upload their data, select the target variable, and choose the type of model they want to build. H2O LLM Studio then automatically builds the model and presents the user with a set of sliders that can be used to fine-tune the model&amp;apos;s parameters.&lt;/p&gt;
-&lt;p&gt;H2O LLM Studio is designed to be used by data scientists, machine learning engineers, and business analysts who want to build accurate models without having to write code. It is particularly useful for organizations that have limited resources and cannot afford to hire a team of data scientists.&lt;/p&gt;
-&lt;p&gt;H2O LLM Studio is available under the Apache-2.0 license and has already gained popularity among the machine learning community. It has over 1.8k stars on GitHub and has been forked 161 times.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example of how to use H2O LLM Studio to build a model:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;import h2o_llmstudio
+		<p>H2O.ai has released H2O LLM Studio, a framework and no-code GUI for fine-tuning LLMs (Linear Learning Models). LLMs are a class of models that are widely used in machine learning for regression and classification tasks. H2O LLM Studio allows users to fine-tune these models without writing a single line of code.</p>
+<p>The framework is built on top of H2O.ai's open-source machine learning platform, H2O-3. It provides a user-friendly interface that allows users to upload their data, select the target variable, and choose the type of model they want to build. H2O LLM Studio then automatically builds the model and presents the user with a set of sliders that can be used to fine-tune the model's parameters.</p>
+<p>H2O LLM Studio is designed to be used by data scientists, machine learning engineers, and business analysts who want to build accurate models without having to write code. It is particularly useful for organizations that have limited resources and cannot afford to hire a team of data scientists.</p>
+<p>H2O LLM Studio is available under the Apache-2.0 license and has already gained popularity among the machine learning community. It has over 1.8k stars on GitHub and has been forked 161 times.</p>
+<p>Here's an example of how to use H2O LLM Studio to build a model:</p>
+<pre><code class="language-python">import h2o_llmstudio
 import h2o
 
 h2o.init()
 
-data = h2o.import_file(&amp;quot;path/to/your/data.csv&amp;quot;)
+data = h2o.import_file(&quot;path/to/your/data.csv&quot;)
 
-model = h2o_llmstudio.build_model(data, target=&amp;quot;target_variable&amp;quot;, model_type=&amp;quot;regression&amp;quot;)
+model = h2o_llmstudio.build_model(data, target=&quot;target_variable&quot;, model_type=&quot;regression&quot;)
 
 h2o_llmstudio.show_gui(model)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;H2O LLM Studio is a powerful tool that can help organizations build accurate models quickly and easily. With its user-friendly interface and powerful features, it is sure to become a popular choice among data scientists and machine learning engineers.&lt;/p&gt;
+
+</code></pre>
+<p>H2O LLM Studio is a powerful tool that can help organizations build accurate models quickly and easily. With its user-friendly interface and powerful features, it is sure to become a popular choice among data scientists and machine learning engineers.</p>
 	</div>
 </article>
 

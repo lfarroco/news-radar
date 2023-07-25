@@ -46,29 +46,30 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/BloopAI/bloop" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Bloop is a fast code search engine written in Rust. It is designed to be used as a library, making it easy to integrate into existing projects. Rust&amp;apos;s performance and safety features make it an ideal language for building such a tool.&lt;/p&gt;
-&lt;p&gt;Bloop&amp;apos;s search functionality is based on the popular code search tool, &amp;quot;ack&amp;quot;. It uses regular expressions to search for patterns in files, and can search through multiple directories at once. Bloop also supports searching through compressed files, such as gzip and bzip2.&lt;/p&gt;
-&lt;p&gt;One of the main advantages of using Bloop is its speed. It is designed to be as fast as possible, and can search through large codebases in a matter of seconds. Bloop also supports parallel searching, which can further improve performance on multi-core systems.&lt;/p&gt;
-&lt;p&gt;Bloop is open source and licensed under the Apache-2.0 license. It has gained a lot of popularity in the Rust community, with over 7k stars on GitHub and 407 forks.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example of how to use Bloop in Rust:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-rust&quot;&gt;use bloop::SearchOptions;
+		<p>Bloop is a fast code search engine written in Rust. It is designed to be used as a library, making it easy to integrate into existing projects. Rust's performance and safety features make it an ideal language for building such a tool.</p>
+<p>Bloop's search functionality is based on the popular code search tool, &quot;ack&quot;. It uses regular expressions to search for patterns in files, and can search through multiple directories at once. Bloop also supports searching through compressed files, such as gzip and bzip2.</p>
+<p>One of the main advantages of using Bloop is its speed. It is designed to be as fast as possible, and can search through large codebases in a matter of seconds. Bloop also supports parallel searching, which can further improve performance on multi-core systems.</p>
+<p>Bloop is open source and licensed under the Apache-2.0 license. It has gained a lot of popularity in the Rust community, with over 7k stars on GitHub and 407 forks.</p>
+<p>Here's an example of how to use Bloop in Rust:</p>
+<pre><code class="language-rust">use bloop::SearchOptions;
 use std::path::PathBuf;
 
 fn main() {
     let mut options = SearchOptions::new();
     options.recursive(true);
-    options.add_search_path(PathBuf::from(&amp;quot;.&amp;quot;));
-    options.add_search_pattern(&amp;quot;fn main()&amp;quot;);
+    options.add_search_path(PathBuf::from(&quot;.&quot;));
+    options.add_search_pattern(&quot;fn main()&quot;);
 
-    let results = bloop::search(&amp;amp;options).unwrap();
+    let results = bloop::search(&amp;options).unwrap();
 
     for result in results {
-        println!(&amp;quot;{}&amp;quot;, result.path().display());
+        println!(&quot;{}&quot;, result.path().display());
     }
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This example searches for the pattern &amp;quot;fn main()&amp;quot; in the current directory and its subdirectories. The results are then printed to the console.&lt;/p&gt;
-&lt;p&gt;If you&amp;apos;re looking for a fast and efficient code search engine for your Rust projects, Bloop is definitely worth checking out.&lt;/p&gt;
+
+</code></pre>
+<p>This example searches for the pattern &quot;fn main()&quot; in the current directory and its subdirectories. The results are then printed to the console.</p>
+<p>If you're looking for a fast and efficient code search engine for your Rust projects, Bloop is definitely worth checking out.</p>
 	</div>
 </article>
 

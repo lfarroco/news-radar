@@ -46,26 +46,27 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/jeremyckahn/shifty/releases/tag/3.0.0" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Shifty, the popular TypeScript animation engine, has released its highly anticipated version 3.0. This new version brings exciting updates and improvements for developers looking to create smooth and performant animations on the web.&lt;/p&gt;
-&lt;p&gt;One of the key highlights of Shifty 3.0 is the updated documentation site, which can be found at &lt;code&gt;https://jeremyckahn.github.io/shifty/doc/&lt;/code&gt;. The documentation provides comprehensive guides, examples, and API references, making it easier for developers to get started with Shifty and explore its advanced features.&lt;/p&gt;
-&lt;p&gt;In terms of breaking changes, the release notes mention some important updates. Developers are advised to review these changes to ensure a smooth transition when updating their projects to Shifty 3.0.&lt;/p&gt;
-&lt;p&gt;Shifty has gained popularity among developers for its simplicity and speed. It offers a wide range of easing functions, supports multiple animation types, and provides excellent performance even with complex animations. With the latest release, Shifty continues to be a reliable choice for developers seeking a powerful animation engine for their TypeScript projects.&lt;/p&gt;
-&lt;p&gt;To demonstrate the capabilities of Shifty, here&amp;apos;s an example of how to create a simple animation using the library:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-typescript&quot;&gt;import { tween } from &amp;apos;shifty&amp;apos;;
+		<p>Shifty, the popular TypeScript animation engine, has released its highly anticipated version 3.0. This new version brings exciting updates and improvements for developers looking to create smooth and performant animations on the web.</p>
+<p>One of the key highlights of Shifty 3.0 is the updated documentation site, which can be found at <code>https://jeremyckahn.github.io/shifty/doc/</code>. The documentation provides comprehensive guides, examples, and API references, making it easier for developers to get started with Shifty and explore its advanced features.</p>
+<p>In terms of breaking changes, the release notes mention some important updates. Developers are advised to review these changes to ensure a smooth transition when updating their projects to Shifty 3.0.</p>
+<p>Shifty has gained popularity among developers for its simplicity and speed. It offers a wide range of easing functions, supports multiple animation types, and provides excellent performance even with complex animations. With the latest release, Shifty continues to be a reliable choice for developers seeking a powerful animation engine for their TypeScript projects.</p>
+<p>To demonstrate the capabilities of Shifty, here's an example of how to create a simple animation using the library:</p>
+<pre><code class="language-typescript">import { tween } from 'shifty';
 
-const element = document.getElementById(&amp;apos;myElement&amp;apos;);
+const element = document.getElementById('myElement');
 
 tween({
   from: { opacity: 0 },
   to: { opacity: 1 },
   duration: 1000,
-  easing: &amp;apos;easeInOutQuad&amp;apos;,
-  step: (state) =&amp;gt; {
+  easing: 'easeInOutQuad',
+  step: (state) =&gt; {
     element.style.opacity = state.opacity.toString();
   },
 });
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In conclusion, Shifty 3.0 brings exciting updates and improvements to the fastest TypeScript animation engine on the web. With its updated documentation and powerful features, Shifty continues to be a valuable tool for developers looking to create smooth and performant animations in their projects.&lt;/p&gt;
+
+</code></pre>
+<p>In conclusion, Shifty 3.0 brings exciting updates and improvements to the fastest TypeScript animation engine on the web. With its updated documentation and powerful features, Shifty continues to be a valuable tool for developers looking to create smooth and performant animations in their projects.</p>
 	</div>
 </article>
 

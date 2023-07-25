@@ -46,33 +46,34 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/Deno/comments/14g36uz/parserjs_a_language_recognition_tool_for/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Parser.js, a language recognition tool for JavaScript RTEs, has been re-licensed under the MIT license. This change allows for wider use and modification of the tool by developers.&lt;/p&gt;
-&lt;p&gt;Parser.js is a parser generator that can be used to generate parsers for various languages. It is written in JavaScript and can be used in both browser and server environments.&lt;/p&gt;
-&lt;p&gt;The tool was originally released under the GPL license, which restricted its use and modification. However, with the change to the MIT license, developers are now free to use and modify Parser.js in their own projects without the restrictions of the GPL.&lt;/p&gt;
-&lt;p&gt;Parser.js has gained popularity among developers as a tool for generating parsers for languages such as JSON, CSS, and HTML. With the re-licensing under the MIT license, it is expected that the tool will become even more widely used and integrated into various projects.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example of how Parser.js can be used to generate a parser for JSON:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;const Parser = require(&amp;apos;parser.js&amp;apos;);
+		<p>Parser.js, a language recognition tool for JavaScript RTEs, has been re-licensed under the MIT license. This change allows for wider use and modification of the tool by developers.</p>
+<p>Parser.js is a parser generator that can be used to generate parsers for various languages. It is written in JavaScript and can be used in both browser and server environments.</p>
+<p>The tool was originally released under the GPL license, which restricted its use and modification. However, with the change to the MIT license, developers are now free to use and modify Parser.js in their own projects without the restrictions of the GPL.</p>
+<p>Parser.js has gained popularity among developers as a tool for generating parsers for languages such as JSON, CSS, and HTML. With the re-licensing under the MIT license, it is expected that the tool will become even more widely used and integrated into various projects.</p>
+<p>Here's an example of how Parser.js can be used to generate a parser for JSON:</p>
+<pre><code class="language-javascript">const Parser = require('parser.js');
 
 const jsonParser = new Parser({
-  start: &amp;apos;value&amp;apos;,
+  start: 'value',
   rules: {
-    value: [&amp;apos;object&amp;apos;, &amp;apos;array&amp;apos;, &amp;apos;string&amp;apos;, &amp;apos;number&amp;apos;, &amp;apos;true&amp;apos;, &amp;apos;false&amp;apos;, &amp;apos;null&amp;apos;],
-    object: [&amp;apos;{&amp;apos;, &amp;apos;members&amp;apos;, &amp;apos;}&amp;apos;],
-    members: [&amp;apos;&amp;apos;, &amp;apos;pair&amp;apos;, &amp;apos;membersList&amp;apos;],
-    membersList: [&amp;apos;,&amp;apos;, &amp;apos;pair&amp;apos;, &amp;apos;membersList&amp;apos;, &amp;apos;&amp;apos;],
-    pair: [&amp;apos;string&amp;apos;, &amp;apos;:&amp;apos;, &amp;apos;value&amp;apos;],
-    array: [&amp;apos;[&amp;apos;, &amp;apos;elements&amp;apos;, &amp;apos;]&amp;apos;],
-    elements: [&amp;apos;&amp;apos;, &amp;apos;value&amp;apos;, &amp;apos;elementsList&amp;apos;],
-    elementsList: [&amp;apos;,&amp;apos;, &amp;apos;value&amp;apos;, &amp;apos;elementsList&amp;apos;, &amp;apos;&amp;apos;],
-    string: /&amp;quot;([^&amp;quot;&#92;&#92;]|&#92;&#92;[&amp;quot;&#92;&#92;/bfnrt])*&amp;quot;/,
-    number: /-?(0|[1-9]&#92;d*)(&#92;.&#92;d+)?([eE][+-]?&#92;d+)?/,
-    true: &amp;apos;true&amp;apos;,
-    false: &amp;apos;false&amp;apos;,
-    null: &amp;apos;null&amp;apos;,
+    value: ['object', 'array', 'string', 'number', 'true', 'false', 'null'],
+    object: ['{', 'members', '}'],
+    members: ['', 'pair', 'membersList'],
+    membersList: [',', 'pair', 'membersList', ''],
+    pair: ['string', ':', 'value'],
+    array: ['[', 'elements', ']'],
+    elements: ['', 'value', 'elementsList'],
+    elementsList: [',', 'value', 'elementsList', ''],
+    string: /&quot;([^&quot;\\]|\\[&quot;\\/bfnrt])*&quot;/,
+    number: /-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d+)?/,
+    true: 'true',
+    false: 'false',
+    null: 'null',
   },
 });
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Overall, the re-licensing of Parser.js under the MIT license is a positive development for developers who use the tool and for the wider programming community.&lt;/p&gt;
+
+</code></pre>
+<p>Overall, the re-licensing of Parser.js under the MIT license is a positive development for developers who use the tool and for the wider programming community.</p>
 	</div>
 </article>
 

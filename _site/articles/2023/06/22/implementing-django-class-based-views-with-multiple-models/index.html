@@ -46,18 +46,18 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/django/comments/14g08zq/how_to_implement_django_classbased_views_with/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Django&amp;apos;s Class-Based Views (CBVs) provide a powerful way to handle complex view logic with reusable code. However, when dealing with multiple models, it can be challenging to figure out how to incorporate them into a single view.&lt;/p&gt;
-&lt;p&gt;In this scenario, the author is developing a blog application where an Author can have multiple Posts, and each Post can have multiple Comments. To achieve this, the author has set up three models: Author, Post, and Comment.&lt;/p&gt;
-&lt;p&gt;To create a DetailView for a Post that displays its associated Comments and allows new comments to be created, the author needs to incorporate the Comment model into the Post DetailView and handle the form submission for new comments in the same view.&lt;/p&gt;
-&lt;p&gt;One approach is to use Django&amp;apos;s built-in form handling and create a form for the Comment model. Then, in the Post DetailView, the author can override the get_context_data method to include the Comment form and the associated comments.&lt;/p&gt;
-&lt;p&gt;Here&amp;apos;s an example implementation:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;class PostDetailView(DetailView):
+		<p>Django's Class-Based Views (CBVs) provide a powerful way to handle complex view logic with reusable code. However, when dealing with multiple models, it can be challenging to figure out how to incorporate them into a single view.</p>
+<p>In this scenario, the author is developing a blog application where an Author can have multiple Posts, and each Post can have multiple Comments. To achieve this, the author has set up three models: Author, Post, and Comment.</p>
+<p>To create a DetailView for a Post that displays its associated Comments and allows new comments to be created, the author needs to incorporate the Comment model into the Post DetailView and handle the form submission for new comments in the same view.</p>
+<p>One approach is to use Django's built-in form handling and create a form for the Comment model. Then, in the Post DetailView, the author can override the get_context_data method to include the Comment form and the associated comments.</p>
+<p>Here's an example implementation:</p>
+<pre><code>class PostDetailView(DetailView):
     model = Post
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context[&amp;apos;comment_form&amp;apos;] = CommentForm()
-        context[&amp;apos;comments&amp;apos;] = Comment.objects.filter(post=self.object)
+        context['comment_form'] = CommentForm()
+        context['comments'] = Comment.objects.filter(post=self.object)
         return context
 
     def post(self, request, *args, **kwargs):
@@ -67,15 +67,16 @@
             comment = form.save(commit=False)
             comment.post = self.object
             comment.save()
-            return redirect(&amp;apos;post-detail&amp;apos;, pk=self.object.pk)
+            return redirect('post-detail', pk=self.object.pk)
         else:
             context = self.get_context_data(**kwargs)
-            context[&amp;apos;comment_form&amp;apos;] = form
+            context['comment_form'] = form
             return self.render_to_response(context)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In this implementation, the get_context_data method adds the Comment form and associated comments to the context, and the post method handles the form submission. If the form is valid, it creates a new Comment object associated with the current Post and redirects back to the Post DetailView. If the form is invalid, it re-renders the Post DetailView with the form errors.&lt;/p&gt;
-&lt;p&gt;By following this approach, the author can easily create a DetailView that handles multiple models and form submissions in a single view.&lt;/p&gt;
-&lt;p&gt;Have you faced similar challenges with Django CBVs? Share your experiences in the comments below.&lt;/p&gt;
+
+</code></pre>
+<p>In this implementation, the get_context_data method adds the Comment form and associated comments to the context, and the post method handles the form submission. If the form is valid, it creates a new Comment object associated with the current Post and redirects back to the Post DetailView. If the form is invalid, it re-renders the Post DetailView with the form errors.</p>
+<p>By following this approach, the author can easily create a DetailView that handles multiple models and form submissions in a single view.</p>
+<p>Have you faced similar challenges with Django CBVs? Share your experiences in the comments below.</p>
 	</div>
 </article>
 

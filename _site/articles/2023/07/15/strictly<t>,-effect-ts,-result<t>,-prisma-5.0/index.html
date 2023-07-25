@@ -46,28 +46,29 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://newsletter.bytebullet.dev/p/02-strictlyt-effect-ts-resultt-prisma" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;ByteBullet#02: Strictly&lt;t&gt;, Effect-TS, Result&lt;t&gt;, Prisma 5.0#02: Strictly&lt;t&gt;, Effect-TS, Result&lt;t&gt;, Prisma 5.0&lt;/t&gt;&lt;/t&gt;&lt;/t&gt;&lt;/t&gt;&lt;/p&gt;
-&lt;p&gt;Strict Object Types, Prisma 5.0 Speed Boost, and Exception Handling with Results and Effects!&lt;/p&gt;
-&lt;p&gt;Welcome to the second edition of the ByteBullet newsletter! In this week&amp;apos;s issue, we have a range of fascinating topics for you.&lt;/p&gt;
-&lt;p&gt;Strictly&lt;t&gt; is a strict object type that ensures data integrity. It prevents data leaks by enforcing strict typing. If you&amp;apos;re dealing with sensitive data or data that needs validation, Strictly&lt;t&gt; is a handy tool to have in your arsenal.&lt;/t&gt;&lt;/t&gt;&lt;/p&gt;
-&lt;p&gt;Prisma 5.0 has finally been released, bringing a long-awaited speed boost. With improvements like replacing the GraphQL-like protocol with jsonProtocol, Prisma now offers faster performance. Check out the full changelog to explore all the new features and improvements.&lt;/p&gt;
-&lt;p&gt;Effect-TS is a functional effect system for TypeScript that enables you to handle async operations, manage errors, and compose complex workflows in a concise and type-safe manner. With improved testability and code maintainability, Effect-TS enhances productivity for TypeScript developers.&lt;/p&gt;
-&lt;p&gt;@badrap/result is a result type inspired by Rust and Haskell. It simplifies exception handling by providing a descriptive and type-safe way to handle errors. Here&amp;apos;s an example to demonstrate its usage:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-typescript&quot;&gt;const divide = (a: number, b: number): Result&amp;lt;number, string&amp;gt; =&amp;gt; {
+		<p>ByteBullet#02: Strictly, Effect-TS, Result, Prisma 5.0#02: Strictly, Effect-TS, Result, Prisma 5.0</p>
+<p>Strict Object Types, Prisma 5.0 Speed Boost, and Exception Handling with Results and Effects!</p>
+<p>Welcome to the second edition of the ByteBullet newsletter! In this week's issue, we have a range of fascinating topics for you.</p>
+<p>Strictly is a strict object type that ensures data integrity. It prevents data leaks by enforcing strict typing. If you're dealing with sensitive data or data that needs validation, Strictly is a handy tool to have in your arsenal.</p>
+<p>Prisma 5.0 has finally been released, bringing a long-awaited speed boost. With improvements like replacing the GraphQL-like protocol with jsonProtocol, Prisma now offers faster performance. Check out the full changelog to explore all the new features and improvements.</p>
+<p>Effect-TS is a functional effect system for TypeScript that enables you to handle async operations, manage errors, and compose complex workflows in a concise and type-safe manner. With improved testability and code maintainability, Effect-TS enhances productivity for TypeScript developers.</p>
+<p>@badrap/result is a result type inspired by Rust and Haskell. It simplifies exception handling by providing a descriptive and type-safe way to handle errors. Here's an example to demonstrate its usage:</p>
+<pre><code class="language-typescript">const divide = (a: number, b: number): Result&lt;number, string&gt; =&gt; {
   if (b === 0) {
-    return Err(&amp;quot;Cannot divide by zero&amp;quot;);
+    return Err(&quot;Cannot divide by zero&quot;);
   }
   return Ok(a / b);
 };
 
 const result = divide(10, 2);
 if (result.isOk) {
-  console.log(&amp;quot;Result:&amp;quot;, result.value);
+  console.log(&quot;Result:&quot;, result.value);
 } else {
-  console.error(&amp;quot;Error:&amp;quot;, result.error);
+  console.error(&quot;Error:&quot;, result.error);
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Stay tuned for more updates and discussions about TypeScript and React by following @ByteBulletDev on Twitter.&lt;/p&gt;
+
+</code></pre>
+<p>Stay tuned for more updates and discussions about TypeScript and React by following @ByteBulletDev on Twitter.</p>
 	</div>
 </article>
 

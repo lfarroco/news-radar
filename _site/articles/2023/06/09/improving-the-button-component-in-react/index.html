@@ -46,68 +46,72 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://catjam.fi/articles/ultimate-button-component" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Buttons are an essential part of any design system, and creating them requires careful consideration to ensure they are both easy to use and flexible enough to fit various use cases. In this article, we will explore some tips and tricks to improve the Button component in React.&lt;/p&gt;
-&lt;p&gt;To start, let&amp;apos;s look at the basic Button component that we will build upon:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;export function Button(props: React.ComponentProps&amp;lt;&amp;quot;button&amp;quot;&amp;gt;) {
+		<p>Buttons are an essential part of any design system, and creating them requires careful consideration to ensure they are both easy to use and flexible enough to fit various use cases. In this article, we will explore some tips and tricks to improve the Button component in React.</p>
+<p>To start, let's look at the basic Button component that we will build upon:</p>
+<pre><code>export function Button(props: React.ComponentProps&lt;&quot;button&quot;&gt;) {
   return (
-    &amp;lt;button {...props}&amp;gt;
+    &lt;button {...props}&gt;
       {props.children}
-    &amp;lt;/button&amp;gt;
+    &lt;/button&gt;
   );
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Assuming that the buttons are unstyled, which is the default for many CSS frameworks like Tailwind, we can use some sane defaults for the design. Placing the Button component on a page without any additional props or parameters should result in a button that fits in the design and is easily recognizable as a button.&lt;/p&gt;
-&lt;p&gt;A recognizable button tends to follow these design characteristics:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Horizontal padding is twice the vertical padding&lt;/li&gt;
-&lt;li&gt;High contrast colors are reserved for important buttons&lt;/li&gt;
-&lt;li&gt;Limit the number of buttons with eye-catching colors&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;We can achieve these defaults by adding some CSS to the Button component:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;export function Button(props: React.ComponentProps&amp;lt;&amp;quot;button&amp;quot;&amp;gt;) {
+
+</code></pre>
+<p>Assuming that the buttons are unstyled, which is the default for many CSS frameworks like Tailwind, we can use some sane defaults for the design. Placing the Button component on a page without any additional props or parameters should result in a button that fits in the design and is easily recognizable as a button.</p>
+<p>A recognizable button tends to follow these design characteristics:</p>
+<ul>
+<li>Horizontal padding is twice the vertical padding</li>
+<li>High contrast colors are reserved for important buttons</li>
+<li>Limit the number of buttons with eye-catching colors</li>
+</ul>
+<p>We can achieve these defaults by adding some CSS to the Button component:</p>
+<pre><code>export function Button(props: React.ComponentProps&lt;&quot;button&quot;&gt;) {
   return (
-    &amp;lt;button
+    &lt;button
       {...props}
-      className=&amp;quot;px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50&amp;quot;
-    &amp;gt;
+      className=&quot;px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50&quot;
+    &gt;
       {props.children}
-    &amp;lt;/button&amp;gt;
+    &lt;/button&gt;
   );
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This CSS uses Tailwind classes to set the horizontal padding, background color, and border radius. It also adds some hover and focus styles to make the button more interactive.&lt;/p&gt;
-&lt;p&gt;Another important consideration is the default type of the &lt;code&gt;&amp;lt;button&amp;gt;&lt;/code&gt; element. By default, the type is &amp;quot;submit,&amp;quot; which can cause issues if the button is not intended to submit a form. To avoid this, we can set the type to &amp;quot;button&amp;quot; by default:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;export function Button(props: React.ComponentProps&amp;lt;&amp;quot;button&amp;quot;&amp;gt;) {
+
+</code></pre>
+<p>This CSS uses Tailwind classes to set the horizontal padding, background color, and border radius. It also adds some hover and focus styles to make the button more interactive.</p>
+<p>Another important consideration is the default type of the <code>&lt;button&gt;</code> element. By default, the type is &quot;submit,&quot; which can cause issues if the button is not intended to submit a form. To avoid this, we can set the type to &quot;button&quot; by default:</p>
+<pre><code>export function Button(props: React.ComponentProps&lt;&quot;button&quot;&gt;) {
   return (
-    &amp;lt;button
+    &lt;button
       {...props}
-      type={props.type ?? &amp;quot;button&amp;quot;}
-      className=&amp;quot;px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50&amp;quot;
-    &amp;gt;
+      type={props.type ?? &quot;button&quot;}
+      className=&quot;px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50&quot;
+    &gt;
       {props.children}
-    &amp;lt;/button&amp;gt;
+    &lt;/button&gt;
   );
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This code uses the nullish coalescing operator (&lt;code&gt;??&lt;/code&gt;) to set the type to &amp;quot;button&amp;quot; if it is not already set.&lt;/p&gt;
-&lt;p&gt;Finally, we can add some additional props to make the Button component more flexible. For example, we can add a &lt;code&gt;size&lt;/code&gt; prop to set the font size and padding:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;export function Button(props: React.ComponentProps&amp;lt;&amp;quot;button&amp;quot;&amp;gt; &amp;amp; { size?: &amp;quot;sm&amp;quot; | &amp;quot;md&amp;quot; | &amp;quot;lg&amp;quot; }) {
-  const { size = &amp;quot;md&amp;quot;, ...rest } = props;
-  const fontSize = size === &amp;quot;sm&amp;quot; ? &amp;quot;text-sm&amp;quot; : size === &amp;quot;lg&amp;quot; ? &amp;quot;text-lg&amp;quot; : &amp;quot;text-base&amp;quot;;
-  const padding = size === &amp;quot;sm&amp;quot; ? &amp;quot;px-2 py-1&amp;quot; : size === &amp;quot;lg&amp;quot; ? &amp;quot;px-6 py-4&amp;quot; : &amp;quot;px-4 py-2&amp;quot;;
+
+</code></pre>
+<p>This code uses the nullish coalescing operator (<code>??</code>) to set the type to &quot;button&quot; if it is not already set.</p>
+<p>Finally, we can add some additional props to make the Button component more flexible. For example, we can add a <code>size</code> prop to set the font size and padding:</p>
+<pre><code>export function Button(props: React.ComponentProps&lt;&quot;button&quot;&gt; &amp; { size?: &quot;sm&quot; | &quot;md&quot; | &quot;lg&quot; }) {
+  const { size = &quot;md&quot;, ...rest } = props;
+  const fontSize = size === &quot;sm&quot; ? &quot;text-sm&quot; : size === &quot;lg&quot; ? &quot;text-lg&quot; : &quot;text-base&quot;;
+  const padding = size === &quot;sm&quot; ? &quot;px-2 py-1&quot; : size === &quot;lg&quot; ? &quot;px-6 py-4&quot; : &quot;px-4 py-2&quot;;
   return (
-    &amp;lt;button
+    &lt;button
       {...rest}
-      type={rest.type ?? &amp;quot;button&amp;quot;}
+      type={rest.type ?? &quot;button&quot;}
       className={`text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50 ${fontSize} ${padding}`}
-    &amp;gt;
+    &gt;
       {rest.children}
-    &amp;lt;/button&amp;gt;
+    &lt;/button&gt;
   );
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This code adds a &lt;code&gt;size&lt;/code&gt; prop that can be set to &amp;quot;sm,&amp;quot; &amp;quot;md,&amp;quot; or &amp;quot;lg&amp;quot; to adjust the font size and padding. It also uses some conditional logic to set the appropriate classes based on the size prop.&lt;/p&gt;
-&lt;p&gt;In conclusion, creating a Button component in React requires careful consideration of the design and flexibility. By using some sane defaults, setting the default type to &amp;quot;button,&amp;quot; and adding some additional props, we can create a Button component that is both easy to use and flexible enough to fit various use cases.&lt;/p&gt;
+
+</code></pre>
+<p>This code adds a <code>size</code> prop that can be set to &quot;sm,&quot; &quot;md,&quot; or &quot;lg&quot; to adjust the font size and padding. It also uses some conditional logic to set the appropriate classes based on the size prop.</p>
+<p>In conclusion, creating a Button component in React requires careful consideration of the design and flexibility. By using some sane defaults, setting the default type to &quot;button,&quot; and adding some additional props, we can create a Button component that is both easy to use and flexible enough to fit various use cases.</p>
 	</div>
 </article>
 

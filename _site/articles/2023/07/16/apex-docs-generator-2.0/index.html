@@ -46,23 +46,25 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/apexpl/docs-generator/" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Apex Docs Generator is a powerful tool that automatically generates static developer documentation for PHP classes and methods. With support for basic HTML, markdown, and Syrus formats, it allows developers to easily style the documentation to their preference. The latest version, 2.0, brings new features and improvements to enhance the documentation generation process.&lt;/p&gt;
-&lt;p&gt;To use Apex Docs Generator, developers only need to interact with two methods within the Apex&#92;Docs&#92;DocsGenerator class. The &lt;code&gt;generateClass()&lt;/code&gt; function generates documentation for a single PHP class, while the &lt;code&gt;generateDirectory()&lt;/code&gt; function generates documentation for a directory of PHP classes.&lt;/p&gt;
-&lt;p&gt;For example, to generate documentation for a single class, developers can use the following code snippet:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;use Apex&#92;Docs&#92;DocsGenerator;
+		<p>Apex Docs Generator is a powerful tool that automatically generates static developer documentation for PHP classes and methods. With support for basic HTML, markdown, and Syrus formats, it allows developers to easily style the documentation to their preference. The latest version, 2.0, brings new features and improvements to enhance the documentation generation process.</p>
+<p>To use Apex Docs Generator, developers only need to interact with two methods within the Apex\Docs\DocsGenerator class. The <code>generateClass()</code> function generates documentation for a single PHP class, while the <code>generateDirectory()</code> function generates documentation for a directory of PHP classes.</p>
+<p>For example, to generate documentation for a single class, developers can use the following code snippet:</p>
+<pre><code class="language-php">use Apex\Docs\DocsGenerator;
 
 $generator = new DocsGenerator();
-$generator-&amp;gt;generateClass(&amp;apos;path/to/class.php&amp;apos;, &amp;apos;output/directory&amp;apos;, &amp;apos;html&amp;apos;);
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;To generate documentation for a directory of PHP classes, developers can use the following code snippet:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;use Apex&#92;Docs&#92;DocsGenerator;
+$generator-&gt;generateClass('path/to/class.php', 'output/directory', 'html');
+
+</code></pre>
+<p>To generate documentation for a directory of PHP classes, developers can use the following code snippet:</p>
+<pre><code class="language-php">use Apex\Docs\DocsGenerator;
 
 $generator = new DocsGenerator();
-$generator-&amp;gt;generateDirectory(&amp;apos;path/to/directory&amp;apos;, &amp;apos;output/directory&amp;apos;, &amp;apos;html&amp;apos;);
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The documentation can be easily customized by choosing from the available themes located in the &lt;code&gt;/themes/&lt;/code&gt; directory. By default, Apex Docs Generator supports three themes: html, markdown, and syrus.&lt;/p&gt;
-&lt;p&gt;Additionally, Apex Docs Generator offers integration with Syrus, a popular PHP templating engine. To enable Syrus integration, developers can modify the &lt;code&gt;/config/container.php&lt;/code&gt; file and add the &lt;code&gt;Apex&#92;Docs&#92;SyrusTags&lt;/code&gt; entry to the &lt;code&gt;syrus.tag_namespaces&lt;/code&gt; array. With this integration, developers can generate documentation formatted specifically for Syrus.&lt;/p&gt;
-&lt;p&gt;Apex Docs Generator 2.0 is a valuable tool for developers who want to generate comprehensive and visually appealing documentation for their PHP projects. It simplifies the documentation process and provides flexibility in styling and formatting. To learn more about Apex Docs Generator and its features, visit the official website at &lt;a href=&quot;https://apexpl.io/&quot;&gt;https://apexpl.io/&lt;/a&gt;.&lt;/p&gt;
+$generator-&gt;generateDirectory('path/to/directory', 'output/directory', 'html');
+
+</code></pre>
+<p>The documentation can be easily customized by choosing from the available themes located in the <code>/themes/</code> directory. By default, Apex Docs Generator supports three themes: html, markdown, and syrus.</p>
+<p>Additionally, Apex Docs Generator offers integration with Syrus, a popular PHP templating engine. To enable Syrus integration, developers can modify the <code>/config/container.php</code> file and add the <code>Apex\Docs\SyrusTags</code> entry to the <code>syrus.tag_namespaces</code> array. With this integration, developers can generate documentation formatted specifically for Syrus.</p>
+<p>Apex Docs Generator 2.0 is a valuable tool for developers who want to generate comprehensive and visually appealing documentation for their PHP projects. It simplifies the documentation process and provides flexibility in styling and formatting. To learn more about Apex Docs Generator and its features, visit the official website at <a href="https://apexpl.io/">https://apexpl.io/</a>.</p>
 	</div>
 </article>
 

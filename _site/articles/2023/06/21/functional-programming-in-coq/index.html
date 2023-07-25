@@ -46,12 +46,10 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://softwarefoundations.cis.upenn.edu/lf-current/Basics.html" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;Coq is a proof assistant that allows developers to write programs and prove their correctness. It is based on the calculus of inductive constructions and supports functional programming. In this article, we will explore the basics of functional programming in Coq.&lt;/p&gt;
-&lt;p&gt;Introduction
-Coq is a dependently typed programming language that supports functional programming. It is used for formal verification of software and hardware systems. Coq&amp;apos;s type system allows developers to write programs that are guaranteed to be correct. Coq&amp;apos;s proof assistant can be used to prove the correctness of the programs.&lt;/p&gt;
-&lt;p&gt;Data and Functions
-In Coq, data types and functions are defined using the keyword &amp;quot;Inductive&amp;quot;. For example, we can define a data type for the days of the week as follows:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Inductive day : Type :=
+		<p>Coq is a proof assistant that allows developers to write programs and prove their correctness. It is based on the calculus of inductive constructions and supports functional programming. In this article, we will explore the basics of functional programming in Coq.</p>
+<p>Introduction Coq is a dependently typed programming language that supports functional programming. It is used for formal verification of software and hardware systems. Coq's type system allows developers to write programs that are guaranteed to be correct. Coq's proof assistant can be used to prove the correctness of the programs.</p>
+<p>Data and Functions In Coq, data types and functions are defined using the keyword &quot;Inductive&quot;. For example, we can define a data type for the days of the week as follows:</p>
+<pre><code>Inductive day : Type :=
   | Monday
   | Tuesday
   | Wednesday
@@ -59,83 +57,84 @@ In Coq, data types and functions are defined using the keyword &amp;quot;Inducti
   | Friday
   | Saturday
   | Sunday.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We can define functions on this data type using pattern matching. For example, we can define a function that returns true if a given day is a weekday:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Definition isWeekday (d : day) : bool :=
+
+</code></pre>
+<p>We can define functions on this data type using pattern matching. For example, we can define a function that returns true if a given day is a weekday:</p>
+<pre><code>Definition isWeekday (d : day) : bool :=
   match d with
-  | Monday =&amp;gt; true
-  | Tuesday =&amp;gt; true
-  | Wednesday =&amp;gt; true
-  | Thursday =&amp;gt; true
-  | Friday =&amp;gt; true
-  | _ =&amp;gt; false
+  | Monday =&gt; true
+  | Tuesday =&gt; true
+  | Wednesday =&gt; true
+  | Thursday =&gt; true
+  | Friday =&gt; true
+  | _ =&gt; false
   end.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Enumerated Types
-Coq supports enumerated types, which are data types with a fixed number of values. For example, we can define a boolean data type as follows:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Inductive bool : Type :=
+
+</code></pre>
+<p>Enumerated Types Coq supports enumerated types, which are data types with a fixed number of values. For example, we can define a boolean data type as follows:</p>
+<pre><code>Inductive bool : Type :=
   | true
   | false.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We can define functions on this data type using pattern matching. For example, we can define a function that implements the logical &amp;quot;and&amp;quot; operation:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Definition andb (b1 : bool) (b2 : bool) : bool :=
+
+</code></pre>
+<p>We can define functions on this data type using pattern matching. For example, we can define a function that implements the logical &quot;and&quot; operation:</p>
+<pre><code>Definition andb (b1 : bool) (b2 : bool) : bool :=
   match b1 with
-  | true =&amp;gt; b2
-  | false =&amp;gt; false
+  | true =&gt; b2
+  | false =&gt; false
   end.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Modules
-Coq supports modules, which are used to organize code into separate namespaces. Modules can be used to define data types, functions, and theorems. For example, we can define a module that contains functions for working with tuples:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Module Tuple.
+
+</code></pre>
+<p>Modules Coq supports modules, which are used to organize code into separate namespaces. Modules can be used to define data types, functions, and theorems. For example, we can define a module that contains functions for working with tuples:</p>
+<pre><code>Module Tuple.
 
 Inductive tuple (A B : Type) : Type :=
-  | pair : A -&amp;gt; B -&amp;gt; tuple A B.
+  | pair : A -&gt; B -&gt; tuple A B.
 
 Definition fst {A B : Type} (p : tuple A B) : A :=
   match p with
-  | pair x y =&amp;gt; x
+  | pair x y =&gt; x
   end.
 
 Definition snd {A B : Type} (p : tuple A B) : B :=
   match p with
-  | pair x y =&amp;gt; y
+  | pair x y =&gt; y
   end.
 
 End Tuple.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Tuples
-We can define a data type for tuples using the &amp;quot;Inductive&amp;quot; keyword. We can define functions for working with tuples using pattern matching. For example, we can define functions for getting the first and second elements of a tuple using the &amp;quot;fst&amp;quot; and &amp;quot;snd&amp;quot; functions from the &amp;quot;Tuple&amp;quot; module.&lt;/p&gt;
-&lt;p&gt;Numbers
-Coq supports natural numbers, which are defined using the &amp;quot;Inductive&amp;quot; keyword. We can define functions for working with natural numbers using pattern matching. For example, we can define a function for computing the factorial of a number:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Fixpoint factorial (n : nat) : nat :=
+
+</code></pre>
+<p>Tuples We can define a data type for tuples using the &quot;Inductive&quot; keyword. We can define functions for working with tuples using pattern matching. For example, we can define functions for getting the first and second elements of a tuple using the &quot;fst&quot; and &quot;snd&quot; functions from the &quot;Tuple&quot; module.</p>
+<p>Numbers Coq supports natural numbers, which are defined using the &quot;Inductive&quot; keyword. We can define functions for working with natural numbers using pattern matching. For example, we can define a function for computing the factorial of a number:</p>
+<pre><code>Fixpoint factorial (n : nat) : nat :=
   match n with
-  | O =&amp;gt; 1
-  | S n&amp;apos; =&amp;gt; n * factorial n&amp;apos;
+  | O =&gt; 1
+  | S n' =&gt; n * factorial n'
   end.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Proof by Simplification
-Coq supports proof by simplification, which involves simplifying expressions using rewriting rules. For example, we can prove the following theorem using proof by simplification:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Theorem plus_id_exercise : forall n m : nat,
-  n = m -&amp;gt;
+
+</code></pre>
+<p>Proof by Simplification Coq supports proof by simplification, which involves simplifying expressions using rewriting rules. For example, we can prove the following theorem using proof by simplification:</p>
+<pre><code>Theorem plus_id_exercise : forall n m : nat,
+  n = m -&gt;
   n + m = m + n.
 Proof.
   intros n m H.
-  rewrite -&amp;gt; H.
+  rewrite -&gt; H.
   reflexivity.
 Qed.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Proof by Rewriting
-Coq supports proof by rewriting, which involves rewriting expressions using equality rules. For example, we can prove the following theorem using proof by rewriting:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Theorem mult_n_1 : forall n : nat,
+
+</code></pre>
+<p>Proof by Rewriting Coq supports proof by rewriting, which involves rewriting expressions using equality rules. For example, we can prove the following theorem using proof by rewriting:</p>
+<pre><code>Theorem mult_n_1 : forall n : nat,
   n * 1 = n.
 Proof.
   intros n.
-  rewrite &amp;lt;- mult_1_l.
+  rewrite &lt;- mult_1_l.
   reflexivity.
 Qed.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Conclusion
-Coq is a powerful tool for functional programming and formal verification. It supports data types, functions, modules, and proof techniques such as proof by simplification and proof by rewriting. Coq&amp;apos;s type system allows developers to write programs that are guaranteed to be correct.&lt;/p&gt;
+
+</code></pre>
+<p>Conclusion Coq is a powerful tool for functional programming and formal verification. It supports data types, functions, modules, and proof techniques such as proof by simplification and proof by rewriting. Coq's type system allows developers to write programs that are guaranteed to be correct.</p>
 	</div>
 </article>
 

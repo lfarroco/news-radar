@@ -46,12 +46,13 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://typeschema.com" target="_blank"> here</a>.
 		</div>
-		&lt;p&gt;TypeSchema is a powerful tool that provides a unified interface for schema validations in TypeScript. It offers a seamless way to validate data against predefined schemas, making it easier for developers to ensure data integrity and consistency in their applications.&lt;/p&gt;
-&lt;p&gt;To get started with TypeSchema, simply install it using your preferred package manager:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;npm install typeschema
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Once installed, you can use TypeSchema to define and validate your schemas. Here&amp;apos;s an example:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-typescript&quot;&gt;import { TypeSchema, StringType } from &amp;apos;typeschema&amp;apos;;
+		<p>TypeSchema is a powerful tool that provides a unified interface for schema validations in TypeScript. It offers a seamless way to validate data against predefined schemas, making it easier for developers to ensure data integrity and consistency in their applications.</p>
+<p>To get started with TypeSchema, simply install it using your preferred package manager:</p>
+<pre><code class="language-shell">npm install typeschema
+
+</code></pre>
+<p>Once installed, you can use TypeSchema to define and validate your schemas. Here's an example:</p>
+<pre><code class="language-typescript">import { TypeSchema, StringType } from 'typeschema';
 
 const userSchema = TypeSchema.object({
   name: StringType.required(),
@@ -60,24 +61,25 @@ const userSchema = TypeSchema.object({
 });
 
 const userData = {
-  name: &amp;apos;John Doe&amp;apos;,
+  name: 'John Doe',
   age: 25,
-  email: &amp;apos;john.doe@example.com&amp;apos;,
+  email: 'john.doe@example.com',
 };
 
 const isValid = userSchema.validate(userData);
 
 if (isValid) {
-  console.log(&amp;apos;User data is valid&amp;apos;);
+  console.log('User data is valid');
 } else {
-  console.log(&amp;apos;User data is invalid&amp;apos;);
+  console.log('User data is invalid');
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;TypeSchema also supports custom validations, allowing you to define your own validation rules. This flexibility makes it a versatile tool for handling complex data validation scenarios.&lt;/p&gt;
-&lt;p&gt;TypeSchema is inspired by tRPC&amp;apos;s input and output validators, and it aims to provide a seamless experience for TypeScript developers. It is actively maintained and has a growing community of contributors.&lt;/p&gt;
-&lt;p&gt;For more information and detailed usage examples, you can refer to the &lt;a href=&quot;https://github.com/ecs/typeschema&quot;&gt;TypeSchema GitHub repository&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;TypeSchema is licensed under the MIT License and has gained popularity among developers, with a significant number of stars, watchers, and forks on GitHub.&lt;/p&gt;
-&lt;p&gt;Stay tuned for the latest updates and news in the programming language and framework landscape by following our magazine, &amp;quot;Dev Radar&amp;quot;.&lt;/p&gt;
+
+</code></pre>
+<p>TypeSchema also supports custom validations, allowing you to define your own validation rules. This flexibility makes it a versatile tool for handling complex data validation scenarios.</p>
+<p>TypeSchema is inspired by tRPC's input and output validators, and it aims to provide a seamless experience for TypeScript developers. It is actively maintained and has a growing community of contributors.</p>
+<p>For more information and detailed usage examples, you can refer to the <a href="https://github.com/ecs/typeschema">TypeSchema GitHub repository</a>.</p>
+<p>TypeSchema is licensed under the MIT License and has gained popularity among developers, with a significant number of stars, watchers, and forks on GitHub.</p>
+<p>Stay tuned for the latest updates and news in the programming language and framework landscape by following our magazine, &quot;Dev Radar&quot;.</p>
 	</div>
 </article>
 
