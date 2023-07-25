@@ -10,6 +10,7 @@ export default async function* () {
 
 		const date = row.date.toISOString().split('T')[0].replace(/-/g, '/');
 
+		const urlEncodedSlug = encodeURIComponent(row.slug);
 		yield {
 			...row,
 			url: `/articles/${date}/${row.slug}/`,
