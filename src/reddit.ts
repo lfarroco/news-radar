@@ -1,6 +1,5 @@
 import { cheerio } from './deps.ts';
 import { client } from './db.ts';
-import { slugify } from './utils.ts';
 
 const restrictedDomains = [
   'youtube.com',
@@ -92,18 +91,18 @@ export const reddit = async (channel: string, topic: string) => {
       [title, link, `reddit-${channel}`, date, 'pending'],
     );
     await client.queryArray(
-      `INSERT INTO topics (name, slug) VALUES ($1, $2) ON CONFLICT (name) DO NOTHING;`,
-      [topic, slugify(topic)],
+      `INSERT INTO topics (name) VALUES ($1) ON CONFLICT (name) DO NOTHING;`,
+      [topic],
     );
 
     await client.queryArray(
       `INSERT INTO article_topic (article_id, topic_id) VALUES ((
           SELECT id FROM info WHERE link = $1
         ), (
-          SELECT id FROM topics WHERE slug = $2
+          SELECT id FROM topics WHERE name = $2
         ))
         ON CONFLICT (article_id, topic_id) DO NOTHING;`,
-      [link, slugify(topic)],
+      [link, topic],
     );
   });
 
