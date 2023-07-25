@@ -50,14 +50,15 @@
 <p>Previously, developers had to store the exception occurring for the provided code and then check it using <code>assert_match</code>, which could spread over multiple lines. With the new update, developers can now achieve the same result in a much cleaner way, using just <code>assert_raises</code>.</p>
 <p>Here&apos;s an example of how to use the updated functionality:</p>
 <pre><code class="language-ruby">require &apos;test_helper&apos;
-<p>class ExampleTest &lt; ActiveSupport::TestCase
-def test_exception_message
-assert_raises(RuntimeError, &quot;Custom error message&quot;) do
-# Code that raises an exception
+
+class ExampleTest &lt; ActiveSupport::TestCase
+  def test_exception_message
+    assert_raises(RuntimeError, &quot;Custom error message&quot;) do
+      # Code that raises an exception
+    end
+  end
 end
-end
-end
-</code></pre></p>
+</code></pre>
 <p>By leveraging this new feature, developers can streamline their testing process and improve code readability.</p>
 <p>If you&apos;re working on a Ruby on Rails or React project and need assistance, don&apos;t hesitate to reach out for help. And if you found this post helpful, you might also enjoy reading our other articles, such as &quot;The Ultimate Guide to Gemfile and Gemfile.lock&quot; or &quot;Rails 6 - Action Mailbox tryout.&quot;</p>
 <p>Stay tuned for more updates and join our newsletter to stay informed about the latest news in the programming world.</p>

@@ -52,24 +52,29 @@
 <pre><code>const CHUNK_SIZE = 16 * 1024; // 16kb chunks
 const file = document.querySelector(&apos;input[type=&quot;file&quot;]&apos;).files[0];
 let start = 0;
-<p>while (start &lt; file.size) {
-const chunk = file.slice(start, start + CHUNK_SIZE);
-const formData = new FormData();
-formData.append('chunk', chunk);</p>
-<p>// Send the chunk to Flask using fetch or XMLHttpRequest
-// ...</p>
-<p>start += CHUNK_SIZE;
+
+while (start &lt; file.size) {
+  const chunk = file.slice(start, start + CHUNK_SIZE);
+  const formData = new FormData();
+  formData.append(&apos;chunk&apos;, chunk);
+
+  // Send the chunk to Flask using fetch or XMLHttpRequest
+  // ...
+
+  start += CHUNK_SIZE;
 }
-</code></pre></p>
+</code></pre>
 <p>On the Flask side, you can receive the chunks and concatenate them into the original file:</p>
 <pre><code>@app.route(&apos;/upload-audio&apos;, methods=[&apos;POST&apos;])
 def upload_audio():
   file = request.files[&apos;chunk&apos;]
   chunk = file.read()
-<h1>Append the chunk to the original file</h1>
-<h1>...</h1>
-<p>return 'OK'
-</code></pre></p>
+
+  # Append the chunk to the original file
+  # ...
+
+  return &apos;OK&apos;
+</code></pre>
 <p>By chunking the audio file, you can avoid hitting the MAX_CONTENT_LENGTH limit and ensure that your web app can handle large audio files without any issues.</p>
 	</div>
 </article>

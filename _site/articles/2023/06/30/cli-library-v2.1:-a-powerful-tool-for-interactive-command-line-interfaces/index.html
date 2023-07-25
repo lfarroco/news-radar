@@ -58,12 +58,15 @@
 To include the CLI Library in your project, simply add the header files to your project&apos;s include path. The library has no dependencies unless you require remote sessions, in which case you will need to install either the standalone version or the boost version of the asio library.</p>
 <p>Code Example:</p>
 <pre><code class="language-cpp">#include &lt;cli/cli.hpp&gt;
-<p>int main() {
-cli::App app;</p>
-<p>// Define your command line interface here</p>
-<p>return app.run();
+
+int main() {
+  cli::App app;
+  
+  // Define your command line interface here
+  
+  return app.run();
 }
-</code></pre></p>
+</code></pre>
 <p>With the CLI Library v2.1, developers can easily create powerful and interactive command line interfaces for their applications. Whether you&apos;re building a command line tool, a network management application, or any other CLI-based software, this library provides the necessary tools and features to streamline your development process. Stay ahead of the curve with the latest updates and enhancements in the CLI Library.</p>
 	</div>
 </article>

@@ -59,27 +59,29 @@
 <h2>Building a Node.js SSH Application</h2>
 <p>To build a Node.js application that can SSH into a remote server, you can use the <code>ssh2</code> package. Here&apos;s an example of how to establish an SSH connection and execute a command using Node.js:</p>
 <pre><code class="language-javascript">const { Client } = require(&apos;ssh2&apos;);
-<p>const conn = new Client();</p>
-<p>conn.on('ready', () =&gt; {
-console.log('SSH connection established');
-conn.exec('ls', (err, stream) =&gt; {
-if (err) throw err;
-stream.on('close', (code, signal) =&gt; {
-console.log(<code>Command executed with code ${code}</code>);
-conn.end();
-}).on('data', (data) =&gt; {
-console.log(<code>Received data: ${data}</code>);
-}).stderr.on('data', (data) =&gt; {
-console.error(<code>Received error data: ${data}</code>);
-});
-});
+
+const conn = new Client();
+
+conn.on(&apos;ready&apos;, () =&gt; {
+  console.log(&apos;SSH connection established&apos;);
+  conn.exec(&apos;ls&apos;, (err, stream) =&gt; {
+    if (err) throw err;
+    stream.on(&apos;close&apos;, (code, signal) =&gt; {
+      console.log(`Command executed with code ${code}`);
+      conn.end();
+    }).on(&apos;data&apos;, (data) =&gt; {
+      console.log(`Received data: ${data}`);
+    }).stderr.on(&apos;data&apos;, (data) =&gt; {
+      console.error(`Received error data: ${data}`);
+    });
+  });
 }).connect({
-host: 'your-remote-server',
-port: 22,
-username: 'your-username',
-password: 'your-password'
+  host: &apos;your-remote-server&apos;,
+  port: 22,
+  username: &apos;your-username&apos;,
+  password: &apos;your-password&apos;
 });
-</code></pre></p>
+</code></pre>
 <p>With this Node.js application, you can establish an SSH connection to a remote server and execute commands like <code>ls</code> or any other command you need.</p>
 <p>In conclusion, SSH is a crucial tool for developers who need to securely access and control remote servers. With Node.js, you can easily build applications that leverage SSH to automate tasks and manage remote environments.</p>
 	</div>

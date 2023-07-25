@@ -51,18 +51,22 @@
 <p>Flask, a popular Python web framework, provides the backbone for Sharpo&apos;s functionality. Its simplicity and flexibility make it an ideal choice for developing web applications. With Flask, developers can easily create routes, handle user input, and interact with databases.</p>
 <p>To demonstrate the power of Flask, here&apos;s a code snippet showcasing the basic structure of a Sharpo route:</p>
 <pre><code class="language-python">from flask import Flask, render_template, request
-<p>app = Flask(<strong>name</strong>)</p>
-<p>@app.route('/')
+
+app = Flask(__name__)
+
+@app.route(&apos;/&apos;)
 def index():
-return render_template('index.html')</p>
-<p>@app.route('/post', methods=['POST'])
+    return render_template(&apos;index.html&apos;)
+
+@app.route(&apos;/post&apos;, methods=[&apos;POST&apos;])
 def create_post():
-message = request.form.get('message')
-# Store the message in the database
-return 'Post created successfully!'</p>
-<p>if <strong>name</strong> == '<strong>main</strong>':
-app.run()
-</code></pre></p>
+    message = request.form.get(&apos;message&apos;)
+    # Store the message in the database
+    return &apos;Post created successfully!&apos;
+
+if __name__ == &apos;__main__&apos;:
+    app.run()
+</code></pre>
 <p>By leveraging Flask&apos;s routing system, developers can define different routes for handling various user interactions. In this example, the <code>/</code> route renders the main page, while the <code>/post</code> route handles the creation of new posts.</p>
 <p>Sharpo&apos;s commitment to user privacy and data protection sets it apart from other platforms. It provides a refreshing alternative for individuals seeking a more secure and respectful online space.</p>
 <p>Stay tuned to Dev Radar for more updates on Flask-based projects like Sharpo and other exciting developments in the programming world.</p>

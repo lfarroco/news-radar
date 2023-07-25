@@ -51,33 +51,34 @@
 <p>Here&apos;s an example of how the <code>getHeaders()</code> function was implemented:</p>
 <pre><code class="language-php">use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
-<p>function getHeaders($url)
-{
-$client = new Client();</p>
-<pre><code>try {
-    $responseWithOnlyHeaders = $client-&amp;gt;get($url, [
-        &amp;apos;on_headers&amp;apos; =&amp;gt; function ($response) {
-            // Save the response with only headers for later use
-            $this-&amp;gt;responseWithOnlyHeaders = $response;
-            
-            // Abort the downloading of the response body
-            throw new BlockResponseBodyDownload();
-        }
-    ]);
-} catch (RequestException $e) {
-    // Check if the exception is our custom exception
-    if ($e-&amp;gt;getPrevious() instanceof BlockResponseBodyDownload) {
-        // Ignore the exception
-    } else {
-        // Re-throw the exception
-        throw $e;
-    }
-}
 
-// Continue with the rest of the code...
+function getHeaders($url)
+{
+    $client = new Client();
+    
+    try {
+        $responseWithOnlyHeaders = $client-&gt;get($url, [
+            &apos;on_headers&apos; =&gt; function ($response) {
+                // Save the response with only headers for later use
+                $this-&gt;responseWithOnlyHeaders = $response;
+                
+                // Abort the downloading of the response body
+                throw new BlockResponseBodyDownload();
+            }
+        ]);
+    } catch (RequestException $e) {
+        // Check if the exception is our custom exception
+        if ($e-&gt;getPrevious() instanceof BlockResponseBodyDownload) {
+            // Ignore the exception
+        } else {
+            // Re-throw the exception
+            throw $e;
+        }
+    }
+    
+    // Continue with the rest of the code...
+}
 </code></pre>
-<p>}
-</code></pre></p>
 <p>Note that the <code>BlockResponseBodyDownload</code> exception is a custom exception used specifically for this purpose. By checking the previous exception in the <code>RequestException</code>, the author was able to differentiate between their custom exception and Guzzle&apos;s native exceptions.</p>
 <p>One caveat the author discovered is that Guzzle no longer automatically follows redirects when using <code>on_headers</code>. To handle redirects, they had to manually implement the redirect logic.</p>
 <p>This solution allowed the author to inspect the response headers without downloading the response body, saving time and resources when dealing with large file downloads.</p>

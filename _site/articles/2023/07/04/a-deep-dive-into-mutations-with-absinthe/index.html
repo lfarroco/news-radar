@@ -53,24 +53,27 @@
 <p>To actually perform the mutation operation, the article explains how to define a resolver. The author provides an example of a resolver that creates a post using the <code>post</code> attribute.</p>
 <p>Overall, this article provides a comprehensive guide to implementing mutations with Absinthe for Elixir. It covers the basics of mutations in GraphQL, demonstrates how to define input objects and mutation types in Absinthe, and shows how to write resolvers to handle mutations. For developers looking to build GraphQL APIs with Elixir, this article is a valuable resource.</p>
 <pre><code class="language-elixir"># Example code snippet from the article
-<h1>Define an input object</h1>
-<p>input_object :post_create_input do
-field :title, non_null(:string)
-field :content, non_null(:string)
-field :state, :post_state_enum, default_value: :draft
-end</p>
-<h1>Define the mutation type</h1>
-<p>mutation do
-field :create_post, :post_mutation_result do
-arg :post, :post_create_input
-resolve &amp;Resolvers.create_post/3
+
+# Define an input object
+input_object :post_create_input do
+  field :title, non_null(:string)
+  field :content, non_null(:string)
+  field :state, :post_state_enum, default_value: :draft
 end
-end</p>
-<h1>Resolver to create a post</h1>
-<p>def create_post(_, %{post: post}, _) do</p>
-<h1>Logic to create a post</h1>
-<p>end
-</code></pre></p>
+
+# Define the mutation type
+mutation do
+  field :create_post, :post_mutation_result do
+    arg :post, :post_create_input
+    resolve &amp;Resolvers.create_post/3
+  end
+end
+
+# Resolver to create a post
+def create_post(_, %{post: post}, _) do
+  # Logic to create a post
+end
+</code></pre>
 <p>For more information on implementing mutations with Absinthe, be sure to check out the full article.</p>
 	</div>
 </article>

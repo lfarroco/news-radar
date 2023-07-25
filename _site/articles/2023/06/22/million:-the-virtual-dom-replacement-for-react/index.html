@@ -51,14 +51,16 @@
 <p>To use Million, developers can simply replace their React import with a Million import and start using the new API. Million also provides a compatibility layer for React components, allowing developers to gradually migrate their codebase.</p>
 <p>Here&apos;s an example of how to create a Million component:</p>
 <pre><code class="language-typescript">import { h, mount } from &apos;million&apos;;
-<p>function MyComponent(props) {
-return h('div', { class: 'my-component' }, [
-h('h1', {}, props.title),
-h('p', {}, props.text),
-]);
-}</p>
-<p>mount(MyComponent({ title: 'Hello', text: 'World' }), document.body);
-</code></pre></p>
+
+function MyComponent(props) {
+  return h(&apos;div&apos;, { class: &apos;my-component&apos; }, [
+    h(&apos;h1&apos;, {}, props.title),
+    h(&apos;p&apos;, {}, props.text),
+  ]);
+}
+
+mount(MyComponent({ title: &apos;Hello&apos;, text: &apos;World&apos; }), document.body);
+</code></pre>
 <p>In this example, Million&apos;s <code>h</code> function is used to create a virtual DOM tree, which is then mounted to the actual DOM using the <code>mount</code> function.</p>
 <p>Overall, Million is an interesting alternative to React that promises better performance and developer experience. While it&apos;s still a relatively new project, it&apos;s worth keeping an eye on for developers looking to optimize their web applications.</p>
 	</div>

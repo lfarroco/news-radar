@@ -46,11 +46,15 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/phronmophobic/clong" target="_blank"> here</a>.
 		</div>
-		<p>The article introduces Clong, a tool that serves as a wrapper for libclang and a generator for Clojure APIs. The author explains that Clong aims to simplify the process of creating wrappers for C libraries, making it less tedious and error-prone. While it doesn't automate the entire process, it can handle around 80-90% of the work, providing useful tools for building higher-level APIs.</p>
-<p>The usage of Clong is demonstrated, including how to parse header files using the <code>com.phronemophobic.clong.clang/parse</code> function, which takes a header filename and command line arguments to pass to clang. The article also mentions the availability of a raw API in <code>com.phronemophobic.clong.clang.jna.raw</code> for further processing.</p>
-<p>One notable feature of Clong is its ability to generate APIs. The article provides an example of how Clong can be used to generate a wrapper for libz, showcasing the use of <code>easy-api</code> to describe the API and <code>def-api</code> to generate the necessary structs, functions, and enums.</p>
-<p>The article concludes by mentioning other projects that utilize Clong, such as its own generation of the Clong's clang interface and a complete wrapper for the libav* libraries. It also mentions future work and provides the necessary licensing information.</p>
-<p>For developers looking to streamline the process of creating wrappers for C libraries in Clojure, Clong offers a valuable toolset and an efficient way to generate APIs.</p>
+		The article introduces Clong, a tool that serves as a wrapper for libclang and a generator for Clojure APIs. The author explains that Clong aims to simplify the process of creating wrappers for C libraries, making it less tedious and error-prone. While it doesn't automate the entire process, it can handle around 80-90% of the work, providing useful tools for building higher-level APIs.
+
+The usage of Clong is demonstrated, including how to parse header files using the `com.phronemophobic.clong.clang/parse` function, which takes a header filename and command line arguments to pass to clang. The article also mentions the availability of a raw API in `com.phronemophobic.clong.clang.jna.raw` for further processing.
+
+One notable feature of Clong is its ability to generate APIs. The article provides an example of how Clong can be used to generate a wrapper for libz, showcasing the use of `easy-api` to describe the API and `def-api` to generate the necessary structs, functions, and enums.
+
+The article concludes by mentioning other projects that utilize Clong, such as its own generation of the Clong's clang interface and a complete wrapper for the libav* libraries. It also mentions future work and provides the necessary licensing information.
+
+For developers looking to streamline the process of creating wrappers for C libraries in Clojure, Clong offers a valuable toolset and an efficient way to generate APIs.
 	</div>
 </article>
 

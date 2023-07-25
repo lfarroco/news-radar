@@ -56,22 +56,22 @@ public class OrderAggregate {
     @AggregateIdentifier
     private String orderId;
     private List&lt;OrderItem&gt; items;
-<pre><code>// Constructor, getters, and setters
 
-@CommandHandler
-public OrderAggregate(CreateOrderCommand command) {
-    // Handle the command and apply events
+    // Constructor, getters, and setters
+
+    @CommandHandler
+    public OrderAggregate(CreateOrderCommand command) {
+        // Handle the command and apply events
+    }
+
+    @EventSourcingHandler
+    public void on(OrderCreatedEvent event) {
+        // Handle the event and update the state
+    }
+
+    // Other event handlers and methods
 }
-
-@EventSourcingHandler
-public void on(OrderCreatedEvent event) {
-    // Handle the event and update the state
-}
-
-// Other event handlers and methods
 </code></pre>
-<p>}
-</code></pre></p>
 <p>In this example, the <code>OrderAggregate</code> is defined as an Aggregate using the <code>@Aggregate</code> annotation. It also has an <code>@AggregateIdentifier</code> field to uniquely identify the aggregate. The <code>@CommandHandler</code> annotation is used to handle incoming commands, and the <code>@EventSourcingHandler</code> annotation is used to handle events and update the state of the aggregate.</p>
 <p>With Ecotone&apos;s building blocks, developers can easily implement complex business logic and leverage the power of Event Sourcing to build resilient, domain-focused applications. By abstracting away the complexities of integration and infrastructure, Ecotone allows developers to focus on what matters most: delivering value to their users.</p>
 <p>To stay up to date with the latest news and updates in the world of programming languages and frameworks, make sure to follow Dev Radar, your radar for all things related to software development.</p>

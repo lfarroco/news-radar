@@ -46,10 +46,13 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/oliyh/superlifter" target="_blank"> here</a>.
 		</div>
-		<p>Superlifter is an implementation of DataLoader for Clojure that allows developers to decouple unrelated parts of their application without sacrificing performance. It leverages Urania, a remote data access library for Clojure/script, which enables batching of similar fetches and deduplication via caching.</p>
-<p>One of the main motivations behind Superlifter is to provide a way of combining fetches based on time buckets, thresholds, or explicit triggers, rather than by node resolution. This approach simplifies code and avoids the need for prefetching to resolve 1+n problems.</p>
-<p>Superlifter offers various features, including vanilla usage, where developers manually fetch data, and other triggers such as queue-size and interval. Developers can also trigger fetches manually using <code>(s/with-superlifter context (s/fetch!))</code>, which returns a promise containing the results of all the fetches.</p>
-<p>Overall, Superlifter provides a powerful tool for managing data loading in Clojure applications, allowing developers to optimize performance while maintaining code simplicity. It is a valuable addition to the Clojure ecosystem and worth exploring for those working with Clojure/script.</p>
+		Superlifter is an implementation of DataLoader for Clojure that allows developers to decouple unrelated parts of their application without sacrificing performance. It leverages Urania, a remote data access library for Clojure/script, which enables batching of similar fetches and deduplication via caching.
+
+One of the main motivations behind Superlifter is to provide a way of combining fetches based on time buckets, thresholds, or explicit triggers, rather than by node resolution. This approach simplifies code and avoids the need for prefetching to resolve 1+n problems.
+
+Superlifter offers various features, including vanilla usage, where developers manually fetch data, and other triggers such as queue-size and interval. Developers can also trigger fetches manually using `(s/with-superlifter context (s/fetch!))`, which returns a promise containing the results of all the fetches.
+
+Overall, Superlifter provides a powerful tool for managing data loading in Clojure applications, allowing developers to optimize performance while maintaining code simplicity. It is a valuable addition to the Clojure ecosystem and worth exploring for those working with Clojure/script.
 	</div>
 </article>
 

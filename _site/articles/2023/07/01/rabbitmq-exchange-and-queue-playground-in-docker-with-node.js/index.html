@@ -53,20 +53,26 @@
 <p>Overall, this article is a valuable resource for developers who want to explore RabbitMQ and its capabilities in a Docker environment. The provided code snippets and explanations make it easy to get started and understand the fundamentals of RabbitMQ.</p>
 <p>Code Snippet:</p>
 <pre><code class="language-javascript">const amqp = require(&apos;amqplib&apos;);
-<p>async function sendMessage() {
-const connection = await amqp.connect('amqp://localhost');
-const channel = await connection.createChannel();</p>
-<p>const exchange = 'myExchange';
-const routingKey = 'myKey';
-const message = 'Hello, RabbitMQ!';</p>
-<p>await channel.assertExchange(exchange, 'direct', { durable: true });
-await channel.publish(exchange, routingKey, Buffer.from(message));</p>
-<p>console.log('Message sent successfully!');</p>
-<p>await channel.close();
-await connection.close();
-}</p>
-<p>sendMessage().catch(console.error);
-</code></pre></p>
+
+async function sendMessage() {
+  const connection = await amqp.connect(&apos;amqp://localhost&apos;);
+  const channel = await connection.createChannel();
+  
+  const exchange = &apos;myExchange&apos;;
+  const routingKey = &apos;myKey&apos;;
+  const message = &apos;Hello, RabbitMQ!&apos;;
+  
+  await channel.assertExchange(exchange, &apos;direct&apos;, { durable: true });
+  await channel.publish(exchange, routingKey, Buffer.from(message));
+  
+  console.log(&apos;Message sent successfully!&apos;);
+  
+  await channel.close();
+  await connection.close();
+}
+
+sendMessage().catch(console.error);
+</code></pre>
 <p>For more information and the complete code, please refer to the original article.</p>
 	</div>
 </article>

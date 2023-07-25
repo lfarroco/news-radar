@@ -54,13 +54,15 @@
 <p>Here is an example of how the LanguageIndex dataset can be used to retrieve information about a programming language:</p>
 <pre><code>import requests
 import json
-<p>url = &quot;https://raw.githubusercontent.com/merwin-asm/languageindex/main/main.json&quot;
+
+url = &quot;https://raw.githubusercontent.com/merwin-asm/languageindex/main/main.json&quot;
 response = requests.get(url)
-data = json.loads(response.text)</p>
-<h1>Retrieve information about Python</h1>
-<p>python_info = data['languages']['Python']
+data = json.loads(response.text)
+
+# Retrieve information about Python
+python_info = data[&apos;languages&apos;][&apos;Python&apos;]
 print(python_info)
-</code></pre></p>
+</code></pre>
 <p>This code will retrieve information about Python from the LanguageIndex dataset and print it to the console.</p>
 <p>Overall, LanguageIndex is a valuable resource for developers who want to learn about programming languages and stay up-to-date with the latest trends in the industry. Its comprehensive dataset and collaborative nature make it a must-have tool for any developer who wants to keep their skills sharp.</p>
 	</div>

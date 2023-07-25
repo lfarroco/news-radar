@@ -57,26 +57,26 @@
 <p>Code Example</p>
 <p>Here is an example of how mock testing can be used in Java using the Mockito framework:</p>
 <pre><code>public class MyServiceTest {
-<pre><code>@Mock
-private MyDependency myDependency;
 
-@InjectMocks
-private MyService myService;
+    @Mock
+    private MyDependency myDependency;
 
-@Test
-public void testMyService() {
-    // Set up mock behavior
-    when(myDependency.doSomething()).thenReturn(&amp;quot;Mocked response&amp;quot;);
+    @InjectMocks
+    private MyService myService;
 
-    // Call the service method
-    String result = myService.doSomething();
+    @Test
+    public void testMyService() {
+        // Set up mock behavior
+        when(myDependency.doSomething()).thenReturn(&quot;Mocked response&quot;);
 
-    // Verify the result
-    assertEquals(&amp;quot;Mocked response&amp;quot;, result);
+        // Call the service method
+        String result = myService.doSomething();
+
+        // Verify the result
+        assertEquals(&quot;Mocked response&quot;, result);
+    }
 }
 </code></pre>
-<p>}
-</code></pre></p>
 <p>In this example, a mock object is created for the <code>MyDependency</code> class using the <code>@Mock</code> annotation. The <code>MyService</code> class is then created using the <code>@InjectMocks</code> annotation, which automatically injects the mock object into the service.</p>
 <p>The <code>when</code> method is used to specify the behavior of the mock object, in this case returning a mocked response. The <code>myService.doSomething()</code> method is then called, and the result is verified using the <code>assertEquals</code> method.</p>
 <p>Conclusion</p>

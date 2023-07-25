@@ -50,42 +50,45 @@
 <p>HarperDB Setup
 To start, spin up HarperDB with custom functions enabled alongside Kafka and Zookeeper. Add the following contents to <code>docker-compose.yml</code>:</p>
 <pre><code>version: &quot;3.7&quot;
-<p>services:
-harperdb:
-image: harperdb/hdb:v2.3.3
-ports:
-- &quot;9925:9925&quot;
-- &quot;9926:9926&quot;
-volumes:
-- ./harperdb:/opt/hdb-data
-- ./harperdb/custom_functions:/opt/hdb/custom_functions
-environment:
-- HDB_LICENSE_KEY=YOUR_LICENSE_KEY
-- HDB_CUSTOM_FUNCTIONS_ENABLED=true
-- HDB_KAFKA_ENABLED=true
-- HDB_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
-- HDB_KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-- HDB_NATS_ENABLED=true
-- HDB_NATS_URL=nats://nats:4222
-- HDB_NATS_CLUSTER_ID=test-cluster
-- HDB_NATS_CLIENT_ID=test-client
-depends_on:
-- kafka
-- zookeeper
-- nats</p>
-<p>kafka:
-image: wurstmeister/kafka
-ports:
-- &quot;9092:9092&quot;
-environment:
-- KAFKA_ADVERTISED_HOST_NAME=kafka
-- KAFKA_CREATE_TOPICS=test:1:1
-- KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181</p>
-<p>zookeeper:
-image: wurstmeister/zookeeper
-ports:
-- &quot;2181:2181&quot;
-</code></pre></p>
+
+services:
+  harperdb:
+    image: harperdb/hdb:v2.3.3
+    ports:
+      - &quot;9925:9925&quot;
+      - &quot;9926:9926&quot;
+    volumes:
+      - ./harperdb:/opt/hdb-data
+      - ./harperdb/custom_functions:/opt/hdb/custom_functions
+    environment:
+      - HDB_LICENSE_KEY=YOUR_LICENSE_KEY
+      - HDB_CUSTOM_FUNCTIONS_ENABLED=true
+      - HDB_KAFKA_ENABLED=true
+      - HDB_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - HDB_KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - HDB_NATS_ENABLED=true
+      - HDB_NATS_URL=nats://nats:4222
+      - HDB_NATS_CLUSTER_ID=test-cluster
+      - HDB_NATS_CLIENT_ID=test-client
+    depends_on:
+      - kafka
+      - zookeeper
+      - nats
+
+  kafka:
+    image: wurstmeister/kafka
+    ports:
+      - &quot;9092:9092&quot;
+    environment:
+      - KAFKA_ADVERTISED_HOST_NAME=kafka
+      - KAFKA_CREATE_TOPICS=test:1:1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - &quot;2181:2181&quot;
+</code></pre>
 <p>For this example, we&#x2019;ll store the database contents locally in <code>./harperdb</code> directory. Also, note that we are not specifying <code>CLUSTERING_ENABLED=true</code> in docker-compose. This will break the initial startup, and we&#x2019;ll configure via Harper Studio console.</p>
 <p>Start up the services via <code>docker-compose up -d</code>.</p>
 <p>Now we need to connect our local instance to Harper Studio. Specify the username and password from the docker compose file as well as port and host.</p>
@@ -109,24 +112,26 @@ Instead of publishing messages back to the WebSocket client, let&#x2019;s now pu
 <p>Then we can import and register the Kafka client.</p>
 <pre><code>const fastify = require(&apos;fastify&apos;)({ logger: true })
 const { Kafka } = require(&apos;kafkajs&apos;)
-<p>fastify.register(require('fastify-kafkajs'), {
-clientId: 'my-app',
-brokers: ['localhost:9092']
+
+fastify.register(require(&apos;fastify-kafkajs&apos;), {
+  clientId: &apos;my-app&apos;,
+  brokers: [&apos;localhost:9092&apos;]
 })
-</code></pre></p>
+</code></pre>
 <p>We can now simply modify the <code>onPublishedMessage</code> function to publish to Kafka instead of writing back to the socket:</p>
 <pre><code>const kafka = fastify.kafka()
 const producer = kafka.producer()
-<p>async function onPublishedMessage(message) {
-const { operation, table, record } = message
-const key = <code>${table}_${record.id}</code>
-const value = JSON.stringify(record)
-await producer.send({
-topic: table,
-messages: [{ key, value }],
-})
+
+async function onPublishedMessage(message) {
+  const { operation, table, record } = message
+  const key = `${table}_${record.id}`
+  const value = JSON.stringify(record)
+  await producer.send({
+    topic: table,
+    messages: [{ key, value }],
+  })
 }
-</code></pre></p>
+</code></pre>
 <p>Now restart the server and connect to our WebSocket client again. Publish another message to HarperDB, and we can check that it has been published to Kafka by sshing into the Kafka container and using the <code>kafka-console-consumer</code> binary:</p>
 <pre><code>docker exec -it kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic dog --from-beginning
 </code></pre>

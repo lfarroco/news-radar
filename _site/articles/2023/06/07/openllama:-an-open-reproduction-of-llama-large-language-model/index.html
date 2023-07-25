@@ -51,9 +51,10 @@
 <p>The OpenLLaMA models are released under the Apache 2.0 license, which means that they can be used and modified by anyone. We provide the weights in two formats: an EasyLM format to be used with our EasyLM framework, and a PyTorch format to be used with the Hugging Face transformers library. Both our training framework EasyLM and the checkpoint weights are licensed permissively under the Apache 2.0 license.</p>
 <p>To load the weights with Hugging Face Transformers, preview checkpoints can be directly loaded from Hugging Face&apos;s model hub. The weights can be loaded using the following code snippet:</p>
 <pre><code>from transformers import AutoTokenizer, AutoModelForCausalLM
-<p>tokenizer = AutoTokenizer.from_pretrained(&quot;openlm-research/open_llama_7b&quot;)
+
+tokenizer = AutoTokenizer.from_pretrained(&quot;openlm-research/open_llama_7b&quot;)
 model = AutoModelForCausalLM.from_pretrained(&quot;openlm-research/open_llama_7b&quot;)
-</code></pre></p>
+</code></pre>
 <p>The OpenLLaMA models can be used for a variety of natural language processing tasks, including text generation, language modeling, and fine-tuning on downstream tasks. The models can be fine-tuned on a variety of tasks, including sentiment analysis, question answering, and text classification.</p>
 <p>In conclusion, OpenLLaMA is an open-source reproduction of Meta AI&apos;s LLaMA large language model, which provides pre-trained models that can generate text in a variety of styles and formats. The models are released under the Apache 2.0 license and can be used and modified by anyone. The models can be loaded using the Hugging Face transformers library, and can be fine-tuned on a variety of natural language processing tasks. For more information, please visit the project homepage of OpenLLaMA.</p>
 	</div>

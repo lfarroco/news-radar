@@ -50,13 +50,15 @@
 <p>One solution is to use Celery, a distributed task queue, to handle these tasks asynchronously. The author of the article suggests using Celery with Flask to create a background task that can run independently of the main application.</p>
 <p>To implement this solution, the author provides a code snippet that shows how to define a Celery task in Flask. The task can then be called from the main application using the <code>delay()</code> method.</p>
 <pre><code>from celery import Celery
-<p>app = Flask(<strong>name</strong>)
-celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
-celery.conf.update(app.config)</p>
-<p>@celery.task
+
+app = Flask(__name__)
+celery = Celery(app.name, broker=app.config[&apos;CELERY_BROKER_URL&apos;])
+celery.conf.update(app.config)
+
+@celery.task
 def long_task():
-# long running task code here
-</code></pre></p>
+    # long running task code here
+</code></pre>
 <p>The author also suggests using Redis as the message broker for Celery, as it provides better performance than other options.</p>
 <p>In addition to Celery, the author mentions other solutions such as using a separate worker process or using a message queue like RabbitMQ. However, Celery is the recommended solution due to its ease of use and integration with Flask.</p>
 <p>Overall, handling multiple long backend tasks in Flask can be challenging, but with the use of Celery and other tools, it can be made much easier. By implementing these solutions, developers can improve the performance and scalability of their Flask applications.</p>

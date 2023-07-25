@@ -52,11 +52,13 @@
 <p>To use the generator, developers need to add it as a dependency in their Swift Package Manager manifest file. They can then use the <code>swift openapi generate</code> command to generate code from their OpenAPI specification.</p>
 <p>Here&apos;s an example of how to use the generator to generate a client for an API:</p>
 <pre><code class="language-swift">import OpenAPIGenerator
-<p>let generator = OpenAPIGenerator()
+
+let generator = OpenAPIGenerator()
 let specURL = URL(string: &quot;https://example.com/api/spec.json&quot;)!
-let outputDirectory = URL(fileURLWithPath: &quot;/path/to/output&quot;)</p>
-<p>try generator.generateClient(from: specURL, to: outputDirectory)
-</code></pre></p>
+let outputDirectory = URL(fileURLWithPath: &quot;/path/to/output&quot;)
+
+try generator.generateClient(from: specURL, to: outputDirectory)
+</code></pre>
 <p>The Swift OpenAPI Generator is a useful tool for developers who want to quickly generate client and server code for their APIs. It supports the latest OpenAPI specification and generates strongly typed code that is easy to use.</p>
 	</div>
 </article>

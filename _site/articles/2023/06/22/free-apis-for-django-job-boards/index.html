@@ -51,13 +51,15 @@
 <p>The Indeed API is another popular option that provides access to job listings from thousands of websites. The API allows developers to search for jobs based on location, job title, and company name.</p>
 <p>To use these APIs, developers can use Python libraries such as Requests or urllib to make HTTP requests and retrieve job data in JSON format. Here is an example code snippet that uses the GitHub Jobs API to retrieve job listings based on location:</p>
 <pre><code class="language-python">import requests
-<p>location = &quot;San Francisco&quot;
+
+location = &quot;San Francisco&quot;
 url = f&quot;https://jobs.github.com/positions.json?location={location}&quot;
-response = requests.get(url)</p>
-<p>jobs = response.json()
+response = requests.get(url)
+
+jobs = response.json()
 for job in jobs:
-print(job[&quot;title&quot;], job[&quot;company&quot;])
-</code></pre></p>
+    print(job[&quot;title&quot;], job[&quot;company&quot;])
+</code></pre>
 <p>In conclusion, there are several free job APIs available that can be used to extract job data for Django job boards. Developers can use Python libraries to make HTTP requests and retrieve job data in JSON format.</p>
 	</div>
 </article>

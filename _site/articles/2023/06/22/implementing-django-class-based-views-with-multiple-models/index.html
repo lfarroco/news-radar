@@ -53,26 +53,26 @@
 <p>Here&apos;s an example implementation:</p>
 <pre><code>class PostDetailView(DetailView):
     model = Post
-<pre><code>def get_context_data(self, **kwargs):
-    context = super().get_context_data(**kwargs)
-    context[&amp;apos;comment_form&amp;apos;] = CommentForm()
-    context[&amp;apos;comments&amp;apos;] = Comment.objects.filter(post=self.object)
-    return context
 
-def post(self, request, *args, **kwargs):
-    self.object = self.get_object()
-    form = CommentForm(request.POST)
-    if form.is_valid():
-        comment = form.save(commit=False)
-        comment.post = self.object
-        comment.save()
-        return redirect(&amp;apos;post-detail&amp;apos;, pk=self.object.pk)
-    else:
-        context = self.get_context_data(**kwargs)
-        context[&amp;apos;comment_form&amp;apos;] = form
-        return self.render_to_response(context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context[&apos;comment_form&apos;] = CommentForm()
+        context[&apos;comments&apos;] = Comment.objects.filter(post=self.object)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = self.object
+            comment.save()
+            return redirect(&apos;post-detail&apos;, pk=self.object.pk)
+        else:
+            context = self.get_context_data(**kwargs)
+            context[&apos;comment_form&apos;] = form
+            return self.render_to_response(context)
 </code></pre>
-<p></code></pre></p>
 <p>In this implementation, the get_context_data method adds the Comment form and associated comments to the context, and the post method handles the form submission. If the form is valid, it creates a new Comment object associated with the current Post and redirects back to the Post DetailView. If the form is invalid, it re-renders the Post DetailView with the form errors.</p>
 <p>By following this approach, the author can easily create a DetailView that handles multiple models and form submissions in a single view.</p>
 <p>Have you faced similar challenges with Django CBVs? Share your experiences in the comments below.</p>

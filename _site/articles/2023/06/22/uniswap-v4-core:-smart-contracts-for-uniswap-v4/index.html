@@ -53,15 +53,17 @@
 <p>Here&apos;s an example of how to create a new Uniswap v4 pair using the core smart contracts in Solidity:</p>
 <pre><code>import &quot;@uniswap/v4-core/contracts/interfaces/IUniswapV4Factory.sol&quot;;
 import &quot;@uniswap/v4-core/contracts/interfaces/IUniswapV4Pair.sol&quot;;
-<p>contract MyContract {
-address public factoryAddress = 0x1F98431c8aD98523631AE4a59f267346ea31F984;
-IUniswapV4Factory public factory = IUniswapV4Factory(factoryAddress);</p>
-<p>function createPair(address tokenA, address tokenB) external {
-IUniswapV4Pair pair = factory.createPair(tokenA, tokenB);
-// do something with new pair
+
+contract MyContract {
+  address public factoryAddress = 0x1F98431c8aD98523631AE4a59f267346ea31F984;
+  IUniswapV4Factory public factory = IUniswapV4Factory(factoryAddress);
+
+  function createPair(address tokenA, address tokenB) external {
+    IUniswapV4Pair pair = factory.createPair(tokenA, tokenB);
+    // do something with new pair
+  }
 }
-}
-</code></pre></p>
+</code></pre>
 <p>Uniswap v4 is already gaining traction in the DeFi space, with several projects announcing their integration with the new version. As the DeFi landscape continues to evolve, Uniswap remains a key player in the decentralized exchange market.</p>
 	</div>
 </article>

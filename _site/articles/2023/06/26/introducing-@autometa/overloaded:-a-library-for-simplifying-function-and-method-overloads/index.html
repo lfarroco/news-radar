@@ -72,11 +72,12 @@ function add(a: string | number, b: string | number): string | number {
 </code></pre>
 <p>Using @autometa/overloaded, the same function can be written like this:</p>
 <pre><code>import { overload } from &quot;@autometa/overloaded&quot;;
-<p>const add = overload({
-(a: string, b: string) =&gt; a + &quot;\n&quot; + b,
-(a: number, b: number) =&gt; a + b,
+
+const add = overload({
+  (a: string, b: string) =&gt; a + &quot;\n&quot; + b,
+  (a: number, b: number) =&gt; a + b,
 });
-</code></pre></p>
+</code></pre>
 <p>@autometa/overloaded is not yet released as version 1.0.0, so it may contain bugs or be subject to contract changes. However, it should be mostly stable. For more information and full documentation, visit the NPM link: https://www.npmjs.com/package/@autometa/overloaded</p>
 	</div>
 </article>

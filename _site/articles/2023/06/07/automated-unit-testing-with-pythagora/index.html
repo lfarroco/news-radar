@@ -53,17 +53,19 @@
 <p>Here&apos;s an example of how Pythagora can be used to generate tests for a simple Node.js application:</p>
 <pre><code class="language-javascript">const assert = require(&apos;assert&apos;);
 const app = require(&apos;./app&apos;);
-<p>describe('App', () =&gt; {
-it('should return hello world', () =&gt; {
-const result = app.sayHello();
-assert.equal(result, 'hello world');
-});</p>
-<p>it('should add two numbers', () =&gt; {
-const result = app.addNumbers(5, 10);
-assert.equal(result, 15);
+
+describe(&apos;App&apos;, () =&gt; {
+  it(&apos;should return hello world&apos;, () =&gt; {
+    const result = app.sayHello();
+    assert.equal(result, &apos;hello world&apos;);
+  });
+
+  it(&apos;should add two numbers&apos;, () =&gt; {
+    const result = app.addNumbers(5, 10);
+    assert.equal(result, 15);
+  });
 });
-});
-</code></pre></p>
+</code></pre>
 <p>In this example, Pythagora generated two test cases for the <code>sayHello</code> and <code>addNumbers</code> functions in the <code>app</code> module. The generated tests use the <code>assert</code> module to check if the functions return the expected results.</p>
 <p>Pythagora is still in development, and there are some limitations to its current version. For example, the tool may generate tests that are redundant or not relevant to the code being tested. However, the Pythagora team is continuously working to improve the tool and address these issues.</p>
 <p>Automated testing is an essential part of modern software development, and Pythagora offers a promising solution for developers looking to streamline their testing process. By using language models to generate tests, Pythagora can significantly reduce the time and effort required for testing, allowing developers to focus on other aspects of their application.</p>

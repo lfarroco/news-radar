@@ -50,11 +50,13 @@
 <p>Developers can benefit from Anna&apos;s Archive by exploring its vast catalog and leveraging its datasets for their projects. The website&apos;s search functionality allows users to find specific items of interest, making it a valuable resource for research and digital preservation.</p>
 <p>Here&apos;s an example of how developers can interact with Anna&apos;s Archive&apos;s API using Python:</p>
 <pre><code class="language-python">import requests
-<p>response = requests.get('https://annasarchive.com/api/catalog')
-data = response.json()</p>
-<p>for book in data['books']:
-print(book['title'])
-</code></pre></p>
+
+response = requests.get(&apos;https://annasarchive.com/api/catalog&apos;)
+data = response.json()
+
+for book in data[&apos;books&apos;]:
+    print(book[&apos;title&apos;])
+</code></pre>
 <p>By utilizing Anna&apos;s Archive&apos;s open-source code and datasets, developers can contribute to the preservation of human knowledge while also gaining access to a wealth of valuable resources.</p>
 	</div>
 </article>

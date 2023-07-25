@@ -60,18 +60,20 @@ public class User {
   private int age;
   // getters and setters
 }
-<p>// Example repository interface
+
+// Example repository interface
 public interface UserRepository extends JpaRepository&lt;User, Long&gt; {
-// Query By Example method
-List&lt;User&gt; findAll(Example&lt;User&gt; example);
-}</p>
-<p>// Example QBE query
+  // Query By Example method
+  List&lt;User&gt; findAll(Example&lt;User&gt; example);
+}
+
+// Example QBE query
 User user = new User();
 user.setFirstName(&quot;John&quot;);
 user.setAge(30);
 Example&lt;User&gt; example = Example.of(user);
 List&lt;User&gt; users = userRepository.findAll(example);
-</code></pre></p>
+</code></pre>
 	</div>
 </article>
 

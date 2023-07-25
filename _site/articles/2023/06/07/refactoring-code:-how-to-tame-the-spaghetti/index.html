@@ -62,19 +62,20 @@
   var h = 8;
   var i = 9;
   var j = 10;
-<p>if (a &lt; b) {
-if (c &gt; d) {
-if (e &lt; f) {
-if (g &gt; h) {
-if (i &lt; j) {
-console.log(&quot;Success!&quot;);
+  
+  if (a &lt; b) {
+    if (c &gt; d) {
+      if (e &lt; f) {
+        if (g &gt; h) {
+          if (i &lt; j) {
+            console.log(&quot;Success!&quot;);
+          }
+        }
+      }
+    }
+  }
 }
-}
-}
-}
-}
-}
-</code></pre></p>
+</code></pre>
 <p>The first step in untangling this mess is to identify the problem. In this case, the lack of meaningful variable names makes the code difficult to understand. To improve readability, we can rename variables so that they accurately represent their purpose. This best practice improves our own understanding and helps future developers working on the code.</p>
 <p>Next, we can break down the oversized <code>Main</code> function and identify separate functionalities. These can be extracted into their own functions or classes, making the code more modular and easier to maintain. For example:</p>
 <pre><code>function Main() {
@@ -88,14 +89,16 @@ console.log(&quot;Success!&quot;);
   var h = 8;
   var i = 9;
   var j = 10;
-<p>if (compareNumbers(a, b) &amp;&amp; compareNumbers(c, d) &amp;&amp; compareNumbers(e, f) &amp;&amp; compareNumbers(g, h) &amp;&amp; compareNumbers(i, j)) {
-console.log(&quot;Success!&quot;);
+  
+  if (compareNumbers(a, b) &amp;&amp; compareNumbers(c, d) &amp;&amp; compareNumbers(e, f) &amp;&amp; compareNumbers(g, h) &amp;&amp; compareNumbers(i, j)) {
+    console.log(&quot;Success!&quot;);
+  }
 }
-}</p>
-<p>function compareNumbers(num1, num2) {
-return num1 &lt; num2;
+
+function compareNumbers(num1, num2) {
+  return num1 &lt; num2;
 }
-</code></pre></p>
+</code></pre>
 <p>In this refactored code, we&apos;ve extracted the comparison logic into a separate function, making the code more modular and easier to understand. We&apos;ve also given the variables more meaningful names, improving readability.</p>
 <p>Benefits of Refactoring</p>
 <p>Refactoring code has many benefits, including:</p>

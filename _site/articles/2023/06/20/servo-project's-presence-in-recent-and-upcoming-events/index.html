@@ -53,15 +53,16 @@
 <p>Developers interested in the Servo project can contribute to its development on GitHub and get involved in the community through the project&apos;s Mastodon and Twitter accounts. The project also has a documentation website and a code of conduct for contributors.</p>
 <p>Here&apos;s an example of how to use Servo in a Rust application:</p>
 <pre><code class="language-rust">extern crate servo;
-<p>fn main() {
-let url = &quot;https://www.example.com&quot;;
-let mut browser = servo::ServoBrowser::new();
-browser.load_url(url);
-browser.wait_for_page_load();
-let html = browser.get_page_source();
-println!(&quot;{}&quot;, html);
+
+fn main() {
+    let url = &quot;https://www.example.com&quot;;
+    let mut browser = servo::ServoBrowser::new();
+    browser.load_url(url);
+    browser.wait_for_page_load();
+    let html = browser.get_page_source();
+    println!(&quot;{}&quot;, html);
 }
-</code></pre></p>
+</code></pre>
 <p>In this example, the ServoBrowser struct is used to load a URL and retrieve its HTML source code. The wait_for_page_load method blocks until the page has finished loading, and the get_page_source method returns the HTML code as a string.</p>
 <p>Overall, the Servo project&apos;s presence in recent and upcoming events highlights its importance in the web browser engine landscape. With its use of Rust and focus on performance and safety, it is a promising project for developers interested in systems programming and web development.</p>
 	</div>

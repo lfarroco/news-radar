@@ -51,27 +51,34 @@
 <p>Despite its simple idea, Angular Signals has been scaring part of the community who feel this new feature could affect the declarative way (FRP) we code around RxJs. However, in the author&apos;s opinion, RxJs will still continue to be a protagonist in Angular development and that Angular Signals came only to help compose this ecosystem.</p>
 <p>So, what are the possible uses for Angular Signals? The best way to validate the power of Angular Signals is to use it as much as possible. A good starting point is to base ourselves on the example provided in the RFC. Let&apos;s take a look at the code snippet below:</p>
 <pre><code class="language-typescript">import { Signal } from &apos;@angular/signals&apos;;
-<p>@Component({
-selector: 'app-root',
-template: <code>    &amp;lt;input [(ngModel)]=&amp;quot;name&amp;quot;&amp;gt;     &amp;lt;p&amp;gt;Hello, {{name}}!&amp;lt;/p&amp;gt;  </code>
+
+@Component({
+  selector: &apos;app-root&apos;,
+  template: `
+    &lt;input [(ngModel)]=&quot;name&quot;&gt;
+    &lt;p&gt;Hello, {{name}}!&lt;/p&gt;
+  `
 })
 export class AppComponent {
-name = '';
-nameChanged = new Signal&lt;string&gt;();</p>
-<p>constructor() {
-this.nameChanged.subscribe((name: string) =&gt; {
-console.log(<code>Name changed to ${name}</code>);
-});
-}</p>
-<p>set name(value: string) {
-this._name = value;
-this.nameChanged.emit(value);
-}</p>
-<p>get name(): string {
-return this._name;
+  name = &apos;&apos;;
+  nameChanged = new Signal&lt;string&gt;();
+
+  constructor() {
+    this.nameChanged.subscribe((name: string) =&gt; {
+      console.log(`Name changed to ${name}`);
+    });
+  }
+
+  set name(value: string) {
+    this._name = value;
+    this.nameChanged.emit(value);
+  }
+
+  get name(): string {
+    return this._name;
+  }
 }
-}
-</code></pre></p>
+</code></pre>
 <p>In this example, we have an input field that is bound to the <code>name</code> property of the component. Whenever the value of the input changes, the <code>name</code> property is updated and the <code>nameChanged</code> signal is emitted with the new value. The signal is subscribed to in the constructor of the component, and whenever the signal is emitted, the console logs the new value.</p>
 <p>This is just a simple example, but it shows the potential of Angular Signals to simplify the code and make it more declarative. By using signals, we can avoid the need for complex event handling and callbacks, and instead rely on a simple and intuitive API.</p>
 <p>In conclusion, Angular Signals is a powerful new feature that extends the power of Angular and simplifies the way we code around RxJs. While it may be controversial, it has the potential to make our code more declarative and easier to read. As developers, it is important to keep up with the latest news and features in the industry, and Angular Signals is definitely a feature worth exploring.</p>

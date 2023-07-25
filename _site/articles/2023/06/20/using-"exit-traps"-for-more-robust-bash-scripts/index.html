@@ -52,16 +52,20 @@
 <p>Exit traps can also be useful for keeping services up, even in the face of runtime errors. For example, a script that temporarily stops a server for maintenance can ensure that it starts again at the end, regardless of any errors that may occur.</p>
 <p>Here&apos;s an example of using exit traps to stop and restart a MongoDB server on an Ubuntu machine:</p>
 <pre><code>#!/bin/bash
-<p>finish () {</p>
-<h1>Restart MongoDB</h1>
-<p>sudo service mongodb start
-}</p>
-<h1>Stop MongoDB</h1>
-<p>sudo service mongodb stop</p>
-<h1>Do maintenance tasks here</h1>
-<h1>Ensure MongoDB is restarted even if there is an error</h1>
-<p>trap finish EXIT
-</code></pre></p>
+
+finish () {
+  # Restart MongoDB
+  sudo service mongodb start
+}
+
+# Stop MongoDB
+sudo service mongodb stop
+
+# Do maintenance tasks here
+
+# Ensure MongoDB is restarted even if there is an error
+trap finish EXIT
+</code></pre>
 <p>By using exit traps, Bash scripts can be made more reliable and robust, ensuring that necessary cleanup operations are always performed and services are kept up, no matter what.</p>
 	</div>
 </article>

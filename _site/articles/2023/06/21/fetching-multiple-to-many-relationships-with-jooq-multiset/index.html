@@ -54,18 +54,20 @@
     id BIGINT PRIMARY KEY,
     title VARCHAR(255) NOT NULL
 );
-<p>CREATE TABLE tag (
-id BIGINT PRIMARY KEY,
-name VARCHAR(255) NOT NULL
-);</p>
-<p>CREATE TABLE post_tag (
-post_id BIGINT NOT NULL,
-tag_id BIGINT NOT NULL,
-PRIMARY KEY (post_id, tag_id),
-FOREIGN KEY (post_id) REFERENCES post(id),
-FOREIGN KEY (tag_id) REFERENCES tag(id)
+
+CREATE TABLE tag (
+    id BIGINT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
 );
-</code></pre></p>
+
+CREATE TABLE post_tag (
+    post_id BIGINT NOT NULL,
+    tag_id BIGINT NOT NULL,
+    PRIMARY KEY (post_id, tag_id),
+    FOREIGN KEY (post_id) REFERENCES post(id),
+    FOREIGN KEY (tag_id) REFERENCES tag(id)
+);
+</code></pre>
 <p>We have a many-to-many relationship between <code>post</code> and <code>tag</code> entities, which is represented by the <code>post_tag</code> join table.</p>
 <p>Fetching Multiple To-Many Relationships</p>
 <p>With jOOQ, we can use the <code>MULTISET</code> function to fetch multiple to-many relationships in a single query. Here&#x2019;s an example:</p>

@@ -50,22 +50,24 @@
 <p>With Climate, developers can easily autogenerate CLIs from structs and functions, with support for nested subcommands and global/local flags. The library also offers typo suggestions and allows for easy generation of help documentation from godocs.</p>
 <p>To demonstrate the usage of Climate, here&apos;s an example code snippet:</p>
 <pre><code class="language-go">package main
-<p>import (
-&quot;fmt&quot;
-&quot;github.com/avamsi/climate&quot;
-)</p>
-<p>func main() {
-app := climate.NewCliMate()
-app.Command(&quot;greet&quot;, &quot;Greet someone&quot;, func(c *climate.CliMate) {
-name := c.String(&quot;name&quot;, &quot;World&quot;, &quot;The name of the person to greet&quot;)
-c.Action(func() {
-fmt.Printf(&quot;Hello, %s!\n&quot;, *name)
-})
-})</p>
-<pre><code>app.Run()
+
+import (
+	&quot;fmt&quot;
+	&quot;github.com/avamsi/climate&quot;
+)
+
+func main() {
+	app := climate.NewCliMate()
+	app.Command(&quot;greet&quot;, &quot;Greet someone&quot;, func(c *climate.CliMate) {
+		name := c.String(&quot;name&quot;, &quot;World&quot;, &quot;The name of the person to greet&quot;)
+		c.Action(func() {
+			fmt.Printf(&quot;Hello, %s!\n&quot;, *name)
+		})
+	})
+
+	app.Run()
+}
 </code></pre>
-<p>}
-</code></pre></p>
 <p>Climate provides a seamless experience for developers looking to create CLIs in Go. It simplifies the process and offers a range of features that make CLI development more efficient and enjoyable. With its intuitive interface and extensive documentation, Climate is a valuable tool for developers looking to keep up with the latest trends in the industry.</p>
 	</div>
 </article>

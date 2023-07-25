@@ -65,19 +65,20 @@ regex-lite = &quot;0.1&quot;
 <li>Edit src/main.rs with the following code:</li>
 </ol>
 <pre><code class="language-rust">use regex_lite::Regex;
-<p>fn main() {
-let haystack = &quot;Hello, world!&quot;;
-let pattern = r&quot;world&quot;;</p>
-<pre><code>let re = Regex::new(pattern).unwrap();
-if let Some(captures) = re.captures(haystack) {
-    let match_str = captures.get(0).unwrap().as_str();
-    println!(&amp;quot;Found match: {}&amp;quot;, match_str);
-} else {
-    println!(&amp;quot;No match found&amp;quot;);
+
+fn main() {
+    let haystack = &quot;Hello, world!&quot;;
+    let pattern = r&quot;world&quot;;
+
+    let re = Regex::new(pattern).unwrap();
+    if let Some(captures) = re.captures(haystack) {
+        let match_str = captures.get(0).unwrap().as_str();
+        println!(&quot;Found match: {}&quot;, match_str);
+    } else {
+        println!(&quot;No match found&quot;);
+    }
 }
 </code></pre>
-<p>}
-</code></pre></p>
 <ol start="4">
 <li>Run the program:</li>
 </ol>

@@ -58,14 +58,16 @@
     @name = name
     @age = age
   end
-<p>def get_binding
-binding
+
+  def get_binding
+    binding
+  end
 end
-end</p>
-<p>person = Person.new(&quot;John Doe&quot;, 25)
-erb_template = ERB.new(&quot;My name is &lt;%= @name %&gt; and I'm &lt;%= @age %&gt; years old.&quot;)
+
+person = Person.new(&quot;John Doe&quot;, 25)
+erb_template = ERB.new(&quot;My name is &lt;%= @name %&gt; and I&apos;m &lt;%= @age %&gt; years old.&quot;)
 result = erb_template.result(person.get_binding)
-</code></pre></p>
+</code></pre>
 <p>In the above code, <code>person.get_binding</code> returns the binding of the <code>person</code> instance, which includes the instance variables <code>@name</code> and <code>@age</code>. These variables are then used by the ERB template to fill in the string.</p>
 <p>By understanding these concepts, developers can implement Rails-like views in Ruby and have access to controller instance variables in views. This article provides a valuable resource for developers looking to build web applications in Ruby without relying on Rails.</p>
 	</div>

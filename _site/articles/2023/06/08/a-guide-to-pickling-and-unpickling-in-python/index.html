@@ -53,17 +53,19 @@ Pickling is the process of converting a Python object into a byte stream, which 
 Python provides a built-in module called pickle that implements pickling and unpickling. The pickle module uses a protocol to serialize and deserialize Python objects. The protocol determines the format of the byte stream and the level of compatibility between different versions of Python. The current protocol version is 5, which is compatible with Python 3.10 and later.</p>
 <p>To pickle an object, you can use the dump() function of the pickle module, which writes the byte stream to a file or a stream. Here&apos;s an example:</p>
 <pre><code>import pickle
-<p>data = {'name': 'Alice', 'age': 25, 'hobbies': ['reading', 'traveling']}
-with open('data.pickle', 'wb') as f:
-pickle.dump(data, f)
-</code></pre></p>
+
+data = {&apos;name&apos;: &apos;Alice&apos;, &apos;age&apos;: 25, &apos;hobbies&apos;: [&apos;reading&apos;, &apos;traveling&apos;]}
+with open(&apos;data.pickle&apos;, &apos;wb&apos;) as f:
+    pickle.dump(data, f)
+</code></pre>
 <p>This code creates a dictionary called <code>data</code> that contains some personal information about a person. Then, it opens a file called <code>data.pickle</code> in binary mode and uses the dump() function to pickle the data and write it to the file.</p>
 <p>To unpickle an object, you can use the load() function of the pickle module, which reads the byte stream from a file or a stream and returns the corresponding Python object. Here&apos;s an example:</p>
 <pre><code>import pickle
-<p>with open('data.pickle', 'rb') as f:
-data = pickle.load(f)
+
+with open(&apos;data.pickle&apos;, &apos;rb&apos;) as f:
+    data = pickle.load(f)
 print(data)
-</code></pre></p>
+</code></pre>
 <p>This code opens the same file <code>data.pickle</code> in binary mode and uses the load() function to unpickle the data and assign it to a variable called <code>data</code>. Then, it prints the contents of the data, which should be the same as the original dictionary.</p>
 <p>Tips for Using Pickling and Unpickling in Python
 Here are some tips for using pickling and unpickling effectively and safely in your Python projects:</p>

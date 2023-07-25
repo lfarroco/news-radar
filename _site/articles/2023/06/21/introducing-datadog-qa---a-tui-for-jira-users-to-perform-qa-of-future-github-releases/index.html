@@ -51,13 +51,15 @@
 <p>Datadog QA is built using Python and is available under the MIT license. The tool has already gained popularity among developers due to its ease of use and powerful features.</p>
 <p>Here&apos;s an example of how to use Datadog QA to create a new test case:</p>
 <pre><code class="language-python">from ddqa import Jira, TestPlan
-<p>jira = Jira(&quot;https://mycompany.atlassian.net&quot;, &quot;username&quot;, &quot;password&quot;)
-test_plan = TestPlan(jira, &quot;PROJ&quot;, &quot;Test Plan Name&quot;)</p>
-<p>test_case = test_plan.create_test_case(&quot;Test Case Name&quot;)
+
+jira = Jira(&quot;https://mycompany.atlassian.net&quot;, &quot;username&quot;, &quot;password&quot;)
+test_plan = TestPlan(jira, &quot;PROJ&quot;, &quot;Test Plan Name&quot;)
+
+test_case = test_plan.create_test_case(&quot;Test Case Name&quot;)
 test_case.add_step(&quot;Step 1&quot;, &quot;Expected Result 1&quot;)
 test_case.add_step(&quot;Step 2&quot;, &quot;Expected Result 2&quot;)
 test_case.save()
-</code></pre></p>
+</code></pre>
 <p>Overall, Datadog QA is a powerful tool that can help QA managers streamline their QA process and ensure that future GitHub releases are thoroughly tested before they are released to the public.</p>
 	</div>
 </article>

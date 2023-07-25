@@ -51,20 +51,21 @@
 <p>To get started with Rust Polars, developers can check out the documentation and explore the available qualifiers for searching code, repositories, users, issues, and pull requests. The library also supports saved searches, allowing developers to filter results more quickly.</p>
 <p>Here&apos;s an example of how to use Rust Polars to perform a simple data manipulation task:</p>
 <pre><code class="language-rust">use polars::prelude::*;
-<p>fn main() {
-// Create a DataFrame
-let df = DataFrame::new(vec![
-Series::new(&quot;name&quot;, &amp;[&quot;Alice&quot;, &quot;Bob&quot;, &quot;Charlie&quot;]),
-Series::new(&quot;age&quot;, &amp;[25, 30, 35]),
-]);</p>
-<pre><code>// Filter the DataFrame
-let filtered_df = df.filter(col(&amp;quot;age&amp;quot;).gt(30));
 
-// Print the filtered DataFrame
-println!(&amp;quot;{:?}&amp;quot;, filtered_df);
+fn main() {
+    // Create a DataFrame
+    let df = DataFrame::new(vec![
+        Series::new(&quot;name&quot;, &amp;[&quot;Alice&quot;, &quot;Bob&quot;, &quot;Charlie&quot;]),
+        Series::new(&quot;age&quot;, &amp;[25, 30, 35]),
+    ]);
+
+    // Filter the DataFrame
+    let filtered_df = df.filter(col(&quot;age&quot;).gt(30));
+
+    // Print the filtered DataFrame
+    println!(&quot;{:?}&quot;, filtered_df);
+}
 </code></pre>
-<p>}
-</code></pre></p>
 <p>With its intuitive API and powerful features, Rust Polars is a valuable tool for developers working with data manipulation in Rust. Stay tuned for more updates and news from the Rust Polars community.</p>
 	</div>
 </article>

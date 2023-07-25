@@ -73,12 +73,12 @@ end
     create_table :courses do |t|
       t.string :name
       t.integer :status
-<pre><code>  t.timestamps
+
+      t.timestamps
+    end
+  end
 end
 </code></pre>
-<p>end
-end
-</code></pre></p>
 <p>Finally, run the migration to create the new table:</p>
 <pre><code class="language-ruby">rails db:migrate
 </code></pre>

@@ -52,14 +52,15 @@
 <p>Developers interested in keeping up with the latest news on PostgreSQL should follow the discussions on the PostgreSQL mailing lists and forums. As always, it&apos;s important to weigh the potential benefits and drawbacks of any changes to a system before implementing them.</p>
 <pre><code class="language-python"># Example code snippet
 import psycopg2
-<p>conn = psycopg2.connect(database=&quot;mydatabase&quot;, user=&quot;myusername&quot;, password=&quot;mypassword&quot;, host=&quot;localhost&quot;, port=&quot;5432&quot;)
+
+conn = psycopg2.connect(database=&quot;mydatabase&quot;, user=&quot;myusername&quot;, password=&quot;mypassword&quot;, host=&quot;localhost&quot;, port=&quot;5432&quot;)
 cur = conn.cursor()
 cur.execute(&quot;SELECT * FROM mytable&quot;)
 rows = cur.fetchall()
 for row in rows:
-print(row)
+    print(row)
 conn.close()
-</code></pre></p>
+</code></pre>
 	</div>
 </article>
 

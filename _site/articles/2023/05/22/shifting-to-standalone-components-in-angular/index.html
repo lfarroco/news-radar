@@ -50,13 +50,16 @@
 <p>Standalone components were introduced as an experimental feature in Angular v14 and have since become a game changer for Angular-based applications. By removing unnecessary imports, standalone components simplify code and reduce bundle size.</p>
 <p>The traditional approach to declaring components in Angular involves using ngModules. However, with standalone components, you no longer have to declare components in any module as long as a standalone flag is applied. Here&apos;s an example of how to declare a standalone component:</p>
 <pre><code class="language-typescript">import { Component } from &apos;@angular/core&apos;;
-<p>@Component({
-selector: 'app-my-standalone-component',
-template: <code>    &amp;lt;h1&amp;gt;Hello, world!&amp;lt;/h1&amp;gt;  </code>,
-standalone: true
+
+@Component({
+  selector: &apos;app-my-standalone-component&apos;,
+  template: `
+    &lt;h1&gt;Hello, world!&lt;/h1&gt;
+  `,
+  standalone: true
 })
 export class MyStandaloneComponent {}
-</code></pre></p>
+</code></pre>
 <p>Compared to the component declaration in the ngModule-based approach, you&apos;ll notice that the imports array is available for standalone components. This means you can import other standalone components and modules if you need them. However, the biggest advantage of standalone components is that you don&apos;t have to import the entire CommonModule. Instead, you can import only those functionalities required in your component, which significantly impacts your bundle size.</p>
 <p>While standalone components were introduced as an experimental feature, they have become a recommended approach for Angular development. In fact, the Angular team has stated that they will be removing support for the traditional ngModule-based approach in future versions of Angular.</p>
 <p>If you&apos;re looking to shift to standalone components in your Angular app, there are a few things to keep in mind. First, you&apos;ll need to ensure that your app is using Angular v14 or later. Second, you&apos;ll need to update your component declarations to include the standalone flag. Finally, you&apos;ll need to refactor your code to remove unnecessary imports and take advantage of the reduced bundle size.</p>

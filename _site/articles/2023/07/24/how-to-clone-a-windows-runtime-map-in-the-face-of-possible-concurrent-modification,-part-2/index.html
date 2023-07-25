@@ -46,11 +46,16 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://devblogs.microsoft.com/oldnewthing/20230720-00/?p=108466" target="_blank"> here</a>.
 		</div>
-		<p>The article discusses the process of cloning a Windows Runtime map in the presence of potential concurrent modification. The author explains that they have previously developed a function that performs the cloning, but they are now exploring alternative designs for the function.</p>
-<p>The author suggests breaking the cloning process into two separate functions, one for using a <code>std::map</code> and another for using a <code>std::unordered_map</code>. This approach avoids potential issues when the original function is called with incompatible types.</p>
-<p>The article then delves into the implementation details of a worker function that clones the Windows Runtime map into a C++ vector of <code>IKey­Value­Pair</code> objects. The author also introduces several helper functions to simplify the process of type deduction.</p>
-<p>The article concludes by mentioning that the next step is to port the code to C++/CX.</p>
-<p>This article provides valuable insights for developers working with Windows Runtime maps and offers alternative approaches to cloning them. The author's explanations and code examples make it easier for developers to understand and implement the cloning process in their own projects.</p>
+		
+The article discusses the process of cloning a Windows Runtime map in the presence of potential concurrent modification. The author explains that they have previously developed a function that performs the cloning, but they are now exploring alternative designs for the function.
+
+The author suggests breaking the cloning process into two separate functions, one for using a `std::map` and another for using a `std::unordered_map`. This approach avoids potential issues when the original function is called with incompatible types.
+
+The article then delves into the implementation details of a worker function that clones the Windows Runtime map into a C++ vector of `IKey­Value­Pair` objects. The author also introduces several helper functions to simplify the process of type deduction.
+
+The article concludes by mentioning that the next step is to port the code to C++/CX.
+
+This article provides valuable insights for developers working with Windows Runtime maps and offers alternative approaches to cloning them. The author's explanations and code examples make it easier for developers to understand and implement the cloning process in their own projects.
 	</div>
 </article>
 

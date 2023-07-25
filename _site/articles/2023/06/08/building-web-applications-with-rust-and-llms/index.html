@@ -66,49 +66,53 @@ serde = { version = &quot;1.0&quot;, features = [&quot;derive&quot;] }
 <p>Next, we will create a simple web server using the <code>actix-web</code> crate. This server will respond to POST requests to the <code>/generate</code> endpoint, which will contain the user&apos;s input.</p>
 <pre><code class="language-rust">use actix_web::{post, web, App, HttpResponse, HttpServer, Responder};
 use serde::{Deserialize, Serialize};
-<p>#[derive(Deserialize)]
-struct GenerateRequest {
-input: String,
-}</p>
-<p>#[derive(Serialize)]
-struct GenerateResponse {
-output: String,
-}</p>
-<p>#[post(&quot;/generate&quot;)]
-async fn generate(request: web::Json&lt;GenerateRequest&gt;) -&gt; impl Responder {
-let input = &amp;request.input;
-let response = reqwest::Client::new()
-.post(&quot;https://api.openai.com/v1/engines/davinci-codex/completions&quot;)
-.header(&quot;Authorization&quot;, &quot;Bearer &lt;YOUR_API_KEY&gt;&quot;)
-.json(&amp;json!({
-&quot;prompt&quot;: input,
-&quot;max_tokens&quot;: 100,
-&quot;temperature&quot;: 0.5,
-&quot;n&quot;: 1,
-&quot;stop&quot;: &quot;\n&quot;
-}))
-.send()
-.await
-.unwrap()
-.json::&lt;serde_json::Value&gt;()
-.await
-.unwrap();</p>
-<pre><code>let output = response[&amp;quot;choices&amp;quot;][0][&amp;quot;text&amp;quot;].as_str().unwrap().to_owned();
 
-HttpResponse::Ok().json(GenerateResponse { output })
-</code></pre>
-<p>}</p>
-<p>#[actix_web::main]
-async fn main() -&gt; std::io::Result&lt;()&gt; {
-HttpServer::new(|| {
-App::new()
-.service(generate)
-})
-.bind(&quot;127.0.0.1:8080&quot;)?
-.run()
-.await
+#[derive(Deserialize)]
+struct GenerateRequest {
+    input: String,
 }
-</code></pre></p>
+
+#[derive(Serialize)]
+struct GenerateResponse {
+    output: String,
+}
+
+#[post(&quot;/generate&quot;)]
+async fn generate(request: web::Json&lt;GenerateRequest&gt;) -&gt; impl Responder {
+    let input = &amp;request.input;
+    let response = reqwest::Client::new()
+        .post(&quot;https://api.openai.com/v1/engines/davinci-codex/completions&quot;)
+        .header(&quot;Authorization&quot;, &quot;Bearer &lt;YOUR_API_KEY&gt;&quot;)
+        .json(&amp;json!({
+            &quot;prompt&quot;: input,
+            &quot;max_tokens&quot;: 100,
+            &quot;temperature&quot;: 0.5,
+            &quot;n&quot;: 1,
+            &quot;stop&quot;: &quot;\n&quot;
+        }))
+        .send()
+        .await
+        .unwrap()
+        .json::&lt;serde_json::Value&gt;()
+        .await
+        .unwrap();
+
+    let output = response[&quot;choices&quot;][0][&quot;text&quot;].as_str().unwrap().to_owned();
+
+    HttpResponse::Ok().json(GenerateResponse { output })
+}
+
+#[actix_web::main]
+async fn main() -&gt; std::io::Result&lt;()&gt; {
+    HttpServer::new(|| {
+        App::new()
+            .service(generate)
+    })
+    .bind(&quot;127.0.0.1:8080&quot;)?
+    .run()
+    .await
+}
+</code></pre>
 <p>In this code, we define a <code>GenerateRequest</code> struct that contains the user&apos;s input, and a <code>GenerateResponse</code> struct that contains the generated output. The <code>generate</code> function uses the <code>reqwest</code> crate to make a POST request to the OpenAI API, passing in the user&apos;s input as the prompt. The response is then parsed and the generated output is extracted. Finally, the output is returned as a JSON response.</p>
 <p>Conclusion</p>
 <p>In this article, we have explored how Rust can be used to build web applications that utilize LLMs. We have seen how Rust&apos;s speed, safety, and concurrency make it an excellent choice for building high-performance web applications. By integrating LLMs into our applications, we can create intelligent systems that can understand natural language and provide more personalized experiences for our users.</p>

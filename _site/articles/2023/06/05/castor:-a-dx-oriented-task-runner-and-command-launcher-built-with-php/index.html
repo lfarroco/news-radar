@@ -51,13 +51,14 @@
 <p>Castor is built on top of Symfony Console, a popular PHP package for building CLI applications. This makes it easy to integrate with existing Symfony projects, or to use Castor as a standalone tool.</p>
 <p>Here&apos;s an example of a simple Castor task:</p>
 <pre><code class="language-php">use Castor\Task;
-<p>Task::create('greet')
--&gt;description('Say hello')
--&gt;run(function () {
-$name = $this-&gt;ask('What is your name?');
-$this-&gt;writeln(&quot;Hello, $name!&quot;);
-});
-</code></pre></p>
+
+Task::create(&apos;greet&apos;)
+    -&gt;description(&apos;Say hello&apos;)
+    -&gt;run(function () {
+        $name = $this-&gt;ask(&apos;What is your name?&apos;);
+        $this-&gt;writeln(&quot;Hello, $name!&quot;);
+    });
+</code></pre>
 <p>This task prompts the user for their name and then prints a greeting. Castor tasks can also be chained together to create more complex workflows.</p>
 <p>Overall, Castor is a powerful tool for simplifying development workflows and improving developer experience. Its focus on DX and its integration with Symfony make it a great choice for PHP developers looking to streamline their workflows.</p>
 	</div>

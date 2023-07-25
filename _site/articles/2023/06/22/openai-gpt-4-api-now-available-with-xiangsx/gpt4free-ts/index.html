@@ -50,14 +50,16 @@
 <p>The OpenAI GPT-4 API is a powerful tool for natural language processing and generation. It can be used for a variety of tasks, such as chatbots, language translation, and text summarization. With the xiangsx/gpt4free-ts project, developers can access this API for free, making it accessible to a wider audience.</p>
 <p>To use the API, developers can clone the repository and follow the instructions provided in the README file. The API can be accessed through HTTP requests and supports both synchronous and asynchronous requests. Here&apos;s an example of a synchronous request in TypeScript:</p>
 <pre><code>import axios from &apos;axios&apos;;
-<p>const prompt = 'Hello world!';
-const response = await axios.post('https://api.gpt4free.com/completion', {
-prompt,
-length: 50,
-apiKey: 'YOUR_API_KEY',
-});</p>
-<p>console.log(response.data.choices[0].text);
-</code></pre></p>
+
+const prompt = &apos;Hello world!&apos;;
+const response = await axios.post(&apos;https://api.gpt4free.com/completion&apos;, {
+  prompt,
+  length: 50,
+  apiKey: &apos;YOUR_API_KEY&apos;,
+});
+
+console.log(response.data.choices[0].text);
+</code></pre>
 <p>The <code>prompt</code> variable contains the text that the API will use to generate a response. The <code>length</code> parameter specifies the length of the generated text. The <code>apiKey</code> parameter is required and can be obtained by registering on the OpenAI website.</p>
 <p>The xiangsx/gpt4free-ts project is a valuable resource for developers who want to experiment with the OpenAI GPT-4 API without incurring any costs. It also provides an opportunity for developers to contribute to the project and improve its functionality.</p>
 	</div>

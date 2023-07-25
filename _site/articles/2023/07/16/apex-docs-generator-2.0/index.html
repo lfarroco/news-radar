@@ -50,14 +50,16 @@
 <p>To use Apex Docs Generator, developers only need to interact with two methods within the Apex\Docs\DocsGenerator class. The <code>generateClass()</code> function generates documentation for a single PHP class, while the <code>generateDirectory()</code> function generates documentation for a directory of PHP classes.</p>
 <p>For example, to generate documentation for a single class, developers can use the following code snippet:</p>
 <pre><code class="language-php">use Apex\Docs\DocsGenerator;
-<p>$generator = new DocsGenerator();
-$generator-&gt;generateClass('path/to/class.php', 'output/directory', 'html');
-</code></pre></p>
+
+$generator = new DocsGenerator();
+$generator-&gt;generateClass(&apos;path/to/class.php&apos;, &apos;output/directory&apos;, &apos;html&apos;);
+</code></pre>
 <p>To generate documentation for a directory of PHP classes, developers can use the following code snippet:</p>
 <pre><code class="language-php">use Apex\Docs\DocsGenerator;
-<p>$generator = new DocsGenerator();
-$generator-&gt;generateDirectory('path/to/directory', 'output/directory', 'html');
-</code></pre></p>
+
+$generator = new DocsGenerator();
+$generator-&gt;generateDirectory(&apos;path/to/directory&apos;, &apos;output/directory&apos;, &apos;html&apos;);
+</code></pre>
 <p>The documentation can be easily customized by choosing from the available themes located in the <code>/themes/</code> directory. By default, Apex Docs Generator supports three themes: html, markdown, and syrus.</p>
 <p>Additionally, Apex Docs Generator offers integration with Syrus, a popular PHP templating engine. To enable Syrus integration, developers can modify the <code>/config/container.php</code> file and add the <code>Apex\Docs\SyrusTags</code> entry to the <code>syrus.tag_namespaces</code> array. With this integration, developers can generate documentation formatted specifically for Syrus.</p>
 <p>Apex Docs Generator 2.0 is a valuable tool for developers who want to generate comprehensive and visually appealing documentation for their PHP projects. It simplifies the documentation process and provides flexibility in styling and formatting. To learn more about Apex Docs Generator and its features, visit the official website at <a href="https://apexpl.io/">https://apexpl.io/</a>.</p>

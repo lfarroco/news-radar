@@ -52,13 +52,15 @@
 <p>Django AllAuth UI is a useful tool for developers who want to add social authentication to their Django projects without having to spend time designing and implementing the necessary pages themselves. The templates are also a great starting point for developers who are new to Django AllAuth and want to learn how to use it.</p>
 <p>Here is an example of how to use the Facebook login template:</p>
 <pre><code class="language-html">{% extends &quot;account/base.html&quot; %}
-<p %="" load="" socialaccount="" %=""></p>
-<p>{% block content %}
-&lt;h2&gt;Facebook Login&lt;/h2&gt;
-&lt;hr&gt;
-{% provider_login_url &quot;facebook&quot; method=&quot;oauth2&quot; %}
+
+{% load socialaccount %}
+
+{% block content %}
+    &lt;h2&gt;Facebook Login&lt;/h2&gt;
+    &lt;hr&gt;
+    {% provider_login_url &quot;facebook&quot; method=&quot;oauth2&quot; %}
 {% endblock %}
-</code></pre></p>
+</code></pre>
 <p>Overall, Django AllAuth UI is a valuable resource for developers looking to streamline their social authentication implementation in Django projects.</p>
 	</div>
 </article>

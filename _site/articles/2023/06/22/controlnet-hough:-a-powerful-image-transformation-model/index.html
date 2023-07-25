@@ -57,16 +57,19 @@
 <pre><code class="language-python">import torch
 import torchvision.transforms as transforms
 from PIL import Image
-<p>model = torch.hub.load('pytorch/vision', 'pix2pix', pretrained=True)</p>
-<p>input_image = Image.open(&quot;input_image.jpg&quot;)
+
+model = torch.hub.load(&apos;pytorch/vision&apos;, &apos;pix2pix&apos;, pretrained=True)
+
+input_image = Image.open(&quot;input_image.jpg&quot;)
 preprocess = transforms.Compose([transforms.Resize(256), transforms.ToTensor(),])
 input_tensor = preprocess(input_image)
-input_batch = input_tensor.unsqueeze(0)</p>
-<p>with torch.no_grad():
-output = model(input_batch)['out'][0]
+input_batch = input_tensor.unsqueeze(0)
+
+with torch.no_grad():
+    output = model(input_batch)[&apos;out&apos;][0]
 output_image = transforms.ToPILImage()(output)
 output_image.save(&quot;output_image.jpg&quot;)
-</code></pre></p>
+</code></pre>
 <p>With ControlNet-Hough, you can easily and effectively transform your images. Give it a try and see what unique creations you can come up with!</p>
 	</div>
 </article>

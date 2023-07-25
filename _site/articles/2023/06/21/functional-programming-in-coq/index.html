@@ -87,18 +87,22 @@ Coq supports enumerated types, which are data types with a fixed number of value
 <p>Modules
 Coq supports modules, which are used to organize code into separate namespaces. Modules can be used to define data types, functions, and theorems. For example, we can define a module that contains functions for working with tuples:</p>
 <pre><code>Module Tuple.
-<p>Inductive tuple (A B : Type) : Type :=
-| pair : A -&gt; B -&gt; tuple A B.</p>
-<p>Definition fst {A B : Type} (p : tuple A B) : A :=
-match p with
-| pair x y =&gt; x
-end.</p>
-<p>Definition snd {A B : Type} (p : tuple A B) : B :=
-match p with
-| pair x y =&gt; y
-end.</p>
-<p>End Tuple.
-</code></pre></p>
+
+Inductive tuple (A B : Type) : Type :=
+  | pair : A -&gt; B -&gt; tuple A B.
+
+Definition fst {A B : Type} (p : tuple A B) : A :=
+  match p with
+  | pair x y =&gt; x
+  end.
+
+Definition snd {A B : Type} (p : tuple A B) : B :=
+  match p with
+  | pair x y =&gt; y
+  end.
+
+End Tuple.
+</code></pre>
 <p>Tuples
 We can define a data type for tuples using the &quot;Inductive&quot; keyword. We can define functions for working with tuples using pattern matching. For example, we can define functions for getting the first and second elements of a tuple using the &quot;fst&quot; and &quot;snd&quot; functions from the &quot;Tuple&quot; module.</p>
 <p>Numbers

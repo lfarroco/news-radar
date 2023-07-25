@@ -56,22 +56,25 @@
 <p>Here&apos;s an example of how LiveView works in Elixir:</p>
 <pre><code class="language-elixir">defmodule MyApp.Counter do
   use Phoenix.LiveView
-<p>def render(assigns) do
-~L&quot;&quot;&quot;
-&lt;div&gt;
-&lt;h1&gt;Counter: &lt;%= @count %&gt;&lt;/h1&gt;
-&lt;button phx-click=&quot;increment&quot;&gt;+&lt;/button&gt;
-&lt;/div&gt;
-&quot;&quot;&quot;
-end</p>
-<p>def mount(_params, _session, socket) do
-{:ok, assign(socket, count: 0)}
-end</p>
-<p>def handle_event(&quot;increment&quot;, _params, socket) do
-{:noreply, assign(socket, count: socket.assigns.count + 1)}
+
+  def render(assigns) do
+    ~L&quot;&quot;&quot;
+    &lt;div&gt;
+      &lt;h1&gt;Counter: &lt;%= @count %&gt;&lt;/h1&gt;
+      &lt;button phx-click=&quot;increment&quot;&gt;+&lt;/button&gt;
+    &lt;/div&gt;
+    &quot;&quot;&quot;
+  end
+
+  def mount(_params, _session, socket) do
+    {:ok, assign(socket, count: 0)}
+  end
+
+  def handle_event(&quot;increment&quot;, _params, socket) do
+    {:noreply, assign(socket, count: socket.assigns.count + 1)}
+  end
 end
-end
-</code></pre></p>
+</code></pre>
 <p>This code defines a simple counter application using LiveView. The <code>render</code> function defines the HTML template for the application, while the <code>mount</code> function initializes the state of the application. The <code>handle_event</code> function handles user events, such as clicking the &quot;+&quot; button, and updates the state of the application accordingly.</p>
 <p>In conclusion, LiveView is a powerful tool for building real-time web applications with high performance and scalability. Developers who are looking to improve the performance of their web applications should consider using LiveView as an alternative to client-side JavaScript frameworks like React.</p>
 	</div>

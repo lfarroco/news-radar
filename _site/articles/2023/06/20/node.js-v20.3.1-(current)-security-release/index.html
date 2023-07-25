@@ -52,16 +52,18 @@
 <p>Developers can upgrade their Node.js installations using a package manager such as npm or by downloading the latest version from the Node.js website.</p>
 <p>Here&apos;s an example of how to use the new <code>fs.promises</code> API to read a file:</p>
 <pre><code class="language-js">const { readFile } = require(&apos;fs&apos;).promises;
-<p>async function readMyFile() {
-try {
-const data = await readFile('myfile.txt', 'utf8');
-console.log(data);
-} catch (err) {
-console.error(err);
+
+async function readMyFile() {
+  try {
+    const data = await readFile(&apos;myfile.txt&apos;, &apos;utf8&apos;);
+    console.log(data);
+  } catch (err) {
+    console.error(err);
+  }
 }
-}</p>
-<p>readMyFile();
-</code></pre></p>
+
+readMyFile();
+</code></pre>
 <p>With the <code>fs.promises</code> API, developers can use async/await syntax to read files without the need for callbacks.</p>
 <p>Overall, the Node.js v20.3.1 (Current) release provides important security fixes and improvements for developers using Node.js. Developers are encouraged to keep their Node.js installations up to date to ensure the security and stability of their applications.</p>
 	</div>

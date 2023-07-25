@@ -54,10 +54,11 @@
 <p>Overall, the article highlights the importance of using codemods and tools like jscodeshift to streamline the process of upgrading libraries and frameworks. It provides valuable insights for developers who are looking to keep up with the latest industry practices and make their codebases more maintainable.</p>
 <pre><code class="language-javascript">// Example code snippet using TypeORM
 import { getConnection } from &apos;typeorm&apos;;
-<p>const user = await getConnection()
-.getRepository(User)
-.findOne({ where: { id: 1 } });
-</code></pre></p>
+
+const user = await getConnection()
+  .getRepository(User)
+  .findOne({ where: { id: 1 } });
+</code></pre>
 <p>By leveraging tools like jscodeshift, developers can save time and effort when upgrading their codebases, allowing them to focus on higher-priority tasks and deliver more reliable software.</p>
 	</div>
 </article>

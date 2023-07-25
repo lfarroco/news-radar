@@ -52,16 +52,17 @@
 <p>One of the benefits of using Kobweb is its seamless integration with other Kotlin libraries. For example, it can be used with Ktor, a popular Kotlin web framework, to build even more complex web applications.</p>
 <p>Here&apos;s an example of how to define a simple route in Kobweb:</p>
 <pre><code class="language-kotlin">import kobweb.*
-<p>fun main() {
-val app = kobweb()</p>
-<pre><code>app.get(&amp;quot;/hello&amp;quot;) { _, res -&amp;gt;
-    res.send(&amp;quot;Hello, world!&amp;quot;)
-}
 
-app.start()
+fun main() {
+    val app = kobweb()
+
+    app.get(&quot;/hello&quot;) { _, res -&gt;
+        res.send(&quot;Hello, world!&quot;)
+    }
+
+    app.start()
+}
 </code></pre>
-<p>}
-</code></pre></p>
 <p>In this example, we define a route that responds to GET requests to the &quot;/hello&quot; path. When a request is received, Kobweb sends the string &quot;Hello, world!&quot; as the response.</p>
 <p>Overall, Kobweb is a promising web framework for Kotlin developers who want to build high-performance web applications. Its support for asynchronous programming and seamless integration with other Kotlin libraries make it a great choice for building complex web applications.</p>
 	</div>

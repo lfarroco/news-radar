@@ -53,13 +53,14 @@
 <p>Defining the Database Schema</p>
 <p>The first step in using QueryX is to define the database schema in Rust code. This is done using a simple and intuitive syntax that is similar to defining a Rust struct. Here&apos;s an example:</p>
 <pre><code class="language-rust">use queryx::queryx;
-<p>#[derive(Debug, Clone, PartialEq, Eq, queryx::FromRow)]
+
+#[derive(Debug, Clone, PartialEq, Eq, queryx::FromRow)]
 struct User {
-id: i32,
-name: String,
-email: String,
+    id: i32,
+    name: String,
+    email: String,
 }
-</code></pre></p>
+</code></pre>
 <p>In this example, we define a <code>User</code> struct that has three fields: <code>id</code>, <code>name</code>, and <code>email</code>. The <code>queryx::FromRow</code> attribute tells QueryX that this struct can be used to represent a row in the database.</p>
 <p>Generating the Rust Code</p>
 <p>Once we have defined the database schema, we can use QueryX to generate Rust code that interacts with the database. This is done using the <code>query_as!</code> macro, which takes a SQL query and a Rust struct and generates code that executes the query and returns the results as instances of the struct.</p>

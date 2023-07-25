@@ -54,14 +54,17 @@
 <p>VanJS is a lightweight and easy-to-use framework that enables developers to build reactive user interfaces quickly. It is particularly useful for building small to medium-sized applications where a full-fledged framework like React or Angular may be overkill.</p>
 <p>To get started with VanJS, developers can simply include the library in their project and start building components using the VanJS API. Here&apos;s an example of how to create a simple Button component using VanJS:</p>
 <pre><code>import { h, render } from &apos;van&apos;;
-<p>const Button = ({ text }) =&gt; {
-const handleClick = () =&gt; {
-console.log('Button clicked');
-};</p>
-<p>return h('button', { onclick: handleClick }, text);
-};</p>
-<p>render(h(Button, { text: 'Click me' }), document.body);
-</code></pre></p>
+
+const Button = ({ text }) =&gt; {
+  const handleClick = () =&gt; {
+    console.log(&apos;Button clicked&apos;);
+  };
+
+  return h(&apos;button&apos;, { onclick: handleClick }, text);
+};
+
+render(h(Button, { text: &apos;Click me&apos; }), document.body);
+</code></pre>
 <p>Overall, VanJS 0.12.0 is a significant release that brings several new features and performance improvements to the framework. With its lightweight and easy-to-use API, VanJS is an excellent choice for developers looking to build reactive user interfaces quickly and efficiently.</p>
 	</div>
 </article>

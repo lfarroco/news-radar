@@ -73,28 +73,32 @@
 <h2>Let&apos;s Try It!</h2>
 <p>Consider the following Go HTTP server:</p>
 <pre><code class="language-go">package main
-<p>import (
-&quot;fmt&quot;
-&quot;net/http&quot;
-)</p>
-<p>type UserCache struct {
-data map[string]string
-}</p>
-<p>func (uc *UserCache) handleRequest(w http.ResponseWriter, r *http.Request) {
-// Simulate memory leak by not removing old user data from the cache
-userID := r.URL.Query().Get(&quot;user_id&quot;)
-uc.data[userID] = &quot;some data&quot;
-fmt.Fprint(w, &quot;Data stored in cache&quot;)
-}</p>
-<p>func main() {
-uc := &amp;UserCache{
-data: make(map[string]string),
-}</p>
-<pre><code>http.HandleFunc(&amp;quot;/leaky-endpoint&amp;quot;, uc.handleRequest)
-http.ListenAndServe(&amp;quot;:8080&amp;quot;, nil)
+
+import (
+	&quot;fmt&quot;
+	&quot;net/http&quot;
+)
+
+type UserCache struct {
+	data map[string]string
+}
+
+func (uc *UserCache) handleRequest(w http.ResponseWriter, r *http.Request) {
+	// Simulate memory leak by not removing old user data from the cache
+	userID := r.URL.Query().Get(&quot;user_id&quot;)
+	uc.data[userID] = &quot;some data&quot;
+	fmt.Fprint(w, &quot;Data stored in cache&quot;)
+}
+
+func main() {
+	uc := &amp;UserCache{
+		data: make(map[string]string),
+	}
+
+	http.HandleFunc(&quot;/leaky-endpoint&quot;, uc.handleRequest)
+	http.ListenAndServe(&quot;:8080&quot;, nil)
+}
 </code></pre>
-<p>}
-</code></pre></p>
 <p>In this example, the server stores data for each user in the <code>UserCache</code>. On every request to <code>/leaky-endpoint</code>, new user data is created and added to the cache. However, there&apos;s no code to remove old user data from the cache.</p>
 <p>You can simulate the leak by bombarding the server with a large number of requests using a tool like curl or ab.</p>
 <p>Once the requests are completed, you can generate a heap profile by executing the following command in another terminal:</p>

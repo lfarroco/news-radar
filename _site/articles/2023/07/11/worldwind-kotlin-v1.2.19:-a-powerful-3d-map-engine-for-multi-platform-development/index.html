@@ -61,18 +61,19 @@ import gov.nasa.worldwind.geom.Position
 import gov.nasa.worldwind.layer.BlueMarbleLandsatLayer
 import gov.nasa.worldwind.layer.RenderableLayer
 import gov.nasa.worldwind.render.SurfaceCircle
-<p>fun main() {
-val renderableLayer = RenderableLayer()
-val circle = SurfaceCircle(Position.fromDegrees(37.7749, -122.4194), 100000.0)
-renderableLayer.addRenderable(circle)</p>
-<pre><code>val wwd = WorldWind.createWorldWindow()
-wwd.layers.addLayer(BlueMarbleLandsatLayer())
-wwd.layers.addLayer(renderableLayer)
 
-wwd.openOnWindow()
+fun main() {
+    val renderableLayer = RenderableLayer()
+    val circle = SurfaceCircle(Position.fromDegrees(37.7749, -122.4194), 100000.0)
+    renderableLayer.addRenderable(circle)
+    
+    val wwd = WorldWind.createWorldWindow()
+    wwd.layers.addLayer(BlueMarbleLandsatLayer())
+    wwd.layers.addLayer(renderableLayer)
+    
+    wwd.openOnWindow()
+}
 </code></pre>
-<p>}
-</code></pre></p>
 <p>With its powerful features and seamless Kotlin integration, WorldWind Kotlin is an excellent choice for developers looking to create immersive and interactive 3D maps across multiple platforms. Stay tuned for more updates and news from the WorldWind Kotlin community.</p>
 <p>To learn more about WorldWind Kotlin and start building your own map applications, visit the official documentation at [link].</p>
 	</div>

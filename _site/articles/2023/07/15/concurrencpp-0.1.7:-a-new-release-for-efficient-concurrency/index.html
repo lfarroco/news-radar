@@ -53,21 +53,22 @@
 <p>To demonstrate the power and simplicity of Concurrencpp, here&apos;s an example of how to use the library to perform a parallel computation:</p>
 <pre><code class="language-cpp">#include &lt;concurrencpp/concurrencpp.h&gt;
 #include &lt;iostream&gt;
-<p>int main() {
-concurrencpp::runtime runtime;</p>
-<pre><code>auto task = concurrencpp::make_task([] {
-    // Perform some computationally intensive task
-    return 42;
-});
 
-auto result = runtime.blocking_await(task);
+int main() {
+    concurrencpp::runtime runtime;
 
-std::cout &amp;lt;&amp;lt; &amp;quot;Result: &amp;quot; &amp;lt;&amp;lt; result.get() &amp;lt;&amp;lt; std::endl;
+    auto task = concurrencpp::make_task([] {
+        // Perform some computationally intensive task
+        return 42;
+    });
 
-return 0;
+    auto result = runtime.blocking_await(task);
+
+    std::cout &lt;&lt; &quot;Result: &quot; &lt;&lt; result.get() &lt;&lt; std::endl;
+
+    return 0;
+}
 </code></pre>
-<p>}
-</code></pre></p>
 <p>This example showcases how Concurrencpp allows developers to easily create and execute tasks in parallel using its intuitive API.</p>
 <p>With each new release, Concurrencpp continues to evolve and improve, providing developers with a powerful tool for writing efficient and scalable concurrent code. To stay up to date with the latest news and updates on Concurrencpp, be sure to follow the official documentation and join the active community of developers.</p>
 <p>So, if you&apos;re looking for a reliable and efficient concurrency library for your C++ projects, give Concurrencpp a try and unlock the full potential of your multi-core processors.</p>

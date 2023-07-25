@@ -62,17 +62,20 @@
 //! &gt;&gt;&gt; my_module.add(2, 3)
 //! 5
 //! ```
-<p>use pyo3::prelude::*;</p>
-<p>#[pyfunction]
+
+use pyo3::prelude::*;
+
+#[pyfunction]
 fn add(a: i64, b: i64) -&gt; PyResult&lt;i64&gt; {
-Ok(a + b)
-}</p>
-<p>#[pymodule]
-fn my_module(_py: Python, m: &amp;PyModule) -&gt; PyResult&lt;()&gt; {
-m.add_function(wrap_pyfunction!(add, m)?)?;
-Ok(())
+    Ok(a + b)
 }
-</code></pre></p>
+
+#[pymodule]
+fn my_module(_py: Python, m: &amp;PyModule) -&gt; PyResult&lt;()&gt; {
+    m.add_function(wrap_pyfunction!(add, m)?)?;
+    Ok(())
+}
+</code></pre>
 <p>In the above example, the <code>//!</code> syntax is used to add doc comments to the Rust code. The <code># Examples</code> section shows how to use the <code>add</code> function in Python. Rustdoc will generate documentation in HTML format, which can be easily viewed in a web browser.</p>
 <p>In conclusion, documenting Python extensions made with Rust and PyO3 is essential for developers to understand how to use the extensions. Rustdoc is a tool that can be used to generate documentation for Rust code. Rustdoc supports Markdown format and examples, which makes it easy for developers to understand how to use the extensions. With Rust and PyO3, developers can write optimized, GIL-free, memory-safe Python extensions that can improve the performance of their code.</p>
 	</div>

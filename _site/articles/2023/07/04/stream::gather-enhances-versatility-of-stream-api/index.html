@@ -51,12 +51,15 @@
 <p>Here&apos;s an example of how Stream::gather can be used:</p>
 <pre><code class="language-java">List&lt;Integer&gt; stream1 = Arrays.asList(1, 2, 3);
 List&lt;Integer&gt; stream2 = Arrays.asList(4, 5, 6);
-<p>Stream&lt;Integer&gt; combinedStream = Stream.gather(stream1, stream2);</p>
-<p>List&lt;Integer&gt; result = combinedStream.filter(n -&gt; n % 2 == 0)
-.map(n -&gt; n * 2)
-.collect(Collectors.toList());</p>
-<p>System.out.println(result); // Output: [4, 8, 12]
-</code></pre></p>
+
+Stream&lt;Integer&gt; combinedStream = Stream.gather(stream1, stream2);
+
+List&lt;Integer&gt; result = combinedStream.filter(n -&gt; n % 2 == 0)
+                                     .map(n -&gt; n * 2)
+                                     .collect(Collectors.toList());
+
+System.out.println(result); // Output: [4, 8, 12]
+</code></pre>
 <p>In this example, two streams (<code>stream1</code> and <code>stream2</code>) are merged using Stream::gather. The combined stream is then filtered to keep only even numbers, multiplied by 2, and collected into a list. The result is a list containing the transformed elements <code>[4, 8, 12]</code>.</p>
 <p>Stream::gather is a powerful addition to the Stream API that provides developers with more flexibility and control over their data processing pipelines. It simplifies the task of merging multiple streams and enables developers to perform complex operations on the combined stream.</p>
 <p>As developers strive to stay up-to-date with the latest advancements in programming languages and frameworks, features like Stream::gather are essential to keep their skills sharp and their code efficient. The Stream API continues to evolve and improve, making Java a versatile language for data manipulation and analysis.</p>

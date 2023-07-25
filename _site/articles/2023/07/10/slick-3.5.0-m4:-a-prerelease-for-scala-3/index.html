@@ -52,11 +52,14 @@
 <p>With this release, Slick demonstrates its commitment to staying up-to-date with the latest advancements in the Scala ecosystem. Developers can now explore the new possibilities offered by Scala 3 while leveraging the power and flexibility of Slick for their database operations.</p>
 <pre><code class="language-scala">// Example code snippet
 import slick.jdbc.H2Profile.api._
-<p>val db = Database.forConfig(&quot;myDatabase&quot;)
-val users = TableQuery[Users]</p>
-<p>val query = users.filter(_.age &gt; 18).result</p>
-<p>db.run(query).map(println)
-</code></pre></p>
+
+val db = Database.forConfig(&quot;myDatabase&quot;)
+val users = TableQuery[Users]
+
+val query = users.filter(_.age &gt; 18).result
+
+db.run(query).map(println)
+</code></pre>
 <p>Stay tuned for more updates from the Slick team as they continue to enhance the library and provide valuable resources for Scala developers.</p>
 <p>Insert Link</p>
 <p>Footer

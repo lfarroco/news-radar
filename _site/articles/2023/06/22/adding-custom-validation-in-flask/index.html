@@ -49,24 +49,26 @@
 		<p>Flask is a popular Python web framework that allows developers to build web applications quickly and efficiently. One important aspect of web development is data validation, which ensures that the data entered by users is correct and meets certain criteria. In a recent Reddit post, a user asked how to implement custom validation for usernames and categories in Flask.</p>
 <p>To validate a username, the user suggested creating a function that checks whether the username already exists in the database before adding it. This can be achieved using Flask&apos;s built-in <code>request</code> and <code>flash</code> modules. Here&apos;s an example code snippet:</p>
 <pre><code class="language-python">from flask import request, flash
-<p>@app.route('/register', methods=['POST'])
+
+@app.route(&apos;/register&apos;, methods=[&apos;POST&apos;])
 def register():
-username = request.form['username']
-if User.query.filter_by(username=username).first():
-flash('Username already exists')
-return redirect(url_for('register'))
-# add user to database
-</code></pre></p>
+    username = request.form[&apos;username&apos;]
+    if User.query.filter_by(username=username).first():
+        flash(&apos;Username already exists&apos;)
+        return redirect(url_for(&apos;register&apos;))
+    # add user to database
+</code></pre>
 <p>To add similar functionality for categories, you can modify the code as follows:</p>
 <pre><code class="language-python">from flask import request, flash
-<p>@app.route('/add_category', methods=['POST'])
+
+@app.route(&apos;/add_category&apos;, methods=[&apos;POST&apos;])
 def add_category():
-category = request.form['category']
-if Category.query.filter_by(name=category).first():
-flash('Category already exists')
-return redirect(url_for('add_category'))
-# add category to database
-</code></pre></p>
+    category = request.form[&apos;category&apos;]
+    if Category.query.filter_by(name=category).first():
+        flash(&apos;Category already exists&apos;)
+        return redirect(url_for(&apos;add_category&apos;))
+    # add category to database
+</code></pre>
 <p>By using custom validation, developers can ensure that their web applications only accept valid data and avoid potential errors and security vulnerabilities.</p>
 	</div>
 </article>

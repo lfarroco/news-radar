@@ -51,10 +51,11 @@
 <p>The tutorial provides code snippets throughout, making it easy for developers to follow along and implement the concepts themselves. For example, it shows how to create a Flask application and connect it to a SQLite database using SQLAlchemy:</p>
 <pre><code class="language-python">from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-<p>app = Flask(<strong>name</strong>)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///example.db'
+
+app = Flask(__name__)
+app.config[&apos;SQLALCHEMY_DATABASE_URI&apos;] = &apos;sqlite:///example.db&apos;
 db = SQLAlchemy(app)
-</code></pre></p>
+</code></pre>
 <p>The tutorial also covers more advanced topics, such as how to perform database migrations using Flask-Migrate and how to define relationships between database tables using SQLAlchemy&apos;s ORM.</p>
 <p>Overall, the Flask SQLAlchemy Tutorial is a valuable resource for developers who want to learn how to use Flask and SQLAlchemy together. It provides clear explanations and practical examples that make it easy to get started with these powerful tools.</p>
 	</div>

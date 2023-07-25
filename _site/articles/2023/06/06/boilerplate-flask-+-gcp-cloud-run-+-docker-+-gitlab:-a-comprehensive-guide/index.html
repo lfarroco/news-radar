@@ -64,29 +64,37 @@ $ touch app.py
 </code></pre>
 <p>Next, open the app.py file and add the following code:</p>
 <pre><code class="language-python">from flask import Flask
-<p>app = Flask(<strong>name</strong>)</p>
-<p>@app.route('/')
+
+app = Flask(__name__)
+
+@app.route(&apos;/&apos;)
 def hello_world():
-return 'Hello, World!'
-</code></pre></p>
+    return &apos;Hello, World!&apos;
+</code></pre>
 <p>This code creates a simple Flask application that returns &quot;Hello, World!&quot; when you visit the root URL.</p>
 <p>Creating a Dockerfile for your Flask application</p>
 <p>Next, you need to create a Dockerfile for your Flask application. The Dockerfile is a text file that contains instructions for building a Docker image. Here&apos;s an example Dockerfile for a Flask application:</p>
 <pre><code class="language-Dockerfile"># Use an official Python runtime as a parent image
 FROM python:3.8-slim-buster
-<h1>Set the working directory to /app</h1>
-<p>WORKDIR /app</p>
-<h1>Copy the current directory contents into the container at /app</h1>
-<p>COPY . /app</p>
-<h1>Install the required packages</h1>
-<p>RUN pip install --no-cache-dir -r requirements.txt</p>
-<h1>Make port 8080 available to the world outside this container</h1>
-<p>EXPOSE 8080</p>
-<h1>Define environment variable</h1>
-<p>ENV NAME World</p>
-<h1>Run app.py when the container launches</h1>
-<p>CMD [&quot;python&quot;, &quot;app.py&quot;]
-</code></pre></p>
+
+# Set the working directory to /app
+WORKDIR /app
+
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Install the required packages
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Make port 8080 available to the world outside this container
+EXPOSE 8080
+
+# Define environment variable
+ENV NAME World
+
+# Run app.py when the container launches
+CMD [&quot;python&quot;, &quot;app.py&quot;]
+</code></pre>
 <p>This Dockerfile starts with an official Python 3.8 image, sets the working directory to /app, copies the contents of the current directory into the container, installs the required packages, exposes port 8080, sets an environment variable, and runs the app.py file when the container launches.</p>
 <p>Deploying your Flask application to GCP Cloud Run</p>
 <p>Now that you have created a Dockerfile for your Flask application, you can deploy it to GCP Cloud Run. Here are the steps:</p>
@@ -119,35 +127,36 @@ $ docker push gcr.io/myproject/myapp
 </ol>
 <p>Here&apos;s an example .gitlab-ci.yml file:</p>
 <pre><code class="language-yaml">image: docker:latest
-<p>services:</p>
-<ul>
-<li>docker:dind</li>
-</ul>
-<p>stages:</p>
-<ul>
-<li>build</li>
-<li>test</li>
-<li>deploy</li>
-</ul>
-<p>build:
-stage: build
-script:
-- docker build -t myapp .
-- docker tag myapp gcr.io/myproject/myapp
-- echo &quot;$GOOGLE_SERVICE_ACCOUNT&quot; &gt; /tmp/key.json
-- gcloud auth activate-service-account --key-file /tmp/key.json
-- gcloud config set project myproject
-- gcloud auth configure-docker
-- docker push gcr.io/myproject/myapp</p>
-<p>test:
-stage: test
-script:
-- echo &quot;Running tests&quot;</p>
-<p>deploy:
-stage: deploy
-script:
-- gcloud run deploy --image gcr.io/myproject/myapp --platform managed
-</code></pre></p>
+
+services:
+  - docker:dind
+
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script:
+    - docker build -t myapp .
+    - docker tag myapp gcr.io/myproject/myapp
+    - echo &quot;$GOOGLE_SERVICE_ACCOUNT&quot; &gt; /tmp/key.json
+    - gcloud auth activate-service-account --key-file /tmp/key.json
+    - gcloud config set project myproject
+    - gcloud auth configure-docker
+    - docker push gcr.io/myproject/myapp
+
+test:
+  stage: test
+  script:
+    - echo &quot;Running tests&quot;
+
+deploy:
+  stage: deploy
+  script:
+    - gcloud run deploy --image gcr.io/myproject/myapp --platform managed
+</code></pre>
 <p>This .gitlab-ci.yml file defines three stages: build, test, and deploy. The build stage builds the Docker image, tags it, and pushes it to Google Container Registry. The test stage runs any tests that you have defined. The deploy stage deploys the Docker image to GCP Cloud Run.</p>
 <p>Finally, you need to add the CI/CD variables to your Gitlab project. Here are the variables that you need to add:</p>
 <ul>

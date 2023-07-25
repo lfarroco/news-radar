@@ -52,17 +52,19 @@
 <p>Developers are loving Kysely for its simplicity and power. According to Dax Raad, a member of the SST_dev core team, &quot;Kysely is the best written TS codebase I&apos;ve ever seen.&quot; Harminder Virk, the creator of AdonisJS, also praised Kysely, saying &quot;Kysely is great. Keeping an eye on it to see how it evolves in coming months.&quot;</p>
 <p>Here&apos;s an example of how to use Kysely to build a type-safe SQL query:</p>
 <pre><code class="language-typescript">import { createQuery } from &apos;kysely&apos;;
-<p>const query = createQuery()
-.select('id', 'name', 'email')
-.from('users')
-.where('id', '=', 1)
-.orWhere('name', 'like', '%John%')
-.limit(10)
-.offset(20)
-.build();</p>
-<p>console.log(query);
+
+const query = createQuery()
+  .select(&apos;id&apos;, &apos;name&apos;, &apos;email&apos;)
+  .from(&apos;users&apos;)
+  .where(&apos;id&apos;, &apos;=&apos;, 1)
+  .orWhere(&apos;name&apos;, &apos;like&apos;, &apos;%John%&apos;)
+  .limit(10)
+  .offset(20)
+  .build();
+
+console.log(query);
 // SELECT &quot;id&quot;, &quot;name&quot;, &quot;email&quot; FROM &quot;users&quot; WHERE &quot;id&quot; = $1 OR &quot;name&quot; LIKE $2 LIMIT 10 OFFSET 20
-</code></pre></p>
+</code></pre>
 <p>In the example above, the <code>createQuery</code> function is used to create a new query object. The <code>select</code> method is used to specify the columns to select, the <code>from</code> method is used to specify the table to select from, and the <code>where</code> and <code>orWhere</code> methods are used to specify the conditions of the query. Finally, the <code>limit</code> and <code>offset</code> methods are used to specify the pagination of the query.</p>
 <p>In conclusion, Kysely is a powerful tool for developers who want to write type-safe SQL queries in TypeScript. With its simplicity, multi-dialect support, and plugin system, Kysely is a great choice for any project.</p>
 	</div>

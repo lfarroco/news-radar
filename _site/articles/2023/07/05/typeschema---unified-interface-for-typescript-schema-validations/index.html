@@ -52,23 +52,27 @@
 </code></pre>
 <p>Once installed, you can use TypeSchema to define and validate your schemas. Here&apos;s an example:</p>
 <pre><code class="language-typescript">import { TypeSchema, StringType } from &apos;typeschema&apos;;
-<p>const userSchema = TypeSchema.object({
-name: StringType.required(),
-age: StringType.number().min(18),
-email: StringType.email(),
-});</p>
-<p>const userData = {
-name: 'John Doe',
-age: 25,
-email: 'john.doe@example.com',
-};</p>
-<p>const isValid = userSchema.validate(userData);</p>
-<p>if (isValid) {
-console.log('User data is valid');
+
+const userSchema = TypeSchema.object({
+  name: StringType.required(),
+  age: StringType.number().min(18),
+  email: StringType.email(),
+});
+
+const userData = {
+  name: &apos;John Doe&apos;,
+  age: 25,
+  email: &apos;john.doe@example.com&apos;,
+};
+
+const isValid = userSchema.validate(userData);
+
+if (isValid) {
+  console.log(&apos;User data is valid&apos;);
 } else {
-console.log('User data is invalid');
+  console.log(&apos;User data is invalid&apos;);
 }
-</code></pre></p>
+</code></pre>
 <p>TypeSchema also supports custom validations, allowing you to define your own validation rules. This flexibility makes it a versatile tool for handling complex data validation scenarios.</p>
 <p>TypeSchema is inspired by tRPC&apos;s input and output validators, and it aims to provide a seamless experience for TypeScript developers. It is actively maintained and has a growing community of contributors.</p>
 <p>For more information and detailed usage examples, you can refer to the <a href="https://github.com/ecs/typeschema">TypeSchema GitHub repository</a>.</p>

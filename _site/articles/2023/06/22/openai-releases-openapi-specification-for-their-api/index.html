@@ -53,16 +53,17 @@
 <p>Here&apos;s an example of how to use the OpenAI API to generate text:</p>
 <pre><code class="language-python">import openai
 openai.api_key = &quot;YOUR_API_KEY&quot;
-<p>prompt = &quot;Once upon a time&quot;
+
+prompt = &quot;Once upon a time&quot;
 model = &quot;text-davinci-002&quot;
 response = openai.Completion.create(
-engine=model,
-prompt=prompt,
-max_tokens=50
+    engine=model,
+    prompt=prompt,
+    max_tokens=50
 )
 text = response.choices[0].text
 print(text)
-</code></pre></p>
+</code></pre>
 <p>In this example, the <code>openai</code> Python package is used to authenticate the request and generate text using the <code>text-davinci-002</code> model. Developers can experiment with different models and parameters to generate different types of text.</p>
 <p>Overall, the release of the OpenAPI specification for the OpenAI API makes it easier for developers to integrate OpenAI&apos;s artificial intelligence models into their applications.</p>
 	</div>

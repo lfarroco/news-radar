@@ -52,11 +52,12 @@
 <p>With this new development, Haskell developers can now write front-end web applications using the same language they use for back-end development. This reduces the need for developers to learn multiple languages, making it easier to maintain and scale web applications.</p>
 <p>Here&apos;s an example of how to write a simple &quot;Hello, World!&quot; program in Haskell using the new GHCJS backend:</p>
 <pre><code class="language-haskell">import JavaScript.Web.Canvas
-<p>main = do
-Just canvas &lt;- getElementById &quot;canvas&quot;
-withContext canvas $ do
-fillText &quot;Hello, World!&quot; 10 50
-</code></pre></p>
+
+main = do
+  Just canvas &lt;- getElementById &quot;canvas&quot;
+  withContext canvas $ do
+    fillText &quot;Hello, World!&quot; 10 50
+</code></pre>
 <p>The team is still working on improving the performance of the generated JavaScript code and making it more compatible with existing JavaScript libraries. However, this is a major step forward for the Haskell community, and we can expect to see more web applications written in Haskell in the future.</p>
 	</div>
 </article>

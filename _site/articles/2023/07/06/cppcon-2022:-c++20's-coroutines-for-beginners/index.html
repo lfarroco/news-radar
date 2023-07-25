@@ -61,50 +61,53 @@ In addition to CppCon, there are several other upcoming C++ conferences that dev
 <pre><code class="language-cpp">// Example code demonstrating the use of coroutines in C++20
 #include &lt;iostream&gt;
 #include &lt;experimental/coroutine&gt;
-<p>struct generator {
-struct promise_type {
-int current_value;
-auto get_return_object() { return generator{this}; }
-auto initial_suspend() { return std::experimental::suspend_always{}; }
-auto final_suspend() { return std::experimental::suspend_always{}; }
-void return_void() {}
-void unhandled_exception() {}
-auto yield_value(int value) {
-current_value = value;
-return std::experimental::suspend_always{};
-}
-};</p>
-<pre><code>generator(promise_type* p) : p(p) {}
 
-struct iterator {
-    std::experimental::coroutine_handle&amp;lt;promise_type&amp;gt; h;
-    bool operator!=(const iterator&amp;amp; rhs) const { return !h.done(); }
-    void operator++() { h.resume(); }
-    int operator*() const { return h.promise().current_value; }
+struct generator {
+    struct promise_type {
+        int current_value;
+        auto get_return_object() { return generator{this}; }
+        auto initial_suspend() { return std::experimental::suspend_always{}; }
+        auto final_suspend() { return std::experimental::suspend_always{}; }
+        void return_void() {}
+        void unhandled_exception() {}
+        auto yield_value(int value) {
+            current_value = value;
+            return std::experimental::suspend_always{};
+        }
+    };
+    
+    generator(promise_type* p) : p(p) {}
+    
+    struct iterator {
+        std::experimental::coroutine_handle&lt;promise_type&gt; h;
+        bool operator!=(const iterator&amp; rhs) const { return !h.done(); }
+        void operator++() { h.resume(); }
+        int operator*() const { return h.promise().current_value; }
+    };
+    
+    iterator begin() {
+        p-&gt;current_value = 0;
+        return {std::experimental::coroutine_handle&lt;promise_type&gt;::from_promise(*p)};
+    }
+    
+    iterator end() { return {nullptr}; }
+    
+    promise_type* p;
 };
 
-iterator begin() {
-    p-&amp;gt;current_value = 0;
-    return {std::experimental::coroutine_handle&amp;lt;promise_type&amp;gt;::from_promise(*p)};
+generator count_to_n(int n) {
+    for (int i = 0; i &lt; n; ++i) {
+        co_yield i;
+    }
 }
 
-iterator end() { return {nullptr}; }
-
-promise_type* p;
+int main() {
+    for (int i : count_to_n(5)) {
+        std::cout &lt;&lt; i &lt;&lt; &apos; &apos;;
+    }
+    std::cout &lt;&lt; &apos;\n&apos;;
+}
 </code></pre>
-<p>};</p>
-<p>generator count_to_n(int n) {
-for (int i = 0; i &lt; n; ++i) {
-co_yield i;
-}
-}</p>
-<p>int main() {
-for (int i : count_to_n(5)) {
-std::cout &lt;&lt; i &lt;&lt; ' ';
-}
-std::cout &lt;&lt; '\n';
-}
-</code></pre></p>
 <p>CppCon 2022 and the upcoming C++ conferences provide developers with valuable insights into the latest advancements in the C++ language. Whether it&apos;s learning about coroutines in C++20 or exploring other cutting-edge features, these conferences offer a platform for developers to expand their knowledge and network with industry experts. Stay tuned for more updates on the C++ community and make sure to register for CppCon 2023 to be a part of this exciting event.</p>
 	</div>
 </article>

@@ -52,17 +52,19 @@
 <p>Shifty has gained popularity among developers for its simplicity and speed. It offers a wide range of easing functions, supports multiple animation types, and provides excellent performance even with complex animations. With the latest release, Shifty continues to be a reliable choice for developers seeking a powerful animation engine for their TypeScript projects.</p>
 <p>To demonstrate the capabilities of Shifty, here&apos;s an example of how to create a simple animation using the library:</p>
 <pre><code class="language-typescript">import { tween } from &apos;shifty&apos;;
-<p>const element = document.getElementById('myElement');</p>
-<p>tween({
-from: { opacity: 0 },
-to: { opacity: 1 },
-duration: 1000,
-easing: 'easeInOutQuad',
-step: (state) =&gt; {
-element.style.opacity = state.opacity.toString();
-},
+
+const element = document.getElementById(&apos;myElement&apos;);
+
+tween({
+  from: { opacity: 0 },
+  to: { opacity: 1 },
+  duration: 1000,
+  easing: &apos;easeInOutQuad&apos;,
+  step: (state) =&gt; {
+    element.style.opacity = state.opacity.toString();
+  },
 });
-</code></pre></p>
+</code></pre>
 <p>In conclusion, Shifty 3.0 brings exciting updates and improvements to the fastest TypeScript animation engine on the web. With its updated documentation and powerful features, Shifty continues to be a valuable tool for developers looking to create smooth and performant animations in their projects.</p>
 	</div>
 </article>

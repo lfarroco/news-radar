@@ -63,19 +63,19 @@ Using the action decorator, developers can define a separate function for each a
     queryset = Reserve.objects.all()
     serializer_class = ReserveSerializer
     permission_classes = [PermissionOne | PermissionTwo]
-<pre><code>@action(detail=True, methods=[&amp;apos;patch&amp;apos;])
-def approve(self, request, pk=None):
-    instance = self.get_object()
-    # some logic
-    return Response(ReserveSerializer(instance).data)
 
-@action(detail=True, methods=[&amp;apos;patch&amp;apos;])
-def reject(self, request, pk=None):
-    instance = self.get_object()
-    # some logic
-    return Response(ReserveSerializer(instance).data)
+    @action(detail=True, methods=[&apos;patch&apos;])
+    def approve(self, request, pk=None):
+        instance = self.get_object()
+        # some logic
+        return Response(ReserveSerializer(instance).data)
+
+    @action(detail=True, methods=[&apos;patch&apos;])
+    def reject(self, request, pk=None):
+        instance = self.get_object()
+        # some logic
+        return Response(ReserveSerializer(instance).data)
 </code></pre>
-<p></code></pre></p>
 <p>
 As shown in the example, the action decorator allows developers to define a separate function for each action, making the code more organized and easier to understand. Additionally, the URLs for each action can be defined in the router, reducing the amount of code in the views and making it easier to maintain.
 </p>

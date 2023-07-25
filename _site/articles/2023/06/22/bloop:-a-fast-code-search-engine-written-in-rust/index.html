@@ -53,19 +53,20 @@
 <p>Here&apos;s an example of how to use Bloop in Rust:</p>
 <pre><code class="language-rust">use bloop::SearchOptions;
 use std::path::PathBuf;
-<p>fn main() {
-let mut options = SearchOptions::new();
-options.recursive(true);
-options.add_search_path(PathBuf::from(&quot;.&quot;));
-options.add_search_pattern(&quot;fn main()&quot;);</p>
-<pre><code>let results = bloop::search(&amp;amp;options).unwrap();
 
-for result in results {
-    println!(&amp;quot;{}&amp;quot;, result.path().display());
+fn main() {
+    let mut options = SearchOptions::new();
+    options.recursive(true);
+    options.add_search_path(PathBuf::from(&quot;.&quot;));
+    options.add_search_pattern(&quot;fn main()&quot;);
+
+    let results = bloop::search(&amp;options).unwrap();
+
+    for result in results {
+        println!(&quot;{}&quot;, result.path().display());
+    }
 }
 </code></pre>
-<p>}
-</code></pre></p>
 <p>This example searches for the pattern &quot;fn main()&quot; in the current directory and its subdirectories. The results are then printed to the console.</p>
 <p>If you&apos;re looking for a fast and efficient code search engine for your Rust projects, Bloop is definitely worth checking out.</p>
 	</div>

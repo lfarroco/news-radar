@@ -49,25 +49,27 @@
 		<p>Dj-rest-auth is a popular package for handling authentication in Django. However, adding logging functionality to it can be a challenge. In this article, we will explore the simplest method to add success and failure logs for login and registration events, including the user_id.</p>
 <p>First, let&apos;s install the django-structlog package, which provides a structured logging interface for Django. We can then add a custom middleware to our project that logs authentication events using django-structlog. Here&apos;s an example of what the middleware might look like:</p>
 <pre><code class="language-python">import structlog
-<p>logger = structlog.get_logger()</p>
-<p>class AuthLoggingMiddleware:
-def <strong>init</strong>(self, get_response):
-self.get_response = get_response</p>
-<pre><code>def __call__(self, request):
-    response = self.get_response(request)
-    if request.path == &amp;apos;/auth/login/&amp;apos;:
-        if response.status_code == 200:
-            logger.info(&amp;apos;login.success&amp;apos;, user_id=request.user.id)
-        else:
-            logger.warning(&amp;apos;login.failure&amp;apos;)
-    elif request.path == &amp;apos;/auth/registration/&amp;apos;:
-        if response.status_code == 201:
-            logger.info(&amp;apos;registration.success&amp;apos;, user_id=request.user.id)
-        else:
-            logger.warning(&amp;apos;registration.failure&amp;apos;)
-    return response
+
+logger = structlog.get_logger()
+
+class AuthLoggingMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        response = self.get_response(request)
+        if request.path == &apos;/auth/login/&apos;:
+            if response.status_code == 200:
+                logger.info(&apos;login.success&apos;, user_id=request.user.id)
+            else:
+                logger.warning(&apos;login.failure&apos;)
+        elif request.path == &apos;/auth/registration/&apos;:
+            if response.status_code == 201:
+                logger.info(&apos;registration.success&apos;, user_id=request.user.id)
+            else:
+                logger.warning(&apos;registration.failure&apos;)
+        return response
 </code></pre>
-<p></code></pre></p>
 <p>We can then add this middleware to our Django settings:</p>
 <pre><code class="language-python">MIDDLEWARE = [
     # ...

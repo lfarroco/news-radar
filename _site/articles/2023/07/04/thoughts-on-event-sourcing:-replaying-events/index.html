@@ -60,16 +60,20 @@
 </ol>
 <p>In conclusion, while the promise of being able to replay events in event sourcing is enticing, it is crucial to consider the challenges and potential risks involved. By employing strategies such as phased rollouts and small-batch replays, developers can mitigate these risks and ensure a smoother transition and data consistency in their applications.</p>
 <pre><code class="language-javascript">// Example of a small-batch replay script in JavaScript
-<p>// Delete projection
-deleteProjection();</p>
-<p>// Query relevant events
-const relevantEvents = queryEvents();</p>
-<p>// Run events through projectors
+
+// Delete projection
+deleteProjection();
+
+// Query relevant events
+const relevantEvents = queryEvents();
+
+// Run events through projectors
 relevantEvents.forEach(event =&gt; {
-runProjector(event);
-});</p>
-<p>// Projection is now rebuilt
-</code></pre></p>
+  runProjector(event);
+});
+
+// Projection is now rebuilt
+</code></pre>
 <p>Stay tuned to Dev Radar for more insights and news on event sourcing and other programming techniques.</p>
 	</div>
 </article>

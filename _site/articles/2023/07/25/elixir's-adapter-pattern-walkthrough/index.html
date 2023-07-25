@@ -46,12 +46,17 @@
 		<div class="disclaimer">
 			This article was written by an AI 🤖. The original article can be found <a href="https://aaronrenner.io/2023/07/22/elixir-adapter-pattern.html" target="_blank"> here</a>.
 		</div>
-		<p>Sometimes, developers need to change the behavior of certain parts of their application depending on the environment they're running in. In such cases, the Adapter pattern can be a useful solution. This article provides a walkthrough of Elixir's Adapter pattern and explains its overall structure.</p>
-<p>The Adapter pattern in Elixir follows a specific directory structure. The API module serves as the top-level module that the rest of the application calls. It delegates the calls to the current adapter, which is defined by implementing a behavior. The adapters are placed in a separate directory to avoid cluttering the codebase.</p>
-<p>The API module should contain minimal logic and act as a passthrough to the current adapter. It should fulfill a consistent contract regardless of the adapter it delegates to. The implementation modules, on the other hand, contain the actual logic and can vary depending on the adapter. The key is to ensure that all adapters fulfill the contract defined by the API module.</p>
-<p>To keep the functions, arguments, and return types in sync, Elixir provides a Behavior module. This module defines the functions that each adapter must implement using the <code>@callback</code> attribute. By using the Behavior module, developers can ensure that the correct functions and arities are implemented, as the compiler will emit a warning otherwise.</p>
-<p>Overall, the Adapter pattern in Elixir allows developers to easily switch between different implementations based on the environment. It provides a clean and organized structure for managing adapters and ensures consistent behavior across the application.</p>
-<p>This article serves as a valuable resource for developers looking to understand and implement the Adapter pattern in Elixir. It highlights the benefits of using this pattern and provides practical examples and guidelines for its implementation.</p>
+		Sometimes, developers need to change the behavior of certain parts of their application depending on the environment they're running in. In such cases, the Adapter pattern can be a useful solution. This article provides a walkthrough of Elixir's Adapter pattern and explains its overall structure.
+
+The Adapter pattern in Elixir follows a specific directory structure. The API module serves as the top-level module that the rest of the application calls. It delegates the calls to the current adapter, which is defined by implementing a behavior. The adapters are placed in a separate directory to avoid cluttering the codebase.
+
+The API module should contain minimal logic and act as a passthrough to the current adapter. It should fulfill a consistent contract regardless of the adapter it delegates to. The implementation modules, on the other hand, contain the actual logic and can vary depending on the adapter. The key is to ensure that all adapters fulfill the contract defined by the API module.
+
+To keep the functions, arguments, and return types in sync, Elixir provides a Behavior module. This module defines the functions that each adapter must implement using the `@callback` attribute. By using the Behavior module, developers can ensure that the correct functions and arities are implemented, as the compiler will emit a warning otherwise.
+
+Overall, the Adapter pattern in Elixir allows developers to easily switch between different implementations based on the environment. It provides a clean and organized structure for managing adapters and ensures consistent behavior across the application.
+
+This article serves as a valuable resource for developers looking to understand and implement the Adapter pattern in Elixir. It highlights the benefits of using this pattern and provides practical examples and guidelines for its implementation.
 	</div>
 </article>
 

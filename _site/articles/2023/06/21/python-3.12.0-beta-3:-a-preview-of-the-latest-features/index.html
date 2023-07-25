@@ -68,12 +68,13 @@
 <p>Python continues to be a popular language for a wide range of applications, from web development to data analysis to machine learning. With the release of Python 3.12, developers have even more tools and features at their disposal to build powerful and efficient applications.</p>
 <p>Here&apos;s an example of how to use the new Structural Pattern Matching feature in Python 3.12:</p>
 <pre><code class="language-python">data = {&quot;name&quot;: &quot;John&quot;, &quot;age&quot;: 30}
-<p>match data:
-case {&quot;name&quot;: str(name), &quot;age&quot;: int(age)}:
-print(f&quot;Name: {name}, Age: {age}&quot;)
-case _:
-print(&quot;Invalid data&quot;)
-</code></pre></p>
+
+match data:
+    case {&quot;name&quot;: str(name), &quot;age&quot;: int(age)}:
+        print(f&quot;Name: {name}, Age: {age}&quot;)
+    case _:
+        print(&quot;Invalid data&quot;)
+</code></pre>
 <p>This code matches the &quot;data&quot; dictionary against a pattern that includes a string &quot;name&quot; and an integer &quot;age&quot;. If the pattern matches, the code prints the name and age. If the pattern does not match, the code prints &quot;Invalid data&quot;. This is just one example of the many ways that Structural Pattern Matching can be used in Python 3.12.</p>
 <p>In conclusion, Python 3.12.0 beta 3 is an exciting preview of the new features and changes that will be included in the upcoming Python 3.12 release. Developers who want to stay up-to-date with the latest news and information on Python should follow the official Python website and community.</p>
 	</div>

@@ -57,12 +57,13 @@
   use Ecto.Repo,
     otp_app: :my_app,
     adapter: Ecto.Adapters.Postgres
-<p>def get_users_by_name(name) do
-from(u in User, where: u.name == ^name)
-|&gt; Repo.all()
+
+  def get_users_by_name(name) do
+    from(u in User, where: u.name == ^name)
+    |&gt; Repo.all()
+  end
 end
-end
-</code></pre></p>
+</code></pre>
 <p>In this example, we define a module called <code>MyApp.Repo</code> that uses Ecto to query a database. We define a function called <code>get_users_by_name</code> that takes a name as an argument and returns a list of users with that name. We use the <code>from</code> macro to construct a query, and we use the <code>where</code> macro to filter the results. Finally, we use the <code>Repo.all</code> function to execute the query and return the results.</p>
 <p>In conclusion, Elixir Streams is a valuable resource for developers who want to learn more about Elixir and Phoenix. Whether you&apos;re a beginner or an experienced developer, you&apos;ll find a lot of useful information on the website. So why not give it a try and see what you can learn?</p>
 	</div>

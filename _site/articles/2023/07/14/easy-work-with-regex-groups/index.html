@@ -55,15 +55,18 @@ class Description {
     public $name;
     public $age;
 }
-<p>// Call method of BogJug
-$result = \BogJug::convertRegexGroupToObject('/Name: (\w+), Age: (\d+)/', 'Name: John, Age: 25');</p>
-<p>// Take result
+
+// Call method of BogJug
+$result = \BogJug::convertRegexGroupToObject(&apos;/Name: (\w+), Age: (\d+)/&apos;, &apos;Name: John, Age: 25&apos;);
+
+// Take result
 $description = new Description();
 $description-&gt;name = $result-&gt;name;
-$description-&gt;age = $result-&gt;age;</p>
-<p>echo $description-&gt;name; // Output: John
+$description-&gt;age = $result-&gt;age;
+
+echo $description-&gt;name; // Output: John
 echo $description-&gt;age; // Output: 25
-</code></pre></p>
+</code></pre>
 <p>With Bog Jug, you can easily extract and manipulate data from regex groups in a more organized and efficient way. It&apos;s a valuable tool for developers working with regular expressions.</p>
 	</div>
 </article>

@@ -51,14 +51,17 @@
 <p>Developers can use Openobserve to monitor and analyze logs, metrics, and traces from their applications. It is compatible with a wide range of data sources, including Kubernetes, AWS, and GCP. Openobserve also offers a range of features, including real-time alerts, anomaly detection, and machine learning.</p>
 <p>Here&apos;s an example of how to use Openobserve to query logs:</p>
 <pre><code class="language-python">from openobserve import Openobserve
-<h1>Connect to Openobserve</h1>
-<p>client = Openobserve(&quot;http://localhost:8080&quot;)</p>
-<h1>Query logs</h1>
-<p>logs = client.query_logs(&quot;app:myapp AND status:500&quot;)</p>
-<h1>Print results</h1>
-<p>for log in logs:
-print(log)
-</code></pre></p>
+
+# Connect to Openobserve
+client = Openobserve(&quot;http://localhost:8080&quot;)
+
+# Query logs
+logs = client.query_logs(&quot;app:myapp AND status:500&quot;)
+
+# Print results
+for log in logs:
+    print(log)
+</code></pre>
 <p>In conclusion, Openobserve is a powerful and easy-to-use alternative to Elasticsearch, Splunk, and Datadog. It offers high performance, low storage costs, and a range of features for monitoring and analyzing logs, metrics, and traces. Developers looking for a petabyte-scale solution for their applications should definitely consider Openobserve.</p>
 	</div>
 </article>

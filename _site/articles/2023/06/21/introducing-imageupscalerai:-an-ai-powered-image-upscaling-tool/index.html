@@ -55,18 +55,21 @@
 <p>Here&apos;s an example of how to use ImageUpscalerAI in Python:</p>
 <pre><code>import requests
 import base64
-<h1>Encode image as base64</h1>
-<p>with open(&quot;image.jpg&quot;, &quot;rb&quot;) as image_file:
-encoded_string = base64.b64encode(image_file.read()).decode('utf-8')</p>
-<h1>Send request to API</h1>
-<p>url = &quot;https://api.imageupscalerai.com/upscale&quot;
+
+# Encode image as base64
+with open(&quot;image.jpg&quot;, &quot;rb&quot;) as image_file:
+    encoded_string = base64.b64encode(image_file.read()).decode(&apos;utf-8&apos;)
+
+# Send request to API
+url = &quot;https://api.imageupscalerai.com/upscale&quot;
 payload = {&quot;image&quot;: encoded_string}
 headers = {&quot;Authorization&quot;: &quot;Bearer YOUR_API_KEY&quot;}
-response = requests.post(url, json=payload, headers=headers)</p>
-<h1>Save upscaled image</h1>
-<p>with open(&quot;upscaled_image.jpg&quot;, &quot;wb&quot;) as image_file:
-image_file.write(base64.b64decode(response.json()[&quot;image&quot;]))
-</code></pre></p>
+response = requests.post(url, json=payload, headers=headers)
+
+# Save upscaled image
+with open(&quot;upscaled_image.jpg&quot;, &quot;wb&quot;) as image_file:
+    image_file.write(base64.b64decode(response.json()[&quot;image&quot;]))
+</code></pre>
 <p>In conclusion, ImageUpscalerAI is a powerful and easy-to-use tool for anyone looking to enhance the quality of their images. Its use of AI and open-source technologies makes it a great example of how developers can leverage these tools to create innovative applications.</p>
 	</div>
 </article>

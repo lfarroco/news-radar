@@ -53,15 +53,19 @@
 <p>Here&apos;s an example of how to use EnCodec to compress and decompress an audio signal in Python:</p>
 <pre><code class="language-python">import torch
 import audiocraft
-<h1>Load an audio signal</h1>
-<p>audio, sample_rate = audiocraft.load_audio('audio.wav')</p>
-<h1>Compress the audio signal</h1>
-<p>compressed = audiocraft.encode(audio)</p>
-<h1>Decompress the audio signal</h1>
-<p>reconstructed = audiocraft.decode(compressed)</p>
-<h1>Save the reconstructed audio signal</h1>
-<p>audiocraft.save_audio(reconstructed, 'reconstructed_audio.wav', sample_rate)
-</code></pre></p>
+
+# Load an audio signal
+audio, sample_rate = audiocraft.load_audio(&apos;audio.wav&apos;)
+
+# Compress the audio signal
+compressed = audiocraft.encode(audio)
+
+# Decompress the audio signal
+reconstructed = audiocraft.decode(compressed)
+
+# Save the reconstructed audio signal
+audiocraft.save_audio(reconstructed, &apos;reconstructed_audio.wav&apos;, sample_rate)
+</code></pre>
 <p>Audiocraft is a powerful library for audio processing and generation with deep learning. It provides developers with state-of-the-art tools for compressing, tokenizing, and generating audio signals. If you&apos;re interested in audio processing and generation with deep learning, Audiocraft is definitely worth checking out.</p>
 	</div>
 </article>

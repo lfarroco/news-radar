@@ -59,24 +59,26 @@
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent { }
-<p>// Example usage of ::ng-deep
+
+// Example usage of ::ng-deep
 @Component({
-selector: 'app-component',
-templateUrl: 'app.component.html',
-styleUrls: ['app.component.scss']
-})
-export class AppComponent</p>
-<p>// Example usage of :host
-@Component({
-selector: 'app-component',
-templateUrl: 'app.component.html',
-styleUrls: ['app.component.scss'],
-host: {
-'class': 'app-component'
-}
+  selector: &apos;app-component&apos;,
+  templateUrl: &apos;app.component.html&apos;,
+  styleUrls: [&apos;app.component.scss&apos;]
 })
 export class AppComponent { }
-</code></pre></p>
+
+// Example usage of :host
+@Component({
+  selector: &apos;app-component&apos;,
+  templateUrl: &apos;app.component.html&apos;,
+  styleUrls: [&apos;app.component.scss&apos;],
+  host: {
+    &apos;class&apos;: &apos;app-component&apos;
+  }
+})
+export class AppComponent { }
+</code></pre>
 	</div>
 </article>
 

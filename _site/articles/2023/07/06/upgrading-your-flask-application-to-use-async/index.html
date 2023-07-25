@@ -51,13 +51,16 @@
 <p>To illustrate the difference, the author provides a code example of a synchronous Flask web server and measures its throughput and latency under load. They then show how to upgrade the server to use an asynchronous framework like Quart or FastAPI, and compare the performance metrics again. The results clearly highlight the advantages of using asynchronous operations in Flask applications.</p>
 <p>This article is a must-read for anyone who wants to optimize their Flask applications and learn about the synchronous and asynchronous web framework paradigms. By upgrading to an asynchronous web server, developers can unlock the full potential of their Flask applications and provide better user experiences.</p>
 <pre><code class="language-python">from flask import Flask
-<p>app = Flask(<strong>name</strong>)</p>
-<p>@app.route('/')
+
+app = Flask(__name__)
+
+@app.route(&apos;/&apos;)
 def index():
-return 'Hello, World!'</p>
-<p>if <strong>name</strong> == '<strong>main</strong>':
-app.run()
-</code></pre></p>
+    return &apos;Hello, World!&apos;
+
+if __name__ == &apos;__main__&apos;:
+    app.run()
+</code></pre>
 <pre><code class="language-bash">$ python app.py
 </code></pre>
 <pre><code class="language-bash">$ pip install quart

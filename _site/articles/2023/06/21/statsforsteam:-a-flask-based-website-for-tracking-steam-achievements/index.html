@@ -51,13 +51,16 @@
 <p>The website&apos;s frontend is built with HTML, CSS, and JavaScript, while the backend is powered by Flask, a Python-based web framework. The website also uses SQLite as its database management system.</p>
 <p>Here&apos;s an example of how to use Flask to create a simple web application:</p>
 <pre><code class="language-python">from flask import Flask, render_template
-<p>app = Flask(<strong>name</strong>)</p>
-<p>@app.route('/')
+
+app = Flask(__name__)
+
+@app.route(&apos;/&apos;)
 def index():
-return render_template('index.html')</p>
-<p>if <strong>name</strong> == '<strong>main</strong>':
-app.run(debug=True)
-</code></pre></p>
+    return render_template(&apos;index.html&apos;)
+
+if __name__ == &apos;__main__&apos;:
+    app.run(debug=True)
+</code></pre>
 <p>In this example, Flask is used to create a simple web application that renders an HTML template when the user visits the root URL. The <code>render_template</code> function is used to render the HTML template, which can include variables that are passed in from the Python code.</p>
 <p>StatsForSteam is a great example of how Flask can be used to create a powerful web application that meets the needs of a specific user base. As more and more gamers turn to online platforms to track their achievements and connect with other players, Flask-based websites like StatsForSteam are likely to become increasingly popular.</p>
 	</div>

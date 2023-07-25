@@ -53,35 +53,40 @@
 <p>With its focus on scalability, type-safety, and composability, Optics is a valuable addition to the toolkit of TypeScript developers. It simplifies state management and empowers developers to build robust and maintainable applications.</p>
 <pre><code class="language-typescript">// Example usage of Optics
 import { Optic } from &apos;optics-ts&apos;;
-<p>// Define the global state type
+
+// Define the global state type
 type GlobalState = {
-user: {
-id: number;
-name: string;
-email: string;
+  user: {
+    id: number;
+    name: string;
+    email: string;
+  };
+  products: {
+    [id: number]: {
+      id: number;
+      name: string;
+      price: number;
+    };
+  };
 };
-products: {
-[id: number]: {
-id: number;
-name: string;
-price: number;
-};
-};
-};</p>
-<p>// Create optics for specific parts of the state
-const userOptic = Optic.from&lt;GlobalState&gt;().prop('user');
-const userNameOptic = userOptic.prop('name');
-const productsOptic = Optic.from&lt;GlobalState&gt;().prop('products');
-const productOptic = (id: number) =&gt; productsOptic.prop(id);</p>
-<p>// Read the user's name from the global state
-const userName = userNameOptic.get(globalState);</p>
-<p>// Update the user's name in the global state
-const updatedState = userNameOptic.set(globalState, 'John Doe');</p>
-<p>// Subscribe to changes in the user's name
+
+// Create optics for specific parts of the state
+const userOptic = Optic.from&lt;GlobalState&gt;().prop(&apos;user&apos;);
+const userNameOptic = userOptic.prop(&apos;name&apos;);
+const productsOptic = Optic.from&lt;GlobalState&gt;().prop(&apos;products&apos;);
+const productOptic = (id: number) =&gt; productsOptic.prop(id);
+
+// Read the user&apos;s name from the global state
+const userName = userNameOptic.get(globalState);
+
+// Update the user&apos;s name in the global state
+const updatedState = userNameOptic.set(globalState, &apos;John Doe&apos;);
+
+// Subscribe to changes in the user&apos;s name
 userNameOptic.subscribe(globalState, (newName) =&gt; {
-console.log(<code>User&amp;apos;s name changed to ${newName}</code>);
+  console.log(`User&apos;s name changed to ${newName}`);
 });
-</code></pre></p>
+</code></pre>
 <p>Optics offers a flexible and intuitive approach to state management, making it a valuable tool for TypeScript developers who want to keep up with the latest advancements in the industry.</p>
 	</div>
 </article>

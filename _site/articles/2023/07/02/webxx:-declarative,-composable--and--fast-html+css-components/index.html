@@ -52,19 +52,21 @@
 <p>webxx prioritizes memory safety and provides a user guide that covers various topics, including components, reusability, composition, and more. It also highlights some quirks and inconsistencies to be aware of when using the library.</p>
 <p>Here&apos;s an example of how to define a component in webxx:</p>
 <pre><code class="language-cpp">#include &lt;webxx.h&gt;
-<p>struct MyComponent : public Webxx::component {
-void render() {
-html::div([] {
-html::text(&quot;Hello, webxx!&quot;);
-});
+
+struct MyComponent : public Webxx::component {
+  void render() {
+    html::div([] {
+      html::text(&quot;Hello, webxx!&quot;);
+    });
+  }
+};
+
+int main() {
+  MyComponent component;
+  component.render();
+  return 0;
 }
-};</p>
-<p>int main() {
-MyComponent component;
-component.render();
-return 0;
-}
-</code></pre></p>
+</code></pre>
 <p>With webxx, developers can leverage the power of C++ to build efficient and maintainable HTML-based user interfaces. Stay tuned for more updates and news on this exciting library.</p>
 	</div>
 </article>

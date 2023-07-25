@@ -74,18 +74,21 @@ Here is an example of how to use DORA metrics in code:</p>
 <pre><code># Calculate deployment frequency
 deployments = get_deployments()
 deployment_frequency = len(deployments) / total_time
-<h1>Calculate cycle time</h1>
-<p>commits = get_commits()
-cycle_time = (time_to_production - time_to_commit) / len(commits)</p>
-<h1>Calculate change failure rate</h1>
-<p>deployments = get_deployments()
+
+# Calculate cycle time
+commits = get_commits()
+cycle_time = (time_to_production - time_to_commit) / len(commits)
+
+# Calculate change failure rate
+deployments = get_deployments()
 failures = get_failures()
-change_failure_rate = failures / len(deployments)</p>
-<h1>Calculate mean time to restore</h1>
-<p>failures = get_failures()
+change_failure_rate = failures / len(deployments)
+
+# Calculate mean time to restore
+failures = get_failures()
 restore_time = get_restore_time()
 mean_time_to_restore = restore_time / len(failures)
-</code></pre></p>
+</code></pre>
 <p>Conclusion
 DORA metrics are a powerful tool to drive engineering improvement and achieve better business outcomes. However, businesses need to use them effectively by aligning them with business goals, using them for continuous improvement, and driving collaboration between teams and departments. By using DORA metrics effectively, businesses can achieve significant improvements in their software development processes and outcomes.</p>
 	</div>

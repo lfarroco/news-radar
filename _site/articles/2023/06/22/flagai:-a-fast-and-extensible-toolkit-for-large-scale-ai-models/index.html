@@ -53,17 +53,21 @@
 <p>To get started with FlagAI, developers can use the high-level API to build and train models. Here is an example of how to train an image classification model using FlagAI:</p>
 <pre><code>import flag
 import torch
-<h1>Load the dataset</h1>
-<p>train_dataset = flag.data.ImageFolder('/path/to/train/dataset')
-val_dataset = flag.data.ImageFolder('/path/to/val/dataset')</p>
-<h1>Create the model</h1>
-<p>model = flag.models.resnet18(num_classes=len(train_dataset.classes))</p>
-<h1>Create the optimizer</h1>
-<p>optimizer = torch.optim.Adam(model.parameters(), lr=0.001)</p>
-<h1>Train the model</h1>
-<p>trainer = flag.Trainer(model, optimizer, train_dataset, val_dataset)
+
+# Load the dataset
+train_dataset = flag.data.ImageFolder(&apos;/path/to/train/dataset&apos;)
+val_dataset = flag.data.ImageFolder(&apos;/path/to/val/dataset&apos;)
+
+# Create the model
+model = flag.models.resnet18(num_classes=len(train_dataset.classes))
+
+# Create the optimizer
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+
+# Train the model
+trainer = flag.Trainer(model, optimizer, train_dataset, val_dataset)
 trainer.train()
-</code></pre></p>
+</code></pre>
 <p>Overall, FlagAI is a powerful toolkit that can help developers build and deploy large-scale AI models quickly and efficiently. Its speed, extensibility, and pre-built models make it an ideal choice for developers who want to stay on the cutting edge of AI development.</p>
 	</div>
 </article>

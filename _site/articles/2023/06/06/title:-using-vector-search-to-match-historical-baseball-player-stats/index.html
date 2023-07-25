@@ -53,18 +53,21 @@
 <p>To implement vector search for baseball player stats, we can use a machine learning library like scikit-learn in Python. Here&apos;s an example code snippet:</p>
 <pre><code>from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
-<h1>Create a matrix of player stats</h1>
-<p>player_stats = np.array([
-[0.300, 40, 120],
-[0.280, 35, 110],
-[0.320, 45, 130],
-[0.290, 30, 100]
-])</p>
-<h1>Compute cosine similarity between each pair of players</h1>
-<p>similarity_matrix = cosine_similarity(player_stats)</p>
-<h1>Identify players with similar performance profiles</h1>
-<p>similar_players = np.argsort(similarity_matrix[0])[-2:]
-</code></pre></p>
+
+# Create a matrix of player stats
+player_stats = np.array([
+    [0.300, 40, 120],
+    [0.280, 35, 110],
+    [0.320, 45, 130],
+    [0.290, 30, 100]
+])
+
+# Compute cosine similarity between each pair of players
+similarity_matrix = cosine_similarity(player_stats)
+
+# Identify players with similar performance profiles
+similar_players = np.argsort(similarity_matrix[0])[-2:]
+</code></pre>
 <p>In this example, we create a matrix of player stats where each row represents a player and each column represents a different category of performance. We then compute the cosine similarity between each pair of players to create a similarity matrix. Finally, we identify the players with the most similar performance profiles to the first player in the matrix.</p>
 <p>Vector search is just one of many tools that can be used to analyze baseball player stats. By leveraging the power of machine learning, we can gain new insights into the game and its history. As the field of sports analytics continues to evolve, we can expect to see even more innovative approaches to analyzing and understanding data in the world of sports.</p>
 	</div>

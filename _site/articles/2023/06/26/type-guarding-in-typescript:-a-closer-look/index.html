@@ -54,21 +54,26 @@
   name: string;
   age: number | null;
 };
-<p>const isAdult = (person: Person): person is { name: string, age: number } =&gt; {
-return person.age !== null &amp;&amp; person.age &gt;= 18;
-};</p>
-<p>const person: Person = { name: &quot;John&quot;, age: null };</p>
-<p>if (isAdult(person)) {
-// <code>person</code> is now narrowed down to { name: string, age: number }
-console.log(<code>${person.name} is an adult</code>);
-}</p>
-<p>// However, if we have <code>person</code> be inside an object:
-const obj = { person };</p>
-<p>if (isAdult(obj.person)) {
-// <code>obj.person</code> is still of type <code>Person</code>
-console.log(<code>${obj.person.name} is an adult</code>);
+
+const isAdult = (person: Person): person is { name: string, age: number } =&gt; {
+  return person.age !== null &amp;&amp; person.age &gt;= 18;
+};
+
+const person: Person = { name: &quot;John&quot;, age: null };
+
+if (isAdult(person)) {
+  // `person` is now narrowed down to { name: string, age: number }
+  console.log(`${person.name} is an adult`);
 }
-</code></pre></p>
+
+// However, if we have `person` be inside an object:
+const obj = { person };
+
+if (isAdult(obj.person)) {
+  // `obj.person` is still of type `Person`
+  console.log(`${obj.person.name} is an adult`);
+}
+</code></pre>
 <p>In conclusion, type guarding in TypeScript is a powerful tool that helps developers write more robust code. However, it is essential to understand its behavior, especially when it comes to object properties. By being aware of these nuances, developers can avoid unexpected behavior and write more efficient code.</p>
 	</div>
 </article>

@@ -54,9 +54,10 @@
     id SERIAL PRIMARY KEY,
     data JSON
 );
-<p>INSERT INTO example (data)
-VALUES ('{&quot;name&quot;: &quot;John&quot;, &quot;age&quot;: 30}');
-</code></pre></p>
+
+INSERT INTO example (data)
+VALUES (&apos;{&quot;name&quot;: &quot;John&quot;, &quot;age&quot;: 30}&apos;);
+</code></pre>
 <p>In conclusion, while both Postgres and MongoDB have their strengths, developers should consider using Postgres for both relational and unstructured data. With its support for JSON data and better performance, it can simplify the development process.</p>
 	</div>
 </article>

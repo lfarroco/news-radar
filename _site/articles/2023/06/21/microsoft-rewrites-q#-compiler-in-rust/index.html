@@ -51,13 +51,14 @@
 <p>Developers who are interested in quantum programming can use the Quantum Development Kit to write Q# code and run it on a simulator or a quantum computer. The kit includes a library of quantum algorithms and tools for debugging and testing quantum programs.</p>
 <p>Here is an example of a simple Q# program that creates a quantum circuit and measures its output:</p>
 <pre><code class="language-qsharp">open Microsoft.Quantum.Primitive;
-<p>operation SimpleQuantumProgram() : Result {
-using (q = Qubit()) {
-H(q);
-return M(q);
+
+operation SimpleQuantumProgram() : Result {
+    using (q = Qubit()) {
+        H(q);
+        return M(q);
+    }
 }
-}
-</code></pre></p>
+</code></pre>
 <p>The <code>SimpleQuantumProgram</code> operation creates a qubit, applies a Hadamard gate to it, and measures its output. The <code>using</code> statement ensures that the qubit is properly disposed of after the program finishes running.</p>
 <p>With the Q# compiler now written in Rust, developers can expect faster and more efficient compilation of their quantum programs. This is just one example of how Rust is being used in the development of cutting-edge technologies.</p>
 	</div>

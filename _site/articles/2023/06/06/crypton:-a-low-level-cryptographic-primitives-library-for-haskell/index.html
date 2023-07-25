@@ -52,11 +52,12 @@
 <p>To get started with Crypton, developers can refer to the documentation available on Hackage. The library is licensed under the BSD 3-Clause License.</p>
 <p>Here&apos;s an example of how to use Crypton to generate a random key using the AES-256 algorithm:</p>
 <pre><code class="language-haskell">import Crypto.Cryptonite.AES
-<p>main :: IO ()
+
+main :: IO ()
 main = do
-key &lt;- getRandomBytes 32 -- 256 bits for AES-256
-putStrLn $ &quot;Random key: &quot; ++ show key
-</code></pre></p>
+  key &lt;- getRandomBytes 32 -- 256 bits for AES-256
+  putStrLn $ &quot;Random key: &quot; ++ show key
+</code></pre>
 <p>Overall, Crypton is a useful library for developers who need low-level access to cryptographic primitives in Haskell.</p>
 	</div>
 </article>

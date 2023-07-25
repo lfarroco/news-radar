@@ -51,9 +51,11 @@
 <p>Fortunately, there are several npm packages available for generating unique and family-friendly usernames. One such package is &quot;friendly-words&quot;, which includes a list of 5,000 common English words that are easy to spell and pronounce. The package allows users to generate random usernames with the format <code>${adjective}_${noun}</code>, or they can use the package&apos;s built-in functions to generate usernames with different formats.</p>
 <p>Here&apos;s an example of how to use &quot;friendly-words&quot; to generate a random username:</p>
 <pre><code class="language-javascript">const friendlyWords = require(&apos;friendly-words&apos;);
-<p>const username = <code>${friendlyWords.predicates[Math.floor(Math.random() * friendlyWords.predicates.length)]}_${friendlyWords.objects[Math.floor(Math.random() * friendlyWords.objects.length)]}</code>;</p>
-<p>console.log(username); // Output: &quot;happy_donkey&quot;
-</code></pre></p>
+
+const username = `${friendlyWords.predicates[Math.floor(Math.random() * friendlyWords.predicates.length)]}_${friendlyWords.objects[Math.floor(Math.random() * friendlyWords.objects.length)]}`;
+
+console.log(username); // Output: &quot;happy_donkey&quot;
+</code></pre>
 <p>Other npm packages that offer similar functionality include &quot;random-username-generator&quot; and &quot;username-generator&quot;. By using these packages, developers can ensure that their platforms have family-friendly usernames that fit their brand image.</p>
 	</div>
 </article>

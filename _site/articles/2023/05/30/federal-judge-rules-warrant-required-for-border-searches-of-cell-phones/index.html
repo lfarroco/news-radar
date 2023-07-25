@@ -51,15 +51,19 @@
 <p>Developers should be aware of the potential privacy implications of border searches of electronic devices. It is recommended to take precautions such as encrypting sensitive data and storing it in the cloud before traveling internationally. Additionally, developers should stay informed about legal developments related to electronic device searches at the border and advocate for stronger privacy protections.</p>
 <pre><code class="language-python"># Example of encrypting data in Python using the cryptography library
 from cryptography.fernet import Fernet
-<h1>Generate a key</h1>
-<p>key = Fernet.generate_key()</p>
-<h1>Create a Fernet instance with the key</h1>
-<p>f = Fernet(key)</p>
-<h1>Encrypt data</h1>
-<p>encrypted_data = f.encrypt(b&quot;Sensitive data&quot;)</p>
-<h1>Decrypt data</h1>
-<p>decrypted_data = f.decrypt(encrypted_data)
-</code></pre></p>
+
+# Generate a key
+key = Fernet.generate_key()
+
+# Create a Fernet instance with the key
+f = Fernet(key)
+
+# Encrypt data
+encrypted_data = f.encrypt(b&quot;Sensitive data&quot;)
+
+# Decrypt data
+decrypted_data = f.decrypt(encrypted_data)
+</code></pre>
 	</div>
 </article>
 

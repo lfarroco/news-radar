@@ -54,24 +54,24 @@
 int binarySearch(const T* arr, int size, const T&amp; value) {
     int left = 0;
     int right = size - 1;
-<pre><code>while (left &amp;lt;= right) {
-    int mid = left + (right - left) / 2;
 
-    if (arr[mid] == value) {
-        return mid;
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+
+        if (arr[mid] == value) {
+            return mid;
+        }
+
+        if (arr[mid] &lt; value) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
     }
 
-    if (arr[mid] &amp;lt; value) {
-        left = mid + 1;
-    } else {
-        right = mid - 1;
-    }
+    return -1; // Value not found
 }
-
-return -1; // Value not found
 </code></pre>
-<p>}
-</code></pre></p>
 <p>This implementation takes an array <code>arr</code>, its size <code>size</code>, and the value to search for <code>value</code>. It uses a while loop to iteratively narrow down the search range by comparing the middle element of the current range with the target value. If the middle element is equal to the target value, the function returns the index of that element. If the middle element is less than the target value, the search range is updated to the right half. Otherwise, it is updated to the left half. If the value is not found, the function returns -1.</p>
 <p>By keeping up with the latest developments in binary search implementations, developers can optimize their code for faster search operations.</p>
 	</div>

@@ -57,10 +57,11 @@ interface User {
   name: string;
   age: number;
 }
-<p>const serializedData = '{&quot;name&quot;:&quot;John Doe&quot;,&quot;age&quot;:25}';
+
+const serializedData = &apos;{&quot;name&quot;:&quot;John Doe&quot;,&quot;age&quot;:25}&apos;;
 const deserializedUser: User = JSON.parse(serializedData);
-console.log(deserializedUser.name); // Error: Property 'name' does not exist on type 'unknown'
-</code></pre></p>
+console.log(deserializedUser.name); // Error: Property &apos;name&apos; does not exist on type &apos;unknown&apos;
+</code></pre>
 <p>In conclusion, the article sheds light on the need for runtime type information in TypeScript and urges the TypeScript team to prioritize addressing this issue. By providing developers with better support for serialization and validation, TypeScript can enhance its usability and empower developers to build more efficient and reliable applications.</p>
 	</div>
 </article>

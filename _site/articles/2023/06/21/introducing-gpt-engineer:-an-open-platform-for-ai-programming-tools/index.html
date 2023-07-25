@@ -53,19 +53,21 @@
 <p>Here&apos;s an example of how GPT Engineer can be used to generate code:</p>
 <pre><code class="language-python">import openai
 openai.api_key = &quot;YOUR_API_KEY&quot;
-<p>def generate_code(prompt):
-response = openai.Completion.create(
-engine=&quot;text-davinci-002&quot;,
-prompt=prompt,
-max_tokens=1024,
-n=1,
-stop=None,
-temperature=0.5,
-)
-return response.choices[0].text.strip()</p>
-<p>code = generate_code(&quot;Generate a function that returns the sum of two numbers&quot;)
+
+def generate_code(prompt):
+    response = openai.Completion.create(
+        engine=&quot;text-davinci-002&quot;,
+        prompt=prompt,
+        max_tokens=1024,
+        n=1,
+        stop=None,
+        temperature=0.5,
+    )
+    return response.choices[0].text.strip()
+
+code = generate_code(&quot;Generate a function that returns the sum of two numbers&quot;)
 print(code)
-</code></pre></p>
+</code></pre>
 <p>Overall, GPT Engineer is a promising project for developers interested in AI programming tools. It provides a platform for experimentation and encourages community contributions to improve the project.</p>
 	</div>
 </article>

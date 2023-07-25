@@ -52,22 +52,24 @@
 <p>If you encounter any problems or bugs, the Checker Framework encourages you to submit a bug report so that the issues can be addressed promptly.</p>
 <p>Overall, the Checker Framework is a valuable asset for Java developers who want to strengthen their code and minimize errors. By leveraging its features and community support, developers can ensure the reliability and robustness of their Java programs.</p>
 <pre><code class="language-java">// Example code snippet using the Checker Framework
-<p>import org.checkerframework.checker.nullness.qual.NonNull;</p>
-<p>public class Example {
-public static void main(String[] args) {
-String name = getName();
-printName(name);
-}</p>
-<pre><code>public static void printName(@NonNull String name) {
-    System.out.println(&amp;quot;Name: &amp;quot; + name);
-}
 
-public static String getName() {
-    return null; // Compiler error: Null value returned
+import org.checkerframework.checker.nullness.qual.NonNull;
+
+public class Example {
+    public static void main(String[] args) {
+        String name = getName();
+        printName(name);
+    }
+    
+    public static void printName(@NonNull String name) {
+        System.out.println(&quot;Name: &quot; + name);
+    }
+    
+    public static String getName() {
+        return null; // Compiler error: Null value returned
+    }
 }
 </code></pre>
-<p>}
-</code></pre></p>
 <p>In the above example, the Checker Framework&apos;s <code>@NonNull</code> annotation is used to indicate that the <code>name</code> parameter in the <code>printName</code> method cannot be null. This helps catch potential null pointer exceptions at compile-time, improving code reliability.</p>
 	</div>
 </article>

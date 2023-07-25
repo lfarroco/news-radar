@@ -52,14 +52,15 @@
 <p>To get started with Unchecked Java, simply download the jar file, place it on your classpath, and run javac with the <code>-Xplugin:unchecked</code> flag. You can also suppress warnings about checked exceptions using the <code>nowarn</code> option.</p>
 <p>Here&apos;s an example of how to use Unchecked Java:</p>
 <pre><code class="language-java">import unchecked.Unchecked;
-<p>public class Main {
-public static void main(String[] args) {
-Unchecked.unchecked(() -&gt; {
-// Code that throws checked exceptions
-});
+
+public class Main {
+    public static void main(String[] args) {
+        Unchecked.unchecked(() -&gt; {
+            // Code that throws checked exceptions
+        });
+    }
 }
-}
-</code></pre></p>
+</code></pre>
 <p>Unchecked Java can be easily integrated into your Maven or Gradle projects. Simply add the appropriate dependency and configure the compiler plugin. Unchecked Java is also compatible with other javac plugins, such as Lombok and Fluent.</p>
 <p>With Unchecked Java, developers can say goodbye to the hassle of checked exceptions and focus on writing clean and concise code. It&apos;s a valuable tool for any Java developer looking to streamline their exception handling process.</p>
 <p>Note: This article is based on the original article &quot;Unchecked Java: Say Goodbye to Checked Exceptions Forever&quot; by Roger Keays.</p>

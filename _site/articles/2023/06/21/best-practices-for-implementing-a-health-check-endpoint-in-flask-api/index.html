@@ -52,14 +52,16 @@
 <p>Secondly, the endpoint should return a JSON response with a status code of 200 if the application is healthy. If there are any issues, the endpoint should return a status code of 500 along with an error message.</p>
 <p>Here&apos;s an example of how to implement a health-check endpoint in Flask:</p>
 <pre><code class="language-python">from flask import Blueprint, jsonify
-<p>health_check_bp = Blueprint('health_check', <strong>name</strong>)</p>
-<p>@health_check_bp.route('/health-check')
+
+health_check_bp = Blueprint(&apos;health_check&apos;, __name__)
+
+@health_check_bp.route(&apos;/health-check&apos;)
 def health_check():
-# Check database connectivity, pings, roundtrip request timings, etc
-# Return a JSON response with a status code of 200 if the application is healthy
-# Return a status code of 500 along with an error message if there are any issues
-return jsonify({'status': 'ok'}), 200
-</code></pre></p>
+    # Check database connectivity, pings, roundtrip request timings, etc
+    # Return a JSON response with a status code of 200 if the application is healthy
+    # Return a status code of 500 along with an error message if there are any issues
+    return jsonify({&apos;status&apos;: &apos;ok&apos;}), 200
+</code></pre>
 <p>By following these best practices, developers can ensure that their Flask API is always up and running. It also makes it easier to diagnose and fix any issues that may arise.</p>
 	</div>
 </article>

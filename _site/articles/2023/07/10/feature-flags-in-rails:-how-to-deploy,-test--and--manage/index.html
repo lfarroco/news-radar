@@ -54,11 +54,12 @@ To begin, let&#x2019;s set up feature flags in a Rails application. We&#x2019;ll
 Flipper.configure do |config|
   config.adapter = Flipper::Adapters::ActiveRecord.new
 end
-<h1>Register feature flags</h1>
-<p>Flipper.register(:new_feature) do |actor|
-actor.admin? # Example condition for enabling the feature
+
+# Register feature flags
+Flipper.register(:new_feature) do |actor|
+  actor.admin? # Example condition for enabling the feature
 end
-</code></pre></p>
+</code></pre>
 <p>Create a migration to set up the necessary database tables for Flipper:</p>
 <pre><code>rails generate flipper:active_record
 rails db:migrate

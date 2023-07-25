@@ -56,19 +56,23 @@
     engine Engine
     wheels []Wheel
 }
-<p>type Engine struct {
-// engine properties
-}</p>
-<p>type Wheel struct {
-// wheel properties
-}</p>
-<p>func (c *Car) Start() {
-c.engine.Start()
-}</p>
-<p>func (c *Car) Drive() {
-// driving logic
+
+type Engine struct {
+    // engine properties
 }
-</code></pre></p>
+
+type Wheel struct {
+    // wheel properties
+}
+
+func (c *Car) Start() {
+    c.engine.Start()
+}
+
+func (c *Car) Drive() {
+    // driving logic
+}
+</code></pre>
 <p>In this example, a <code>Car</code> struct is composed of an <code>Engine</code> and a slice of <code>Wheel</code> structs. The <code>Car</code> can start and drive by utilizing the methods of its composed components.</p>
 <p>As the industry evolves, it is crucial for developers to embrace new paradigms and challenge established conventions. The death of inheritance may not be imminent, but it is essential to explore alternatives like composition to create more robust and scalable software.</p>
 <p>Read Aviv Carmi&apos;s full article <a href="link-to-the-article">here</a> to gain a deeper understanding of the shift away from inheritance and the rise of composition in modern programming languages.</p>

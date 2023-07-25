@@ -51,24 +51,27 @@
 <p>To get started, developers can visit the Zellij website and read more about the new plugin system. The website provides documentation on how to build and share plugins with the community. The Zellij community is active and supportive, making it an excellent place for developers to learn and grow.</p>
 <p>Here is an example of a Rust plugin for Zellij that prints &quot;Hello, world!&quot; in the terminal:</p>
 <pre><code class="language-rust">use zellij_plugin::prelude::*;
-<p>#[derive(Default)]
-struct HelloWorld;</p>
-<p>impl ZellijPlugin for HelloWorld {
-fn load(&amp;mut self) -&gt; anyhow::Result&lt;()&gt; {
-println!(&quot;Hello, world!&quot;);
-Ok(())
+
+#[derive(Default)]
+struct HelloWorld;
+
+impl ZellijPlugin for HelloWorld {
+    fn load(&amp;mut self) -&gt; anyhow::Result&lt;()&gt; {
+        println!(&quot;Hello, world!&quot;);
+        Ok(())
+    }
 }
-}</p>
-<p>inventory::submit!(PluginDescription {
-name: &quot;HelloWorld&quot;,
-author: &quot;Your Name&quot;,
-description: &quot;Prints 'Hello, world!' in the terminal&quot;,
-version: &quot;0.1.0&quot;,
-license: &quot;MIT&quot;,
-features: Default::default(),
-plugin_type: PluginType::Other(Box::new(|| Box::new(HelloWorld::default()))),
+
+inventory::submit!(PluginDescription {
+    name: &quot;HelloWorld&quot;,
+    author: &quot;Your Name&quot;,
+    description: &quot;Prints &apos;Hello, world!&apos; in the terminal&quot;,
+    version: &quot;0.1.0&quot;,
+    license: &quot;MIT&quot;,
+    features: Default::default(),
+    plugin_type: PluginType::Other(Box::new(|| Box::new(HelloWorld::default()))),
 });
-</code></pre></p>
+</code></pre>
 <p>Zellij provides a unique opportunity for Rust developers to build plugins for the terminal and share them with the community. The new plugin system is easy to use and provides a great experience for developers. Join the Zellij community today and start building plugins for the terminal.</p>
 	</div>
 </article>

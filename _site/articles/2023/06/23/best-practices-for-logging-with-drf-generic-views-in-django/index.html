@@ -50,13 +50,14 @@
 <p>According to the DRF documentation, the recommended approach is to override the <code>initial()</code> method of the view and set up the logger there. This method is called before any other method, making it an ideal place to set up logging for the view.</p>
 <p>Here&apos;s an example of how to set up logging in the <code>initial()</code> method:</p>
 <pre><code class="language-python">import logging
-<p>class MyView(ListAPIView):
-logger = logging.getLogger(<strong>name</strong>)</p>
-<pre><code>def initial(self, request, *args, **kwargs):
-    self.logger.info(&amp;apos;MyView called&amp;apos;)
-    super().initial(request, *args, **kwargs)
+
+class MyView(ListAPIView):
+    logger = logging.getLogger(__name__)
+
+    def initial(self, request, *args, **kwargs):
+        self.logger.info(&apos;MyView called&apos;)
+        super().initial(request, *args, **kwargs)
 </code></pre>
-<p></code></pre></p>
 <p>This code sets up a logger for the view and logs a message when the view is called. The <code>super().initial()</code> call ensures that the view&apos;s normal initialization process is still executed.</p>
 <p>Another option is to override the <code>dispatch()</code> method, which is called for every request. However, this can result in more log messages than necessary, as it will log for every HTTP method (GET, POST, etc.) that the view supports.</p>
 <p>In summary, the recommended approach for logging with DRF generic views is to override the <code>initial()</code> method. This ensures that the logger is set up before any other methods are called, and provides a clear and consistent approach to logging across views.</p>

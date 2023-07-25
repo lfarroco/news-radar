@@ -50,34 +50,36 @@
 <p>This package provides a simple, reusable hook that allows you to trigger onKeyDown events only when certain keys are pressed, avoiding the need to check the key every time. This is especially useful when working with interactive elements that require keyboard event handlers.</p>
 <p>To use the hook, simply import it from the package and pass it as the value for the onKeyDown attribute of your element. By default, the hook will trigger onKeyDown for any key except for &quot;Shift&quot; and &quot;Tab&quot;, allowing keyboard users to tab up and down the tab stack. Here&apos;s an example:</p>
 <pre><code>import { useKeyDown } from &apos;a11y-onkeydown&apos;;
-<p>function MyButton({ text, handleSelect }) {
-return (
-&lt;div
-role=&quot;button&quot;
-tabIndex={0}
-onClick={handleSelect}
-onKeyDown={useKeyDown(handleSelect)}
-&gt;
-{text}
-&lt;/div&gt;
-);
+
+function MyButton({ text, handleSelect }) {
+  return (
+    &lt;div
+      role=&quot;button&quot;
+      tabIndex={0}
+      onClick={handleSelect}
+      onKeyDown={useKeyDown(handleSelect)}
+    &gt;
+      {text}
+    &lt;/div&gt;
+  );
 }
-</code></pre></p>
+</code></pre>
 <p>In this example, the &quot;handleSelect&quot; function will be called when the user presses any key except for &quot;Shift&quot; and &quot;Tab&quot;. However, you may want to only call onKeyDown if certain keys are pressed. In that case, you can pass an array of strings as the second argument to useKeyDown. For example, if you only want to trigger onKeyDown when the user presses &quot;Enter&quot;, &quot;ArrowUp&quot;, or &quot;ArrowDown&quot;, you can do this:</p>
 <pre><code>import { useKeyDown } from &apos;a11y-onkeydown&apos;;
-<p>function MyButton({ text, handleSelect }) {
-return (
-&lt;div
-role=&quot;button&quot;
-tabIndex={0}
-onClick={handleSelect}
-onKeyDown={useKeyDown(handleSelect, ['Enter', 'ArrowUp', 'ArrowDown'])}
-&gt;
-{text}
-&lt;/div&gt;
-);
+
+function MyButton({ text, handleSelect }) {
+  return (
+    &lt;div
+      role=&quot;button&quot;
+      tabIndex={0}
+      onClick={handleSelect}
+      onKeyDown={useKeyDown(handleSelect, [&apos;Enter&apos;, &apos;ArrowUp&apos;, &apos;ArrowDown&apos;])}
+    &gt;
+      {text}
+    &lt;/div&gt;
+  );
 }
-</code></pre></p>
+</code></pre>
 <p>With this configuration, the &quot;handleSelect&quot; function will only be called when the user presses one of the specified keys.</p>
 <p>In summary, &quot;a11y-onkeydown&quot; is a simple and useful package for making your React applications more accessible to keyboard users. By using this hook, you can avoid creating keyboard traps and provide a better user experience for all.</p>
 	</div>

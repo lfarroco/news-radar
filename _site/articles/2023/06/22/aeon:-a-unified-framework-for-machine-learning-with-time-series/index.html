@@ -52,19 +52,24 @@
 <p>To get started with Aeon, developers can install it using pip and then import it into their Python code. Here&apos;s an example of how to use Aeon for time series forecasting:</p>
 <pre><code>from aeon import TimeSeries
 from aeon.models import LSTM
-<h1>Load time series data</h1>
-<p>data = TimeSeries.load_csv('data.csv')</p>
-<h1>Split data into training and test sets</h1>
-<p>train_data, test_data = data.split_train_test(0.8)</p>
-<h1>Train LSTM model</h1>
-<p>model = LSTM()
-model.fit(train_data)</p>
-<h1>Make predictions on test data</h1>
-<p>predictions = model.predict(test_data)</p>
-<h1>Evaluate model performance</h1>
-<p>mse = model.evaluate(test_data)
-print('Mean Squared Error:', mse)
-</code></pre></p>
+
+# Load time series data
+data = TimeSeries.load_csv(&apos;data.csv&apos;)
+
+# Split data into training and test sets
+train_data, test_data = data.split_train_test(0.8)
+
+# Train LSTM model
+model = LSTM()
+model.fit(train_data)
+
+# Make predictions on test data
+predictions = model.predict(test_data)
+
+# Evaluate model performance
+mse = model.evaluate(test_data)
+print(&apos;Mean Squared Error:&apos;, mse)
+</code></pre>
 <p>Overall, Aeon is a powerful and flexible framework for machine learning with time series data. Its user-friendly interface and extensive documentation make it a great choice for developers looking to build machine learning models for time series analysis.</p>
 	</div>
 </article>

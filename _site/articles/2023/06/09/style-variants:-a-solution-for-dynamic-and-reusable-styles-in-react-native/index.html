@@ -52,41 +52,43 @@
 </code></pre>
 <p>Once installed, developers can define style variants for their custom components and apply them dynamically based on their desired behavior. For example, to create style variants for a Button component with multiple size and color variants, and a disabled state, developers can use the following code snippet:</p>
 <pre><code>import { createStyleVariant } from &apos;style-variants&apos;;
-<p>const Button = ({ size, color, disabled, children }) =&gt; {
-const styleVariant = createStyleVariant({
-base: {
-borderRadius: 8,
-paddingVertical: 12,
-paddingHorizontal: 16,
-backgroundColor: color,
-color: '#fff',
-fontSize: 16,
-fontWeight: 'bold',
-textAlign: 'center',
-},
-size: {
-small: {
-paddingVertical: 8,
-paddingHorizontal: 12,
-fontSize: 14,
-},
-large: {
-paddingVertical: 16,
-paddingHorizontal: 20,
-fontSize: 18,
-},
-},
-disabled: {
-opacity: 0.5,
-},
-}, { size, color, disabled });</p>
-<p>return (
-&lt;TouchableOpacity style={styleVariant}&gt;
-{children}
-&lt;/TouchableOpacity&gt;
-);
+
+const Button = ({ size, color, disabled, children }) =&gt; {
+  const styleVariant = createStyleVariant({
+    base: {
+      borderRadius: 8,
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+      backgroundColor: color,
+      color: &apos;#fff&apos;,
+      fontSize: 16,
+      fontWeight: &apos;bold&apos;,
+      textAlign: &apos;center&apos;,
+    },
+    size: {
+      small: {
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        fontSize: 14,
+      },
+      large: {
+        paddingVertical: 16,
+        paddingHorizontal: 20,
+        fontSize: 18,
+      },
+    },
+    disabled: {
+      opacity: 0.5,
+    },
+  }, { size, color, disabled });
+
+  return (
+    &lt;TouchableOpacity style={styleVariant}&gt;
+      {children}
+    &lt;/TouchableOpacity&gt;
+  );
 };
-</code></pre></p>
+</code></pre>
 <p>With Style Variants, developers can easily create and apply style variants to their components, making their code more organized and easier to maintain.</p>
 	</div>
 </article>
