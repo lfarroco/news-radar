@@ -13,11 +13,11 @@ const slugs = async () => {
 	const items = await client.queryObject<{ id: number, article_title: string }>(query)
 
 	for (const item of items.rows) {
-		const { id, article_content } = item
+		const { id, article_title } = item
 		const updateQuery = `
 		UPDATE info SET slug = $1 WHERE id = $2;
 		`
-		await client.queryArray(updateQuery, [slugify(article_content), id])
+		await client.queryArray(updateQuery, [slugify(article_title), id])
 	}
 
 }
