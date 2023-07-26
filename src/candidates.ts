@@ -25,6 +25,8 @@ We don't select articles about the following subjects:
 - how to get a job in the industry
 - questions (e.g. "what is the best language for X?")
 - small patch updates
+- people-centered news
+- podcasts
 
 You will be provided with a list of ids and article titles in the following format: 
 (id) - title
