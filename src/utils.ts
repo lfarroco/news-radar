@@ -52,7 +52,8 @@ export const slugify = (text: string) => {
       .replace(/#/g, "-sharp-")
       // remove characters illegal in URLs
       .replace(/[^a-z0-9\-]/g, "")
-      // limit to 100 chars
-      .substring(0, 100)
+      // remove :
+      .replace(/:/g, "-")
+      .substring(0, 150)
   );
 };
