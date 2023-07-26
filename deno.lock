@@ -527,6 +527,8 @@
     "https://deno.land/x/rss@1.0.0/src/types/slash.ts": "9a08968ef416f818de3ab9778650fa0b586f9c8c60369bdbd365ba110c5f6f05",
     "https://deno.land/x/rss@1.0.0/src/util.ts": "a6611bcea8acf000eb01220092f1bea6c18aaf3ad82578c60563f25f6260c080",
     "https://deno.land/x/sax_ts@v1.2.12/src/sax.ts": "3b8303be055b59501d598fa6c6374b97cef1526f9f14ffe03d169f83ededae6c",
+    "https://deno.land/x/slug@v1.1.0/lib/locale.ts": "824401e31650704aec7595750e1898495c7f81f848c3b5150adb1a6a609a1741",
+    "https://deno.land/x/slug@v1.1.0/mod.ts": "b0d86966a651871d610f81062c865e40fca1c7932584c7bf687e3d432825cfd6",
     "https://esm.sh/cheerio@0.22.0": "71ff11b010b39f393f697d7b536376035b95164b5091d96e135adfa3a4d485d3",
     "https://esm.sh/cheerio@1.0.0-rc.12": "b583a857e6a7159e7399b5aa72a6644ae068a43dbcacd155fe24147d118e8496",
     "https://esm.sh/v129/boolbase@1.0.0/denonext/boolbase.mjs": "4e3bd67e9b1c5c55094eae98345d0107c6a44ef57bd3d4b9579698fa44722280",

@@ -1,3 +1,5 @@
+import { slug } from "./deps.ts";
+
 export const sleep = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -42,18 +44,5 @@ export const group = <A>(items: A[], n: number): A[][] =>
   }, []);
 
 export const slugify = (text: string) => {
-  return (
-    text
-      .toString()
-      .toLowerCase()
-      .replace(/\s+/g, "-") // Replace spaces with -
-      .replace(/&/g, "-and-") // Replace & with 'and'
-      // Replace # with 'sharp'
-      .replace(/#/g, "-sharp-")
-      // remove characters illegal in URLs
-      .replace(/[^a-z0-9\-]/g, "")
-      // remove :
-      .replace(/:/g, "-")
-      .substring(0, 150)
-  );
+ return slug(text);
 };
