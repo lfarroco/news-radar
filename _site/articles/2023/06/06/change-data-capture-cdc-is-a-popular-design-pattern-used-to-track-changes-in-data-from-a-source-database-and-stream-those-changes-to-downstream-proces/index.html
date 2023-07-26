@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2361701055964881" crossorigin="anonymous"></script>
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+
+			<ins class="adsbygoogle mb-2" data-ad-client="ca-pub-2361701055964881" data-ad-slot="9315501947" data-ad-format="auto" data-full-width-responsive="true"></ins>
+
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">Using HarperDB with NATS and Kafka for Change Data Capture</h1>
+		<div>
+			<small>2023/06/06</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://www.harperdb.io/post/streaming-harperdb-records-with-nats-and-kafka" target="_blank"> here</a>.
+		</div>
+		<p>Change Data Capture (CDC) is a popular design pattern used to track changes in data from a source database and stream those changes to downstream processes. HarperDB, a clustering engine and custom functions database, can be used to implement CDC. In this tutorial, we’ll see how to utilize the internal NATS streaming service and the Fastify Kafka plugin to publish new records to Kafka.</p>
+<p>HarperDB Setup To start, spin up HarperDB with custom functions enabled alongside Kafka and Zookeeper. Add the following contents to <code>docker-compose.yml</code>:</p>
+<pre><code>version: &quot;3.7&quot;
+
+services:
+  harperdb:
+    image: harperdb/hdb:v2.3.3
+    ports:
+      - &quot;9925:9925&quot;
+      - &quot;9926:9926&quot;
+    volumes:
+      - ./harperdb:/opt/hdb-data
+      - ./harperdb/custom_functions:/opt/hdb/custom_functions
+    environment:
+      - HDB_LICENSE_KEY=YOUR_LICENSE_KEY
+      - HDB_CUSTOM_FUNCTIONS_ENABLED=true
+      - HDB_KAFKA_ENABLED=true
+      - HDB_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - HDB_KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - HDB_NATS_ENABLED=true
+      - HDB_NATS_URL=nats://nats:4222
+      - HDB_NATS_CLUSTER_ID=test-cluster
+      - HDB_NATS_CLIENT_ID=test-client
+    depends_on:
+      - kafka
+      - zookeeper
+      - nats
+
+  kafka:
+    image: wurstmeister/kafka
+    ports:
+      - &quot;9092:9092&quot;
+    environment:
+      - KAFKA_ADVERTISED_HOST_NAME=kafka
+      - KAFKA_CREATE_TOPICS=test:1:1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - &quot;2181:2181&quot;
+
+</code></pre>
+<p>For this example, we’ll store the database contents locally in <code>./harperdb</code> directory. Also, note that we are not specifying <code>CLUSTERING_ENABLED=true</code> in docker-compose. This will break the initial startup, and we’ll configure via Harper Studio console.</p>
+<p>Start up the services via <code>docker-compose up -d</code>.</p>
+<p>Now we need to connect our local instance to Harper Studio. Specify the username and password from the docker compose file as well as port and host.</p>
+<p>After we log in, we can create a cluster user:</p>
+<pre><code>CREATE USER cluster_user WITH PASSWORD 'password';
+GRANT CLUSTER_ADMIN TO cluster_user;
+
+</code></pre>
+<p>Finally, let’s create a schema and table. We’ll use our favorite <code>dev</code> schema and <code>dog</code> table respectively.</p>
+<p>Custom Functions Setup HarperDB has an existing template utilizing the internal NATS stream and publishing to WebSockets: ​​https://github.com/HarperDB-Add-Ons/cf-template-websockets</p>
+<p>We will modify this setup to publish to Kafka. But first, clone this repo into the <code>custom_function</code> directory of your HarperDB instance.</p>
+<pre><code>cd harperdb/custom_functions
+git clone https://github.com/HarperDB-Add-Ons/cf-template-websockets.git
+
+</code></pre>
+<p>To get this working, rename <code>config.json.example</code> to <code>config.json</code> and update our NATS user and pass to one we created via HarperDB Studio. Finally, run <code>npm i</code> to install the dependencies.</p>
+<p>NOTE: HarperDB Studio cannot parse file names with multiple “.” so it may say “File does not exist”. Simply rename the files if you want to see the file contents on the console.</p>
+<p>Now restart HarperDB, and we can use the example client file (<code>client.example.js</code>) to test the WebSocket connection.</p>
+<p>Once we start this function, we should see the message “open!” and adding new records to our <code>dog</code> table will print out the records.</p>
+<p>Modifying to Publish to Kafka Instead of publishing messages back to the WebSocket client, let’s now publish JSON messages to Kafka. To do so, install the Fastify Kafka library: <code>npm i fastify-kafkajs</code>.</p>
+<p>Then we can import and register the Kafka client.</p>
+<pre><code>const fastify = require('fastify')({ logger: true })
+const { Kafka } = require('kafkajs')
+
+fastify.register(require('fastify-kafkajs'), {
+  clientId: 'my-app',
+  brokers: ['localhost:9092']
+})
+
+</code></pre>
+<p>We can now simply modify the <code>onPublishedMessage</code> function to publish to Kafka instead of writing back to the socket:</p>
+<pre><code>const kafka = fastify.kafka()
+const producer = kafka.producer()
+
+async function onPublishedMessage(message) {
+  const { operation, table, record } = message
+  const key = `${table}_${record.id}`
+  const value = JSON.stringify(record)
+  await producer.send({
+    topic: table,
+    messages: [{ key, value }],
+  })
+}
+
+</code></pre>
+<p>Now restart the server and connect to our WebSocket client again. Publish another message to HarperDB, and we can check that it has been published to Kafka by sshing into the Kafka container and using the <code>kafka-console-consumer</code> binary:</p>
+<pre><code>docker exec -it kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic dog --from-beginning
+
+</code></pre>
+<p>Wrapping Up In this tutorial, we saw how to use the internal NATS stream to listen to changes to data in HarperDB. We then created a Fastify route to subscribe to those tables and publish those new messages to WebSockets and Kafka. You can modify the <code>onPublishedMessage</code> method to publish to multiple topics and also run this WebSocket client in the background to emulate a Debezium-like experience.</p>
+<p>Get Started With HarperDB HarperDB is a powerful database that can be used for a variety of use cases. Whether you need to implement CDC or build a real-time application, HarperDB has the features you need. To learn more, check out the HarperDB documentation and start building today.</p>
+	</div>
+</article>
+
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-2">
+						<span class="text-muted">2023 | dev-radar</span>
+					</div>
+					<div class="col-sm-2">
+						<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 496 512">
+							<!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+							<style>
+								svg {
+									fill: #ffffff;
+								}
+							</style><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+						<a class="text-muted" href="https://github.com/lfarroco/news-radar"> GitHub </a>
+
+					</div>
+				</div>
+			</footer>
+			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+			<link rel="stylesheet" href="/styles.css"/>
+			<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+			</script>
+		</body>
+
+	</html>
