@@ -44,5 +44,5 @@ export const group = <A>(items: A[], n: number): A[][] =>
   }, []);
 
 export const slugify = (text: string) => {
- return slug(text);
+ return slug(text).substring(0, 150);
 };
