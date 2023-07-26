@@ -4,7 +4,7 @@ export const sleep = (ms: number) =>
 export async function batch<A>(
   items: A[],
   batchSize: number,
-  fn: (a: A) => Promise<void>,
+  fn: (a: A) => Promise<void>
 ) {
   const batches = items.reduce(
     (acc: A[][], item: A, index: number) => {
@@ -12,10 +12,10 @@ export async function batch<A>(
       if (!acc[batchIndex]) {
         acc[batchIndex] = [];
       }
-      acc[batchIndex] = acc[batchIndex].concat([item])
-      return acc
+      acc[batchIndex] = acc[batchIndex].concat([item]);
+      return acc;
     },
-    [[]],
+    [[]]
   );
 
   return batches.reduce(async (xs, x, index) => {
@@ -24,7 +24,7 @@ export async function batch<A>(
 
     const operations = x.map(async (item) => {
       await fn(item);
-      return null
+      return null;
     });
 
     await Promise.all(operations);
@@ -42,9 +42,17 @@ export const group = <A>(items: A[], n: number): A[][] =>
   }, []);
 
 export const slugify = (text: string) => {
-  return text
-    .toString()
-    .toLowerCase()
-    .replace(/\s+/g, '-') // Replace spaces with -
-    .replace(/&/g, '-and-'); // Replace & with 'and'
+  return (
+    text
+      .toString()
+      .toLowerCase()
+      .replace(/\s+/g, "-") // Replace spaces with -
+      .replace(/&/g, "-and-") // Replace & with 'and'
+      // Replace # with 'sharp'
+      .replace(/#/g, "-sharp-")
+      // remove characters illegal in URLs
+      .replace(/[^a-z0-9\-]/g, "")
+      // limit to 100 chars
+      .substring(0, 100)
+  );
 };
