@@ -6,7 +6,7 @@ import { Article } from "./models.ts";
 const MAX_INPUT_TEXT_LENGTH = 3000;
 
 // asking it to not including because sometimes it generates invalid/blank links :shrug:
-const prompt = async (id: number, title: string, article: string) => {
+const prompt = async (title: string, article: string) => {
   const content = `
 You are an editor for a magazine called "Dev Radar" that focuses on programming languages, frameworks and news related to them.
 Our intention is to be a "radar" for developers to keep up with the latest news in the industry.
@@ -20,14 +20,22 @@ You should write in third person ("the article shows...", "the author says...").
 Hightlight informations that are relevant for developers that want to keep up with the latest news in the industry.
 If you include html elements in the article, make sure to escape them with backticks (\`).
 Don't include links in the article.
+You should generate a new title for the article.
 The article's content should be formatted in raw markdown.
 Try to keep the generated article up to 200 words (if necessary, you can go over it).
-Your response should have the following structure:
-- The first line wil be the generated article's title
-- The second line will be the generated article's content (without the title)
-Example:
-Rust 1.0 released
-Rust, a language that...
+Your response should coome as a JSON with the following structure:
+{
+  "title": "A title that you generated for this article",
+  "content": "The article content that you generated",
+  "categories": ["category1", "category2"]
+}
+Example response:
+{
+  "title": "Rust 1.0 released",
+  "content": "Rust, a language that...",
+  "categories": ["rust", "programming"]
+}
+Don't respond with anything else than the JSON. This is very important.
 Here's the reference article: 
 ${title}
 ${article}
@@ -35,14 +43,7 @@ ${article}
 
   const response = await gpt(content, 0.4)
 
-  return {
-    id,
-    title: response.split('\n')[0],
-    content: response
-      .split('\n')
-      .slice(1)
-      .join('\n'),
-  };
+  return JSON.parse(response) as { title: string, content: string, categories: string[] }
 };
 
 
@@ -56,8 +57,7 @@ export const pickArticlesToWrite = async () => {
 };
 
 async function writeArticle(item: Article) {
-  const { id, title, content } = await prompt(
-    item.id,
+  const { title, content, categories } = await prompt(
     item.title,
     item.original.substring(0, MAX_INPUT_TEXT_LENGTH),
   );
@@ -67,8 +67,23 @@ async function writeArticle(item: Article) {
 
   await client.queryArray(
     'UPDATE info SET status = $1, article_title = $2, article_content =$3, slug = $4, url=$5 WHERE id = $6;',
-    ['published', title, content, slugify(title), url, id],
+    ['published', title, content, slugify(title), url, item.id],
   );
+
+  const categoryOps = categories.map(async (category) => {
+
+    await client.queryArray(
+      `INSERT INTO article_topic (article_id, topic_id) VALUES ($1, (SELECT id FROM topics WHERE slug = $2))
+      ON CONFLICT (article_id, topic_id) DO NOTHING;
+      `,
+      [item.id, slugify(category)],
+    );
+
+  });
+
+  await Promise.all(categoryOps)
+
+
   console.log(`wrote article "${title}" with content ${content}...`);
 }
 
