@@ -62,9 +62,12 @@ async function writeArticle(item: Article) {
     item.original.substring(0, MAX_INPUT_TEXT_LENGTH),
   );
 
+  const formattedDate = item.date.toISOString().split('T')[0].replace(/-/g, '/');
+  const url = `/articles/${formattedDate}/${slugify(title)}/`;
+
   await client.queryArray(
-    'UPDATE info SET status = $1, article_title = $2, article_content =$3, slug = $4 WHERE id = $5;',
-    ['published', title, content, slugify(title), id],
+    'UPDATE info SET status = $1, article_title = $2, article_content =$3, slug = $4, url=$5 WHERE id = $6;',
+    ['published', title, content, slugify(title), url, id],
   );
   console.log(`wrote article "${title}" with content ${content}...`);
 }
