@@ -12,6 +12,7 @@ export type Article = {
   slug: string;
   article_title: string;
   article_content: string
+  url: string;
 };
 
 
