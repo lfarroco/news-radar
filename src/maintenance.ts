@@ -1,27 +1,29 @@
 import { cheerio } from './deps.ts';
 import { connect, client } from './db.ts';
-import getFiles from "https://deno.land/x/getfiles@v1.0.0/mod.ts";
+//import getFiles from "https://deno.land/x/getfiles@v1.0.0/mod.ts";
 import { slugify } from './utils.ts';
 
 await connect("localhost", 15432)
 
 
-const slugs = async () => {
+const migrate = async () => {
 	const query = `
 	SELECT * from info where article_title is not null
 	`
-	const items = await client.queryObject<{ id: number, article_title: string }>(query)
+	const items = await client.queryObject<{ id: number, article_title: string, date: Date }>(query)
 
 	for (const item of items.rows) {
-		const { id, article_title } = item
+		const { id, article_title, date } = item
 		const updateQuery = `
-		UPDATE info SET slug = $1 WHERE id = $2;
+		UPDATE info SET url = $1 WHERE id = $2;
 		`
-		await client.queryArray(updateQuery, [slugify(article_title), id])
+		const formattedDate = date.toISOString().split('T')[0].replace(/-/g, '/');
+		const url = `/articles/${formattedDate}/${slugify(article_title)}/`
+		await client.queryArray(updateQuery, [url, id])
 	}
 
 }
-slugs()
+migrate()
 
 //did you accidently deleted the db? fear not! the output html pages are sort a backup ;)
 

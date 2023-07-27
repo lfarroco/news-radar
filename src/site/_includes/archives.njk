@@ -1,0 +1,61 @@
+---
+layout: main.njk
+---
+
+<div class="card">
+	<div class="card-header">
+		<h1 class="mb-0">Archives - Page {{ pageIndex + 1}}</h1>
+	</div>
+	<div class="card-body">
+
+		<nav>
+			<ul class="pagination">
+				{% if pageIndex > 0 %}
+					<li class="page-item">
+						<a class="page-link" href="/archives/{{pageIndex}}">Previous</a>
+					</li>
+				{% endif %}
+				<li class="page-item">
+					<a class="page-link" href="{{url}}">{{pageIndex + 1}}</a>
+				</li>
+				{% if pageIndex + 1 < pageCount %}
+					<li class="page-item">
+						<a class="page-link" href="/archives/{{pageIndex + 2}}">Next</a>
+					</li>
+				{% endif %}
+			</ul>
+		</nav>
+
+		<hr/>
+
+		<ul class="list-group">
+			{% for article in results %}
+				<li class="list-group-item">
+					<a href="{{ article.url }}">{{ article.article_title }}</a>
+				</li>
+			{% endfor %}
+
+		</ul>
+
+		<hr/>
+
+		<nav>
+			<ul class="pagination">
+				{% if pageIndex > 0 %}
+					<li class="page-item">
+						<a class="page-link" href="/archives/{{pageIndex}}">Previous</a>
+					</li>
+				{% endif %}
+				<li class="page-item">
+					<a class="page-link" href="{{url}}">{{pageIndex + 1}}</a>
+				</li>
+				{% if pageIndex + 1 < pageCount %}
+					<li class="page-item">
+						<a class="page-link" href="/archives/{{pageIndex + 2}}">Next</a>
+					</li>
+				{% endif %}
+			</ul>
+		</nav>
+
+	</div>
+</div>

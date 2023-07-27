@@ -1,5 +1,5 @@
 serve:
-	docker-compose run --service-ports app task serve
+	docker-compose run --rm --service-ports app task serve
 
 run:
 	docker-compose run --rm app deno run -A src/main.ts

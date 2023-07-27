@@ -31,7 +31,6 @@ export async function getLatestArticles() {
     const formattedDate = r.date.toISOString().split('T')[0].replace(/-/g, '/');
     return {
       ...r,
-      url: `/articles/${formattedDate}/${r.slug}/`,
       formattedDate,
       title: r.article_title
     }
@@ -41,7 +40,7 @@ export async function getLatestArticles() {
 export async function getLatestArticlesByTopic(topic: string) {
 
   const { rows } = await client.queryObject<Article>(`
-    SELECT article_title, article_content, date, info.slug as slug FROM info 
+    SELECT article_title, article_content, date, info.slug as slug, url FROM info 
     INNER JOIN article_topic ON article_topic.article_id = info.id
     INNER JOIN topics ON topics.id = article_topic.topic_id
     WHERE info.status = 'published' AND topics.slug = $1
@@ -51,9 +50,8 @@ export async function getLatestArticlesByTopic(topic: string) {
   return rows.map(row => {
 
     const formattedDate = row.date.toISOString().split('T')[0].replace(/-/g, '/');
-    const url = `/articles/${formattedDate}/${row.slug}/`;
 
-    return { ...row, formattedDate, title: row.article_title, article: row.article_content, url }
+    return { ...row, formattedDate, title: row.article_title, article: row.article_content }
 
   })
 }
@@ -75,14 +73,14 @@ export async function getTopicsList() {
 export async function getTopicArticles(topicId: number) {
 
   const query = `
-		select info.id, info.slug as slug, article_title, article_content, date from article_topic 
+		select info.id, url, info.slug as slug, article_title, article_content, date from article_topic 
 		INNER join info on info.id = article_id
 		INNER JOIN topics on topics.id = topic_id
 		WHERE topics.id = $1 AND info.status = 'published'
 		ORDER BY date DESC
 		`
 
-  const { rows } = await client.queryObject<{ id: string, article_title: string, article_content: string, slug: string, date: Date }>(query, [topicId]);
+  const { rows } = await client.queryObject<{ id: string, url: string, article_title: string, article_content: string, slug: string, date: Date }>(query, [topicId]);
 
   return rows
 }
