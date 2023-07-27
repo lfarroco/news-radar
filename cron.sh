@@ -2,8 +2,17 @@
 while true  
 do  
   echo "Starting automated run at $(date)"
-  make run
-  make build-pages
+
+  if !  make run ; then
+    echo "Failed to run scanner"
+    break
+  fi
+
+  if !  make build-pages ; then
+    echo "Failed to build pages"
+    break
+  fi
+
   git add .
   git commit -m "automated run at $(date)"
   git push origin main
