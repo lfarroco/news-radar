@@ -2,9 +2,7 @@ import { rss } from './rss.ts';
 import { batch } from './utils.ts';
 import { reddit } from './reddit.ts';
 
-const subreddit = (sub: string, topic: string) => async () => {
-  await reddit(sub, topic);
-};
+const subreddit = (sub: string, topic: string) => () => reddit(sub, topic);
 
 const githubRelease = (repo: string, topics: string[]) => () =>
   rss(`https://github.com/${repo}/releases.atom`, topics, true);

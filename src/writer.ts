@@ -25,15 +25,15 @@ The article's content should be formatted in raw markdown.
 Try to keep the generated article up to 200 words (if necessary, you can go over it).
 Your response should coome as a JSON with the following structure:
 {
-  "title": "A title that you generated for this article",
+  "title": "A title that you generated for this article (should not be equal to the source article)",
   "content": "The article content that you generated",
-  "categories": ["category1", "category2"]
+  "categories": ["Category 1", "Category 2"]
 }
 Example response:
 {
-  "title": "Rust 1.0 released",
-  "content": "Rust, a language that...",
-  "categories": ["rust", "programming"]
+  "title": "XPTO: A new Rust framework",
+  "content": "The XPTO framework...",
+  "categories": ["Rust", "XPTO"]
 }
 Don't respond with anything else than the JSON. This is very important.
 Here's the reference article: 
@@ -71,6 +71,10 @@ async function writeArticle(item: Article) {
   );
 
   const categoryOps = categories.map(async (category) => {
+
+    // TODO: make slug unique
+    await client.queryArray(`INSERT INTO topics (name, slug) VALUES ($1, $2) ON CONFLICT (name) DO NOTHING`,
+      [category, slugify(category)])
 
     await client.queryArray(
       `INSERT INTO article_topic (article_id, topic_id) VALUES ($1, (SELECT id FROM topics WHERE slug = $2))
