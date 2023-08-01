@@ -78,7 +78,7 @@ export const rss = async (url: string, topics: string[], hasContent = false): Pr
     const ops = topics.map(async (topic) => {
 
       await client.queryArray(
-        `INSERT INTO topics (name, slug) VALUES ($1::text, $2::text) ON CONFLICT (name) DO NOTHING;`,
+        `INSERT INTO topics (name, slug) VALUES ($1::text, $2::text) ON CONFLICT (slug) DO NOTHING;`,
         [topic, slugify(topic)],
       );
 
@@ -86,10 +86,10 @@ export const rss = async (url: string, topics: string[], hasContent = false): Pr
         `INSERT INTO article_topic (article_id, topic_id) VALUES ((
           SELECT id FROM info WHERE link = $1::text
         ), (
-          SELECT id FROM topics WHERE name = $2::text
+          SELECT id FROM topics WHERE slug = $2::text
         ))
         ON CONFLICT (article_id, topic_id) DO NOTHING;`,
-        [link, topic],
+        [link, slugify(topic)],
       );
     });
 

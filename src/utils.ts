@@ -43,6 +43,22 @@ export const group = <A>(items: A[], n: number): A[][] =>
     return xs;
   }, []);
 
+const SLUG_ALIASES: Record<string, string> = {
+  "C++": "cpp",
+  "c++": "cpp",
+  "C#": "csharp",
+  "c#": "csharp",
+  "F#": "fsharp",
+  "f#": "fsharp",
+}
+
 export const slugify = (text: string) => {
- return slug(text).substring(0, 150);
+
+  const hasAlias = Object.keys(SLUG_ALIASES).includes(text)
+
+  if (hasAlias) {
+    return SLUG_ALIASES[text]
+  }
+
+  return slug(text).substring(0, 150);
 };

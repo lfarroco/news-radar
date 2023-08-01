@@ -72,8 +72,7 @@ async function writeArticle(item: Article) {
 
   const categoryOps = categories.map(async (category) => {
 
-    // TODO: make slug unique
-    await client.queryArray(`INSERT INTO topics (name, slug) VALUES ($1, $2) ON CONFLICT (name) DO NOTHING`,
+    await client.queryArray(`INSERT INTO topics (name, slug) VALUES ($1, $2) ON CONFLICT (slug) DO NOTHING`,
       [category, slugify(category)])
 
     await client.queryArray(

@@ -72,7 +72,7 @@ const ingestTopic = async (path: string) => {
 	const createTopic = `
 		INSERT INTO topics (name, slug)
 		VALUES ($1, $2)
-		ON CONFLICT (name) DO NOTHING;
+		ON CONFLICT (slug) DO NOTHING;
 		`
 	await client.queryArray(createTopic, [topic, slugify(topic)])
 
