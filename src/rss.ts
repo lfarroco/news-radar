@@ -86,10 +86,10 @@ export const rss = async (url: string, topics: string[], hasContent = false): Pr
         `INSERT INTO article_topic (article_id, topic_id) VALUES ((
           SELECT id FROM info WHERE link = $1::text
         ), (
-          SELECT id FROM topics WHERE name = $2::text
+          SELECT id FROM topics WHERE slug = $2::text
         ))
         ON CONFLICT (article_id, topic_id) DO NOTHING;`,
-        [link, topic],
+        [link, slugify(topic)],
       );
     });
 
