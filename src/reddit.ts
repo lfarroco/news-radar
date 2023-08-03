@@ -1,6 +1,5 @@
 import { cheerio } from './deps.ts';
 import { client } from './db.ts';
-import { slug } from 'https://deno.land/x/slug/mod.ts';
 import { slugify } from './utils.ts';
 
 const restrictedDomains = [

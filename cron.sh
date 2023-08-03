@@ -8,6 +8,8 @@ do
     break
   fi
 
+  git checkout publish
+
   if !  make build-pages ; then
     echo "Failed to build pages"
     break
@@ -15,9 +17,11 @@ do
 
   git add .
   git commit -m "automated run at $(date)"
-  git push origin main
-  echo "Finished running at $(date)"
+  git push origin publish
   make dump-db
+  git checkout main
+
+  echo "Finished running at $(date)"
   #every hour 
   sleep 3600
 done

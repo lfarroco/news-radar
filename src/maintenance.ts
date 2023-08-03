@@ -76,7 +76,7 @@ const ingestTopic = async (path: string) => {
 		`
 	await client.queryArray(createTopic, [topic, slugify(topic)])
 
-	const topicResponse = await client.queryObject<{ id: number }>(`SELECT id from topics where name = $1`, [topic])
+	const topicResponse = await client.queryObject<{ id: number }>(`SELECT id from topics where slug = $1`, [slugify(topic)])
 	const { id: topicId } = topicResponse.rows[0]
 
 	const items = $('.list-group-item a').toArray()
