@@ -93,7 +93,7 @@ export const reddit = async (channel: string, topic: string) => {
     );
     await client.queryArray(
       `INSERT INTO topics (name, slug) VALUES ($1, $2) ON CONFLICT (slug) DO NOTHING;`,
-      [topic],
+      [topic, slugify(topic)],
     );
 
     await client.queryArray(
