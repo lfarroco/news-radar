@@ -78,7 +78,7 @@ export const rss = async (url: string, topics: string[], hasContent = false): Pr
     const ops = topics.map(async (topic) => {
 
       await client.queryArray(
-        `INSERT INTO topics (name, slug) VALUES ($1::text, $2::text) ON CONFLICT (name, slug) DO NOTHING;`,
+        `INSERT INTO topics (name, slug) VALUES ($1::text, $2::text) ON CONFLICT (slug) DO NOTHING;`,
         [topic, slugify(topic)],
       );
 
