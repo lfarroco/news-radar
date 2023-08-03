@@ -47,7 +47,8 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://stribny.name/blog/drf-different-request-response-serializers/" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://stribny.name/blog/drf-different-request-response-serializers/" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>Django REST Framework is a powerful framework for building HTTP APIs based on Django models. However, by default, it only supports using a single serializer for both requests and responses in ModelViewSets. This can be limiting when we want to have different serializers for different actions or even for the same action.</p>
 <p>Fortunately, there is a solution. By using the <code>get_serializer_class</code> hook provided by Django REST Framework, we can dynamically specify the desired serializer based on the action being performed. This allows us to have separate serializers for read and write operations, even for individual actions like create.</p>
@@ -57,7 +58,6 @@
 <p>With Django REST Framework's support for different request and response serializers, developers can build more customized and efficient APIs, providing a better experience for API clients.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

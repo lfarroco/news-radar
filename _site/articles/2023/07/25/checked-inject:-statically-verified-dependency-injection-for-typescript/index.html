@@ -47,7 +47,8 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://youngspe.github.io/2023-07-25-checked-inject/" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://youngspe.github.io/2023-07-25-checked-inject/" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>checked-inject is a TypeScript library that provides dependency injection with compile-time verification. The library allows developers to represent the entire dependency graph in the type system and enforce it statically when requesting a resource from the DI container. This ensures that all dependencies are provided correctly and eliminates runtime errors.</p>
 <p>With checked-inject, developers can declare multiple dependencies in a provider by structuring keys into arrays or objects. The library also provides dependency operators such as Lazy and Provider, which evaluate to functions that provide the requested type. Lazy caches the output after the first invocation, while Provider creates a new instance for each invocation. Additionally, the Async operator allows requesting async dependencies without the need for additional functions.</p>
@@ -55,7 +56,6 @@
 <p>Overall, checked-inject offers a powerful and type-safe approach to dependency injection in TypeScript. Developers can find more detailed information and usage examples in the library's README.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

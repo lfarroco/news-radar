@@ -47,12 +47,12 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://ibraheem.ca/posts/a-lock-free-vector/" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://ibraheem.ca/posts/a-lock-free-vector/" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>The article discusses the implementation of a lock-free vector in Rust, based on a paper and the Intel TBB concurrent vector. The author explains that supporting remove in a concurrent setting is a challenging problem, but an append-only vector can provide a solution. The design of the lock-free append-only vector involves writer threads acquiring an index through a shared counter and using atomic flags for initialized entries. The article also explores the memory layout for an unbounded concurrent vector, suggesting the use of a linked list of fixed-size chunks or pre-allocated chunks with a 2x growth factor. The writer discusses the benefits of the latter approach, including efficient calculation of chunk indexes. The article concludes by mentioning synchronization options for chunk allocation, such as using a Mutex or a lock-free approach. This lock-free vector implementation in Rust provides developers with a valuable tool for concurrent programming.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

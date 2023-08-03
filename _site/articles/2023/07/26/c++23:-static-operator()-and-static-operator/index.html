@@ -47,14 +47,14 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://www.sandordargo.com/blog/2023/07/26/cpp23-static-call-and-subscript-operator" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://www.sandordargo.com/blog/2023/07/26/cpp23-static-call-and-subscript-operator" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>In this article, the author discusses two new features of C++23: the ability to have a static call operator (operator()) and a static subscription operator (operator[]). The introduction of ranges in C++20 increased the usage of function objects in the standard library, and many of these function objects are simple. However, even though these function objects have no capture and no state, the operator() is not static. This leads to the implicit object parameter (this) being passed around, resulting in extra register calls in the generated assembly code.</p>
 <p>To address this issue, C++23 now allows the operator() to be a static member function. This feature is beneficial for both hand-written function objects and lambdas. For lambdas, the static call operator must be explicitly declared if the generated object needs to have a static call operator. Additionally, the operator[] has also been made consistent with operator() in terms of staticness.</p>
 <p>These changes are already available in gcc (13) and clang (16) as of July 2023. Developers can now take advantage of these new features in C++23 to improve the performance of their code and adhere to the principle of not paying for what they don't need.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

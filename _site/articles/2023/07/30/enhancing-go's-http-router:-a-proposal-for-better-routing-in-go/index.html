@@ -47,12 +47,12 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://benhoyt.com/writings/go-servemux-enhancements/" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://benhoyt.com/writings/go-servemux-enhancements/" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>The article discusses a proposal to enhance Go's HTTP router, http.ServeMux, to include features like matching on the HTTP method and wildcard paths. Currently, developers have to write their own routing code or rely on third-party packages to achieve these functionalities. The proposal, led by Jonathan Amsterdam of Google's Go team, aims to extend the existing Handle and HandleFunc methods of ServeMux to allow method prefixes and wildcard path segments. This would simplify the routing code and make it more consistent with other popular routers. The proposal also addresses the issue of precedence when two patterns overlap, ensuring that the more specific pattern takes precedence. Additionally, the proposal introduces a special wildcard, {$}, that matches only the end of the URL. If accepted, this enhancement would eliminate the need for workarounds and third-party packages, providing a more robust and convenient routing solution for Go developers.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

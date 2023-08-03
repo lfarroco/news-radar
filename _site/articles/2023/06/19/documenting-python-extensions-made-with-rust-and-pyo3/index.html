@@ -47,7 +47,8 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://blog.savant-ai.io/documenting-native-python-extensions-made-with-rust-and-pyo3-227aff68e481?source=friends_link&amp;sk=f9aa6a2352e63b4db62954137f5eb0e6" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://blog.savant-ai.io/documenting-native-python-extensions-made-with-rust-and-pyo3-227aff68e481?source=friends_link&amp;sk=f9aa6a2352e63b4db62954137f5eb0e6" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>Python is a popular programming language, but sometimes developers need to write native extensions to optimize their code. Rust is a language that is gaining popularity among developers for writing such extensions due to its performance and memory safety. PyO3 is a tool that allows developers to write optimized, GIL-free, memory-safe Python extensions in Rust. In this article, we will discuss how to document Python extensions made with Rust and PyO3.</p>
 <p>Ivan Kud, a developer who uses PyO3 extensively in his software, faced the challenge of documenting the extensions to help users observe only those parts that are available in Python without looking at the Rust source code. He initially wrote a markdown file with API, but this approach was not suitable for large APIs.</p>
@@ -84,7 +85,6 @@ fn my_module(_py: Python, m: &amp;PyModule) -&gt; PyResult&lt;()&gt; {
 <p>In conclusion, documenting Python extensions made with Rust and PyO3 is essential for developers to understand how to use the extensions. Rustdoc is a tool that can be used to generate documentation for Rust code. Rustdoc supports Markdown format and examples, which makes it easy for developers to understand how to use the extensions. With Rust and PyO3, developers can write optimized, GIL-free, memory-safe Python extensions that can improve the performance of their code.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

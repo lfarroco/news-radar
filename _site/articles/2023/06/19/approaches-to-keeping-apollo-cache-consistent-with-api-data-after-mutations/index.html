@@ -47,7 +47,8 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://www.splitgraph.com/blog/keeping-apollo-cache-up-to-date-after-mutations" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://www.splitgraph.com/blog/keeping-apollo-cache-up-to-date-after-mutations" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>Apollo Client is a popular GraphQL client used in React applications that simplifies communication with a GraphQL backend and improves user experience through caching. In this article, we will discuss methods for keeping the Apollo Cache up-to-date after successful data mutations.</p>
 <p>One of the key features of Apollo is its normalized cache. When properly configured, it can detect situations where two different query results return parts of the same entity and merge those results into a single object in memory. This means that when there is an overlap between two queries, the result of the later query can update the values read by the earlier query if those fields have changed in the meantime.</p>
@@ -60,7 +61,6 @@
 <p>In conclusion, keeping the Apollo Cache consistent with API data after mutations is crucial for maintaining data integrity and improving user experience. While there are multiple approaches to achieving this, developers should choose the one that best fits their needs and the complexity of their application. With the right approach, developers can ensure that their applications are always up-to-date and provide a seamless user experience.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

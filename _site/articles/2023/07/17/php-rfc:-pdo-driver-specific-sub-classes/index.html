@@ -47,7 +47,8 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://wiki.php.net/rfc/pdo_driver_specific_subclasses" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://wiki.php.net/rfc/pdo_driver_specific_subclasses" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>Introduction The article discusses a proposal to enhance the PDO (PHP Data Objects) class, which is a generic database class in PHP. Currently, PDO supports various databases, each with its own specific functionality. However, these functionalities are available on the generic PDO class, making it harder to reason about the code. The proposal suggests adding subclasses of PDO for each database, allowing for a more organized and intuitive structure.</p>
 <p>Proposal The proposal consists of two parts. Firstly, new subclasses of PDO will be created for each PDO extension in the PHP source repository. These subclasses will expose functionalities specific to each database, such as PdoSqlite::createFunction() for SQLite. Secondly, a static factory method called <code>connect</code> will be added to PDO. This method will determine the exact type of database being connected to and return the appropriate sub-class instead of a generic PDO object.</p>
@@ -69,7 +70,6 @@
 <p>Overall, the article highlights the proposal to introduce PDO driver specific sub-classes in PHP. This enhancement aims to improve code organization and make it easier for developers to work with specific database functionalities. The proposal also includes a static factory method and addresses the issue of the Sqlite3 extension's INI setting. Developers interested in the latest PHP developments should keep an eye on this RFC for potential changes in PHP 8.3.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

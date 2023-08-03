@@ -47,7 +47,8 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://mhdm.dev/posts/sb_lower_bound/" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://mhdm.dev/posts/sb_lower_bound/" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>In this article, the author presents the fastest implementation of a general binary search in C++. The implementation provides the same function interface as std::lower_bound but is twice as fast and shorter. The key to its speed is that it is &quot;branchless,&quot; meaning that the if statement compiles down to a conditional move instruction instead of a branch or conditional jump. The article also mentions that there are compiler options, even faster versions, fully branchless implementations, and some caveats that will be explored later on.</p>
 <p>The article starts with a brief introduction to binary search, explaining that it is used to find the position where a value would fit in a sorted list. In C++, developers typically use std::lower_bound for this purpose. The author then challenges the readers to write their own binary search implementation as a coding interview question.</p>
@@ -80,7 +81,6 @@ int binarySearch(const T* arr, int size, const T&amp; value) {
 <p>By keeping up with the latest developments in binary search implementations, developers can optimize their code for faster search operations.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

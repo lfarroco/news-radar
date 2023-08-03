@@ -47,12 +47,12 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://dariuszgafka.medium.com/my-database-is-not-a-message-broker-75d95ea56abc" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://dariuszgafka.medium.com/my-database-is-not-a-message-broker-75d95ea56abc" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>The article discusses different strategies for improving message consistency in the Ecotone Framework. It starts by addressing the issue of using a database as a message broker and the potential problems it can cause. The author mentions that some developers may consider the Outbox pattern, which stores messages in the database for later publishing to the message broker, as unnecessary complexity. Instead, the article focuses on alternative approaches to increase consistency. One strategy mentioned is sending retries, where failed message sends are retried with a delay between each attempt. The Ecotone Framework provides default retry attempts, but they are configurable. Another strategy discussed is the use of a Ghost Buster pattern, which delays sending asynchronous messages until after the message handler has finished processing. This prevents ghost messages from being sent when related data has been rolled back. Lastly, the article introduces the concept of an Error Channel, which allows for handling error messages when the message broker becomes completely unavailable. In Ecotone, an Error Channel can be set up to store failed messages in a database for later replay. This ensures that error messages are preserved and can be replayed using CLI or the Ecotone Pulse Dashboard. Overall, the article provides valuable insights and strategies for developers looking to improve message consistency in their applications.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

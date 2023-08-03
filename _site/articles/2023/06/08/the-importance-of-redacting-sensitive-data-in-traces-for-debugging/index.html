@@ -47,7 +47,8 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://encore.dev/blog/scrubbing-sensitive-data" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://encore.dev/blog/scrubbing-sensitive-data" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>As a developer, debugging can be a challenging and time-consuming task. When a system goes down, every minute counts, and the root cause needs to be identified as quickly as possible. However, in the process of debugging, sensitive data can be exposed, which can lead to security breaches and compliance issues. This is where redacting sensitive data from traces becomes crucial.</p>
 <p>Traces are a valuable tool for debugging distributed systems. They provide a detailed view of the system's behavior, including request metadata, such as HTTP method, duration, and Kubernetes pod information. However, they also capture request/response payloads, which can contain sensitive data, such as credit card numbers, social security numbers, and personal information.</p>
@@ -60,7 +61,6 @@
 <p>In conclusion, redacting sensitive data from traces is an essential practice for maintaining security and compliance in distributed systems. Using techniques such as static analysis and JSON tokenization can help to avoid exposing sensitive data during debugging. Rust is a programming language that provides memory safety and thread safety while maintaining high performance, making it an ideal language for developing secure systems. With its growing community and ecosystem, Rust is becoming an increasingly popular choice for developers who value security and performance.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

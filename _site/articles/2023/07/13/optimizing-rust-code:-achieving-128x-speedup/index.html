@@ -47,7 +47,8 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://ipthomas.com/blog/2023/07/n-times-faster-than-c-where-n-128/" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://ipthomas.com/blog/2023/07/n-times-faster-than-c-where-n-128/" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>A recent blog post on Hacker News caught the attention of developers, claiming a program was &quot;n&quot; times faster than C. The author demonstrated a 6x speedup by tweaking the assembly of a tight loop, and an impressive 13.5x speedup by rewriting the program in assembly. Inspired by this, the author set out to achieve an even greater speedup.</p>
 <p>Using Rust (rustc 1.70.0), the author tackled a problem involving a string of 's' and 'p' characters. By rewriting the logic using iterator combinators, the author achieved a 14.7x speedup over the baseline C program. The compiler aggressively unrolled and vectorized the code, resulting in significant performance gains.</p>
@@ -58,7 +59,6 @@
 <p><em>Note: All benchmarks were performed on a Macbook Pro 2021 (Apple M1 Pro) using Rust 1.70.0.</em></p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

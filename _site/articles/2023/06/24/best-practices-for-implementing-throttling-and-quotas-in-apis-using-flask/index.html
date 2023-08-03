@@ -47,7 +47,8 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/flask/comments/14i5lcq/best_way_to_add_throttling_and_quotas_to_an_api/" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/flask/comments/14i5lcq/best_way_to_add_throttling_and_quotas_to_an_api/" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>Flask is a popular Python web framework used for developing APIs. When developing an API, it is important to consider implementing throttling and quotas to prevent abuse and ensure fair usage. In a recent Reddit post, a developer asked for recommendations on the best way to implement throttling and quotas in their Flask API.</p>
 <p>One approach suggested was to use Redis as a caching layer to store the API keys and associated quotas and throttling criteria. This can help reduce latency as Redis is an in-memory data structure store that can handle high read and write loads. Another suggestion was to use Postgres as the user management database and incorporate a middleware to validate the API key. However, this approach may introduce excessive latency to the API.</p>
@@ -56,7 +57,6 @@
 <p>In summary, when implementing throttling and quotas in a Flask API, it is important to consider the trade-offs between using Redis and Postgres for storing the API keys and associated data. Additionally, using Flask extensions such as Flask-Limiter, Flask-Redis, Flask-Appconfig, and Flask-Cache can simplify the implementation of throttling and quotas.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

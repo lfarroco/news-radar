@@ -47,7 +47,8 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://blog.yoshuawuyts.com/totality/" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://blog.yoshuawuyts.com/totality/" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>Rust, a programming language known for its focus on memory safety and performance, offers developers a unique set of features that promote code reliability and robustness. In a recent discussion between Yoshua Wuyts, Eric, and Daan Leijen, the concept of &quot;total functions&quot; and &quot;panic-freedom&quot; in the context of Rust was explored.</p>
 <p>Total functions, a term borrowed from mathematics and category theory, refer to functions that are considered &quot;pure&quot; and can only operate on their inputs and produce outputs. In languages like Haskell and Koka, total functions are the default, ensuring that functions do not loop infinitely or throw exceptions. However, in Rust, while it is possible to write functions that meet the conditions to be total, there is no way to express their totality in the type system. This means that by looking at a function signature in Rust, developers cannot determine whether the function will terminate, may panic, or perform IO operations.</p>
@@ -57,7 +58,6 @@
 <p>For developers working with Rust, understanding the limitations and possibilities of total functions and panic-freedom is crucial. By leveraging the <code>const fn</code> notation and adopting best practices to handle errors, developers can strive for code that is more reliable, predictable, and easier to maintain. Rust continues to evolve, and the exploration of total functions and panic-freedom showcases the language's commitment to empowering developers with powerful tools for building robust and safe software.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

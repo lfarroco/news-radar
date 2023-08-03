@@ -47,12 +47,12 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://devblogs.microsoft.com/oldnewthing/20230802-00/?p=108524" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://devblogs.microsoft.com/oldnewthing/20230802-00/?p=108524" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>The article provides an in-depth look into the internal workings of the std::vector in C++ STL. It explains that the std::vector is constrained to a specific implementation due to the requirements imposed by the C++ standard. Internally, a std::vector consists of three pointers: the first pointer points to the beginning of the memory allocation that holds the vector contents, the last pointer points to one past the end of the last valid vector element, and the end pointer points to one past the end of the last allocated memory for the vector. The article also mentions that the std::vector includes an allocator, which is usually stored as a compressed pair with one of the other members. The article highlights that the layout of the std::vector is necessary to fulfill requirements such as returning a pointer to contiguous memory and not invalidating iterators or references during vector moves. Overall, this article provides valuable insights for developers looking to understand the inner workings of the std::vector in C++ STL.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

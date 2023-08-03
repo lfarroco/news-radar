@@ -47,12 +47,12 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://sabrinajewson.org/blog/null-lifetime" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://sabrinajewson.org/blog/null-lifetime" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>In a recent conversation on the Rust community Discord, a user raised an interesting question: does Rust have an opposite to the 'static lifetime? Is there a lifetime that is shorter than any other? While the idea may seem intuitive, the answer is no. Rust's type system is designed with the assumption that given a valid lifetime, you can always make a shorter one. Therefore, any hypothetical 'null lifetime would have to be non-constructible. This post explores why Rust does not support self-referential types and how async blocks in Rust handle borrowing values across .await points. While Rust may not have a &quot;null&quot; lifetime, understanding the reasons behind it can help developers write safer and more robust code.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

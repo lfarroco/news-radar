@@ -47,7 +47,8 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://blog.arkusonthe.net/typescript-exhaustive-switch/" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://blog.arkusonthe.net/typescript-exhaustive-switch/" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>Switch statements in TypeScript are not exhaustive, which means that the compiler doesn't warn you if you forget to handle a case in a switch statement. This can lead to bugs that are difficult to track down. For developers who prioritize type safety, this can be concerning.</p>
 <p>An exhaustive switch statement is one that handles all possible cases. For example, if you have an enum with three variants, your switch statement should have three cases: one for each variant. Unfortunately, if you add a new variant to the enum, the compiler won't warn you that you need to add a new case to the switch statement. This lack of warning makes the code less type safe.</p>
@@ -60,7 +61,6 @@
 <p>By making your switch statements exhaustive, you can ensure better type safety and reduce the likelihood of bugs in your code.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

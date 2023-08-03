@@ -47,7 +47,8 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/django/comments/14fxdrf/how_to_log_registration_and_login_events_with/" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/django/comments/14fxdrf/how_to_log_registration_and_login_events_with/" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>Dj-rest-auth is a popular package for handling authentication in Django. However, adding logging functionality to it can be a challenge. In this article, we will explore the simplest method to add success and failure logs for login and registration events, including the user_id.</p>
 <p>First, let's install the django-structlog package, which provides a structured logging interface for Django. We can then add a custom middleware to our project that logs authentication events using django-structlog. Here's an example of what the middleware might look like:</p>
@@ -85,7 +86,6 @@ class AuthLoggingMiddleware:
 <p>In conclusion, adding logging functionality to dj-rest-auth can be achieved through the use of django-structlog and a custom middleware. By doing so, developers can easily track and audit authentication events in their Django projects.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

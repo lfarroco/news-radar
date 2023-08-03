@@ -47,12 +47,12 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/golang/go/issues/61405" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/golang/go/issues/61405" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>The article shows a proposal to add two new types that a for-range statement can range over in the Go programming language: integers and functions. The proposal suggests that if n is an integer type, then <code>for x := range n { ... }</code> would be equivalent to <code>for x := T(0); x &lt; n; x++ { ... }</code>, where T is the type of n. The proposal also introduces range over functions, where <code>for x, y := range f { ... }</code> is similar to <code>f(func(x T1, y T2) bool { ... })</code>, with the loop body moved into the function literal passed to f as yield. The boolean result from yield indicates whether to keep iterating. The article argues that the combination of range over integers and range over functions should make range the preferred form of the for loop for most iterations. The proposal aims to simplify code and make it easier to understand. This addition to the language would provide developers with more flexibility and options when it comes to iterating over integers and functions.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

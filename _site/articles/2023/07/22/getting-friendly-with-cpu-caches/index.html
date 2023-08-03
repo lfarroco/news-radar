@@ -47,14 +47,14 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://www.ardanlabs.com/blog/2023/07/getting-friendly-with-cpu-caches.html" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://www.ardanlabs.com/blog/2023/07/getting-friendly-with-cpu-caches.html" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>The article explains the importance of CPU caches in improving the performance of data access by the processor. It highlights that accessing data from main memory is significantly slower compared to accessing data from the L1 and L2 caches. The L3 cache, shared among all CPUs, maintains a copy of what is in L1 and L2. The author emphasizes that efficient data flow into the processor is crucial for performance.</p>
 <p>To demonstrate the impact of CPU caches on developers, the article presents an example using a User struct with an Image field. The Icon field is included in the User struct to avoid making an additional API call for retrieving the icon image. The article then introduces an API function, CountryCount, which counts the number of active users by country. The code is benchmarked to measure its performance.</p>
 <p>The article serves as a reminder to developers about the importance of understanding CPU caches and their impact on performance. By optimizing data access and minimizing memory latency, developers can improve the efficiency of their code.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

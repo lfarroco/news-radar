@@ -47,7 +47,8 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/django/comments/14gf2b0/dynamically_modifying_db_table_of_a_model/" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/django/comments/14gf2b0/dynamically_modifying_db_table_of_a_model/" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>A Reddit user is asking for help with dynamically updating the db_table meta property of a Django model. The user's first attempt resulted in a Programming Error exception when using querysets with the dynamically updated model. The issue seems to be that the original db_table name is cached somewhere, and it is used when generating the column names for the SQL query. Strangely, the query often contains both column names that use the old and the new db_table.</p>
 <p>While there are posts about dynamically creating models from scratch, the user couldn't find anything that maps to their specific use case.</p>
@@ -56,7 +57,6 @@
 <p>Overall, this issue highlights the importance of careful planning and testing when making changes to a Django model's properties. Developers should be aware of the potential consequences and take steps to mitigate any issues that may arise.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

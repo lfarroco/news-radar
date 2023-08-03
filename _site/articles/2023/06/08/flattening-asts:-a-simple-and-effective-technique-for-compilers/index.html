@@ -47,7 +47,8 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://www.cs.cornell.edu/~asampson/blog/flattening.html" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://www.cs.cornell.edu/~asampson/blog/flattening.html" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>Modern language implementations heavily rely on arenas or regions, which are data structures that manage memory allocation. One specific flavor of arenas that's surprisingly effective for compilers and compiler-like things is data structure flattening. This technique uses an arena that only holds one type, essentially becoming a plain array, and allows developers to use array indices where they would otherwise need pointers.</p>
 <p>In this post, Adrian Sampson introduces the idea of flattening and its many virtues. While the idea of arenas or regions may mean different things to different people, flattening is a simple and effective technique that can be applied to any pointer-laden data structure, including abstract syntax trees (ASTs).</p>
@@ -56,7 +57,6 @@
 <p>Flattening is a technique that's not often taught in compiler courses or in any CS curriculum for that matter. However, its simplicity and effectiveness make it a valuable tool for developers who want to optimize their code and improve their memory management. With flattening, developers can achieve better performance and more readable code, making it a technique worth considering in any project.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

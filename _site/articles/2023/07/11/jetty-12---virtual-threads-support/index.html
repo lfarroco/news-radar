@@ -47,7 +47,8 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://webtide.com/jetty-12-virtual-threads-support/" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://webtide.com/jetty-12-virtual-threads-support/" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>Jetty 12 introduces support for Virtual Threads, a feature that was first introduced in Java 19. This support has been available in Jetty since version 10.0.12 and Jetty 11.0.12. When enabled, applications in Jetty are invoked using a virtual thread, which combines the simplicity of blocking APIs with the scalability benefits of virtual threads.</p>
 <p>Historically, developers have relied on blocking APIs based on InputStream and OutputStream or JDBC. While these APIs are easy to use, they come with a cost. When a thread blocks, all the resources associated with that thread are retained, limiting the scalability of the server.</p>
@@ -60,7 +61,6 @@
 <p>With Jetty 12's virtual threads support, developers can stay ahead of the curve and leverage the latest advancements in Java to build scalable and efficient web applications.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

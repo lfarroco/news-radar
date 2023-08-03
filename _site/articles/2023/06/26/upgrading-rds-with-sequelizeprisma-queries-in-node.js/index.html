@@ -47,7 +47,8 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/node/comments/14jhzjz/am_i_supposed_to_shut_down_my_nodejs_webserver/" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/node/comments/14jhzjz/am_i_supposed_to_shut_down_my_nodejs_webserver/" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>When upgrading a major version of Amazon RDS, developers using Sequelize or Prisma queries in their Node.js webserver may wonder if they need to shut down the server. According to the official documentation, it is not necessary to shut down the server during the upgrade process. However, it is recommended to test the application after the upgrade to ensure that everything is working correctly.</p>
 <p>Developers can also take advantage of the RDS snapshot feature to create a backup of their database before upgrading. This way, if something goes wrong during the upgrade process, they can easily restore the database to its previous state.</p>
@@ -69,7 +70,6 @@ rds.createDBSnapshot(params, (err, data) =&gt; {
 <p>In conclusion, upgrading RDS with Sequelize or Prisma queries in Node.js does not require shutting down the server. However, developers should test their application after the upgrade and consider creating an RDS snapshot as a backup.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

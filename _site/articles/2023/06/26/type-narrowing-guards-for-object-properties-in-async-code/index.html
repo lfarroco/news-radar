@@ -47,7 +47,8 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/typescript/comments/14jjhyj/type_narrowing_guards_for_object_properties_in/" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/typescript/comments/14jjhyj/type_narrowing_guards_for_object_properties_in/" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>In TypeScript, narrowing the type of an object property in async code can lead to inaccurate type inference. This can cause issues when the property's value changes before the code is executed. However, there is a solution to this problem: type narrowing guards.</p>
 <p>Type narrowing guards ensure that the type of an object property remains accurate even in async code. By using an <code>if</code> statement to check the property's value before using it, TypeScript can narrow the type of the property and prevent any type errors.</p>
@@ -76,7 +77,6 @@ async function main() {
 <p>Type narrowing guards are a powerful tool for developers working with TypeScript. By using them, developers can ensure that their code is accurate and safe even in async code.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

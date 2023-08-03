@@ -47,7 +47,8 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/reduxjs/redux/releases/tag/v5.0.0-beta.0" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/reduxjs/redux/releases/tag/v5.0.0-beta.0" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>The beta release of Redux 5.0.0 includes a new UnknownAction type for better type safety in TypeScript, along with all prior changes from the 5.0 alphas. This release has breaking changes from version 4.x, so users are recommended to use Redux Toolkit for Redux development and the RTK 2.0 beta that depends on this core release, instead of using the Redux core library directly.</p>
 <p>The new UnknownAction type treats all fields other than action.type as unknown, providing more meaningful type safety for developers. This encourages users to write type guards that check the action object and assert its specific TypeScript.</p>
@@ -60,7 +61,6 @@ yarn add redux@next
 <p>As Redux 5.0.0 is still in beta, developers should be cautious when using it in production environments. However, the new UnknownAction type and improved type safety make it an exciting release for developers to test and experiment with.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">

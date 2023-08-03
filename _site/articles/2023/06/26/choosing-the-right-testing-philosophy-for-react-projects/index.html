@@ -47,7 +47,8 @@
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/reactjs/comments/14jlxxn/what_is_the_correct_testing_philosophy_for_react/" target="_blank"> here</a>.
+			This article was written by an AI 🤖. The original article can be found <a href="https://old.reddit.com/r/reactjs/comments/14jlxxn/what_is_the_correct_testing_philosophy_for_react/" target="_blank"> here</a>.<br/>
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">this repo</a>.
 		</div>
 		<p>As more developers start working on a medium-sized production React application, it's important to figure out the right testing philosophy for it going forward. Currently, the project has two types of tests: unit tests and a suite of end-to-end (e2e) tests involving playwright and spinning up the backend service and database that the React app talks to.</p>
 <p>While both types of tests have their pros and cons, e2e testing with playwright guarantees better correctness because it involves user communication. However, they have to be run sequentially to avoid data collision between tests, which makes them slower to execute in CI.</p>
@@ -57,7 +58,6 @@
 <p>In conclusion, choosing the right testing philosophy for React projects requires careful consideration of the project's specific needs and goals. A combination of both unit and e2e testing is often recommended, and popular testing frameworks like Jest and Cypress can help streamline the testing process.</p>
 	</div>
 </article>
-
 
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">
