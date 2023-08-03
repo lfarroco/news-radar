@@ -91,7 +91,7 @@ export const reddit = async (channel: string, topic: string) => {
       [title, link, `reddit-${channel}`, date, 'pending'],
     );
     await client.queryArray(
-      `INSERT INTO topics (name) VALUES ($1) ON CONFLICT (name) DO NOTHING;`,
+      `INSERT INTO topics (name) VALUES ($1) ON CONFLICT (name, slug) DO NOTHING;`,
       [topic],
     );
 
