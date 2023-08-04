@@ -8,14 +8,13 @@ do
     break
   fi
 
-  git checkout publish
-
   if !  make build-pages ; then
     echo "Failed to build pages"
     break
   fi
 
-  git add .
+  git checkout publish
+  git add _site/
   git commit -m "automated run at $(date)"
   git push origin publish
   make dump-db
