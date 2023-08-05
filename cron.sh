@@ -3,13 +3,13 @@ while true
 do  
   echo "Starting automated run at $(date)"
 
+  git checkout publish
+  git merge main
+
   if !  make run ; then
     echo "Failed to run scanner"
     break
   fi
-
-  git checkout publish
-  git merge main
 
   if !  make build-pages ; then
     echo "Failed to build pages"
