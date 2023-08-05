@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Dev Radar</title>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<a class="navbar-brand" href="/">
+						<img src="/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo"> Dev Radar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/topics">Topics</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="/archives/1">Archives</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main class="container">
+			<article class="card mt-2">
+	<div class="card-header">
+		<h1 class="mb-0">Cuneicode: The Future of Text in C</h1>
+		<div>
+			<small>2023/06/07</small>
+		</div>
+
+	</div>
+	<div class="card-body">
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://thephd.dev/cuneicode-and-the-future-of-text-in-c" target="_blank"> here</a>.
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">our repo</a>.
+		</div>
+		<p>Cuneicode is a new programming language that aims to revolutionize the way we handle text in C. As developers, we know that C has been the go-to language for system programming for decades, but it has always had its limitations when it comes to handling text. Cuneicode aims to address these limitations and provide a better way to handle text in C.</p>
+<p>In this article, we will take a closer look at Cuneicode and its features. We will also discuss the challenges that C and C++ APIs present when it comes to handling text and how Cuneicode aims to overcome these challenges.</p>
+<p>Cuneicode is a high-level programming language that is designed to be easy to read and write. It is built on top of C, which means that it is compatible with existing C code. Cuneicode is a statically-typed language, which means that it catches errors at compile-time rather than run-time. This makes it easier to write bug-free code.</p>
+<p>One of the key features of Cuneicode is its support for Unicode. Unicode is a character encoding standard that allows us to represent characters from different languages and scripts. Cuneicode supports Unicode natively, which means that we can write code that handles text in any language.</p>
+<p>Cuneicode also provides a rich set of string manipulation functions that make it easier to work with text. These functions are designed to be safe and efficient, which means that they are less prone to buffer overflows and other security vulnerabilities.</p>
+<p>Now, let's talk about the challenges that C and C++ APIs present when it comes to handling text. C and C++ APIs were designed in an era when ASCII was the dominant character encoding standard. As a result, these APIs are not well-suited for handling text in different languages and scripts.</p>
+<p>One of the biggest challenges with C and C++ APIs is that they are not Unicode-aware. This means that they cannot handle characters that are outside the ASCII range. To work around this limitation, developers have to use complex and error-prone techniques such as multi-byte encodings and wide-character strings.</p>
+<p>Another challenge with C and C++ APIs is that they are prone to buffer overflows and other security vulnerabilities. This is because these APIs do not perform bounds checking on string operations. As a result, it is easy to write code that overflows a buffer and causes a security vulnerability.</p>
+<p>Cuneicode addresses these challenges by providing a modern, Unicode-aware API for handling text. Cuneicode's API is designed to be safe and efficient, which means that it is less prone to security vulnerabilities. Cuneicode also provides a rich set of string manipulation functions that make it easier to work with text.</p>
+<p>Let's take a look at some code examples to see how Cuneicode works. Here's a simple program that reads a file and prints its contents to the console:</p>
+<pre><code>#include &lt;cuneicode.h&gt;
+#include &lt;stdio.h&gt;
+
+int main() {
+  FILE* file = fopen(&quot;example.txt&quot;, &quot;r&quot;);
+  if (file == NULL) {
+    printf(&quot;Error: could not open file\n&quot;);
+    return 1;
+  }
+
+  cuni_string_t* contents = cuni_string_new();
+  char buffer[1024];
+  while (fgets(buffer, sizeof(buffer), file) != NULL) {
+    cuni_string_append_cstr(contents, buffer);
+  }
+
+  printf(&quot;%s&quot;, cuni_string_cstr(contents));
+  cuni_string_free(contents);
+  fclose(file);
+  return 0;
+}
+
+</code></pre>
+<p>In this example, we use the <code>cuni_string_t</code> type to handle the file contents. This type is a Unicode-aware string type that is provided by Cuneicode. We read the file contents into a buffer using the <code>fgets</code> function, and then append the buffer to the <code>cuni_string_t</code> using the <code>cuni_string_append_cstr</code> function. Finally, we print the contents of the <code>cuni_string_t</code> using the <code>cuni_string_cstr</code> function.</p>
+<p>In conclusion, Cuneicode is a promising new programming language that aims to revolutionize the way we handle text in C. Its support for Unicode and modern, safe API make it a great choice for developers who want to work with text in different languages and scripts. As developers, we should keep an eye on Cuneicode and its development, as it has the potential to become the future of text in C.</p>
+	</div>
+</article>
+		</main>
+		<footer class="footer mt-auto py-3 bg-dark">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-2">
+						<span class="text-muted">2023 | dev-radar</span>
+					</div>
+					<div class="col-sm-2">
+						<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 496 512">
+							<!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+							<style>
+								svg {
+									fill: #ffffff;
+								}
+							</style><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+						<a class="text-muted" href="https://github.com/lfarroco/news-radar"> GitHub </a>
+
+					</div>
+				</div>
+			</footer>
+			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+			<link rel="stylesheet" href="/styles.css"/>
+		</body>
+
+	</html>
