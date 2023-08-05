@@ -6,6 +6,7 @@ dbdump.sql
 logs
 *.log
 npm-debug.log*
+*Stashed changes
 
 # Dependencies
 node_modules/
