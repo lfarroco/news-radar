@@ -9,6 +9,7 @@ do
   fi
 
   git checkout publish
+  git merge main
 
   if !  make build-pages ; then
     echo "Failed to build pages"
