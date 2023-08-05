@@ -13,7 +13,6 @@ do
     break
   fi
 
-  git add .
   git stash
   git checkout publish
   git stash pop
