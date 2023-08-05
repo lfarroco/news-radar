@@ -13,7 +13,9 @@ do
     break
   fi
 
+  git stash
   git checkout publish
+  git stash pop
   git add _site/
   git commit -m "automated run at $(date)"
   git push origin publish
