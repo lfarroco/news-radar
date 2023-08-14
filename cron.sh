@@ -4,6 +4,7 @@ do
   echo "Starting automated run at $(date)"
 
   git checkout publish
+  rm -rf _site/
   git merge main
 
   if !  make run ; then
