@@ -25,6 +25,9 @@ dump-schema:
 dump-db:
 	docker exec -it news-radar_postgres_1 pg_dump -U root > dbdump.sql
 
+restore-db-dump:
+	docker exec -it news-radar_postgres_1 psql -U root root < dbdump.sql
+
 query:
 	docker exec -it news-radar_postgres_1 psql -U root -c "$(query)"
 
