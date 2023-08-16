@@ -62,5 +62,4 @@ website under `_site`
 
 Running `make serve` will build the static website and serve it at port `3000`.
 
-Running `sh cron.sh` will scan, write and publish the generated website files to
-the `publish` branch. It runs every hour.
+Running `sh cron.sh` will scan and write website files. It runs every hour.
