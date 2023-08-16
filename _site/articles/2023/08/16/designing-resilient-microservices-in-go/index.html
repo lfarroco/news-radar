@@ -33,83 +33,22 @@
 			</nav>
 		</header>
 		<main class="container">
-			<div class="card">
+			<article class="card mt-2">
 	<div class="card-header">
-		<h1 class="mb-0">Archives - Page 49</h1>
+		<h1 class="mb-0">Designing Resilient Microservices in Go</h1>
+		<div>
+			<small>2023/08/16</small>
+		</div>
+
 	</div>
 	<div class="card-body">
-
-		<nav>
-			<ul class="pagination">
-				
-					<li class="page-item">
-						<a class="page-link" href="/archives/48">Previous</a>
-					</li>
-				
-				<li class="page-item">
-					<a class="page-link" href="/archives/49/">49</a>
-				</li>
-				
-			</ul>
-		</nav>
-
-		<hr/>
-
-		<ul class="list-group">
-			
-				<li class="list-group-item">
-					<a href="/articles/2023/05/29/rust-1.70.0-pre-release-ready-for-testing/">Rust 1.70.0 Pre-Release Ready for Testing</a>
-				</li>
-			
-				<li class="list-group-item">
-					<a href="/articles/2023/05/28/why-the-rust-programming-language-is-gaining-popularity/">Why the Rust programming language is gaining popularity</a>
-				</li>
-			
-				<li class="list-group-item">
-					<a href="/articles/2023/05/28/rust-community-is-going-through-some-changes/">Rust Community is going through some changes</a>
-				</li>
-			
-				<li class="list-group-item">
-					<a href="/articles/2023/05/24/pypi-subpoenaed-by-us-department-of-justice/">PyPI Subpoenaed by US Department of Justice</a>
-				</li>
-			
-				<li class="list-group-item">
-					<a href="/articles/2023/05/23/ghc-9.6.2-released:-a-bug-fix-release-for-haskell&#39;s-compiler/">GHC 9.6.2 Released: A Bug-Fix Release for Haskell&#39;s Compiler</a>
-				</li>
-			
-				<li class="list-group-item">
-					<a href="/articles/2023/05/23/python-3.12.0-beta-1:-what&#39;s-new-and-what-to-expect/">Python 3.12.0 Beta 1: What&#39;s New and What to Expect</a>
-				</li>
-			
-				<li class="list-group-item">
-					<a href="/articles/2023/05/22/shifting-to-standalone-components-in-angular/">Shifting to Standalone Components in Angular</a>
-				</li>
-			
-				<li class="list-group-item">
-					<a href="/articles/2022/12/13/ghcjs:-bringing-haskell-to-the-front-end/">GHCJS: Bringing Haskell to the Front-end</a>
-				</li>
-			
-
-		</ul>
-
-		<hr/>
-
-		<nav>
-			<ul class="pagination">
-				
-					<li class="page-item">
-						<a class="page-link" href="/archives/48">Previous</a>
-					</li>
-				
-				<li class="page-item">
-					<a class="page-link" href="/archives/49/">49</a>
-				</li>
-				
-			</ul>
-		</nav>
-
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://rkiselenko.dev/blog/resilient-microservice/" target="_blank"> here</a>.
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">our repo</a>.
+		</div>
+		<p>The article discusses the importance of designing resilient microservices in Go and provides several patterns that can be used to avoid failures and errors. The author explains that in a microservice architecture, if one service fails, it affects all upstream services, causing a nightmare for engineers. To address this issue, the author introduces three patterns: Retry, Circuit Breaker, and Retry with Circuit Breaker. The Retry pattern allows the service to exponentially repeat a request to another service while the client waits. The Circuit Breaker pattern uses a Redis cache to store the last successful request and serves the data from the cache if the circuit breaker is in an open state. Finally, the Retry with Circuit Breaker pattern combines both Retry and Circuit Breaker to prevent errors and spamming of the service. The author emphasizes the importance of using proper alerting and testing to ensure the resilience of microservices. This article provides valuable insights for developers looking to design and implement resilient microservices in Go.</p>
 	</div>
-</div>
+</article>
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">
 			<div class="container">
