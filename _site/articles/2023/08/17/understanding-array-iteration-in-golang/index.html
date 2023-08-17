@@ -33,29 +33,22 @@
 			</nav>
 		</header>
 		<main class="container">
-			<div class="card">
+			<article class="card mt-2">
 	<div class="card-header">
-		<h1 class="mb-0">Golang</h1>
+		<h1 class="mb-0">Understanding Array Iteration in Golang</h1>
+		<div>
+			<small>2023/08/17</small>
+		</div>
+
 	</div>
 	<div class="card-body">
-		<ul class="list-group">
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/08/17/understanding-array-iteration-in-golang/">Understanding Array Iteration in Golang</a>
-					2023-08-17
-				</li>
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/08/07/building-event-driven-microservices-with-golang:-a-practical-demo/">Building Event-Driven Microservices with Golang: A Practical Demo</a>
-					2023-08-07
-				</li>
-			
-
-		</ul>
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://medium.com/@haaawk/i-thought-i-understood-how-iteration-over-an-array-works-but-apparently-not-in-golang-441a7abd6540" target="_blank"> here</a>.
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">our repo</a>.
+		</div>
+		<p>The article discusses a surprising behavior in Golang regarding array iteration. The author discovered that passing a pointer to the array instead of the array itself can significantly speed up the iteration process. Benchmark results show that for larger arrays, using a pointer can be up to three times faster. This behavior is due to the fact that the for loop in Golang creates a copy of the collection it receives, which can impact performance. This is different from languages like C++ or Java, where range loops use iterators to traverse existing collections. The article also highlights the consequences of this behavior, including a problem with a dynamic programming solution. By passing a pointer to the for loop, the issue is resolved. Overall, developers working with arrays in Golang should be aware of this behavior to optimize their code.</p>
 	</div>
-</div>
+</article>
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">
 			<div class="container">
