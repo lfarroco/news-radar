@@ -33,59 +33,22 @@
 			</nav>
 		</header>
 		<main class="container">
-			<div class="card">
+			<article class="card mt-2">
 	<div class="card-header">
-		<h1 class="mb-0">Performance</h1>
+		<h1 class="mb-0">The Performance Impact of Boxing in Scala</h1>
+		<div>
+			<small>2023/08/18</small>
+		</div>
+
 	</div>
 	<div class="card-body">
-		<ul class="list-group">
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/08/18/the-performance-impact-of-boxing-in-scala/">The Performance Impact of Boxing in Scala</a>
-					2023-08-18
-				</li>
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/08/10/the-downsides-of-c++-coroutines:-understanding-the-impact-on-code-performance/">The Downsides of C++ Coroutines: Understanding the Impact on Code Performance</a>
-					2023-08-10
-				</li>
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/08/08/improvements-in-ruby&#39;s-garbage-collector-boost-performance-by-8percent/">Improvements in Ruby&#39;s Garbage Collector Boost Performance by 8%</a>
-					2023-08-08
-				</li>
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/08/01/speeding-up-dbttm-docs-with-react-server-components/">Speeding up dbt™ Docs with React Server Components</a>
-					2023-08-01
-				</li>
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/07/28/cap&#39;n-proto-1.0:-a-long-awaited-milestone-for-the-high-performance-serialization-protocol/">Cap&#39;n Proto 1.0: A Long-Awaited Milestone for the High-Performance Serialization Protocol</a>
-					2023-07-28
-				</li>
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/06/18/how-a-single-line-of-code-slowed-down-a-24-core-server/">How a Single Line of Code Slowed Down a 24-Core Server</a>
-					2023-06-18
-				</li>
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/06/10/performance-analysis-of-intel&#39;s-avx-512-sort-implementation/">Performance Analysis of Intel&#39;s AVX-512 Sort Implementation</a>
-					2023-06-10
-				</li>
-			
-
-		</ul>
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/jarekratajski/costOfBoxingScala" target="_blank"> here</a>.
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">our repo</a>.
+		</div>
+		<p>The article explores the performance impact of boxing in Scala and discusses the differences between JVM implementations. The author challenges the common belief that a simple local expression like <code>Box(42).value</code> incurs significant overhead. They argue that the JVM specification does not dictate the allocation of memory on the physical heap or the use of garbage collection. Instead, these are implementation details that can vary across JVMs. The author conducts a benchmarking experiment using Scala 3.3, OpenJDK, and GraalVM to measure the performance of different code implementations, including one that uses the <code>Box</code> class. The results show that the performance impact of boxing is not as significant as previously thought, especially with optimizations implemented in GraalVM. The article provides insights for developers who want to understand the trade-offs and performance implications of using boxing in Scala.</p>
 	</div>
-</div>
+</article>
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">
 			<div class="container">
