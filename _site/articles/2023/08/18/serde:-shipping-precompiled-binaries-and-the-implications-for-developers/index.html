@@ -33,35 +33,22 @@
 			</nav>
 		</header>
 		<main class="container">
-			<div class="card">
+			<article class="card mt-2">
 	<div class="card-header">
-		<h1 class="mb-0">Serialization</h1>
+		<h1 class="mb-0">Serde: Shipping Precompiled Binaries and the Implications for Developers</h1>
+		<div>
+			<small>2023/08/18</small>
+		</div>
+
 	</div>
 	<div class="card-body">
-		<ul class="list-group">
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/08/18/serde:-shipping-precompiled-binaries-and-the-implications-for-developers/">Serde: Shipping Precompiled Binaries and the Implications for Developers</a>
-					2023-08-18
-				</li>
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/08/16/fury:-a-compromise-between-speed-and-flexibility-in-serialization/">Fury: A Compromise Between Speed and Flexibility in Serialization</a>
-					2023-08-16
-				</li>
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/07/28/cap&#39;n-proto-1.0:-a-long-awaited-milestone-for-the-high-performance-serialization-protocol/">Cap&#39;n Proto 1.0: A Long-Awaited Milestone for the High-Performance Serialization Protocol</a>
-					2023-07-28
-				</li>
-			
-
-		</ul>
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://github.com/serde-rs/serde/issues/2538" target="_blank"> here</a>.
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">our repo</a>.
+		</div>
+		<p>The article discusses the recent change in Serde, a popular Rust serialization library, where precompiled binaries are now being shipped with no way to opt out. This change has raised concerns among developers, especially those who cannot redistribute precompiled binaries. The article highlights a GitHub issue where a developer working on packaging Serde for Fedora Linux expresses their concerns and asks for clarification on how the precompiled binary is produced and if it's possible to recreate it. The author of Serde clarifies that the fallback solution is to patch the library and include the non-precompiled code. However, they mention that it's not possible to adapt the Serde Derive crate to fall back to the non-precompiled code path during the build process. The article concludes by mentioning the potential for future improvements in compile-time savings. This change in Serde has important implications for developers who rely on the library and need to consider the distribution of precompiled binaries in their projects.</p>
 	</div>
-</div>
+</article>
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">
 			<div class="container">
