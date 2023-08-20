@@ -33,29 +33,22 @@
 			</nav>
 		</header>
 		<main class="container">
-			<div class="card">
+			<article class="card mt-2">
 	<div class="card-header">
-		<h1 class="mb-0">Gems</h1>
+		<h1 class="mb-0">Creating Lightweight Ruby Gems with Zeitwerk as a Development-Only Dependency</h1>
+		<div>
+			<small>2023/08/20</small>
+		</div>
+
 	</div>
 	<div class="card-body">
-		<ul class="list-group">
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/08/20/creating-lightweight-ruby-gems-with-zeitwerk-as-a-development-only-dependency/">Creating Lightweight Ruby Gems with Zeitwerk as a Development-Only Dependency</a>
-					2023-08-20
-				</li>
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/08/08/short-ruby-news---edition-54:-updates-projects-and-community-highlights/">Short Ruby News - Edition #54: Updates, Projects, and Community Highlights</a>
-					2023-08-08
-				</li>
-			
-
-		</ul>
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://blog.pawelpokrywka.com/p/gem-with-zeitwerk-as-development-only-dependency" target="_blank"> here</a>.
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">our repo</a>.
+		</div>
+		<p>The article provides a tutorial on how to create a Ruby gem with Zeitwerk as a development-only dependency. It addresses the problem of managing code loading in non-Rails Ruby projects, where having many specialized classes in separate files can lead to a lot of require statements. Zeitwerk is introduced as an efficient and thread-safe code loader for Ruby, commonly used in Rails and Hanami. The tutorial explains how to use Zeitwerk in any Ruby project, including creating gems, by adding it to the Gemspec and making a few code modifications. It also addresses the concern of dependency minimalization and offers a solution to use Zeitwerk for development without including it as a runtime gem dependency. The author shares their experience of implementing this approach in their own gem, cryptreboot, which allows a machine with an encrypted disk to reboot by requesting a passphrase beforehand. Overall, the tutorial provides valuable insights for developers looking to optimize code loading in their Ruby projects.</p>
 	</div>
-</div>
+</article>
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">
 			<div class="container">
