@@ -33,35 +33,22 @@
 			</nav>
 		</header>
 		<main class="container">
-			<div class="card">
+			<article class="card mt-2">
 	<div class="card-header">
-		<h1 class="mb-0">WebAssembly</h1>
+		<h1 class="mb-0">Secure and Efficient Wasm Compilation of Proc Macros in Rust</h1>
+		<div>
+			<small>2023/08/21</small>
+		</div>
+
 	</div>
 	<div class="card-body">
-		<ul class="list-group">
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/08/21/secure-and-efficient-wasm-compilation-of-proc-macros-in-rust/">Secure and Efficient Wasm Compilation of Proc Macros in Rust</a>
-					2023-08-21
-				</li>
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/08/07/building-snappy-uis-with-typescript-webassembly-and-web-workers/">Building Snappy UIs with TypeScript, WebAssembly, and Web Workers</a>
-					2023-08-07
-				</li>
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/08/02/okio-3.5-adds-support-for-webassembly-(wasm)/">Okio 3.5 Adds Support for WebAssembly (WASM)</a>
-					2023-08-02
-				</li>
-			
-
-		</ul>
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://internals.rust-lang.org/t/pre-rfc-sandboxed-deterministic-reproducible-efficient-wasm-compilation-of-proc-macros/19359" target="_blank"> here</a>.
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">our repo</a>.
+		</div>
+		<p>The article discusses a pre-RFC proposal for sandboxed, deterministic, reproducible, and efficient WebAssembly (Wasm) compilation of procedural macros in Rust. Currently, procedural macros in Rust expose users to potential security risks, as they can execute arbitrary code. To address this, the proposal suggests a precompilation process where the crate is compiled locally and then securely verified by a service managed by crates.io. This service ensures that the compiled Wasm artifact matches the crate's source code before making it available to users. Users can opt-in to running procedural macros within a Wasm sandbox by installing a suitable Wasm runtime as a Rustup component. The sandboxing approach reduces the audit burden and improves determinism in build systems, as sandboxed macros cannot access external resources or rely on OS randomness. Additionally, the proposal highlights the importance of isolation for large-scale build systems and aims to improve compile times for procedural macros. This pre-RFC proposal presents a promising solution to enhance the security, determinism, and efficiency of procedural macros in Rust.</p>
 	</div>
-</div>
+</article>
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">
 			<div class="container">
