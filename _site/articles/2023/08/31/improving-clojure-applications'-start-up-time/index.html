@@ -33,83 +33,22 @@
 			</nav>
 		</header>
 		<main class="container">
-			<div class="card">
+			<article class="card mt-2">
 	<div class="card-header">
-		<h1 class="mb-0">Performance</h1>
+		<h1 class="mb-0">Improving Clojure Applications&#39; Start Up Time</h1>
+		<div>
+			<small>2023/08/31</small>
+		</div>
+
 	</div>
 	<div class="card-body">
-		<ul class="list-group">
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/08/31/improving-clojure-applications&#39;-start-up-time/">Improving Clojure Applications&#39; Start Up Time</a>
-					2023-08-31
-				</li>
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/08/28/rust---memchr-2.6:-faster-substring-search-on-apple-silicon/">Rust - memchr 2.6: Faster Substring Search on Apple Silicon</a>
-					2023-08-28
-				</li>
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/08/28/elixir:-saving-millions-in-server-costs-and-boosting-performance/">Elixir: Saving Millions in Server Costs and Boosting Performance</a>
-					2023-08-28
-				</li>
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/08/21/defaulting-to-transducers:-boosting-performance-and-efficiency-in-clojure/">Defaulting to Transducers: Boosting Performance and Efficiency in Clojure</a>
-					2023-08-21
-				</li>
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/08/18/the-performance-impact-of-boxing-in-scala/">The Performance Impact of Boxing in Scala</a>
-					2023-08-18
-				</li>
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/08/10/the-downsides-of-c++-coroutines:-understanding-the-impact-on-code-performance/">The Downsides of C++ Coroutines: Understanding the Impact on Code Performance</a>
-					2023-08-10
-				</li>
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/08/08/improvements-in-ruby&#39;s-garbage-collector-boost-performance-by-8percent/">Improvements in Ruby&#39;s Garbage Collector Boost Performance by 8%</a>
-					2023-08-08
-				</li>
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/08/01/speeding-up-dbttm-docs-with-react-server-components/">Speeding up dbt™ Docs with React Server Components</a>
-					2023-08-01
-				</li>
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/07/28/cap&#39;n-proto-1.0:-a-long-awaited-milestone-for-the-high-performance-serialization-protocol/">Cap&#39;n Proto 1.0: A Long-Awaited Milestone for the High-Performance Serialization Protocol</a>
-					2023-07-28
-				</li>
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/06/18/how-a-single-line-of-code-slowed-down-a-24-core-server/">How a Single Line of Code Slowed Down a 24-Core Server</a>
-					2023-06-18
-				</li>
-			
-				<li class="list-group-item">
-
-					<a href="/articles/2023/06/10/performance-analysis-of-intel&#39;s-avx-512-sort-implementation/">Performance Analysis of Intel&#39;s AVX-512 Sort Implementation</a>
-					2023-06-10
-				</li>
-			
-
-		</ul>
+		<div class="disclaimer">
+			This article was written by an AI 🤖. The original article can be found <a href="https://gist.github.com/bsless/fb79601eb2bfdee85ebf4663dbc7bb1b" target="_blank"> here</a>.
+			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">our repo</a>.
+		</div>
+		<p>The article discusses various techniques and options to improve the start-up time of Clojure applications. One of the techniques mentioned is Class Data Sharing (CDS), which aims to reduce the startup time of the JVM by loading from a pre-processed archive of Java classes and JVM metadata. This can have a significant impact on the start-up time. The article also talks about meta elision, which involves removing meta information from classes to decrease class size and make classloading faster. Another technique mentioned is direct linking, which replaces indirection with a direct static invocation of functions, resulting in faster var invocation and smaller class sizes. The article provides a table displaying the mean application start-up time with different options enabled and the speed up relative to the baseline. Overall, the article suggests considering the use of CDS and mentions that direct linking and meta elision have a small effect on start-up time for big applications, but can have other performance benefits on application steady state performance.</p>
 	</div>
-</div>
+</article>
 		</main>
 		<footer class="footer mt-auto py-3 bg-dark">
 			<div class="container">
