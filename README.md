@@ -8,7 +8,13 @@ items and summarizes them.
 You can add your own sources and adjust the prompts to make it write accordingly
 to your own editorial policy and biases.
 
-You need to create a `.env` file with your Groq key, in this format
+Create your local env file:
+
+```sh
+cp .env.example .env
+```
+
+Then edit `.env` and add your Groq key.
 
 ```
 GROQ_API_KEY=gsk_...

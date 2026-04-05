@@ -2,6 +2,8 @@ services:
   app:
     build: .
     working_dir: /usr/src/app
+    env_file:
+      - .env
     depends_on:
       - postgres
     volumes:
