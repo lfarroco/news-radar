@@ -69,19 +69,36 @@ const summarizeNotes = (notes: string[]): string => {
 export const writerNode = async (
 	state: PipelineState,
 ): Promise<Partial<PipelineState>> => {
+	const startedAt = Date.now();
 	const llm = makeLlm(0.3).withStructuredOutput(writerOutputSchema);
 	const chain = prompt.pipe(llm);
 	const publishedArticles: GeneratedArticle[] = [];
+	let attemptedTasks = 0;
+
+	logger.info({ maxTasks: MAX_TASKS_PER_RUN }, "writer: starting");
 
 	for (let i = 0; i < MAX_TASKS_PER_RUN; i++) {
 		const task = await claimNextPendingArticleTask();
-		if (!task) break;
+		if (!task) {
+			logger.info({ iteration: i + 1 }, "writer: no more pending tasks");
+			break;
+		}
+
+		attemptedTasks++;
+		logger.info(
+			{ taskId: task.id, topic: task.topic_slug, priority: task.priority },
+			"writer: claimed task",
+		);
 
 		try {
 			const scraped = await scrapeUrl(task.candidate_url);
 			const sourceContent = scraped.ok
 				? scraped.content.slice(0, MAX_SOURCE_TEXT)
 				: task.candidate_snippet;
+			logger.debug(
+				{ taskId: task.id, scraped: scraped.ok, sourceChars: sourceContent.length },
+				"writer: source prepared",
+			);
 
 			const kbNotes = await searchTopicNotes(task.topic_slug, task.candidate_title, 6);
 			const knowledgeNotes = summarizeNotes(kbNotes.map((n) => n.content));
@@ -110,6 +127,10 @@ export const writerNode = async (
 
 			await completeArticleTask(task.id, "completed");
 			await setCandidateStatus(task.candidate_id, "published");
+			logger.info(
+				{ taskId: task.id, articleTitle: result.title, inserted: Boolean(inserted) },
+				"writer: task completed",
+			);
 			await addTopicNote(
 				task.topic_slug,
 				"summary",
@@ -132,7 +153,10 @@ export const writerNode = async (
 		}
 	}
 
-	logger.info({ written: publishedArticles.length }, "writer: finished");
+	logger.info(
+		{ attemptedTasks, written: publishedArticles.length, durationMs: Date.now() - startedAt },
+		"writer: finished",
+	);
 
 	return {
 		publishedArticles,

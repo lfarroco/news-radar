@@ -6,6 +6,7 @@ import type { PipelineState } from "../graph/state.ts";
 export const publisherNode = async (
 	state: PipelineState,
 ): Promise<Partial<PipelineState>> => {
+	const startedAt = Date.now();
 	logger.info(
 		{ written: state.publishedArticles.length },
 		"publisher: starting site build",
@@ -17,16 +18,35 @@ export const publisherNode = async (
 		stderr: "piped",
 	});
 
-	const { success, stderr } = await cmd.output();
+	const { success, stdout, stderr } = await cmd.output();
+	const stdoutText = new TextDecoder().decode(stdout);
+	const stderrText = new TextDecoder().decode(stderr);
 
 	if (!success) {
-		const message = new TextDecoder().decode(stderr);
-		logger.error({ message }, "publisher: lume build failed");
+		logger.error(
+			{ stderr: stderrText, stdout: stdoutText, durationMs: Date.now() - startedAt },
+			"publisher: lume build failed",
+		);
 		return {
-			errors: [{ node: "publisher", message }],
+			errors: [{ node: "publisher", message: stderrText || stdoutText }],
 		};
 	}
 
-	logger.info("publisher: site built successfully");
+	logger.info(
+		{
+			durationMs: Date.now() - startedAt,
+			stdoutChars: stdoutText.length,
+		},
+		"publisher: site built successfully",
+	);
+
+	if (stdoutText.trim().length > 0) {
+		logger.debug({ output: stdoutText }, "publisher: build output");
+	}
+
+	if (stderrText.trim().length > 0) {
+		logger.warn({ output: stderrText }, "publisher: build stderr output");
+	}
+
 	return {};
 };

@@ -8,6 +8,7 @@ import {
 } from "../models.ts";
 import { TopicProfile } from "../topics/types.ts";
 import { compactText } from "../utils.ts";
+import { logger } from "../logger.ts";
 
 const TOPIC_NOTE_TYPE_MAX_LENGTH = 48;
 const TOPIC_NOTE_CONTENT_MAX_LENGTH = 420;
@@ -103,7 +104,7 @@ const ensureSchema = async () => {
 };
 
 export const connect = async (hostname: string, port: number) => {
-	console.log(`Connecting to ${hostname}:${port}`);
+	logger.info({ hostname, port }, "db: connecting");
 	client = new Client({
 		user: "root",
 		hostname,
@@ -113,6 +114,7 @@ export const connect = async (hostname: string, port: number) => {
 	});
 	await client.connect();
 	await ensureSchema();
+	logger.info("db: connected and schema ensured");
 };
 
 // ── article reads ──────────────────────────────────────────────────────────

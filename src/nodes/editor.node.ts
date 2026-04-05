@@ -109,6 +109,7 @@ const buildTaskNotes = (
 export const editorNode = async (
 	state: PipelineState,
 ): Promise<Partial<PipelineState>> => {
+	const startedAt = Date.now();
 	const candidates = state.pendingCandidates.length > 0
 		? state.pendingCandidates.slice(0, MAX_CANDIDATES_PER_RUN)
 		: await getPendingCandidates(MAX_CANDIDATES_PER_RUN);
@@ -125,9 +126,15 @@ export const editorNode = async (
 
 	let reviewed = 0;
 	let tasksCreated = 0;
+	let rejected = 0;
+	let researched = 0;
 
 	for (const candidate of candidates) {
 		reviewed++;
+		logger.debug(
+			{ candidateId: candidate.id, topic: candidate.topic_slug, source: candidate.source },
+			"editor: reviewing candidate",
+		);
 		try {
 			const relevance = await chain.invoke({
 				topic: candidate.topic_name,
@@ -137,6 +144,15 @@ export const editorNode = async (
 			});
 
 			if (relevance.score < RELEVANCE_THRESHOLD) {
+				rejected++;
+				logger.info(
+					{
+						candidateId: candidate.id,
+						score: relevance.score,
+						threshold: RELEVANCE_THRESHOLD,
+					},
+					"editor: candidate rejected by relevance threshold",
+				);
 				await setCandidateStatus(candidate.id, "rejected", relevance.score);
 				continue;
 			}
@@ -153,11 +169,18 @@ export const editorNode = async (
 			const priority = computePriority(candidate, relevance.score);
 
 			await setCandidateStatus(candidate.id, "researched", relevance.score, researchNotes);
+			researched++;
 
 			const alreadyQueued = await hasOpenTaskForCandidate(candidate.id);
 			if (!alreadyQueued) {
 				await createArticleTask(candidate.id, taskNotes, priority);
 				tasksCreated++;
+				logger.info(
+					{ candidateId: candidate.id, priority },
+					"editor: article task created",
+				);
+			} else {
+				logger.debug({ candidateId: candidate.id }, "editor: open task already exists");
 			}
 
 			await addTopicNote(
@@ -178,7 +201,10 @@ export const editorNode = async (
 		}
 	}
 
-	logger.info({ reviewed, tasksCreated }, "editor: finished");
+	logger.info(
+		{ reviewed, tasksCreated, rejected, researched, durationMs: Date.now() - startedAt },
+		"editor: finished",
+	);
 
 	return {
 		metrics: {
