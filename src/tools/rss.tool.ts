@@ -2,8 +2,7 @@ import { DynamicStructuredTool } from "@langchain/core/tools";
 import { z } from "zod";
 import { parseFeed } from "../deps.ts";
 import {
-	insertArticle,
-	linkArticleTopic,
+	insertCandidate,
 	upsertTopic,
 } from "../db/queries.ts";
 import { slugify } from "../utils.ts";
@@ -63,7 +62,7 @@ export const rssTool = new DynamicStructuredTool({
 		let inserted = 0;
 
 		await Promise.all(
-			feed.entries.map(async (item: Record<string, unknown>) => {
+			feed.entries.map(async (item) => {
 				const rawTitle = (item.title as { value?: string })?.value ?? "";
 				const title = topics.length
 					? `${topics.join(", ")} - ${rawTitle}`
@@ -77,20 +76,37 @@ export const rssTool = new DynamicStructuredTool({
 
 				if (!title || !link || isRestricted(link) || !isRecent(date)) return;
 
-				await insertArticle(
-					title,
-					link,
-					url,
-					date,
-					hasContent && description ? description : "",
-				);
+				const snippet = hasContent && description ? description : "";
 
-				await Promise.all(
-					topics.map(async (topic) => {
-						await upsertTopic(topic, slugify(topic));
-						await linkArticleTopic(link, slugify(topic));
-					}),
-				);
+				if (topics.length === 0) {
+					const fallbackSlug = "general";
+					await upsertTopic("General", fallbackSlug);
+					await insertCandidate(
+						title,
+						link,
+						snippet,
+						url,
+						date,
+						fallbackSlug,
+						"General",
+					);
+				} else {
+					await Promise.all(
+						topics.map(async (topic) => {
+							const topicSlug = slugify(topic);
+							await upsertTopic(topic, topicSlug);
+							await insertCandidate(
+								title,
+								link,
+								snippet,
+								url,
+								date,
+								topicSlug,
+								topic,
+							);
+						}),
+					);
+				}
 
 				inserted++;
 			}),

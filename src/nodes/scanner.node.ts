@@ -2,7 +2,10 @@ import { logger } from "../logger.ts";
 import { loadRuntimeTopicProfiles } from "../topics/runtime.ts";
 import { rssTool } from "../tools/rss.tool.ts";
 import { redditTool } from "../tools/reddit.tool.ts";
-import { getPendingArticles } from "../db/queries.ts";
+import {
+	getPendingCandidates,
+	markTopicCrawledNow,
+} from "../db/queries.ts";
 import type { PipelineState } from "../graph/state.ts";
 
 export const scannerNode = async (
@@ -27,6 +30,8 @@ export const scannerNode = async (
 					.catch((err) => `reddit error r/${sub}: ${err}`),
 			);
 		}
+
+		await markTopicCrawledNow(topic.slug);
 	}
 
 	const results = await Promise.allSettled(tasks);
@@ -35,8 +40,16 @@ export const scannerNode = async (
 		else logger.debug(r.value);
 	});
 
-	const pendingArticles = await getPendingArticles();
-	logger.info({ count: pendingArticles.length }, "scanner: finished");
+	const pendingCandidates = await getPendingCandidates();
+	logger.info({ count: pendingCandidates.length }, "scanner: finished");
 
-	return { pendingArticles };
+	return {
+		pendingCandidates,
+		metrics: {
+			scanned: pendingCandidates.length,
+			reviewed: 0,
+			tasksCreated: 0,
+			written: 0,
+		},
+	};
 };

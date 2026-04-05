@@ -27,51 +27,42 @@ TAVILY_API_KEY=tvly_...
 The system performs the following steps:
 
 1 - Scanner\
-Collects top items from the source URLs. Results are stored in a database and
-each item is marked as "pending".
+Collects raw story candidates from RSS + Reddit (and topic feeds). Results are
+stored in `candidates` with `status = pending`.
 
-2 - Researcher\
-Looks up additional web sources for detected topics (when `TAVILY_API_KEY` is configured),
-so downstream steps have extra context.
+2 - Editor\
+Scores each pending candidate for developer relevance (0-10), gathers
+additional research context (Tavily, when configured), updates per-topic
+knowledge notes, and creates prioritized `article_tasks`.
 
-3 - Planner\
-Uses the scanned items (plus researcher context) to plan what the publication
-should write in this run. A plan can combine multiple scanned items into one
-original article idea. This means the pipeline can scan 5+ items and still
-choose to publish only 2-3 synthesized articles.
+3 - Writer\
+Picks highest-priority pending tasks, reads candidate + editor notes + topic
+knowledge notes, optionally scrapes source pages, and generates a 300-500 word
+article with the LLM. Output is saved in `articles`.
 
-4 - Scraper\
-Fetches full content for source items selected by the planner.
-
-5 - Writer\
-Writes original articles from the planner's instructions. Each article may use
-multiple scraped sources plus additional online context (via Tavily) when
-available.
-
-6 - Publisher\
+4 - Publisher\
 Processed items are published to a static website using Lume.
 
 ### Workflow:
 
-The possible status transitions for each article:
+The possible status transitions for each candidate/task:
 
-scan -> create articles with status=pending
+scan -> create candidates with status=pending
 
-planner -> submit status=pending articles to editorial planning
+editor -> relevance score + research
 
-selected as source ? either yes -> (status=approved) or no -> (status=rejected)
+candidate relevant ? yes -> (status=researched + task created) / no -> (status=rejected)
 
-with approved: -> scrape selected source items
+writer claims task -> article_tasks.status=in_progress
 
-scraped ? either yes -> (status=scraped) or no -> (status=error-scraping)
+writer success -> article_tasks.status=completed + candidates.status=published + row in articles
 
-writer publishes the primary source row -> (status=published)
-
-additional source rows used only as references -> (status=reference-only)
+writer failure -> article_tasks.status=failed + candidates.status=writer-error
 
 ### Running
 
-Running `make run` will scan the sources and write the news into the database.
+Running `make run` scans sources, evaluates candidates, queues article tasks,
+generates articles, and then rebuilds the static site.
 If topic profiles are missing in the database, they are bootstrapped automatically
 from `src/topics/profiles.ts` on startup.
 

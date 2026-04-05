@@ -1,29 +1,16 @@
 import { Annotation } from "@langchain/langgraph";
-import { Article, ArticlePlan } from "../models.ts";
-import type { ResearchSource } from "../tools/tavily.tool.ts";
+import { ArticleTask, Candidate, GeneratedArticle } from "../models.ts";
 
 export const PipelineAnnotation = Annotation.Root({
-	pendingArticles: Annotation<Article[]>({
+	pendingCandidates: Annotation<Candidate[]>({
 		reducer: (_a, b) => b,
 		default: () => [],
 	}),
-	approvedArticles: Annotation<Article[]>({
+	queuedTasks: Annotation<ArticleTask[]>({
 		reducer: (_a, b) => b,
 		default: () => [],
 	}),
-	plannedArticles: Annotation<ArticlePlan[]>({
-		reducer: (_a, b) => b,
-		default: () => [],
-	}),
-	scrapedArticles: Annotation<Article[]>({
-		reducer: (_a, b) => b,
-		default: () => [],
-	}),
-	topicResearch: Annotation<Record<string, ResearchSource[]>>({
-		reducer: (a, b) => ({ ...a, ...b }),
-		default: () => ({}),
-	}),
-	writtenArticles: Annotation<Article[]>({
+	publishedArticles: Annotation<GeneratedArticle[]>({
 		reducer: (_a, b) => b,
 		default: () => [],
 	}),
@@ -31,9 +18,14 @@ export const PipelineAnnotation = Annotation.Root({
 		reducer: (a, b) => [...a, ...b],
 		default: () => [],
 	}),
-	writerRetries: Annotation<number>({
+	metrics: Annotation<{
+		scanned: number;
+		reviewed: number;
+		tasksCreated: number;
+		written: number;
+	}>({
 		reducer: (_a, b) => b,
-		default: () => 0,
+		default: () => ({ scanned: 0, reviewed: 0, tasksCreated: 0, written: 0 }),
 	}),
 });
 

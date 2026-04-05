@@ -6,7 +6,10 @@ import type { PipelineState } from "../graph/state.ts";
 export const publisherNode = async (
 	state: PipelineState,
 ): Promise<Partial<PipelineState>> => {
-	logger.info({ written: state.writtenArticles.length }, "publisher: starting site build");
+	logger.info(
+		{ written: state.publishedArticles.length },
+		"publisher: starting site build",
+	);
 
 	const cmd = new Deno.Command("deno", {
 		args: ["task", "build"],

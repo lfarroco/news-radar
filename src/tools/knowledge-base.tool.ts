@@ -1,17 +1,23 @@
 import { DynamicStructuredTool } from "@langchain/core/tools";
 import { z } from "zod";
-import { getTopicProfile } from "../db/queries.ts";
+import { getTopicProfile, searchTopicNotes } from "../db/queries.ts";
 
 export const knowledgeBaseTool = new DynamicStructuredTool({
-	name: "get_topic_profile",
+	name: "get_topic_knowledge",
 	description:
-		"Returns the knowledge base profile for a topic slug, including official sources, editorial notes, and search terms.",
+		"Returns topic profile metadata plus the latest active knowledge notes for a topic slug.",
 	schema: z.object({
 		slug: z.string().describe("Topic slug, e.g. 'rust' or 'python'"),
+		query: z.string().optional().describe("Optional search query to filter notes"),
 	}),
-	func: async ({ slug }) => {
+	func: async ({ slug, query }) => {
 		const profile = await getTopicProfile(slug);
-		if (!profile) return `No profile found for topic '${slug}'.`;
-		return JSON.stringify(profile, null, 2);
+		const notes = await searchTopicNotes(slug, query ?? "", 10);
+
+		if (!profile && notes.length === 0) {
+			return `No topic knowledge found for '${slug}'.`;
+		}
+
+		return JSON.stringify({ profile, notes }, null, 2);
 	},
 });

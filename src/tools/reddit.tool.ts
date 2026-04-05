@@ -2,8 +2,7 @@ import { DynamicStructuredTool } from "@langchain/core/tools";
 import { z } from "zod";
 import { cheerio } from "../deps.ts";
 import {
-	insertArticle,
-	linkArticleTopic,
+	insertCandidate,
 	upsertTopic,
 } from "../db/queries.ts";
 import { slugify } from "../utils.ts";
@@ -67,9 +66,17 @@ export const redditTool = new DynamicStructuredTool({
 
 				if (!link || isRestricted(link) || !isRecent(date)) return;
 
-				await insertArticle(title, link, `reddit-${subreddit}`, date, "");
-				await upsertTopic(topic, slugify(topic));
-				await linkArticleTopic(link, slugify(topic));
+				const topicSlug = slugify(topic);
+				await upsertTopic(topic, topicSlug);
+				await insertCandidate(
+					title,
+					link,
+					"",
+					`reddit-${subreddit}`,
+					date,
+					topicSlug,
+					topic,
+				);
 				inserted++;
 			}),
 		);
