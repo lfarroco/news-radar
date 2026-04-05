@@ -5,7 +5,23 @@
 
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
+		<meta name="description" content="Daily AI-powered tech news digests focused on software engineering trends.">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+		<script>
+			(() => {
+				const key = "dev-radar-theme";
+				const storedTheme = localStorage.getItem(key);
+				const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+				const theme = storedTheme === "dark" || storedTheme === "light"
+					? storedTheme
+					: (prefersDark ? "dark" : "light");
+				document.documentElement.setAttribute("data-theme", theme);
+				document.documentElement.style.colorScheme = theme;
+			})();
+		</script>
 	</head>
 	<body>
 		<header>
@@ -28,18 +44,35 @@
 								<a class="nav-link" aria-current="page" href="/archives/1">Archives</a>
 							</li>
 						</ul>
+						<div class="d-flex">
+							<button id="theme-toggle" class="btn btn-outline-light btn-sm theme-toggle" type="button" aria-pressed="false" aria-label="Activate dark mode">
+								<span class="theme-icon theme-icon-sun" aria-hidden="true">
+									<svg viewBox="0 0 24 24" role="presentation" focusable="false">
+										<path d="M12 5.25A6.75 6.75 0 1 0 18.75 12 6.757 6.757 0 0 0 12 5.25Zm0 11.25A4.5 4.5 0 1 1 16.5 12 4.505 4.505 0 0 1 12 16.5ZM12 0a1.125 1.125 0 0 0-1.125 1.125v1.5a1.125 1.125 0 0 0 2.25 0v-1.5A1.125 1.125 0 0 0 12 0Zm0 20.625a1.125 1.125 0 0 0-1.125 1.125v1.125a1.125 1.125 0 1 0 2.25 0V21.75A1.125 1.125 0 0 0 12 20.625ZM3.375 10.875h-1.5a1.125 1.125 0 1 0 0 2.25h1.5a1.125 1.125 0 1 0 0-2.25Zm18.75 0h-1.5a1.125 1.125 0 1 0 0 2.25h1.5a1.125 1.125 0 1 0 0-2.25ZM5.486 4.01a1.125 1.125 0 0 0-1.59 1.59l1.06 1.06a1.125 1.125 0 1 0 1.59-1.59Zm12.5 12.5a1.125 1.125 0 1 0-1.59 1.59l1.06 1.06a1.125 1.125 0 0 0 1.59-1.59ZM5.016 16.5l-1.06 1.06a1.125 1.125 0 1 0 1.59 1.59l1.06-1.06a1.125 1.125 0 0 0-1.59-1.59Zm13.468-12.99-1.06 1.06a1.125 1.125 0 1 0 1.59 1.59l1.06-1.06a1.125 1.125 0 1 0-1.59-1.59Z"/>
+									</svg>
+								</span>
+								<span class="theme-toggle-track" aria-hidden="true">
+									<span class="theme-toggle-thumb"></span>
+								</span>
+								<span class="theme-icon theme-icon-moon" aria-hidden="true">
+									<svg viewBox="0 0 24 24" role="presentation" focusable="false">
+										<path d="M13.606 2.25a1.125 1.125 0 0 0-.96 1.716 8.3 8.3 0 0 1 1.214 4.36 8.424 8.424 0 0 1-8.414 8.415 8.3 8.3 0 0 1-2.936-.54 1.125 1.125 0 0 0-1.343 1.593A10.67 10.67 0 0 0 11.22 24C17.18 24 22 19.18 22 13.22A10.67 10.67 0 0 0 14.206 3.31a1.126 1.126 0 0 0-.6-1.06z"/>
+									</svg>
+								</span>
+							</button>
+						</div>
 					</div>
 				</div>
 			</nav>
 		</header>
-		<main class="container">
+		<main class="container site-main">
 			{{ content | safe }}
 		</main>
-		<footer class="footer mt-auto py-3 bg-dark">
+		<footer class="footer mt-auto py-4 site-footer">
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-2">
-						<span class="text-muted">2023 | dev-radar</span>
+						<span class="text-muted">2026 | dev-radar</span>
 					</div>
 					<div class="col-sm-2">
 						<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 496 512">
@@ -56,6 +89,56 @@
 			</footer>
 			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+			<script>
+				(() => {
+					const key = "dev-radar-theme";
+					const root = document.documentElement;
+					const toggle = document.getElementById("theme-toggle");
+					const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+					const currentTheme = () => root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+
+					const setTheme = (theme, persist = true) => {
+						root.setAttribute("data-theme", theme);
+						root.style.colorScheme = theme;
+						if (persist) {
+							localStorage.setItem(key, theme);
+						}
+					};
+
+					const updateToggleLabel = () => {
+						if (!toggle) {
+							return;
+						}
+						const isDark = currentTheme() === "dark";
+						toggle.setAttribute("aria-pressed", String(isDark));
+						toggle.dataset.theme = isDark ? "dark" : "light";
+						toggle.setAttribute("aria-label", isDark ? "Activate light mode" : "Activate dark mode");
+					};
+
+					if (toggle) {
+						updateToggleLabel();
+						toggle.addEventListener("click", () => {
+							setTheme(currentTheme() === "dark" ? "light" : "dark");
+							updateToggleLabel();
+						});
+					}
+
+					const followSystemTheme = (event) => {
+						if (localStorage.getItem(key)) {
+							return;
+						}
+						setTheme(event.matches ? "dark" : "light", false);
+						updateToggleLabel();
+					};
+
+					if (typeof mediaQuery.addEventListener === "function") {
+						mediaQuery.addEventListener("change", followSystemTheme);
+					} else if (typeof mediaQuery.addListener === "function") {
+						mediaQuery.addListener(followSystemTheme);
+					}
+				})();
+			</script>
 			<link rel="stylesheet" href="/styles.css"/>
 		</body>
 
