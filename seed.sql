@@ -198,6 +198,14 @@ ALTER TABLE ONLY public.article_topic
 
 
 --
+-- Modernization additions
+--
+
+ALTER TABLE public.info ADD COLUMN IF NOT EXISTS retries integer DEFAULT 0;
+ALTER TABLE public.info ADD COLUMN IF NOT EXISTS model_used text;
+ALTER TABLE public.topics ADD COLUMN IF NOT EXISTS profile jsonb;
+
+--
 -- PostgreSQL database dump complete
 --
 

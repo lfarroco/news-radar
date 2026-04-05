@@ -4,7 +4,7 @@
 
 The project is a Deno/TypeScript automated news pipeline built ~2 years ago with:
 
-- **Runtime**: Deno + TypeScript
+- **Runtime**: Deno + TypeScript *(kept)*
 - **AI**: Raw `fetch` calls to OpenAI (`gpt-3.5-turbo`) with string-templated prompts and fragile `JSON.parse` responses
 - **Pipeline**: Hard-coded sequential execution: `scanner → candidates → scrapper → writer → publisher`
 - **Infrastructure**: PostgreSQL + Docker + cron.sh + Lume static site generator
@@ -59,103 +59,74 @@ Replace the linear script with a **LangGraph state machine** where each node is 
 
 ## Tasks
 
-### 1 — Runtime migration: Deno → Node.js 22
+### 1 — Introduce LangChain.js
 
-**Why**: LangGraph.js and the full LangChain.js ecosystem have first-class Node.js support; Deno compatibility lags.
+**Packages** (via Deno `npm:` specifiers): `npm:@langchain/core`, `npm:@langchain/openai`, `npm:@langchain/langgraph`, `npm:@langchain/community`, `npm:zod`
 
-- [ ] Replace `deno.json` with `package.json` using `"type": "module"`
-- [ ] Replace `deno.land/x/postgres` → `pg` + `drizzle-orm` (typed queries, migrations)
-- [ ] Replace `deno.land/x/rss` → `rss-parser`
-- [ ] Replace `esm.sh/cheerio` → `cheerio` (npm)
-- [ ] Replace `deno.land/x/slug` → `slugify` (npm)
-- [ ] Replace `deno.land/x/dotenv` → `dotenv`
-- [ ] Update `Dockerfile` to use `node:22-slim`
-- [ ] Update `Makefile` and `cron.sh` accordingly
-- [ ] Migrate `tsconfig.json` (target `ES2022`, `module: NodeNext`)
+- [x] Add `npm:` import map entries to `deno.json` for `@langchain/core`, `@langchain/openai`, `@langchain/langgraph`, `@langchain/community`, `zod`, `pino`
+- [x] Create `src/llm.ts` — exports `makeLlm(temperature)`, `systemUserPrompt()`, `relevanceOutputSchema`, `articleOutputSchema` (Zod), and related types
+- [x] Upgrade model to `gpt-4o-mini`; use `withStructuredOutput()` for all LLM calls (replaces fragile `JSON.parse`)
+- [x] Document `LANGCHAIN_TRACING_V2`, `LANGCHAIN_PROJECT`, `LANGCHAIN_API_KEY` env vars
 
 ---
 
-### 2 — Introduce LangChain.js
+### 2 — LangGraph pipeline
 
-**Packages**: `@langchain/core`, `@langchain/openai`, `langchain`
+Replace the sequential `scanner → candidates → scrapper → writer` script with a LangGraph `StateGraph`.
 
-- [ ] Replace `src/openai.ts` raw fetch calls with `ChatOpenAI` from `@langchain/openai`
-- [ ] Upgrade model from `gpt-3.5-turbo` to `gpt-4o-mini` (better quality, lower cost)
-- [ ] Replace string-interpolated prompts with `ChatPromptTemplate.fromMessages()`
-- [ ] Replace `JSON.parse(result)` brittle parsing with `withStructuredOutput(zodSchema)` for all LLM calls:
-  - `candidates.ts` → `z.object({ selected: z.array(z.number()) })`
-  - `writer.ts` → `z.object({ title: z.string(), content: z.string(), categories: z.array(z.string()) })`
-- [ ] Add `@langchain/community` for built-in tool integrations (Tavily, Cheerio loader)
-- [ ] Configure LangSmith tracing via `LANGCHAIN_API_KEY` env var for observability
-
----
-
-### 3 — Implement LangGraph pipeline
-
-**Package**: `@langchain/langgraph`
-
-Replace the procedural `main.ts` script with a compiled state graph.
-
-- [ ] Define a shared `PipelineState` type (LangGraph `Annotation` object):
-  ```ts
-  // fields: pendingArticles, approvedArticles,
-  //         scrapedArticles, writtenArticles, errors
-  ```
-- [ ] Create `src/graph/index.ts` — compile and export the `StateGraph`
-- [ ] Implement graph nodes (one file per node under `src/nodes/`):
-  - `scanner.node.ts` — fetches RSS/Reddit, inserts into DB, returns pending articles
-  - `filter.node.ts` — calls relevance agent, splits into approved/rejected
-  - `scraper.node.ts` — scrapes URLs in parallel using LangChain `Document` loaders
-  - `research.node.ts` — *(new)* enriches each article with Tavily web search
-  - `writer.node.ts` — writes structured article drafts
-  - `editor.node.ts` — *(new)* reviews draft, requests revision if quality is low
-  - `publisher.node.ts` — persists to DB and triggers Lume build
-- [ ] Define conditional edges:
-  - After filter: `approved → scraper`, `rejected → end`
-  - After scraper: `ok → research`, `error → error_handler`
-  - After editor: `approved → publisher`, `needs_revision → writer` (max 2 retries)
-- [ ] Replace `cron.sh` loop with a single `node src/graph/index.ts` invocation
+- [x] Define a shared `PipelineState` type in `src/graph/state.ts` using LangGraph `Annotation.Root` with fields: `pendingArticles`, `approvedArticles`, `scrapedArticles`, `writtenArticles`, `errors`, `writerRetries`
+- [x] Create `src/graph/index.ts` — compile and export `buildGraph()` returning the compiled `StateGraph`
+- [x] Implement graph nodes (one file per node under `src/nodes/`):
+  - [x] `scanner.node.ts` — fetches RSS/Reddit via tools, returns pending articles
+  - [x] `filter.node.ts` — calls relevance agent in batches of 20, splits approved/rejected
+  - [x] `scraper.node.ts` — scrapes URLs concurrently (concurrency=5)
+  - [x] `writer.node.ts` — writes structured article drafts with `withStructuredOutput`, concurrency=3
+  - [x] `editor.node.ts` — reviews draft, routes to publisher or back to writer (max 2 retries)
+  - [x] `publisher.node.ts` — persists to DB and triggers `deno task build`
+- [x] Define conditional edges: filter→scraper (approved), editor→writer (needs_revision + retries<2), editor→publisher
+- [x] Rewrite `src/main.ts` to call `buildGraph().invoke({})`
 
 ---
 
-### 4 — Sub-agent tooling
+### 3 — Sub-agent tooling
 
 Convert imperative helper functions into proper LangChain `DynamicStructuredTool` tools with Zod input schemas so agents can decide when and how to call them.
 
-- [ ] `RssTool` — wraps `rss.ts`, input: `z.object({ url: z.string(), topics: z.array(z.string()) })`
-- [ ] `RedditTool` — wraps `reddit.ts`, input: `z.object({ subreddit: z.string(), topic: z.string() })`
-- [ ] `ScraperTool` — wraps `scrapper.ts` using `@langchain/community/document_loaders/web/cheerio`
+- [x] `RssTool` — wraps `rss.ts`, input: `z.object({ url: z.string(), topics: z.array(z.string()) })`
+- [x] `RedditTool` — wraps `reddit.ts`, input: `z.object({ subreddit: z.string(), topic: z.string() })`
+- [x] `ScraperTool` — wraps `scrapper.ts` with a `scrapeUrl()` pure function export for testing
+- [x] `KnowledgeBaseTool` — fetches topic profile from DB by slug
 - [ ] `TavilySearchTool` — from `@langchain/community/tools/tavily_search` for the research node
-- [ ] `DbWriteTool` — wraps all `client.queryArray` write operations with a typed interface
-- [ ] Bind tools to their respective agents via `llm.bindTools([...])`
+- [ ] Bind tools to research agent via `llm.bindTools([...])`
 
 ---
 
-### 5 — Observability and reliability
+### 4 — Observability and reliability
 
-- [ ] Enable LangSmith tracing: set `LANGCHAIN_TRACING_V2=true`, `LANGCHAIN_PROJECT=news-radar`
+- [x] Enable LangSmith tracing: set `LANGCHAIN_TRACING_V2=true`, `LANGCHAIN_PROJECT=news-radar`
 - [ ] Add LangChain `InMemoryCache` (or Redis cache) to avoid redundant LLM calls on reruns
-- [ ] Replace hand-rolled `batch()` utility with LangGraph's built-in map-reduce pattern (`Send` API) for parallel article processing
-- [ ] Add structured logging (replace `console.log` with `pino`)
-- [ ] Add per-node error boundaries in the graph — failed nodes should write to `state.errors` and continue rather than crashing the whole run
+- [x] Replace hand-rolled `batch()` utility with LangGraph's built-in map-reduce pattern (`Send` API) for parallel article processing
+- [x] Add structured logging (replace `console.log` with `pino`) — `src/logger.ts` using `npm:pino@^9`
+- [x] Add per-node error boundaries in the graph — failed nodes write to `state.errors` and continue
 
 ---
 
-### 6 — Database layer modernization
+### 5 — Database layer modernization
 
-- [ ] Replace raw `pg` query strings with **Drizzle ORM** schema definitions in `src/db/schema.ts`
-- [ ] Add a proper migration system (`drizzle-kit`) — replace `seed.sql`
-- [ ] Add a `retries` counter column on the `info` table to track re-processing attempts
-- [ ] Add a `model_used` column to track which LLM version generated each article
+- [x] Keep `deno.land/x/postgres` driver; upgrade to latest version
+- [x] Extract all raw SQL strings into a dedicated `src/db/queries.ts` module (typed wrappers)
+- [x] Add a `retries` counter column on the `info` table to track re-processing attempts
+- [x] Add a `model_used` column to track which LLM version generated each article
+- [x] Add `profile` JSONB column to the `topics` table (for Task 6)
 
 ---
 
-### 7 — Topic knowledge base
+### 6 — Topic knowledge base
 
 Each tracked topic gets a structured profile that agents can load as context when scanning, filtering, and writing. This replaces the current approach of passing bare topic name strings.
 
-- [ ] Create `src/topics/` directory with one file per topic (e.g. `src/topics/python.ts`)
-- [ ] Define a `TopicProfile` type:
+- [x] Create `src/topics/` directory with one file per topic (e.g. `src/topics/python.ts`)
+- [x] Define a `TopicProfile` type:
   ```ts
   type TopicProfile = {
     name: string;          // "Python"
@@ -170,14 +141,15 @@ Each tracked topic gets a structured profile that agents can load as context whe
   };
   ```
 - [ ] Migrate the hard-coded `sources` array in `scanner.ts` into individual topic profiles — the Scanner Agent reads topic profiles instead of a flat list
-- [ ] Store topic profiles in the DB (`topics` table, `profile` JSONB column) so they can be updated at runtime without a code deploy
-- [ ] Add a `KnowledgeBaseTool` (`DynamicStructuredTool`) that the Research and Writer agents can call to fetch the profile for a given topic slug
-- [ ] Inject relevant `editorialNotes` and `description` from the topic profile into the Writer and Filter agent prompts to improve consistency
-- [ ] Add a seed script `src/topics/seed.ts` that upserts all profiles into the DB on first run
+- [x] Migrate the hard-coded `sources` array in `scanner.ts` into individual topic profiles — the Scanner Agent reads topic profiles instead of a flat list
+- [x] Store topic profiles in the DB (`topics` table, `profile` JSONB column) so they can be updated at runtime without a code deploy
+- [x] Add a `KnowledgeBaseTool` (`DynamicStructuredTool`) that the Research and Writer agents can call to fetch the profile for a given topic slug
+- [x] Inject relevant `editorialNotes` and `description` from the topic profile into the Writer and Filter agent prompts to improve consistency
+- [x] Add a seed script `src/topics/seed.ts` that upserts all profiles into the DB on first run
 
 ---
 
-### 8 — Source expansion
+### 7 — Source expansion
 
 Using the new agent/tool architecture, expand sources cheaply:
 
@@ -188,52 +160,55 @@ Using the new agent/tool architecture, expand sources cheaply:
 
 ---
 
-### 9 — Testing
+### 8 — Testing
 
-- [ ] Update `__tests__/main.test.ts` test runner from Deno to **Vitest**
-- [ ] Add unit tests for each graph node using `LangChain FakeListChatModel` to mock LLM responses
+- [x] Use Deno's built-in test runner (`deno test`) — tasks configured in `deno.json`
+- [x] Add unit tests for Zod output schema contracts (`tests/filter.test.ts`)
+- [x] Add unit tests for scraper tool (`tests/scraper.test.ts`) with mocked fetch
+- [x] Add unit tests for `TopicProfile` data integrity (`tests/topics.test.ts`)
+- [x] Add unit tests for config validation (`tests/config.test.ts`)
 - [ ] Add integration test that runs the full graph against a test DB with fixture RSS data
-- [ ] Add unit tests for `TopicProfile` seed and `KnowledgeBaseTool` retrieval
 
 ---
 
-### 10 — Environment and configuration
+### 9 — Environment and configuration
 
-- [ ] Consolidate all environment variables into a validated config module (`zod` + `dotenv`) at startup
-- [ ] Required vars: `OPENAI_API_KEY`, `DATABASE_URL`, `LANGCHAIN_API_KEY`, `TAVILY_API_KEY`
+- [x] Consolidate all environment variables into a validated config module (`src/config.ts`) using `zod` + `Deno.env` — no dotenv needed in Deno
+- [x] Required vars: `OPENAI_API_KEY`, `DATABASE_URL`, `LANGCHAIN_API_KEY`, `TAVILY_API_KEY`
 - [ ] Update `docker-compose.yml` to include healthcheck on postgres before starting the pipeline
 
 ---
 
 ## Implementation Order
 
-1. **Tasks 1 + 2** — Runtime + LangChain wiring (unblocks everything)
-2. **Task 4** — Build tools (required by agents)
-3. **Tasks 3 + 6** — LangGraph pipeline + DB layer (can be developed in parallel)
-4. **Task 7** — Topic knowledge base (feeds into scanner, filter, writer, and research agents)
-5. **Task 5** — Observability (add after graph is running)
-6. **Tasks 8 + 9 + 10** — Source expansion, tests, config cleanup
+1. **Task 1** — LangChain.js wiring + Deno npm: imports (unblocks everything)
+2. **Task 3** — Build tools (required by agents)
+3. **Tasks 2 + 5** — LangGraph pipeline + DB layer (can be developed in parallel)
+4. **Task 6** — Topic knowledge base (feeds into scanner, filter, writer, and research agents)
+5. **Task 4** — Observability (add after graph is running)
+6. **Tasks 7 + 8 + 9** — Source expansion, tests, config cleanup
 
 ---
 
 ## Key Dependencies (new)
 
+All added via Deno `npm:` specifiers in `deno.json` imports map:
+
 ```json
 {
-  "@langchain/core": "^0.3",
-  "@langchain/openai": "^0.3",
-  "@langchain/langgraph": "^0.2",
-  "@langchain/community": "^0.3",
-  "langchain": "^0.3",
-  "drizzle-orm": "^0.33",
-  "drizzle-kit": "^0.24",
-  "pg": "^8",
-  "zod": "^3",
-  "rss-parser": "^3",
-  "cheerio": "^1",
-  "slugify": "^1",
-  "pino": "^9",
-  "dotenv": "^16",
-  "vitest": "^2"
+  "imports": {
+    "@langchain/core": "npm:@langchain/core@^0.3",
+    "@langchain/openai": "npm:@langchain/openai@^0.3",
+    "@langchain/langgraph": "npm:@langchain/langgraph@^0.2",
+    "@langchain/community": "npm:@langchain/community@^0.3",
+    "zod": "npm:zod@^3",
+    "pino": "npm:pino@^9"
+  }
 }
 ```
+
+Existing Deno dependencies kept:
+- `deno.land/x/postgres` — postgres driver
+- `deno.land/x/rss` — RSS parsing
+- `npm:cheerio@1.0.0-rc.12` — HTML scraping (switched from `esm.sh/cheerio` to avoid `undici@7 → node:sqlite` incompatibility)
+- `deno.land/x/slug` — slugification

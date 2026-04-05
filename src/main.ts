@@ -1,15 +1,18 @@
-import { connect } from "./db.ts";
-import scanner from "./scanner.ts";
-import candidates from "./candidates.ts";
-import scrapper from "./scrapper.ts";
-import writer from "./writer.ts";
+import { connect } from "./db/queries.ts";
+import { loadConfig } from "./config.ts";
+const config = loadConfig();
+import { buildGraph } from "./graph/index.ts";
+import { logger } from "./logger.ts";
 
-await connect("postgres", 5432)
+await connect(config.DB_HOST, Number(config.DB_PORT));
 
-await scanner()
+logger.info("pipeline: starting");
 
-await candidates()
+const graph = buildGraph();
+const result = await graph.invoke({});
 
-await scrapper()
-
-await writer()
+if (result.errors?.length) {
+	logger.error({ errors: result.errors }, "pipeline: completed with errors");
+} else {
+	logger.info("pipeline: completed successfully");
+}

@@ -2,10 +2,19 @@
   "tasks": {
     "lume": "echo \"import 'lume/cli.ts'\" | deno run --unstable -A -",
     "build": "deno task lume --quiet --config=src/publisher.ts",
-    "serve": "deno task lume --config=src/publisher.ts -s"
+    "serve": "deno task lume --config=src/publisher.ts -s",
+    "run": "deno run -A src/main.ts",
+    "test": "deno test -A --no-check tests/",
+    "seed": "deno run -A src/topics/seed.ts"
   },
   "lock": false,
   "imports": {
-    "lume/": "https://deno.land/x/lume@v1.18.2/"
+    "lume/": "https://deno.land/x/lume@v1.18.2/",
+    "@langchain/core": "npm:@langchain/core@^0.3",
+    "@langchain/openai": "npm:@langchain/openai@^0.3",
+    "@langchain/langgraph": "npm:@langchain/langgraph@^0.2",
+    "@langchain/community": "npm:@langchain/community@^0.3",
+    "zod": "npm:zod@^3",
+    "pino": "npm:pino@^9"
   }
 }
