@@ -69,6 +69,8 @@ with each scraped: -> write -> (status=published)
 ### Running
 
 Running `make run` will scan the sources and write the news into the database.
+If topic profiles are missing in the database, they are bootstrapped automatically
+from `src/topics/profiles.ts` on startup.
 
 Running `make build-pages` will use the updated db to generate the static
 website under `_site`

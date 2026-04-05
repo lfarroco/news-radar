@@ -1,5 +1,5 @@
 import { logger } from "../logger.ts";
-import { allTopics } from "../topics/profiles.ts";
+import { loadRuntimeTopicProfiles } from "../topics/runtime.ts";
 import { rssTool } from "../tools/rss.tool.ts";
 import { redditTool } from "../tools/reddit.tool.ts";
 import { getPendingArticles } from "../db/queries.ts";
@@ -9,10 +9,11 @@ export const scannerNode = async (
 	_state: PipelineState,
 ): Promise<Partial<PipelineState>> => {
 	logger.info("scanner: starting");
+	const topics = await loadRuntimeTopicProfiles();
 
 	const tasks: Promise<string>[] = [];
 
-	for (const topic of allTopics) {
+	for (const topic of topics) {
 		for (const feedUrl of topic.rssFeedUrls) {
 			tasks.push(
 				rssTool.invoke({ url: feedUrl, topics: [topic.name], hasContent: true })

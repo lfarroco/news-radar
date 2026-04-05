@@ -1,6 +1,5 @@
 import { Client } from "../deps.ts";
 import { Article } from "../models.ts";
-import { slugify } from "../utils.ts";
 import { TopicProfile } from "../topics/types.ts";
 
 // ── connection ─────────────────────────────────────────────────────────────
@@ -206,4 +205,14 @@ export const getTopicProfile = async (
 		[slug],
 	);
 	return rows[0]?.profile ?? null;
+};
+
+export const getAllTopicProfiles = async (): Promise<TopicProfile[]> => {
+	const { rows } = await client.queryObject<{ profile: TopicProfile | null }>(
+		`SELECT profile FROM topics WHERE profile IS NOT NULL;`,
+	);
+
+	return rows
+		.map((row) => row.profile)
+		.filter((profile): profile is TopicProfile => profile !== null);
 };

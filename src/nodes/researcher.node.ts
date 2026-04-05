@@ -1,6 +1,7 @@
 import { logger } from "../logger.ts";
-import { researchTopic, type ResearchSource } from "../tools/tavily.tool.ts";
+import { searchOnlineSources, type ResearchSource } from "../tools/tavily.tool.ts";
 import type { PipelineState } from "../graph/state.ts";
+import { loadRuntimeTopicProfiles } from "../topics/runtime.ts";
 
 const MAX_TOPICS_PER_RUN = 8;
 const MAX_RESULTS_PER_TOPIC = 4;
@@ -59,9 +60,29 @@ const runConcurrent = async <T, R>(
 	return results;
 };
 
+const buildTopicQuery = (topic: string, profile?: {
+	name: string;
+	tavilySearchTerms?: string[];
+}) => {
+	const terms = Array.isArray(profile?.tavilySearchTerms)
+		? profile.tavilySearchTerms.slice(0, 3)
+		: [];
+
+	if (profile?.name && terms.length > 0) {
+		return `${profile.name} ${terms.join(" ")}`;
+	}
+
+	return `${topic} release notes updates changelog developer tooling`;
+};
+
 export const researcherNode = async (
 	state: PipelineState,
 ): Promise<Partial<PipelineState>> => {
+	const profiles = await loadRuntimeTopicProfiles();
+	const profileByName = new Map(
+		profiles.map((profile) => [profile.name.toLowerCase(), profile]),
+	);
+
 	const topics = collectTopics(state);
 	if (topics.length === 0) {
 		logger.info("researcher: no topics detected, skipping");
@@ -72,7 +93,10 @@ export const researcherNode = async (
 
 	const rows = await runConcurrent(topics, CONCURRENCY, async (topic) => {
 		try {
-			const sources = await researchTopic(topic, MAX_RESULTS_PER_TOPIC);
+			const profile = profileByName.get(topic.toLowerCase());
+			const query = buildTopicQuery(topic, profile);
+
+			const sources = await searchOnlineSources(query, MAX_RESULTS_PER_TOPIC);
 			return { topic, sources };
 		} catch (err) {
 			logger.warn({ err, topic }, "researcher: topic search failed");

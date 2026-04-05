@@ -1,4 +1,9 @@
-import { connect, upsertTopic, upsertTopicProfile } from "../db/queries.ts";
+import {
+	connect,
+	getAllTopicProfiles,
+	upsertTopic,
+	upsertTopicProfile,
+} from "../db/queries.ts";
 import { allTopics } from "./profiles.ts";
 import { loadConfig } from "../config.ts";
 const config = loadConfig();
@@ -9,6 +14,16 @@ export const seedTopics = async () => {
 		await upsertTopicProfile(profile.slug, profile);
 	}
 	console.log(`Seeded ${allTopics.length} topic profiles.`);
+};
+
+export const ensureTopicsSeeded = async () => {
+	const existing = await getAllTopicProfiles();
+	if (existing.length > 0) {
+		console.log(`Topic profiles already present (${existing.length}). Skipping seed.`);
+		return;
+	}
+
+	await seedTopics();
 };
 
 // run directly: deno run -A src/topics/seed.ts

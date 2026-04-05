@@ -3,8 +3,10 @@ import { loadConfig } from "./config.ts";
 const config = loadConfig();
 import { buildGraph } from "./graph/index.ts";
 import { logger } from "./logger.ts";
+import { ensureTopicsSeeded } from "./topics/seed.ts";
 
 await connect(config.DB_HOST, Number(config.DB_PORT));
+await ensureTopicsSeeded();
 
 logger.info("pipeline: starting");
 
