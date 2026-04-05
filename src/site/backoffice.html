@@ -22,6 +22,20 @@
 				<!-- Topics Panel -->
 				<section class="panel">
 					<h2>Topics</h2>
+					<div class="topic-create-box">
+						<input
+							type="text"
+							id="new-topic-name"
+							placeholder="New topic name"
+						/>
+						<input
+							type="text"
+							id="new-topic-slug"
+							placeholder="Optional slug (e.g. webdev)"
+						/>
+						<p id="new-topic-slug-preview" class="topic-slug-preview">Slug preview: -</p>
+						<button class="btn btn-primary" onclick="createTopic()">Add Topic</button>
+					</div>
 					<div id="topics-list" class="topics-list">
 						<p class="loading">Loading topics...</p>
 					</div>

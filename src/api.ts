@@ -18,6 +18,15 @@ const cors = (headers: HeadersInit = {}) => ({
 	...headers,
 });
 
+const toSlug = (value: string): string =>
+	value
+		.toLowerCase()
+		.trim()
+		.replace(/[^a-z0-9\s-]/g, "")
+		.replace(/\s+/g, "-")
+		.replace(/-+/g, "-")
+		.replace(/^-|-$/g, "");
+
 async function handleRequest(req: Request): Promise<Response> {
 	const url = new URL(req.url);
 	const pathname = url.pathname;
@@ -48,6 +57,56 @@ async function handleRequest(req: Request): Promise<Response> {
 		if (pathname === "/api/topics" && req.method === "GET") {
 			const topics = await getTopicsList();
 			return new Response(JSON.stringify(topics), { headers });
+		}
+
+		if (pathname === "/api/topics" && req.method === "POST") {
+			const data = await req.json();
+			const name = (data?.name ?? "").trim();
+			const rawSlug = (data?.slug ?? "").trim();
+			const slug = toSlug(rawSlug || name);
+
+			if (!name) {
+				return new Response(JSON.stringify({ error: "Topic name is required" }), {
+					status: 400,
+					headers,
+				});
+			}
+
+			if (!slug) {
+				return new Response(JSON.stringify({ error: "A valid slug is required" }), {
+					status: 400,
+					headers,
+				});
+			}
+
+			const existing = await db.queryObject<{ id: number }>(
+				`SELECT id FROM topics WHERE slug = $1 LIMIT 1`,
+				[slug],
+			);
+
+			if (existing.rows.length > 0) {
+				return new Response(JSON.stringify({ error: "Topic slug already exists" }), {
+					status: 409,
+					headers,
+				});
+			}
+
+			const created = await db.queryObject<{
+				topic_id: number;
+				name: string;
+				slug: string;
+				article_count: number;
+			}>(
+				`INSERT INTO topics (name, slug)
+				 VALUES ($1, $2)
+				 RETURNING id AS topic_id, name, slug, 0::int AS article_count`,
+				[name, slug],
+			);
+
+			return new Response(JSON.stringify(created.rows[0]), {
+				status: 201,
+				headers,
+			});
 		}
 
 		if (pathname.match(/^\/api\/topics\/\d+\/articles$/) && req.method === "GET") {

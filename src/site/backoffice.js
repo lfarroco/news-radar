@@ -4,6 +4,47 @@ let allTopics = [];
 let selectedTopic = null;
 let selectedArticle = null;
 const API_BASE = "";
+let topicSlugManuallyEdited = false;
+
+function slugify(value) {
+	return (value || "")
+		.toLowerCase()
+		.trim()
+		.replace(/[^a-z0-9\s-]/g, "")
+		.replace(/\s+/g, "-")
+		.replace(/-+/g, "-")
+		.replace(/^-|-$/g, "");
+}
+
+function updateTopicSlugPreview(slug) {
+	const preview = document.getElementById("new-topic-slug-preview");
+	if (!preview) return;
+	preview.textContent = `Slug preview: ${slug || "-"}`;
+}
+
+function handleTopicNameInput() {
+	const nameInput = document.getElementById("new-topic-name");
+	const slugInput = document.getElementById("new-topic-slug");
+	if (!nameInput || !slugInput) return;
+
+	const generated = slugify(nameInput.value);
+	if (!topicSlugManuallyEdited || !slugInput.value.trim()) {
+		slugInput.value = generated;
+	}
+
+	updateTopicSlugPreview(slugInput.value.trim() || generated);
+}
+
+function handleTopicSlugInput() {
+	const slugInput = document.getElementById("new-topic-slug");
+	if (!slugInput) return;
+
+	const cleaned = slugify(slugInput.value);
+	const wasManuallyEdited = slugInput.value.trim().length > 0;
+	slugInput.value = cleaned;
+	topicSlugManuallyEdited = wasManuallyEdited;
+	updateTopicSlugPreview(cleaned);
+}
 
 // Utility functions
 function showStatus(message, type = "info") {
@@ -40,6 +81,45 @@ async function loadTopics() {
 	}
 }
 
+async function createTopic() {
+	const nameInput = document.getElementById("new-topic-name");
+	const slugInput = document.getElementById("new-topic-slug");
+
+	const name = nameInput?.value?.trim() || "";
+	const slug = slugify(slugInput?.value?.trim() || "");
+
+	if (!name) {
+		showStatus("Topic name is required", "error");
+		return;
+	}
+
+	try {
+		showStatus("Creating topic...", "loading");
+		const response = await fetch(`${API_BASE}/api/topics`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ name, slug }),
+		});
+
+		const payload = await response.json();
+
+		if (!response.ok) {
+			throw new Error(payload.error || `HTTP ${response.status}`);
+		}
+
+		nameInput.value = "";
+		slugInput.value = "";
+		topicSlugManuallyEdited = false;
+		updateTopicSlugPreview("");
+		showStatus(`Topic "${payload.name}" created`, "success");
+		await loadTopics();
+	} catch (error) {
+		showStatus(`Failed to create topic: ${error.message}`, "error");
+	}
+}
+
 function renderTopics() {
 	const container = document.getElementById("topics-list");
 
@@ -61,10 +141,18 @@ function renderTopics() {
 		.join("");
 }
 
-function selectTopic(topic) {
+async function selectTopic(topic) {
+	// Toggle selection: clicking the active topic resets to full latest feed
+	if (selectedTopic?.topic_id === topic.topic_id) {
+		selectedTopic = null;
+		renderTopics();
+		await loadArticles();
+		return;
+	}
+
 	selectedTopic = topic;
 	renderTopics();
-	filterArticles();
+	await loadArticlesByTopic(topic.topic_id);
 }
 
 async function loadArticles() {
@@ -79,20 +167,23 @@ async function loadArticles() {
 	}
 }
 
+async function loadArticlesByTopic(topicId) {
+	try {
+		const response = await fetch(`${API_BASE}/api/topics/${topicId}/articles`);
+		if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+		allArticles = await response.json();
+		filterArticles();
+	} catch (error) {
+		showStatus(`Failed to load topic articles: ${error.message}`, "error");
+	}
+}
+
 function filterArticles() {
 	const searchInput = document.getElementById("article-search");
 	const searchTerm = searchInput?.value.toLowerCase() || "";
 
 	let filtered = allArticles;
-
-	if (selectedTopic) {
-		// Filter by selected topic - need to match topic from article data
-		filtered = filtered.filter(
-			(article) =>
-				article.topics?.includes(selectedTopic.name) ||
-				article.topic_name === selectedTopic.name
-		);
-	}
 
 	if (searchTerm) {
 		filtered = filtered.filter(
@@ -259,6 +350,12 @@ document.addEventListener("keydown", (e) => {
 
 // Initialize
 document.addEventListener("DOMContentLoaded", () => {
+	const topicNameInput = document.getElementById("new-topic-name");
+	const topicSlugInput = document.getElementById("new-topic-slug");
+	topicNameInput?.addEventListener("input", handleTopicNameInput);
+	topicSlugInput?.addEventListener("input", handleTopicSlugInput);
+	updateTopicSlugPreview(topicSlugInput?.value?.trim() || "");
+
 	loadData();
 
 	// Auto-refresh data every 30 seconds

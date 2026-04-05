@@ -181,7 +181,7 @@ export const getTopicsList = async () => {
 			topics.name,
 			count(a.id)::int as article_count
 		FROM topics
-		INNER JOIN articles a ON a.topic_id = topics.id
+		LEFT JOIN articles a ON a.topic_id = topics.id
 		GROUP BY topics.id, topics.name, topics.slug
     ORDER BY article_count DESC`);
 	return rows;

@@ -44,6 +44,25 @@ echo ""
 # Start Docker containers
 docker-compose up -d
 
+echo "Waiting for API to become ready..."
+max_attempts=30
+attempt=1
+until curl -fsS http://localhost:8000/api/status >/dev/null 2>&1; do
+    if [ "$attempt" -ge "$max_attempts" ]; then
+        echo ""
+        echo "❌ API did not become ready in time."
+        echo "Check logs: docker-compose logs app"
+        exit 1
+    fi
+
+    printf "."
+    attempt=$((attempt + 1))
+    sleep 2
+done
+
+echo ""
+echo "✓ API is ready"
+
 echo ""
 echo "✓ Services started!"
 echo ""
