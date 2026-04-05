@@ -1,18 +1,22 @@
 import { Annotation } from "@langchain/langgraph";
-import { Article } from "../models.ts";
+import { Article, ArticlePlan } from "../models.ts";
 import type { ResearchSource } from "../tools/tavily.tool.ts";
 
 export const PipelineAnnotation = Annotation.Root({
 	pendingArticles: Annotation<Article[]>({
-		reducer: (a, b) => [...a, ...b],
+		reducer: (_a, b) => b,
 		default: () => [],
 	}),
 	approvedArticles: Annotation<Article[]>({
-		reducer: (a, b) => [...a, ...b],
+		reducer: (_a, b) => b,
+		default: () => [],
+	}),
+	plannedArticles: Annotation<ArticlePlan[]>({
+		reducer: (_a, b) => b,
 		default: () => [],
 	}),
 	scrapedArticles: Annotation<Article[]>({
-		reducer: (a, b) => [...a, ...b],
+		reducer: (_a, b) => b,
 		default: () => [],
 	}),
 	topicResearch: Annotation<Record<string, ResearchSource[]>>({
@@ -20,7 +24,7 @@ export const PipelineAnnotation = Annotation.Root({
 		default: () => ({}),
 	}),
 	writtenArticles: Annotation<Article[]>({
-		reducer: (a, b) => [...a, ...b],
+		reducer: (_a, b) => b,
 		default: () => [],
 	}),
 	errors: Annotation<{ node: string; message: string; articleId?: number }[]>({

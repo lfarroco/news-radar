@@ -15,4 +15,13 @@ export type Article = {
   url: string;
 };
 
+export type ArticlePlan = {
+  id: string;
+  title: string;
+  angle: string;
+  sourceArticleIds: number[];
+  primarySourceId: number;
+  topicHints: string[];
+};
+
 

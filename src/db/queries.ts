@@ -109,6 +109,15 @@ export const getScrapedArticles = async (): Promise<Article[]> => {
 	return rows;
 };
 
+export const getArticlesByIds = async (ids: number[]): Promise<Article[]> => {
+	if (ids.length === 0) return [];
+
+	const placeholders = ids.map((_, idx) => `$${idx + 1}`).join(", ");
+	const query = `SELECT * FROM info WHERE id IN (${placeholders});`;
+	const { rows } = await client.queryObject<Article>(query, ids);
+	return rows;
+};
+
 // ── article writes ─────────────────────────────────────────────────────────
 
 export const insertArticle = (

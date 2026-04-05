@@ -3,6 +3,7 @@ import {
 	setArticleScraped,
 	setArticleStatusByLink,
 	getApprovedArticles,
+	setArticleStatus,
 } from "../db/queries.ts";
 import { logger } from "../logger.ts";
 import { Article } from "../models.ts";
@@ -46,15 +47,27 @@ const runConcurrent = async <T, R>(
 export const scraperNode = async (
 	state: PipelineState,
 ): Promise<Partial<PipelineState>> => {
-	const articles = state.approvedArticles.length > 0
+	let articles = state.approvedArticles.length > 0
 		? state.approvedArticles
 		: await getApprovedArticles();
+
+	if (state.plannedArticles.length > 0) {
+		const selectedIds = new Set(
+			state.plannedArticles.flatMap((plan) => plan.sourceArticleIds),
+		);
+		articles = articles.filter((article) => selectedIds.has(article.id));
+	}
 
 	logger.info({ count: articles.length }, "scraper: starting");
 
 	const results = await runConcurrent(articles, CONCURRENCY, scrapeOne);
 
 	const scraped = results.filter((a): a is Article => a !== null);
+
+	if (scraped.length > 0) {
+		await Promise.all(scraped.map((article) => setArticleStatus(article.id, "scraped")));
+	}
+
 	logger.info({ scraped: scraped.length }, "scraper: finished");
 
 	return { scrapedArticles: scraped };
