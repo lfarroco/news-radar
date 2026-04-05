@@ -150,26 +150,54 @@ Convert imperative helper functions into proper LangChain `DynamicStructuredTool
 
 ---
 
-### 7 — Source expansion
+### 7 — Topic knowledge base
+
+Each tracked topic gets a structured profile that agents can load as context when scanning, filtering, and writing. This replaces the current approach of passing bare topic name strings.
+
+- [ ] Create `src/topics/` directory with one file per topic (e.g. `src/topics/python.ts`)
+- [ ] Define a `TopicProfile` type:
+  ```ts
+  type TopicProfile = {
+    name: string;          // "Python"
+    slug: string;          // "python"
+    description: string;   // short editorial definition used in LLM prompts
+    officialSources: { label: string; url: string }[];   // official blog, changelog, etc.
+    communityForums: { label: string; url: string }[];   // subreddits, Discord, mailing lists
+    rssFeedUrls: string[]; // canonical feeds to poll (moves feed list out of scanner.ts)
+    redditSubreddits: string[];
+    tavilySearchTerms: string[];  // hints for the Research Agent
+    editorialNotes: string;       // e.g. "avoid patch releases < x.y.1, focus on stdlib changes"
+  };
+  ```
+- [ ] Migrate the hard-coded `sources` array in `scanner.ts` into individual topic profiles — the Scanner Agent reads topic profiles instead of a flat list
+- [ ] Store topic profiles in the DB (`topics` table, `profile` JSONB column) so they can be updated at runtime without a code deploy
+- [ ] Add a `KnowledgeBaseTool` (`DynamicStructuredTool`) that the Research and Writer agents can call to fetch the profile for a given topic slug
+- [ ] Inject relevant `editorialNotes` and `description` from the topic profile into the Writer and Filter agent prompts to improve consistency
+- [ ] Add a seed script `src/topics/seed.ts` that upserts all profiles into the DB on first run
+
+---
+
+### 8 — Source expansion
 
 Using the new agent/tool architecture, expand sources cheaply:
 
 - [ ] Add Hacker News official API tool (replace the RSS workaround)
 - [ ] Add GitHub Trending scraper tool
 - [ ] Re-enable Reddit subreddits (currently commented out) via the RedditTool
-- [ ] Add topic-aware filtering hints per source to improve relevance signal
+- [ ] Add topic-aware filtering hints per source to improve relevance signal (use `tavilySearchTerms` from topic profile)
 
 ---
 
-### 8 — Testing
+### 9 — Testing
 
 - [ ] Update `__tests__/main.test.ts` test runner from Deno to **Vitest**
 - [ ] Add unit tests for each graph node using `LangChain FakeListChatModel` to mock LLM responses
 - [ ] Add integration test that runs the full graph against a test DB with fixture RSS data
+- [ ] Add unit tests for `TopicProfile` seed and `KnowledgeBaseTool` retrieval
 
 ---
 
-### 9 — Environment and configuration
+### 10 — Environment and configuration
 
 - [ ] Consolidate all environment variables into a validated config module (`zod` + `dotenv`) at startup
 - [ ] Required vars: `OPENAI_API_KEY`, `DATABASE_URL`, `LANGCHAIN_API_KEY`, `TAVILY_API_KEY`
@@ -181,10 +209,10 @@ Using the new agent/tool architecture, expand sources cheaply:
 
 1. **Tasks 1 + 2** — Runtime + LangChain wiring (unblocks everything)
 2. **Task 4** — Build tools (required by agents)
-3. **Task 3** — LangGraph pipeline (core architectural change)
-4. **Task 6** — DB layer (can be done in parallel with 3)
+3. **Tasks 3 + 6** — LangGraph pipeline + DB layer (can be developed in parallel)
+4. **Task 7** — Topic knowledge base (feeds into scanner, filter, writer, and research agents)
 5. **Task 5** — Observability (add after graph is running)
-6. **Tasks 7 + 8 + 9** — Expansion, tests, config cleanup
+6. **Tasks 8 + 9 + 10** — Source expansion, tests, config cleanup
 
 ---
 
