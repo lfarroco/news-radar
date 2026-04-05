@@ -16,7 +16,7 @@ import {
 	type ResearchSource,
 } from "../tools/tavily.tool.ts";
 
-const RELEVANCE_THRESHOLD = 5;
+const RELEVANCE_THRESHOLD = 7;
 const MAX_CANDIDATES_PER_RUN = 30;
 
 const relevanceSchema = z.object({
@@ -27,13 +27,29 @@ const relevanceSchema = z.object({
 const relevancePrompt = ChatPromptTemplate.fromMessages([
 	[
 		"system",
-		`You are the editor agent for a developer news publication.
-Score relevance from 0-10.
-Criteria:
-- Security fix, major releases, runtime/compiler changes: high
-- Tooling/platform updates with clear developer impact: medium-high
-- Minor patch updates or generic announcements: low-medium
-- Non-technical or community drama: low`,
+		`You are the editor for a developer news site. Score only substantive technical news (7-10).
+
+SCORE 9-10 (PUBLISH):
+- Security vulnerabilities, CVEs, patches with impact
+- Major version releases (1.0, 2.0, major.0)
+- Breaking changes affecting many developers
+- Significant new features in major tools/frameworks
+- Critical bug fixes for widespread issues
+
+SCORE 7-8 (BORDERLINE):
+- Minor version features (.x releases)
+- Ecosystem tool updates (bundlers, linters, CI/CD)
+- Standards/RFC approvals
+
+SCORE 0-6 (REJECT):
+- Random tips, tutorials, "how-to" articles
+- Listicles ("5 patterns", "10 ways", "best practices")
+- Career advice, job posts, "learn X" articles
+- Opinion pieces without technical substance
+- Fundraising, company news, sponsorships
+- Podcast/newsletter announcements
+- Beginner guides
+- Duplicate/old news`,
 	],
 	[
 		"human",
@@ -41,7 +57,8 @@ Criteria:
 Title: {title}
 Snippet: {snippet}
 Source: {source}
-Return score and concise rationale.`,
+
+Only score 7+ if this is substantive breaking news or a major update.`,
 	],
 ]);
 
