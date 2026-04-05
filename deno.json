@@ -6,7 +6,8 @@
     "run": "deno run -A src/main.ts",
     "test": "deno test -A --no-check tests/",
     "seed": "deno run -A src/topics/seed.ts",
-    "scout": "deno run -A src/source-scout.ts"
+    "scout": "deno run -A src/source-scout.ts",
+    "api": "deno run -A src/api.ts"
   },
   "lock": false,
   "imports": {

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>News Radar - Backoffice</title>
+	<link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+	<div class="container">
+		<header>
+			<h1>📡 News Radar Backoffice</h1>
+			<div class="header-actions">
+				<button class="btn btn-primary" onclick="runPipeline()">▶️ Run Pipeline</button>
+				<button class="btn btn-secondary" onclick="compileWebsite()">🔨 Compile Website</button>
+				<button class="btn btn-secondary" onclick="runScout()">🔍 Scout Sources</button>
+			</div>
+		</header>
+
+		<main>
+			<div class="content-grid">
+				<!-- Topics Panel -->
+				<section class="panel">
+					<h2>Topics</h2>
+					<div id="topics-list" class="topics-list">
+						<p class="loading">Loading topics...</p>
+					</div>
+				</section>
+
+				<!-- Articles Panel -->
+				<section class="panel">
+					<h2>Articles</h2>
+					<div class="search-box">
+						<input
+							type="text"
+							id="article-search"
+							placeholder="Search articles..."
+							onkeyup="filterArticles()"
+						/>
+					</div>
+					<div id="articles-list" class="articles-list">
+						<p class="loading">Loading articles...</p>
+					</div>
+				</section>
+			</div>
+
+			<!-- Article Editor Modal -->
+			<div id="editor-modal" class="modal" style="display: none">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h2>Edit Article</h2>
+						<button class="btn-close" onclick="closeEditor()">✕</button>
+					</div>
+					<div class="modal-body">
+						<form id="editor-form">
+							<div class="form-group">
+								<label>Title</label>
+								<input type="text" id="editor-title" placeholder="Article title" />
+							</div>
+							<div class="form-group">
+								<label>Content</label>
+								<textarea id="editor-content" placeholder="Article content"></textarea>
+							</div>
+							<div class="form-group">
+								<label>Topic</label>
+								<input type="text" id="editor-topic" placeholder="Topic" readonly />
+							</div>
+							<div class="form-group">
+								<label>URL</label>
+								<input type="url" id="editor-url" placeholder="Article URL" readonly />
+							</div>
+							<div class="form-group">
+								<label>Slug</label>
+								<input type="text" id="editor-slug" placeholder="Article slug" />
+							</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" onclick="closeEditor()">
+							Cancel
+						</button>
+						<button type="button" class="btn btn-primary" onclick="saveArticle()">
+							Save Changes
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<!-- Status Indicator -->
+		<div class="status-bar">
+			<div id="status-message" class="status-message"></div>
+		</div>
+	</main>
+	</div>
+
+	<script src="/app.js"></script>
+</body>
+</html>

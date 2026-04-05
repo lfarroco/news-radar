@@ -13,6 +13,8 @@ const configSchema = z.object({
 	DB_USER: z.string().optional().default("root"),
 	DB_PASSWORD: z.string().optional().default("root"),
 	DB_NAME: z.string().optional().default("root"),
+	API_PORT: z.string().optional().default("8000"),
+	PROJECT_ROOT: z.string().optional().default("/usr/src/app"),
 });
 
 export type Config = z.infer<typeof configSchema>;
@@ -31,6 +33,8 @@ export const loadConfig = (): Config => {
 		DB_USER: Deno.env.get("DB_USER"),
 		DB_PASSWORD: Deno.env.get("DB_PASSWORD"),
 		DB_NAME: Deno.env.get("DB_NAME"),
+		API_PORT: Deno.env.get("API_PORT"),
+		PROJECT_ROOT: Deno.env.get("PROJECT_ROOT"),
 	};
 
 	const result = configSchema.safeParse(raw);

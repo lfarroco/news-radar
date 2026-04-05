@@ -1,0 +1,271 @@
+import { serve } from "https://deno.land/std@0.208.0/http/server.ts";
+import { connect, getTopicsList, getTopicArticles, getLatestArticles, client as db } from "./db.ts";
+import { loadConfig } from "./config.ts";
+import { logger } from "./logger.ts";
+
+const config = loadConfig();
+
+// Connect to database
+await connect(config.DB_HOST, Number(config.DB_PORT));
+
+// Task status tracking
+const taskStatus: Record<string, { status: string; startTime: number; message: string; output?: string; error?: string }> = {};
+
+const cors = (headers: HeadersInit = {}) => ({
+	"Access-Control-Allow-Origin": "*",
+	"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+	"Access-Control-Allow-Headers": "Content-Type",
+	...headers,
+});
+
+async function handleRequest(req: Request): Promise<Response> {
+	const url = new URL(req.url);
+	const pathname = url.pathname;
+
+	// Handle CORS preflight
+	if (req.method === "OPTIONS") {
+		return new Response(null, { headers: cors() });
+	}
+
+	const headers = cors({ "Content-Type": "application/json" });
+
+	try {
+		// API Routes
+		if (pathname === "/api/status" && req.method === "GET") {
+			return new Response(JSON.stringify({
+				status: "running",
+				message: "Backoffice API is running",
+				time: new Date().toISOString(),
+				database: "connected",
+				port: config.API_PORT
+			}), { headers });
+		}
+
+		if (pathname === "/api/tasks/status" && req.method === "GET") {
+			return new Response(JSON.stringify(taskStatus), { headers });
+		}
+
+		if (pathname === "/api/topics" && req.method === "GET") {
+			const topics = await getTopicsList();
+			return new Response(JSON.stringify(topics), { headers });
+		}
+
+		if (pathname.match(/^\/api\/topics\/\d+\/articles$/) && req.method === "GET") {
+			const topicId = Number(pathname.split("/")[3]);
+			const articles = await getTopicArticles(topicId);
+			return new Response(JSON.stringify(articles), { headers });
+		}
+
+		if (pathname === "/api/articles" && req.method === "GET") {
+			const articles = await getLatestArticles();
+			return new Response(JSON.stringify(articles), { headers });
+		}
+
+		if (pathname.match(/^\/api\/articles\/\d+$/) && req.method === "GET") {
+			const articleId = Number(pathname.split("/")[3]);
+			const articles = await getLatestArticles();
+			const article = articles.find((a) => a.id === articleId);
+			if (!article) {
+				return new Response(JSON.stringify({ error: "Article not found" }), {
+					status: 404,
+					headers,
+				});
+			}
+			return new Response(JSON.stringify(article), { headers });
+		}
+
+		if (pathname.match(/^\/api\/articles\/\d+$/) && req.method === "PUT") {
+			const articleId = Number(pathname.split("/")[3]);
+			const data = await req.json();
+
+			// Update article in database
+			await db.queryArray(
+				`UPDATE articles 
+				 SET title = $1, body = $2, slug = $3
+				 WHERE id = $4`,
+				[data.title, data.body, data.slug, articleId]
+			);
+
+			return new Response(JSON.stringify({ success: true }), { headers });
+		}
+
+		// Task endpoints
+		if (pathname === "/api/tasks/run" && req.method === "POST") {
+			// Start the news radar pipeline
+			logger.info("Task: Starting pipeline");
+			taskStatus.run = { status: "running", startTime: Date.now(), message: "Pipeline is running..." };
+			const command = new Deno.Command("bash", {
+				args: ["-c", "cd /usr/src/app && deno task run"],
+				stdout: "piped",
+				stderr: "piped",
+			});
+
+			const child = command.spawn();
+
+			// Log output in background without blocking
+			(async () => {
+				try {
+					const output = await child.output();
+					const out = new TextDecoder().decode(output.stdout);
+					const err = new TextDecoder().decode(output.stderr);
+					if (output.success) {
+						logger.info("Task: Pipeline completed successfully");
+						taskStatus.run = { status: "completed", startTime: Date.now(), message: "Pipeline completed" };
+					} else {
+						logger.error({ stdout: out, stderr: err }, "Task: Pipeline failed");
+						taskStatus.run = { status: "failed", startTime: Date.now(), message: "Pipeline failed", error: err };
+					}
+				} catch (e) {
+					logger.error(e, "Task: Pipeline error");
+					taskStatus.run = { status: "error", startTime: Date.now(), message: "Pipeline error", error: String(e) };
+				}
+			})();
+
+			return new Response(JSON.stringify({ status: "started", message: "Pipeline started in background" }), {
+				headers,
+			});
+		}
+
+		if (pathname === "/api/tasks/compile" && req.method === "POST") {
+			// Compile the website
+			logger.info("Task: Starting compile");
+			taskStatus.compile = { status: "running", startTime: Date.now(), message: "Compiling website..." };
+			const command = new Deno.Command("bash", {
+				args: ["-c", "cd /usr/src/app && deno task build"],
+				stdout: "piped",
+				stderr: "piped",
+			});
+
+			try {
+				const output = await command.output();
+				const out = new TextDecoder().decode(output.stdout);
+				const err = new TextDecoder().decode(output.stderr);
+
+				if (output.success) {
+					logger.info("Task: Compile completed successfully");
+					taskStatus.compile = { status: "completed", startTime: Date.now(), message: "Website compiled successfully", output: out };
+					return new Response(
+						JSON.stringify({
+							status: "completed",
+							message: "Website compiled successfully",
+							output: out,
+						}),
+						{ headers }
+					);
+				} else {
+					logger.error({ stdout: out, stderr: err }, "Task: Compile failed");
+					taskStatus.compile = { status: "failed", startTime: Date.now(), message: "Failed to compile website", error: err };
+					return new Response(
+						JSON.stringify({
+							status: "failed",
+							message: "Failed to compile website",
+							error: err,
+						}),
+						{ status: 500, headers }
+					);
+				}
+			} catch (error) {
+				logger.error(error, "Task: Compile error");
+				taskStatus.compile = { status: "error", startTime: Date.now(), message: "Error running compile", error: error.message };
+				return new Response(
+					JSON.stringify({
+						status: "failed",
+						message: "Error running compile",
+						error: error.message,
+					}),
+					{ status: 500, headers }
+				);
+			}
+		}
+
+		if (pathname === "/api/tasks/scout" && req.method === "POST") {
+			// Run source scout
+			logger.info("Task: Starting scout");
+			taskStatus.scout = { status: "running", startTime: Date.now(), message: "Scout is running..." };
+			const command = new Deno.Command("bash", {
+				args: ["-c", "cd /usr/src/app && deno task scout"],
+				stdout: "piped",
+				stderr: "piped",
+			});
+
+			const child = command.spawn();
+
+			// Log output in background without blocking
+			(async () => {
+				try {
+					const output = await child.output();
+					const out = new TextDecoder().decode(output.stdout);
+					const err = new TextDecoder().decode(output.stderr);
+					if (output.success) {
+						logger.info("Task: Scout completed successfully");
+						taskStatus.scout = { status: "completed", startTime: Date.now(), message: "Scout completed" };
+					} else {
+						logger.error({ stdout: out, stderr: err }, "Task: Scout failed");
+						taskStatus.scout = { status: "failed", startTime: Date.now(), message: "Scout failed", error: err };
+					}
+				} catch (e) {
+					logger.error(e, "Task: Scout error");
+					taskStatus.scout = { status: "error", startTime: Date.now(), message: "Scout error", error: String(e) };
+				}
+			})();
+
+			return new Response(JSON.stringify({ status: "started", message: "Scout started in background" }), {
+				headers,
+			});
+		}
+
+		// Status endpoint
+		if (pathname === "/api/status" && req.method === "GET") {
+			return new Response(JSON.stringify({
+				status: "running",
+				message: "Backoffice API is running",
+				time: new Date().toISOString(),
+				database: "connected",
+				port: config.API_PORT
+			}), { headers });
+		}
+
+		// Serve backoffice UI
+		if (pathname === "/" || pathname === "/backoffice") {
+			const ui = await Deno.readTextFile(
+				new URL("./site/backoffice.html", import.meta.url).pathname
+			);
+			return new Response(ui, {
+				headers: { ...cors(), "Content-Type": "text/html" },
+			});
+		}
+
+		if (pathname === "/app.js") {
+			const js = await Deno.readTextFile(
+				new URL("./site/backoffice.js", import.meta.url).pathname
+			);
+			return new Response(js, {
+				headers: { ...cors(), "Content-Type": "application/javascript" },
+			});
+		}
+
+		if (pathname === "/styles.css") {
+			const css = await Deno.readTextFile(
+				new URL("./site/backoffice.css", import.meta.url).pathname
+			);
+			return new Response(css, {
+				headers: { ...cors(), "Content-Type": "text/css" },
+			});
+		}
+
+		return new Response(JSON.stringify({ error: "Not found" }), {
+			status: 404,
+			headers,
+		});
+	} catch (error) {
+		logger.error(error, "API error");
+		return new Response(JSON.stringify({ error: error.message }), {
+			status: 500,
+			headers,
+		});
+	}
+}
+
+const port = Number(config.API_PORT || "8000");
+logger.info(`Backoffice API starting on port ${port}`);
+serve(handleRequest, { port });

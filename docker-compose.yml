@@ -6,10 +6,12 @@ services:
       - .env
     depends_on:
       - postgres
+    command: deno task api
     volumes:
       - ./:/usr/src/app/
     ports:
       - "3000:3000"
+      - "8000:8000"
 
   postgres:
     image: postgres:14.1-alpine
