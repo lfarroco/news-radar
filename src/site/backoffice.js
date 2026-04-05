@@ -3,6 +3,7 @@ let allArticles = [];
 let allTopics = [];
 let selectedTopic = null;
 let selectedArticle = null;
+let selectedTopicForEdit = null;
 const API_BASE = "";
 let topicSlugManuallyEdited = false;
 
@@ -20,6 +21,19 @@ function updateTopicSlugPreview(slug) {
 	const preview = document.getElementById("new-topic-slug-preview");
 	if (!preview) return;
 	preview.textContent = `Slug preview: ${slug || "-"}`;
+}
+
+function updateHeaderCounts() {
+	const topicsCountEl = document.getElementById("topics-count-header");
+	const articlesCountEl = document.getElementById("articles-count-header");
+	if (topicsCountEl) topicsCountEl.textContent = String(allTopics.length);
+	if (articlesCountEl) articlesCountEl.textContent = String(allArticles.length);
+}
+
+function focusSection(sectionId) {
+	const section = document.getElementById(sectionId);
+	if (!section) return;
+	section.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function handleTopicNameInput() {
@@ -75,6 +89,7 @@ async function loadTopics() {
 		if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
 		allTopics = await response.json();
+		updateHeaderCounts();
 		renderTopics();
 	} catch (error) {
 		showStatus(`Failed to load topics: ${error.message}`, "error");
@@ -134,11 +149,67 @@ function renderTopics() {
 		<div class="topic-item ${selectedTopic?.topic_id === topic.topic_id ? "active" : ""}" 
 		     onclick="selectTopic(${JSON.stringify(topic).replace(/"/g, "&quot;")})">
 			<div class="topic-name">${escapeHtml(topic.name)}</div>
-			<div class="topic-count">${topic.article_count} articles</div>
+			<div class="topic-actions">
+				<div class="topic-count">${topic.article_count} articles</div>
+				<button class="topic-edit-btn" onclick="editTopic(event, ${JSON.stringify(topic).replace(/"/g, "&quot;")})">Edit</button>
+			</div>
 		</div>
 	`
 		)
 		.join("");
+}
+
+function editTopic(event, topic) {
+	event.stopPropagation();
+	selectedTopicForEdit = topic;
+
+	document.getElementById("topic-editor-name").value = topic.name || "";
+	document.getElementById("topic-editor-slug").value = topic.slug || "";
+	document.getElementById("topic-editor-count").value = `${topic.article_count ?? 0} articles`;
+	document.getElementById("topic-editor-modal").style.display = "flex";
+}
+
+function closeTopicEditor() {
+	document.getElementById("topic-editor-modal").style.display = "none";
+	selectedTopicForEdit = null;
+}
+
+async function saveTopic() {
+	if (!selectedTopicForEdit) return;
+
+	const name = document.getElementById("topic-editor-name").value.trim();
+	const slug = slugify(document.getElementById("topic-editor-slug").value.trim() || name);
+
+	if (!name) {
+		showStatus("Topic name is required", "error");
+		return;
+	}
+
+	try {
+		showStatus("Saving topic...", "loading");
+		const response = await fetch(`${API_BASE}/api/topics/${selectedTopicForEdit.topic_id}`, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ name, slug }),
+		});
+
+		const payload = await response.json();
+		if (!response.ok) {
+			throw new Error(payload.error || `HTTP ${response.status}`);
+		}
+
+		showStatus(`Topic "${payload.name}" saved`, "success");
+		closeTopicEditor();
+		await loadTopics();
+
+		if (selectedTopic?.topic_id === selectedTopicForEdit?.topic_id) {
+			selectedTopic = { ...selectedTopic, name: payload.name, slug: payload.slug };
+		}
+	} catch (error) {
+		showStatus(`Failed to save topic: ${error.message}`, "error");
+	}
 }
 
 async function selectTopic(topic) {
@@ -161,6 +232,7 @@ async function loadArticles() {
 		if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
 		allArticles = await response.json();
+		updateHeaderCounts();
 		filterArticles();
 	} catch (error) {
 		showStatus(`Failed to load articles: ${error.message}`, "error");
@@ -173,6 +245,7 @@ async function loadArticlesByTopic(topicId) {
 		if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
 		allArticles = await response.json();
+		updateHeaderCounts();
 		filterArticles();
 	} catch (error) {
 		showStatus(`Failed to load topic articles: ${error.message}`, "error");

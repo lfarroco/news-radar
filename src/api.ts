@@ -109,6 +109,91 @@ async function handleRequest(req: Request): Promise<Response> {
 			});
 		}
 
+		if (pathname.match(/^\/api\/topics\/\d+$/) && req.method === "GET") {
+			const topicId = Number(pathname.split("/")[3]);
+			const result = await db.queryObject<{
+				topic_id: number;
+				name: string;
+				slug: string;
+				article_count: number;
+			}>(
+				`SELECT
+					t.id AS topic_id,
+					t.name,
+					t.slug,
+					COUNT(a.id)::int AS article_count
+				 FROM topics t
+				 LEFT JOIN articles a ON a.topic_id = t.id
+				 WHERE t.id = $1
+				 GROUP BY t.id, t.name, t.slug`,
+				[topicId],
+			);
+
+			if (!result.rows[0]) {
+				return new Response(JSON.stringify({ error: "Topic not found" }), {
+					status: 404,
+					headers,
+				});
+			}
+
+			return new Response(JSON.stringify(result.rows[0]), { headers });
+		}
+
+		if (pathname.match(/^\/api\/topics\/\d+$/) && req.method === "PUT") {
+			const topicId = Number(pathname.split("/")[3]);
+			const data = await req.json();
+			const name = (data?.name ?? "").trim();
+			const rawSlug = (data?.slug ?? "").trim();
+			const slug = toSlug(rawSlug || name);
+
+			if (!name) {
+				return new Response(JSON.stringify({ error: "Topic name is required" }), {
+					status: 400,
+					headers,
+				});
+			}
+
+			if (!slug) {
+				return new Response(JSON.stringify({ error: "A valid slug is required" }), {
+					status: 400,
+					headers,
+				});
+			}
+
+			const existing = await db.queryObject<{ id: number }>(
+				`SELECT id FROM topics WHERE slug = $1 AND id <> $2 LIMIT 1`,
+				[slug, topicId],
+			);
+
+			if (existing.rows.length > 0) {
+				return new Response(JSON.stringify({ error: "Topic slug already exists" }), {
+					status: 409,
+					headers,
+				});
+			}
+
+			const updated = await db.queryObject<{
+				topic_id: number;
+				name: string;
+				slug: string;
+			}>(
+				`UPDATE topics
+				 SET name = $1, slug = $2
+				 WHERE id = $3
+				 RETURNING id AS topic_id, name, slug`,
+				[name, slug, topicId],
+			);
+
+			if (!updated.rows[0]) {
+				return new Response(JSON.stringify({ error: "Topic not found" }), {
+					status: 404,
+					headers,
+				});
+			}
+
+			return new Response(JSON.stringify(updated.rows[0]), { headers });
+		}
+
 		if (pathname.match(/^\/api\/topics\/\d+\/articles$/) && req.method === "GET") {
 			const topicId = Number(pathname.split("/")[3]);
 			const articles = await getTopicArticles(topicId);

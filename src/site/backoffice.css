@@ -43,6 +43,7 @@ header {
 	justify-content: space-between;
 	align-items: center;
 	gap: 2rem;
+	flex-wrap: wrap;
 }
 
 header h1 {
@@ -54,6 +55,40 @@ header h1 {
 	display: flex;
 	gap: 1rem;
 	flex-wrap: wrap;
+}
+
+.header-sections {
+	display: flex;
+	gap: 0.75rem;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.section-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.45rem 0.75rem;
+	border: 1px solid var(--border);
+	border-radius: 999px;
+	background: rgba(15, 23, 42, 0.65);
+	color: var(--text);
+	cursor: pointer;
+	font-size: 0.9rem;
+	transition: all 0.2s;
+}
+
+.section-pill strong {
+	padding: 0.1rem 0.45rem;
+	border-radius: 999px;
+	background: rgba(59, 130, 246, 0.2);
+	color: #bfdbfe;
+	font-size: 0.82rem;
+}
+
+.section-pill:hover {
+	border-color: rgba(59, 130, 246, 0.65);
+	background: rgba(59, 130, 246, 0.15);
 }
 
 main {
@@ -188,6 +223,29 @@ main {
 .topic-name {
 	flex: 1;
 	font-weight: 500;
+}
+
+.topic-actions {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.topic-edit-btn {
+	padding: 0.25rem 0.6rem;
+	background: rgba(59, 130, 246, 0.18);
+	border: 1px solid rgba(59, 130, 246, 0.45);
+	border-radius: 0.25rem;
+	color: var(--text);
+	cursor: pointer;
+	font-size: 0.8rem;
+	font-weight: 600;
+	transition: all 0.2s;
+}
+
+.topic-edit-btn:hover {
+	background: rgba(59, 130, 246, 0.32);
+	border-color: rgba(59, 130, 246, 0.65);
 }
 
 .topic-count {

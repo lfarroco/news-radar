@@ -10,6 +10,16 @@
 	<div class="container">
 		<header>
 			<h1>📡 News Radar Backoffice</h1>
+			<div class="header-sections">
+				<button class="section-pill" onclick="focusSection('topics-panel')">
+					<span>Topics</span>
+					<strong id="topics-count-header">0</strong>
+				</button>
+				<button class="section-pill" onclick="focusSection('articles-panel')">
+					<span>Articles</span>
+					<strong id="articles-count-header">0</strong>
+				</button>
+			</div>
 			<div class="header-actions">
 				<button class="btn btn-primary" onclick="runPipeline()">▶️ Run Pipeline</button>
 				<button class="btn btn-secondary" onclick="compileWebsite()">🔨 Compile Website</button>
@@ -20,7 +30,7 @@
 		<main>
 			<div class="content-grid">
 				<!-- Topics Panel -->
-				<section class="panel">
+				<section class="panel" id="topics-panel">
 					<h2>Topics</h2>
 					<div class="topic-create-box">
 						<input
@@ -42,7 +52,7 @@
 				</section>
 
 				<!-- Articles Panel -->
-				<section class="panel">
+				<section class="panel" id="articles-panel">
 					<h2>Articles</h2>
 					<div class="search-box">
 						<input
@@ -97,6 +107,38 @@
 						</button>
 					</div>
 				</form>
+			</div>
+		</div>
+
+		<!-- Topic Editor Modal -->
+		<div id="topic-editor-modal" class="modal" style="display: none">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2>Edit Topic</h2>
+					<button class="btn-close" onclick="closeTopicEditor()">✕</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label>Topic Name</label>
+						<input type="text" id="topic-editor-name" placeholder="Topic name" />
+					</div>
+					<div class="form-group">
+						<label>Topic Slug</label>
+						<input type="text" id="topic-editor-slug" placeholder="topic-slug" />
+					</div>
+					<div class="form-group">
+						<label>Articles</label>
+						<input type="text" id="topic-editor-count" readonly />
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" onclick="closeTopicEditor()">
+						Cancel
+					</button>
+					<button type="button" class="btn btn-primary" onclick="saveTopic()">
+						Save Topic
+					</button>
+				</div>
 			</div>
 		</div>
 
