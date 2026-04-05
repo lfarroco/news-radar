@@ -1,6 +1,7 @@
 import { StateGraph, END } from "@langchain/langgraph";
 import { PipelineAnnotation } from "./state.ts";
 import { scannerNode } from "../nodes/scanner.node.ts";
+import { researcherNode } from "../nodes/researcher.node.ts";
 import { filterNode } from "../nodes/filter.node.ts";
 import { scraperNode } from "../nodes/scraper.node.ts";
 import { writerNode } from "../nodes/writer.node.ts";
@@ -13,13 +14,15 @@ const filterRouter = (state: typeof PipelineAnnotation.State) =>
 export const buildGraph = () => {
 	const graph = new StateGraph(PipelineAnnotation)
 		.addNode("scanner", scannerNode)
+		.addNode("researcher", researcherNode)
 		.addNode("filter", filterNode)
 		.addNode("scraper", scraperNode)
 		.addNode("writer", writerNode)
 		.addNode("editor", editorNode)
 		.addNode("publisher", publisherNode)
 		.addEdge("__start__", "scanner")
-		.addEdge("scanner", "filter")
+		.addEdge("scanner", "researcher")
+		.addEdge("researcher", "filter")
 		.addConditionalEdges("filter", filterRouter, {
 			scraper: "scraper",
 			[END]: END,

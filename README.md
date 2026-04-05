@@ -19,6 +19,7 @@ Then edit `.env` and add your Groq key.
 ```
 GROQ_API_KEY=gsk_...
 GROQ_MODEL=llama-3.3-70b-versatile
+TAVILY_API_KEY=tvly_...
 ```
 
 ### How it works:
@@ -29,19 +30,24 @@ The system performs the following steps:
 Collects top items from the source URLs. Results are stored in a database and
 each item is marked as "pending".
 
-2 -
+2 - Researcher\
+Looks up additional web sources for detected topics (when `TAVILY_API_KEY` is configured),
+so downstream steps have extra context.
+
+3 -
 [Revalance filter](https://github.com/lfarroco/news-radar/blob/main/src/candidates.ts)\
 Picks "pending" items and asks the AI to identify what are the most relevant
 ones according to the target audience. Items are marked as "approved".
 
-3 - Scrapper\
+4 - Scrapper\
 Articles marked as "approved" are scraped. The resulting content is stored in
 the database.
 
-4 - [Writer](https://github.com/lfarroco/news-radar/blob/main/src/writer.ts)\
-Asks the AI write a summary about the scraped article.
+5 - Writer\
+Asks the AI to write a summary about the scraped article. The writer can also
+enrich drafts with additional online context (via Tavily) when needed.
 
-5 - Publisher\
+6 - Publisher\
 Processed items are published to a static website using Lume.
 
 ### Workflow:

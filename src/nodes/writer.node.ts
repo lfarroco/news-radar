@@ -12,6 +12,10 @@ import { loadConfig } from "../config.ts";
 const config = loadConfig();
 import { Article } from "../models.ts";
 import type { PipelineState } from "../graph/state.ts";
+import {
+	searchOnlineSources,
+	type ResearchSource,
+} from "../tools/tavily.tool.ts";
 
 const MAX_INPUT_LENGTH = 3000;
 
@@ -29,6 +33,9 @@ Reference article title: {title}
 
 Reference article content:
 {content}
+
+Additional online context (sources + snippets):
+{researchContext}
 `;
 
 const prompt = ChatPromptTemplate.fromMessages([
@@ -36,14 +43,111 @@ const prompt = ChatPromptTemplate.fromMessages([
 	["human", HUMAN],
 ]);
 
-const writeOne = async (article: Article): Promise<Article | null> => {
+const parseTopicsField = (raw: string | undefined): string[] => {
+	if (!raw) return [];
+
+	try {
+		const parsed = JSON.parse(raw);
+		if (Array.isArray(parsed)) {
+			return parsed
+				.filter((v): v is string => typeof v === "string")
+				.map((v) => v.trim())
+				.filter(Boolean);
+		}
+	} catch {
+		// Ignore malformed topics JSON.
+	}
+
+	return [];
+};
+
+const parseTopicsFromTitle = (title: string): string[] => {
+	const [prefix] = title.split(" - ", 1);
+	if (!prefix || !title.includes(" - ")) return [];
+
+	return prefix
+		.split(",")
+		.map((s) => s.trim())
+		.filter(Boolean);
+};
+
+const dedupeSources = (sources: ResearchSource[]): ResearchSource[] => {
+	const seen = new Set<string>();
+	const out: ResearchSource[] = [];
+	for (const source of sources) {
+		if (!source.url || seen.has(source.url)) continue;
+		seen.add(source.url);
+		out.push(source);
+	}
+	return out;
+};
+
+const buildResearchContext = (
+	sources: ResearchSource[],
+): string => {
+	if (sources.length === 0) return "No additional sources found.";
+
+	return sources
+		.slice(0, 6)
+		.map((source, idx) => {
+			const snippet = source.content.substring(0, 240);
+			return [
+				`Source ${idx + 1}: ${source.title}`,
+				`URL: ${source.url}`,
+				`Snippet: ${snippet}`,
+			].join("\n");
+		})
+		.join("\n\n");
+};
+
+const collectResearchForArticle = async (
+	article: Article,
+	topicResearch: Record<string, ResearchSource[]>,
+): Promise<ResearchSource[]> => {
+	const topics = new Set<string>();
+
+	for (const topic of parseTopicsField(article.topics)) topics.add(topic.toLowerCase());
+	for (const topic of parseTopicsFromTitle(article.title)) topics.add(topic.toLowerCase());
+
+	const fromTopics: ResearchSource[] = [];
+	for (const topic of topics) {
+		const sources = topicResearch[topic] ?? [];
+		fromTopics.push(...sources);
+	}
+
+	let sources = dedupeSources(fromTopics);
+
+	if (sources.length < 2 && config.TAVILY_API_KEY) {
+		try {
+			const query = `${article.title} release notes changelog technical details`;
+			const fallback = await searchOnlineSources(query, 3);
+			sources = dedupeSources([...sources, ...fallback]);
+		} catch (err) {
+			logger.warn(
+				{ err, articleId: article.id },
+				"writer: online fallback lookup failed",
+			);
+		}
+	}
+
+	return sources;
+};
+
+const writeOne = async (
+	article: Article,
+	topicResearch: Record<string, ResearchSource[]>,
+): Promise<Article | null> => {
 	const llm = makeLlm(0.4).withStructuredOutput(articleOutputSchema);
 	const chain = prompt.pipe(llm);
 
 	try {
+		const researchSources = await collectResearchForArticle(article, topicResearch);
+		const researchContext = buildResearchContext(researchSources);
+
 		const result = await chain.invoke({
 			title: article.title,
 			content: article.original.substring(0, MAX_INPUT_LENGTH),
+			researchContext,
 		});
 
 		const formattedDate = article.date
@@ -100,7 +204,11 @@ export const writerNode = async (
 
 	logger.info({ count: articles.length }, "writer: starting");
 
-	const results = await runConcurrent(articles, 3, writeOne);
+	const topicResearch = state.topicResearch ?? {};
+
+	const results = await runConcurrent(articles, 3, (article) =>
+		writeOne(article, topicResearch)
+	);
 	const written = results.filter((a): a is Article => a !== null);
 
 	logger.info({ written: written.length }, "writer: finished");

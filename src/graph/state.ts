@@ -1,5 +1,6 @@
 import { Annotation } from "@langchain/langgraph";
 import { Article } from "../models.ts";
+import type { ResearchSource } from "../tools/tavily.tool.ts";
 
 export const PipelineAnnotation = Annotation.Root({
 	pendingArticles: Annotation<Article[]>({
@@ -13,6 +14,10 @@ export const PipelineAnnotation = Annotation.Root({
 	scrapedArticles: Annotation<Article[]>({
 		reducer: (a, b) => [...a, ...b],
 		default: () => [],
+	}),
+	topicResearch: Annotation<Record<string, ResearchSource[]>>({
+		reducer: (a, b) => ({ ...a, ...b }),
+		default: () => ({}),
 	}),
 	writtenArticles: Annotation<Article[]>({
 		reducer: (a, b) => [...a, ...b],
