@@ -1,6 +1,7 @@
 .env
 
 dbdump.sql
+_site/
 
 # Logs
 logs

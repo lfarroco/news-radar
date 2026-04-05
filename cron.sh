@@ -13,10 +13,10 @@ do
     break
   fi
 
-  git add _site/
-  git commit -m "automated run at $(date)"
-  git push origin main
-  make dump-db
+  if ! make dump-db ; then
+    echo "Failed to dump database backup"
+    break
+  fi
 
   echo "Finished running at $(date)"
   #every hour 

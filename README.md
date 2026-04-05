@@ -61,6 +61,11 @@ Running `make run` will scan the sources and write the news into the database.
 Running `make build-pages` will use the updated db to generate the static
 website under `_site`
 
+The `_site` directory is a generated build artifact and should not be committed
+to git. Rebuild it from the database and templates when you need to publish or
+serve the site.
+
 Running `make serve` will build the static website and serve it at port `3000`.
 
-Running `sh cron.sh` will scan and write website files. It runs every hour.
+Running `sh cron.sh` will scan, rebuild the site locally, and refresh the local
+database dump. It runs every hour.
