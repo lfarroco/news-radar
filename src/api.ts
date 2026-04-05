@@ -200,6 +200,34 @@ async function handleRequest(req: Request): Promise<Response> {
 			return new Response(JSON.stringify(articles), { headers });
 		}
 
+		if (pathname.match(/^\/api\/topics\/\d+\/knowledge-base$/) && req.method === "GET") {
+			const topicId = Number(pathname.split("/")[3]);
+			const notes = await db.queryObject<{
+				id: number;
+				note_type: string;
+				content: string;
+				source_url: string | null;
+				added_by_agent: string;
+				updated_at: Date;
+			}>(
+				`SELECT
+					n.id,
+					n.note_type,
+					n.content,
+					n.source_url,
+					n.added_by_agent,
+					n.updated_at
+				 FROM topic_notes n
+				 WHERE n.topic_id = $1
+				   AND n.is_active = true
+				 ORDER BY n.updated_at DESC
+				 LIMIT 50`,
+				[topicId],
+			);
+
+			return new Response(JSON.stringify(notes.rows), { headers });
+		}
+
 		if (pathname === "/api/articles" && req.method === "GET") {
 			const articles = await getLatestArticles();
 			return new Response(JSON.stringify(articles), { headers });

@@ -195,6 +195,73 @@ main {
 	overflow-y: auto;
 }
 
+.knowledge-base-box {
+	margin-top: 1rem;
+	padding-top: 1rem;
+	border-top: 1px solid var(--border);
+}
+
+.knowledge-base-box h3 {
+	font-size: 1rem;
+	margin-bottom: 0.75rem;
+	color: var(--text);
+}
+
+.knowledge-base-list {
+	max-height: 220px;
+	overflow-y: auto;
+	display: grid;
+	gap: 0.6rem;
+}
+
+.kb-note {
+	background: var(--bg);
+	border: 1px solid var(--border);
+	border-radius: 0.4rem;
+	padding: 0.65rem;
+}
+
+.kb-note-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 0.5rem;
+	margin-bottom: 0.35rem;
+}
+
+.kb-note-type {
+	font-size: 0.75rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+	color: #bfdbfe;
+	background: rgba(59, 130, 246, 0.2);
+	padding: 0.12rem 0.45rem;
+	border-radius: 999px;
+}
+
+.kb-note-date {
+	font-size: 0.75rem;
+	color: var(--text-muted);
+}
+
+.kb-note-content {
+	font-size: 0.9rem;
+	line-height: 1.35;
+	color: var(--text);
+	margin-bottom: 0.4rem;
+}
+
+.kb-note-source {
+	font-size: 0.8rem;
+	color: #93c5fd;
+	text-decoration: none;
+}
+
+.kb-note-source:hover {
+	text-decoration: underline;
+}
+
 .topic-item,
 .article-item {
 	padding: 0.75rem;

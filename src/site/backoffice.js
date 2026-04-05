@@ -1,6 +1,7 @@
 // State
 let allArticles = [];
 let allTopics = [];
+let allKnowledgeBaseNotes = [];
 let selectedTopic = null;
 let selectedArticle = null;
 let selectedTopicForEdit = null;
@@ -34,6 +35,20 @@ function focusSection(sectionId) {
 	const section = document.getElementById(sectionId);
 	if (!section) return;
 	section.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function formatDateTime(dateStr) {
+	try {
+		const date = new Date(dateStr);
+		return date.toLocaleString("en-US", {
+			month: "short",
+			day: "numeric",
+			hour: "2-digit",
+			minute: "2-digit",
+		});
+	} catch {
+		return "";
+	}
 }
 
 function handleTopicNameInput() {
@@ -216,6 +231,8 @@ async function selectTopic(topic) {
 	// Toggle selection: clicking the active topic resets to full latest feed
 	if (selectedTopic?.topic_id === topic.topic_id) {
 		selectedTopic = null;
+		allKnowledgeBaseNotes = [];
+		renderKnowledgeBase();
 		renderTopics();
 		await loadArticles();
 		return;
@@ -223,7 +240,10 @@ async function selectTopic(topic) {
 
 	selectedTopic = topic;
 	renderTopics();
-	await loadArticlesByTopic(topic.topic_id);
+	await Promise.all([
+		loadArticlesByTopic(topic.topic_id),
+		loadKnowledgeBaseByTopic(topic.topic_id),
+	]);
 }
 
 async function loadArticles() {
@@ -250,6 +270,48 @@ async function loadArticlesByTopic(topicId) {
 	} catch (error) {
 		showStatus(`Failed to load topic articles: ${error.message}`, "error");
 	}
+}
+
+async function loadKnowledgeBaseByTopic(topicId) {
+	try {
+		const response = await fetch(`${API_BASE}/api/topics/${topicId}/knowledge-base`);
+		if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+		allKnowledgeBaseNotes = await response.json();
+		renderKnowledgeBase();
+	} catch (error) {
+		showStatus(`Failed to load knowledge base: ${error.message}`, "error");
+	}
+}
+
+function renderKnowledgeBase() {
+	const container = document.getElementById("knowledge-base-list");
+	if (!container) return;
+
+	if (!selectedTopic) {
+		container.innerHTML = '<p class="loading">Select a topic to view notes...</p>';
+		return;
+	}
+
+	if (allKnowledgeBaseNotes.length === 0) {
+		container.innerHTML = '<p class="loading">No knowledge base notes for this topic.</p>';
+		return;
+	}
+
+	container.innerHTML = allKnowledgeBaseNotes
+		.map(
+			(note) => `
+		<div class="kb-note">
+			<div class="kb-note-header">
+				<span class="kb-note-type">${escapeHtml(note.note_type || "note")}</span>
+				<span class="kb-note-date">${formatDateTime(note.updated_at)}</span>
+			</div>
+			<div class="kb-note-content">${escapeHtml(note.content || "")}</div>
+			${note.source_url ? `<a class="kb-note-source" href="${escapeHtml(note.source_url)}" target="_blank" rel="noopener noreferrer">Source</a>` : ""}
+		</div>
+	`
+		)
+		.join("");
 }
 
 function filterArticles() {
@@ -430,6 +492,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	updateTopicSlugPreview(topicSlugInput?.value?.trim() || "");
 
 	loadData();
+	renderKnowledgeBase();
 
 	// Auto-refresh data every 30 seconds
 	setInterval(loadData, 30000);
