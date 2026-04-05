@@ -302,33 +302,48 @@ export const createArticleTask = (
 	);
 
 export const claimNextPendingArticleTask = async (): Promise<ArticleTask | null> => {
+	const { rows: [nextTask] } = await client.queryObject<{
+		id: number;
+		candidate_id: number;
+	}>(`
+    SELECT id, candidate_id
+    FROM article_tasks
+    WHERE status = 'pending'
+    ORDER BY priority DESC, created_at ASC
+    LIMIT 1
+    FOR UPDATE SKIP LOCKED
+  `);
+
+	if (!nextTask) return null;
+
+	await client.queryArray(
+		`UPDATE article_tasks
+     SET status = 'in_progress', picked_at = now(), updated_at = now()
+     WHERE id = $1;`,
+		[nextTask.id],
+	);
+
 	const { rows } = await client.queryObject<ArticleTask>(`
-    WITH picked AS (
-      SELECT id
-      FROM article_tasks
-      WHERE status = 'pending'
-      ORDER BY priority DESC, created_at ASC
-      LIMIT 1
-      FOR UPDATE SKIP LOCKED
-    )
-    UPDATE article_tasks t
-    SET status = 'in_progress', picked_at = now(), updated_at = now()
-    FROM picked
-    WHERE t.id = picked.id
-    RETURNING
-      t.id,
-      t.candidate_id,
+    SELECT
+      at.id,
+      at.candidate_id,
       c.topic_id,
-      topic.slug AS topic_slug,
-      topic.name AS topic_name,
+      t.slug AS topic_slug,
+      t.name AS topic_name,
       c.title AS candidate_title,
       c.url AS candidate_url,
       c.snippet AS candidate_snippet,
-      t.editor_notes,
-      t.priority,
-      t.status,
-      t.created_at;
-  `);
+      at.editor_notes,
+      at.priority,
+      at.status,
+      at.created_at
+    FROM article_tasks at
+    INNER JOIN candidates c ON c.id = at.candidate_id
+    INNER JOIN topics t ON t.id = c.topic_id
+    WHERE at.id = $1;
+  `,
+		[nextTask.id],
+	);
 
 	return rows[0] ?? null;
 };
