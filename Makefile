@@ -4,6 +4,9 @@ serve:
 run:
 	docker-compose run --rm app deno run -A src/main.ts
 
+scout:
+	docker-compose run --rm app deno task scout
+
 run-db:
 	docker-compose run postgres
 
