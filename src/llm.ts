@@ -1,14 +1,14 @@
-import { ChatOpenAI } from "@langchain/openai";
+import { ChatGroq } from "@langchain/groq";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { z } from "zod";
 import { loadConfig } from "./config.ts";
 const config = loadConfig();
 
 export const makeLlm = (temperature = 0) =>
-	new ChatOpenAI({
-		model: config.OPENAI_MODEL,
+	new ChatGroq({
+		model: config.GROQ_MODEL,
 		temperature,
-		apiKey: config.OPENAI_API_KEY,
+		apiKey: config.GROQ_API_KEY,
 	});
 
 // ── reusable prompt builders ───────────────────────────────────────────────

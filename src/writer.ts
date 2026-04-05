@@ -1,4 +1,4 @@
-import { gpt } from './openai.ts';
+import { gpt } from './groq.ts';
 import { batch, slugify } from './utils.ts';
 import { client } from "./db.ts"
 import { Article } from "./models.ts";

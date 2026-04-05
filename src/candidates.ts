@@ -1,4 +1,4 @@
-import { gpt } from './openai.ts';
+import { gpt } from './groq.ts';
 import { client } from './db.ts';
 import { Article } from './models.ts';
 import { batch } from './utils.ts';
@@ -63,7 +63,7 @@ export const filterCandidates = async () => {
 
 async function processBatch(batch: Article[]) {
   const titles = batch
-    .map((item: any) => `(${item.id}) - ${item.title}`)
+    .map((item: Article) => `(${item.id}) - ${item.title}`)
     .join('\n');
 
 

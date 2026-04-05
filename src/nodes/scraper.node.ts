@@ -6,7 +6,7 @@ import {
 } from "../db/queries.ts";
 import { logger } from "../logger.ts";
 import { Article } from "../models.ts";
-import type { PipelineState } from "./state.ts";
+import type { PipelineState } from "../graph/state.ts";
 
 const CONCURRENCY = 5;
 

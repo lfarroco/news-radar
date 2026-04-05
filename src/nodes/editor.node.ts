@@ -4,7 +4,7 @@ import { makeLlm } from "../llm.ts";
 import { setArticleStatus } from "../db/queries.ts";
 import { logger } from "../logger.ts";
 import { Article } from "../models.ts";
-import type { PipelineState } from "./state.ts";
+import type { PipelineState } from "../graph/state.ts";
 
 const MAX_RETRIES = 2;
 

@@ -3,7 +3,7 @@ import { allTopics } from "../topics/profiles.ts";
 import { rssTool } from "../tools/rss.tool.ts";
 import { redditTool } from "../tools/reddit.tool.ts";
 import { getPendingArticles } from "../db/queries.ts";
-import type { PipelineState } from "./state.ts";
+import type { PipelineState } from "../graph/state.ts";
 
 export const scannerNode = async (
 	_state: PipelineState,

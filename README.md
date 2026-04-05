@@ -8,10 +8,11 @@ items and summarizes them.
 You can add your own sources and adjust the prompts to make it write accordingly
 to your own editorial policy and biases.
 
-You need to create a `.env` file with your OpenAI key, in this format
+You need to create a `.env` file with your Groq key, in this format
 
 ```
-OPENAI_API_KEY=sk-...
+GROQ_API_KEY=gsk_...
+GROQ_MODEL=llama-3.3-70b-versatile
 ```
 
 ### How it works:

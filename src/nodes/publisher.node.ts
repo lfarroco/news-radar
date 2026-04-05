@@ -1,5 +1,5 @@
 import { logger } from "../logger.ts";
-import type { PipelineState } from "./state.ts";
+import type { PipelineState } from "../graph/state.ts";
 
 // The publisher node triggers the Lume static site build.
 // It delegates to deno task build so the site/ templates drive the output.

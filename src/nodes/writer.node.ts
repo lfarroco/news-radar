@@ -11,7 +11,7 @@ import { logger } from "../logger.ts";
 import { loadConfig } from "../config.ts";
 const config = loadConfig();
 import { Article } from "../models.ts";
-import type { PipelineState } from "./state.ts";
+import type { PipelineState } from "../graph/state.ts";
 
 const MAX_INPUT_LENGTH = 3000;
 
@@ -59,11 +59,11 @@ const writeOne = async (article: Article): Promise<Article | null> => {
 			result.content,
 			slug,
 			url,
-			config.OPENAI_MODEL,
+			config.GROQ_MODEL,
 		);
 
 		await Promise.all(
-			result.categories.map(async (cat) => {
+			result.categories.map(async (cat: string) => {
 				await upsertTopic(cat, slugify(cat));
 				await linkArticleTopicById(article.id, slugify(cat));
 			}),
