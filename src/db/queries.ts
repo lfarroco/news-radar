@@ -7,6 +7,17 @@ import {
 	TopicNote,
 } from "../models.ts";
 import { TopicProfile } from "../topics/types.ts";
+import { compactText } from "../utils.ts";
+
+const TOPIC_NOTE_TYPE_MAX_LENGTH = 48;
+const TOPIC_NOTE_CONTENT_MAX_LENGTH = 420;
+
+const sanitizeTopicNote = (noteType: string, content: string) => ({
+	noteType: compactText((noteType ?? "note").trim(), TOPIC_NOTE_TYPE_MAX_LENGTH) || "note",
+	content:
+		compactText((content ?? "").trim(), TOPIC_NOTE_CONTENT_MAX_LENGTH) ||
+		"No details provided.",
+});
 
 // ── connection ─────────────────────────────────────────────────────────────
 
@@ -430,12 +441,15 @@ export const addTopicNote = (
 	content: string,
 	sourceUrl: string | null,
 	addedByAgent: string,
-) =>
-	client.queryArray(
+) => {
+	const sanitized = sanitizeTopicNote(noteType, content);
+
+	return client.queryArray(
 		`INSERT INTO topic_notes (topic_id, note_type, content, source_url, added_by_agent)
 		 VALUES ((SELECT id FROM topics WHERE slug = $1), $2, $3, $4, $5);`,
-		[topicSlug, noteType, content, sourceUrl, addedByAgent],
+		[topicSlug, sanitized.noteType, sanitized.content, sourceUrl, addedByAgent],
 	);
+};
 
 export const searchTopicNotes = async (
 	topicSlug: string,
@@ -447,7 +461,7 @@ export const searchTopicNotes = async (
 				n.id,
 				n.topic_id,
 				n.note_type,
-				n.content,
+				LEFT(n.content, ${TOPIC_NOTE_CONTENT_MAX_LENGTH}) AS content,
 				n.source_url,
 				n.added_by_agent,
 				n.created_at,
@@ -473,7 +487,7 @@ export const searchTopicNotes = async (
 				n.id,
 				n.topic_id,
 				n.note_type,
-				n.content,
+				LEFT(n.content, ${TOPIC_NOTE_CONTENT_MAX_LENGTH}) AS content,
 				n.source_url,
 				n.added_by_agent,
 				n.created_at,

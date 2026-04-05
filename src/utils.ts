@@ -8,8 +8,8 @@ export async function batch<A>(
   batchSize: number,
   fn: (a: A) => Promise<void>
 ) {
-  const batches = items.reduce(
-    (acc: A[][], item: A, index: number) => {
+  const batches = items.reduce<A[][]>(
+    (acc, item, index) => {
       const batchIndex = Math.floor(index / batchSize);
       if (!acc[batchIndex]) {
         acc[batchIndex] = [];
@@ -17,11 +17,10 @@ export async function batch<A>(
       acc[batchIndex] = acc[batchIndex].concat([item]);
       return acc;
     },
-    [[]]
+    []
   );
 
-  return batches.reduce(async (xs, x, index) => {
-    await xs;
+  for (const [index, x] of batches.entries()) {
     console.log(`processing batch ${index + 1}/${batches.length}...`);
 
     const operations = x.map(async (item) => {
@@ -30,11 +29,11 @@ export async function batch<A>(
     });
 
     await Promise.all(operations);
-  }, Promise.resolve(null));
+  }
 }
 
 export const group = <A>(items: A[], n: number): A[][] =>
-  items.reduce((xs, x, index) => {
+  items.reduce<A[][]>((xs, x, index) => {
     const current = Math.floor(index / n);
     if (!xs[current]) {
       xs[current] = [];
@@ -61,4 +60,21 @@ export const slugify = (text: string) => {
   }
 
   return slug(text).substring(0, 150);
+};
+
+export const compactText = (text: string, maxLength: number): string => {
+  const normalized = (text ?? "").replace(/\s+/g, " ").trim();
+  if (normalized.length <= maxLength) return normalized;
+
+  const clipped = normalized.slice(0, maxLength + 1);
+  const cutCandidates = [
+    clipped.lastIndexOf(". "),
+    clipped.lastIndexOf("; "),
+    clipped.lastIndexOf(", "),
+    clipped.lastIndexOf(" "),
+  ];
+  const bestCut = Math.max(...cutCandidates);
+  const boundary = bestCut > Math.floor(maxLength * 0.6) ? bestCut : maxLength;
+
+  return `${clipped.slice(0, boundary).trim()}...`;
 };

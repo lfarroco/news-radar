@@ -213,7 +213,7 @@ async function handleRequest(req: Request): Promise<Response> {
 				`SELECT
 					n.id,
 					n.note_type,
-					n.content,
+					LEFT(n.content, 420) AS content,
 					n.source_url,
 					n.added_by_agent,
 					n.updated_at

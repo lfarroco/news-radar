@@ -1,6 +1,7 @@
 import { logger } from "../logger.ts";
 import { addTopicNote, getAllTopicProfiles } from "../db/queries.ts";
 import { searchOnlineSources } from "../tools/tavily.tool.ts";
+import { compactText } from "../utils.ts";
 
 const SOURCE_TYPES = {
 	official_blog: "Official blog / announcement channel",
@@ -13,7 +14,6 @@ const SOURCE_TYPES = {
 
 const buildSourceQueries = (
 	topicName: string,
-	topicSlug: string,
 ): Array<{ type: keyof typeof SOURCE_TYPES; query: string }> => {
 	return [
 		{ type: "official_blog", query: `${topicName} official blog announcements` },
@@ -41,19 +41,18 @@ export const sourceScoutNode = async (): Promise<void> => {
 	for (const profile of profiles) {
 		topicsProcessed++;
 		try {
-			const queries = buildSourceQueries(profile.name, profile.slug);
+			const queries = buildSourceQueries(profile.name);
 
 			for (const { type, query } of queries) {
 				try {
 					const sources = await searchOnlineSources(query, 3);
 
 					for (const source of sources) {
+						const summary = compactText(source.content, 220);
 						const noteContent = [
 							`Type: ${SOURCE_TYPES[type]}`,
 							`Title: ${source.title}`,
-							`URL: ${source.url}`,
-							``,
-							source.content,
+							`Fact: ${summary || "Potentially relevant source discovered."}`,
 						].join("\n");
 
 						await addTopicNote(

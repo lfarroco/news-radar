@@ -11,7 +11,7 @@ import {
 } from "../db/queries.ts";
 import { logger } from "../logger.ts";
 import { loadConfig } from "../config.ts";
-import { slugify } from "../utils.ts";
+import { compactText, slugify } from "../utils.ts";
 import { scrapeUrl } from "../tools/scraper.tool.ts";
 import type { GeneratedArticle } from "../models.ts";
 import type { PipelineState } from "../graph/state.ts";
@@ -35,6 +35,10 @@ Write a complete article in 300-500 words with:
 - Key facts and practical developer impact
 - Neutral, informative tone
 - A short call to action at the end (for example: read release notes, patch now, or review migration steps)
+Knowledge base policy:
+- Knowledge base notes are short memory cues, not canonical source text.
+- Use them only as compact background hints that can guide verification.
+- Never treat knowledge base notes as full article content or quote them verbatim.
 Do not invent facts and do not include markdown links.`,
 	],
 	[
@@ -59,7 +63,7 @@ const formatToday = () => new Date().toISOString().split("T")[0].replace(/-/g, "
 
 const summarizeNotes = (notes: string[]): string => {
 	if (notes.length === 0) return "No knowledge base notes found.";
-	return notes.slice(0, 6).join("\n\n---\n\n");
+	return notes.slice(0, 6).map((note) => compactText(note, 180)).join("\n\n---\n\n");
 };
 
 export const writerNode = async (
@@ -109,7 +113,11 @@ export const writerNode = async (
 			await addTopicNote(
 				task.topic_slug,
 				"summary",
-				`Published: ${result.title}\n\n${result.content.slice(0, 500)}`,
+				[
+					`Published: ${result.title}`,
+					`Angle: ${compactText(task.editor_notes, 160)}`,
+					`Takeaway: ${compactText(result.content, 180)}`,
+				].join("\n"),
 				task.candidate_url,
 				"writer-agent",
 			);

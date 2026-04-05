@@ -15,6 +15,7 @@ import {
 	searchOnlineSources,
 	type ResearchSource,
 } from "../tools/tavily.tool.ts";
+import { compactText } from "../utils.ts";
 
 const RELEVANCE_THRESHOLD = 7;
 const MAX_CANDIDATES_PER_RUN = 30;
@@ -28,6 +29,10 @@ const relevancePrompt = ChatPromptTemplate.fromMessages([
 	[
 		"system",
 		`You are the editor for a developer news site. Score only substantive technical news (7-10).
+
+Knowledge base policy:
+- The topic knowledge base is for concise facts and durable reference notes only.
+- Do not rely on or store full article text, long excerpts, or transcript-like content in knowledge notes.
 
 SCORE 9-10 (PUBLISH):
 - Security vulnerabilities, CVEs, patches with impact
@@ -68,12 +73,11 @@ const summarizeResearch = (sources: ResearchSource[]): string => {
 	}
 
 	return sources
-		.slice(0, 4)
+		.slice(0, 3)
 		.map((source, idx) => {
-			const snippet = source.content.slice(0, 220);
+			const snippet = compactText(source.content, 140);
 			return [
 				`Source ${idx + 1}: ${source.title}`,
-				`URL: ${source.url}`,
 				`Snippet: ${snippet}`,
 			].join("\n");
 		})
@@ -159,7 +163,12 @@ export const editorNode = async (
 			await addTopicNote(
 				candidate.topic_slug,
 				"fact",
-				`${candidate.title} (${candidate.url})\n\n${researchNotes}`,
+				[
+					`Candidate: ${candidate.title}`,
+					`Editorial score: ${relevance.score}/10`,
+					`Rationale: ${compactText(relevance.rationale, 120)}`,
+					`Research: ${compactText(researchNotes, 180)}`,
+				].join("\n"),
 				candidate.url,
 				"editor-agent",
 			);
