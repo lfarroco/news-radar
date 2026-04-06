@@ -456,8 +456,13 @@ async function handleRequest(req: Request): Promise<Response> {
 			}), { headers });
 		}
 
-		// Serve backoffice UI
-		if (pathname === "/" || pathname === "/backoffice") {
+		// Serve backoffice UI and route-based deep links
+		const isBackofficeRoute =
+			pathname === "/" ||
+			pathname === "/backoffice" ||
+			/^\/(topics|articles)(\/\d+)?\/?$/.test(pathname);
+
+		if (isBackofficeRoute) {
 			const ui = await Deno.readTextFile(
 				new URL("./site/backoffice.html", import.meta.url).pathname
 			);
