@@ -3,74 +3,56 @@ layout: main.njk
 ---
 
 <div class="home">
-	<div class="card mb-2">
-		<div class="card-body">
-		Dev Radar is an open-source, AI-powered reporter that helps you stay up to date with the latest news in software development. <br/> 
-		If you want to learn more, check out our <a href="https://github.com/lfarroco/news-radar">source code</a>.<br/>
-		Below are the latest news that our AI 🤖 has found for you.
+
+	<!-- Compact banner -->
+	<section class="home-hero">
+		<p class="home-hero__banner">
+			AI-curated software engineering headlines. <a href="https://github.com/lfarroco/news-radar">Open source on GitHub →</a>
+		</p>
+	</section>
+
+	<!-- Latest stories -->
+	<section class="home-featured">
+		<h2 class="home-section-label">Latest Stories</h2>
+		<div class="featured-grid">
+			{% for article in latest %}
+				{% if loop.index <= 9 %}
+				<a class="featured-card" href="{{ article.url }}">
+					<span class="featured-card__date">{{ article.formattedDate }}</span>
+					<span class="featured-card__title">{{ article.title }}</span>
+					{% if article.article_content %}
+						<span class="featured-card__excerpt">
+							{{ article.article_content.slice(0, 150) }}{% if article.article_content.length > 150 %}...{% endif %}
+						</span>
+					{% endif %}
+					<span class="featured-card__cta">Read more →</span>
+				</a>
+				{% endif %}
+			{% endfor %}
 		</div>
-	</div>
+	</section>
 
-	<div class="row">
-
-		{% for topic in topics %}
-
-			<div class="col-sm-4">
-
-				<div class="card mb-2 topic">
-
-					<div class="card-header">
-						<h3>{{topic.name}}</h3>
+	<!-- Topics grid -->
+	<section class="home-topics">
+		<h2 class="home-section-label">Browse by Topic</h2>
+		<div class="topics-grid">
+			{% for topic in topics %}
+				<div class="topic-card">
+					<div class="topic-card__header">
+						<span class="topic-card__name">{{ topic.name }}</span>
+						<a class="topic-card__all" href="/topics/{{ topic.slug }}">All →</a>
 					</div>
-					<div class="card-body">
-
-						<div class="list-group list-group-flush">
-							{% for article in topic.articles %}
-
-								<div class="list-group-item">
-									<a  href="{{ article.url }}">
-										<div>{{ article.title }}</div>
-									</a>
-
-									<small>
-										{{ article.formattedDate }}
-									</small>
-
-									<div>{{article.article_content.slice(0,200)}}...</div>
-
-								</div>
-							{% endfor %}
-
-						</div>
-
-					</div>
-
-					<div class="card-footer">
-						<a href="/topics/{{topic.slug}}">All {{topic.name}} Articles</a>
-					</div>
-
+					<ul class="topic-card__list">
+						{% for article in topic.articles %}
+							<li class="topic-card__item">
+								<a href="{{ article.url }}">{{ article.title }}</a>
+								<time class="topic-card__time">{{ article.formattedDate }}</time>
+							</li>
+						{% endfor %}
+					</ul>
 				</div>
-
-			</div>
-
-		{% endfor %}
-
-	</div>
-	<div class="card">
-
-		<div class="card-header">
-			<h2 class="mb-0">Latest Articles</h2>
+			{% endfor %}
 		</div>
-		<div class="card-body">
-			<div class="list-group list-group-flush">
-				{% for article in latest %}
+	</section>
 
-					<a class="list-group-item" href="{{ article.url }}">
-						{{ article.title }} - 
-						<small>{{ article.formattedDate }}</small>
-					</a>
-				{% endfor %}
-			</div>
-		</div>
-	</div>
 </div>
