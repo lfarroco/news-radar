@@ -249,16 +249,36 @@ async function handleRequest(req: Request): Promise<Response> {
 		if (pathname.match(/^\/api\/articles\/\d+$/) && req.method === "PUT") {
 			const articleId = Number(pathname.split("/")[3]);
 			const data = await req.json();
+			const title = (data?.title ?? "").trim();
+			const body = data?.body ?? "";
+			const slug = (data?.slug ?? "").trim();
+
+			if (!title) {
+				return new Response(JSON.stringify({ error: "Article title is required" }), {
+					status: 400,
+					headers,
+				});
+			}
 
 			// Update article in database
-			await db.queryArray(
+			const result = await db.queryObject<{ id: number }>(
 				`UPDATE articles 
 				 SET title = $1, body = $2, slug = $3
-				 WHERE id = $4`,
-				[data.title, data.body, data.slug, articleId]
+				 WHERE id = $4
+				 RETURNING id`,
+				[title, body, slug, articleId]
 			);
 
-			return new Response(JSON.stringify({ success: true }), { headers });
+			if (!result.rows[0]) {
+				return new Response(JSON.stringify({ error: "Article not found" }), {
+					status: 404,
+					headers,
+				});
+			}
+
+			return new Response(JSON.stringify({ success: true, id: result.rows[0].id }), {
+				headers,
+			});
 		}
 
 		// Task endpoints

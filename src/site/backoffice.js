@@ -383,21 +383,43 @@ function closeEditor() {
 async function saveArticle() {
 	if (!selectedArticle) return;
 
+	const articleId = Number(selectedArticle.id);
+	if (!Number.isFinite(articleId)) {
+		showStatus("Invalid article id", "error");
+		return;
+	}
+
 	const updatedArticle = {
-		...selectedArticle,
-		article_title: document.getElementById("editor-title").value,
-		article_content: document.getElementById("editor-content").value,
-		slug: document.getElementById("editor-slug").value,
+		title: document.getElementById("editor-title").value.trim(),
+		body: document.getElementById("editor-content").value.trim(),
+		slug: document.getElementById("editor-slug").value.trim(),
 	};
+
+	if (!updatedArticle.title) {
+		showStatus("Article title is required", "error");
+		return;
+	}
 
 	try {
 		showStatus("Saving article...", "loading");
 
-		// In a real implementation, you'd POST this to an update endpoint
-		// For now, we'll just update the local state
-		const index = allArticles.findIndex((a) => a.id === selectedArticle.id);
-		if (index !== -1) {
-			allArticles[index] = updatedArticle;
+		const response = await fetch(`${API_BASE}/api/articles/${articleId}`, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(updatedArticle),
+		});
+
+		const payload = await response.json();
+		if (!response.ok) {
+			throw new Error(payload.error || `HTTP ${response.status}`);
+		}
+
+		if (selectedTopic?.topic_id) {
+			await loadArticlesByTopic(selectedTopic.topic_id);
+		} else {
+			await loadArticles();
 		}
 
 		showStatus("Article saved successfully", "success");
