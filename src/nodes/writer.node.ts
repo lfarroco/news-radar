@@ -15,6 +15,10 @@ import { compactText, slugify, stripLeadingTopicLabel } from "../utils.ts";
 import { scrapeUrl } from "../tools/scraper.tool.ts";
 import type { GeneratedArticle } from "../models.ts";
 import type { PipelineState } from "../graph/state.ts";
+import {
+	enforceQuotesForCopiedText,
+	findVerbatimSentenceMatches,
+} from "../editorial-policy.ts";
 
 const config = loadConfig();
 const MAX_TASKS_PER_RUN = 3;
@@ -57,6 +61,9 @@ Editor notes:
 
 Knowledge base notes:
 {knowledgeNotes}
+
+Originality check feedback:
+{originalityFeedback}
 
 Source content:
 {sourceContent}`,
@@ -119,15 +126,54 @@ export const writerNode = async (
 			const knowledgeNotes = summarizeNotes(kbNotes.map((n) => n.content));
 			const editorNotes = sanitizeEditorNotes(task.editor_notes, task.topic_name);
 
-			const result = await chain.invoke({
+			let result = await chain.invoke({
 				topicName: task.topic_name,
 				candidateTitle: cleanCandidateTitle,
 				candidateUrl: task.candidate_url,
 				candidateSnippet: task.candidate_snippet,
 				editorNotes,
 				knowledgeNotes,
+				originalityFeedback:
+					"Use original wording. If a direct quote is essential, keep it short and wrap it in double quotes.",
 				sourceContent,
 			});
+
+			let copiedSentences = findVerbatimSentenceMatches(result.content, sourceContent);
+			if (copiedSentences.length > 0) {
+				logger.warn(
+					{ taskId: task.id, copiedSentences: copiedSentences.length },
+					"writer: detected verbatim source overlap, requesting rewrite",
+				);
+
+				result = await chain.invoke({
+					topicName: task.topic_name,
+					candidateTitle: cleanCandidateTitle,
+					candidateUrl: task.candidate_url,
+					candidateSnippet: task.candidate_snippet,
+					editorNotes,
+					knowledgeNotes,
+					originalityFeedback: [
+						`Previous draft copied ${copiedSentences.length} sentence(s) from source text.`,
+						"Rewrite using original phrasing.",
+						"If you keep any exact source sentence, it must be a short quote in double quotes.",
+					].join(" "),
+					sourceContent,
+				});
+
+				copiedSentences = findVerbatimSentenceMatches(result.content, sourceContent);
+			}
+
+			const originalityGuard = enforceQuotesForCopiedText(result.content, sourceContent);
+			if (originalityGuard.copiedSentenceCount > 0) {
+				logger.warn(
+					{
+						taskId: task.id,
+						copiedSentences: originalityGuard.copiedSentenceCount,
+						quotedSentences: originalityGuard.quotedSentenceCount,
+					},
+					"writer: applied quote guard for copied source text",
+				);
+			}
 
 			const articleTitle = stripLeadingTopicLabel(result.title, task.topic_name);
 			const slug = slugify(articleTitle);
@@ -136,7 +182,7 @@ export const writerNode = async (
 				task.id,
 				task.topic_id,
 				articleTitle,
-				result.content,
+				originalityGuard.content,
 				slug,
 				url,
 				config.GROQ_MODEL,
@@ -154,7 +200,7 @@ export const writerNode = async (
 				[
 					`Published: ${articleTitle}`,
 					`Angle: ${compactText(editorNotes, 160)}`,
-					`Takeaway: ${compactText(result.content, 180)}`,
+					`Takeaway: ${compactText(originalityGuard.content, 180)}`,
 				].join("\n"),
 				task.candidate_url,
 				"writer-agent",

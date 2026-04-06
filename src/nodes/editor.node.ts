@@ -16,6 +16,7 @@ import {
 	type ResearchSource,
 } from "../tools/tavily.tool.ts";
 import { compactText, stripLeadingTopicLabel } from "../utils.ts";
+import { isLikelyPersonalBlogCandidate } from "../editorial-policy.ts";
 
 const RELEVANCE_THRESHOLD = 7;
 const MAX_CANDIDATES_PER_RUN = 30;
@@ -51,6 +52,7 @@ SCORE 0-6 (REJECT):
 - Listicles ("5 patterns", "10 ways", "best practices")
 - Career advice, job posts, "learn X" articles
 - Opinion pieces without technical substance
+- Personal blog posts and individual journals
 - Fundraising, company news, sponsorships
 - Podcast/newsletter announcements
 - Beginner guides
@@ -136,6 +138,21 @@ export const editorNode = async (
 			"editor: reviewing candidate",
 		);
 		try {
+			if (isLikelyPersonalBlogCandidate(candidate)) {
+				rejected++;
+				await setCandidateStatus(
+					candidate.id,
+					"rejected",
+					0,
+					"Rejected by editorial policy: personal blog sources are not allowed.",
+				);
+				logger.info(
+					{ candidateId: candidate.id, url: candidate.url },
+					"editor: candidate rejected by personal-blog policy",
+				);
+				continue;
+			}
+
 			const cleanTitle = stripLeadingTopicLabel(candidate.title, candidate.topic_name);
 			const relevance = await chain.invoke({
 				topic: candidate.topic_name,
