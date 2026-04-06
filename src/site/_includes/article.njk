@@ -11,9 +11,6 @@ layout: main.njk
 
 	</div>
 	<div class="card-body">
-		<div class="disclaimer">
-			AI-generated summary. Verify important details with official sources.
-		</div>
 		{{ content | md | safe }}
 
 		{% if references and references.length %}

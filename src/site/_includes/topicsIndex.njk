@@ -2,18 +2,18 @@
 layout: main.njk
 ---
 
-<article>
-	<h1>Topics</h1>
-	<div class="list-group">
-		{% for topic in topics %}
+<section class="topics-index">
+	<header class="topics-index__header">
+		<h1 class="mb-0">Topics</h1>
+		<p class="topics-index__sub">Explore news by language, framework, and ecosystem.</p>
+	</header>
 
-			<a class="list-group-item list-group-item-action"
-				 href="{{ topic.url }}">{{ topic.name }}
-				<span class="badge bg-info">
-					{{ topic.article_count }}
-				</span>
+	<div class="topics-index__grid">
+		{% for topic in topics %}
+			<a class="topics-index__card" href="{{ topic.url }}">
+				<span class="topics-index__name">{{ topic.name }}</span>
+				<span class="topics-index__count">{{ topic.article_count }} articles</span>
 			</a>
 		{% endfor %}
-
 	</div>
-</article>
+</section>
