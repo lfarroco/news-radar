@@ -31,7 +31,7 @@ export const articleOutputSchema = z.object({
 	title: z.string().describe("Generated article title"),
 	content: z
 		.string()
-		.describe("Article body formatted in raw markdown, up to 200 words"),
+		.describe("Article body formatted in raw markdown with short blank-line-separated paragraphs, up to 200 words"),
 	categories: z
 		.array(z.string())
 		.describe("Topic/category tags for this article"),

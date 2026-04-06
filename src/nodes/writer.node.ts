@@ -34,6 +34,9 @@ Write a complete article in 300-500 words with:
 - A clear headline
 - Key facts and practical developer impact
 - Neutral, informative tone
+- Short paragraphs separated by blank lines
+- Each paragraph should be 3-5 sentences and easy to scan
+- Never return the whole article as one large paragraph
 - A short call to action at the end (for example: read release notes, patch now, or review migration steps)
 - Do not prepend the topic or language name to the headline unless it is required for clarity
 Knowledge base policy:

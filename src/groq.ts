@@ -58,6 +58,9 @@ Hightlight informations that are relevant for developers that want to keep up wi
 If you include html elements in the article, make sure to escape them with backticks (\`).
 The generated article should have up to 500 words.
 The article should be formatted in raw markdown to define subtitles and code blocks.
+Split the article body into short paragraphs separated by blank lines.
+Each paragraph should be 3-5 sentences.
+Do not return the body as a single large paragraph.
 Your response should have the following structure:
 - The first line wil be the generated article's title
 - The second line will be the generated article's content (without the title)

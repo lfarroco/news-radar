@@ -22,6 +22,9 @@ If you include html elements in the article, make sure to escape them with backt
 Don't include links in the article.
 You should generate a new title for the article.
 The article's content should be formatted in raw markdown.
+Split the article body into short paragraphs separated by blank lines.
+Each paragraph should be 3-5 sentences.
+Do not return the body as a single large paragraph.
 Try to keep the generated article up to 200 words (if necessary, you can go over it).
 Your response should coome as a JSON with the following structure:
 {

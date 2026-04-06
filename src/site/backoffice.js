@@ -3,6 +3,7 @@ let allArticles = [];
 let allTopics = [];
 let allKnowledgeBaseNotes = [];
 let selectedTopic = null;
+let selectedTopicDetails = null;
 let selectedArticle = null;
 let selectedTopicForEdit = null;
 const API_BASE = "";
@@ -231,7 +232,9 @@ async function selectTopic(topic) {
 	// Toggle selection: clicking the active topic resets to full latest feed
 	if (selectedTopic?.topic_id === topic.topic_id) {
 		selectedTopic = null;
+		selectedTopicDetails = null;
 		allKnowledgeBaseNotes = [];
+		renderTopicDetails();
 		renderKnowledgeBase();
 		renderTopics();
 		await loadArticles();
@@ -239,11 +242,94 @@ async function selectTopic(topic) {
 	}
 
 	selectedTopic = topic;
+	selectedTopicDetails = null;
 	renderTopics();
+	renderTopicDetails();
 	await Promise.all([
 		loadArticlesByTopic(topic.topic_id),
 		loadKnowledgeBaseByTopic(topic.topic_id),
+		loadTopicDetails(topic.topic_id),
 	]);
+}
+
+async function loadTopicDetails(topicId) {
+	try {
+		const response = await fetch(`${API_BASE}/api/topics/${topicId}`);
+		if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+		selectedTopicDetails = await response.json();
+		selectedTopic = { ...selectedTopic, ...selectedTopicDetails };
+		renderTopicDetails();
+	} catch (error) {
+		selectedTopicDetails = null;
+		renderTopicDetails(error.message);
+	}
+}
+
+function renderLinkList(items, formatter) {
+	if (!items || items.length === 0) {
+		return '<p class="topic-detail-empty">None configured.</p>';
+	}
+
+	return `
+		<ul class="topic-detail-list">
+			${items.map((item) => `<li>${formatter(item)}</li>`).join("")}
+		</ul>
+	`;
+}
+
+function renderTopicDetails(errorMessage = "") {
+	const container = document.getElementById("topic-details");
+	if (!container) return;
+
+	if (!selectedTopic) {
+		container.innerHTML = '<p class="loading">Select a topic to view sources and profile details...</p>';
+		return;
+	}
+
+	if (errorMessage) {
+		container.innerHTML = `<p class="loading">Failed to load topic details: ${escapeHtml(errorMessage)}</p>`;
+		return;
+	}
+
+	if (!selectedTopicDetails) {
+		container.innerHTML = '<p class="loading">Loading topic details...</p>';
+		return;
+	}
+
+	container.innerHTML = `
+		<div class="topic-detail-card">
+			<div class="topic-detail-meta">
+				<span class="topic-detail-slug">${escapeHtml(selectedTopicDetails.slug || "-")}</span>
+				<span class="topic-detail-count">${escapeHtml(String(selectedTopicDetails.article_count ?? 0))} articles</span>
+			</div>
+			${selectedTopicDetails.description ? `<p class="topic-detail-description">${escapeHtml(selectedTopicDetails.description)}</p>` : '<p class="topic-detail-empty">No topic description yet.</p>'}
+			<div class="topic-detail-group">
+				<h4>Official Sources</h4>
+				${renderLinkList(selectedTopicDetails.officialSources, (source) => `<a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.label || source.url)}</a>`)}
+			</div>
+			<div class="topic-detail-group">
+				<h4>Community Sources</h4>
+				${renderLinkList(selectedTopicDetails.communityForums, (source) => `<a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.label || source.url)}</a>`)}
+			</div>
+			<div class="topic-detail-group">
+				<h4>RSS Feeds</h4>
+				${renderLinkList(selectedTopicDetails.rssFeedUrls, (url) => `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(url)}</a>`)}
+			</div>
+			<div class="topic-detail-group">
+				<h4>Reddit</h4>
+				${renderLinkList(selectedTopicDetails.redditSubreddits, (subreddit) => `r/${escapeHtml(subreddit)}`)}
+			</div>
+			<div class="topic-detail-group">
+				<h4>Scout Search Terms</h4>
+				${renderLinkList(selectedTopicDetails.tavilySearchTerms, (term) => escapeHtml(term))}
+			</div>
+			<div class="topic-detail-group">
+				<h4>Editorial Notes</h4>
+				${selectedTopicDetails.editorialNotes ? `<p class="topic-detail-editorial">${escapeHtml(selectedTopicDetails.editorialNotes)}</p>` : '<p class="topic-detail-empty">No editorial notes yet.</p>'}
+			</div>
+		</div>
+	`;
 }
 
 async function loadArticles() {
@@ -438,7 +524,7 @@ async function runPipeline() {
 		const response = await fetch(`${API_BASE}/api/tasks/run`, { method: "POST" });
 		if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-		const result = await response.json();
+		await response.json();
 		showStatus("Pipeline started successfully", "success");
 	} catch (error) {
 		showStatus(`Failed to start pipeline: ${error.message}`, "error");
@@ -454,7 +540,7 @@ async function compileWebsite() {
 		});
 		if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-		const result = await response.json();
+		await response.json();
 		showStatus("Website compiled successfully", "success");
 	} catch (error) {
 		showStatus(`Failed to compile website: ${error.message}`, "error");
@@ -470,7 +556,7 @@ async function runScout() {
 		});
 		if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-		const result = await response.json();
+		await response.json();
 		showStatus("Source scout started successfully", "success");
 	} catch (error) {
 		showStatus(`Failed to start source scout: ${error.message}`, "error");
@@ -514,8 +600,26 @@ document.addEventListener("DOMContentLoaded", () => {
 	updateTopicSlugPreview(topicSlugInput?.value?.trim() || "");
 
 	loadData();
+	renderTopicDetails();
 	renderKnowledgeBase();
 
 	// Auto-refresh data every 30 seconds
 	setInterval(loadData, 30000);
+});
+
+Object.assign(window, {
+	focusSection,
+	createTopic,
+	editTopic,
+	closeTopicEditor,
+	saveTopic,
+	selectTopic,
+	selectArticle,
+	editArticle,
+	closeEditor,
+	saveArticle,
+	runPipeline,
+	compileWebsite,
+	runScout,
+	filterArticles,
 });

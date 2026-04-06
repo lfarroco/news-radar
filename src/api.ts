@@ -27,6 +27,9 @@ const toSlug = (value: string): string =>
 		.replace(/-+/g, "-")
 		.replace(/^-|-$/g, "");
 
+const getErrorMessage = (error: unknown): string =>
+	error instanceof Error ? error.message : String(error);
+
 async function handleRequest(req: Request): Promise<Response> {
 	const url = new URL(req.url);
 	const pathname = url.pathname;
@@ -116,16 +119,30 @@ async function handleRequest(req: Request): Promise<Response> {
 				name: string;
 				slug: string;
 				article_count: number;
+				description: string | null;
+				officialSources: Array<{ label: string; url: string }> | null;
+				communityForums: Array<{ label: string; url: string }> | null;
+				rssFeedUrls: string[] | null;
+				redditSubreddits: string[] | null;
+				tavilySearchTerms: string[] | null;
+				editorialNotes: string | null;
 			}>(
 				`SELECT
 					t.id AS topic_id,
 					t.name,
 					t.slug,
-					COUNT(a.id)::int AS article_count
+					COUNT(a.id)::int AS article_count,
+					t.profile->>'description' AS description,
+					COALESCE((t.profile->'officialSources')::jsonb, '[]'::jsonb) AS "officialSources",
+					COALESCE((t.profile->'communityForums')::jsonb, '[]'::jsonb) AS "communityForums",
+					COALESCE((t.profile->'rssFeedUrls')::jsonb, '[]'::jsonb) AS "rssFeedUrls",
+					COALESCE((t.profile->'redditSubreddits')::jsonb, '[]'::jsonb) AS "redditSubreddits",
+					COALESCE((t.profile->'tavilySearchTerms')::jsonb, '[]'::jsonb) AS "tavilySearchTerms",
+					t.profile->>'editorialNotes' AS "editorialNotes"
 				 FROM topics t
 				 LEFT JOIN articles a ON a.topic_id = t.id
 				 WHERE t.id = $1
-				 GROUP BY t.id, t.name, t.slug`,
+				 GROUP BY t.id, t.name, t.slug, t.profile`,
 				[topicId],
 			);
 
@@ -358,12 +375,13 @@ async function handleRequest(req: Request): Promise<Response> {
 				}
 			} catch (error) {
 				logger.error(error, "Task: Compile error");
-				taskStatus.compile = { status: "error", startTime: Date.now(), message: "Error running compile", error: error.message };
+				const message = getErrorMessage(error);
+				taskStatus.compile = { status: "error", startTime: Date.now(), message: "Error running compile", error: message };
 				return new Response(
 					JSON.stringify({
 						status: "failed",
 						message: "Error running compile",
-						error: error.message,
+						error: message,
 					}),
 					{ status: 500, headers }
 				);
@@ -451,7 +469,7 @@ async function handleRequest(req: Request): Promise<Response> {
 		});
 	} catch (error) {
 		logger.error(error, "API error");
-		return new Response(JSON.stringify({ error: error.message }), {
+		return new Response(JSON.stringify({ error: getErrorMessage(error) }), {
 			status: 500,
 			headers,
 		});
