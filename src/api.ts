@@ -460,7 +460,7 @@ async function handleRequest(req: Request): Promise<Response> {
 		const isBackofficeRoute =
 			pathname === "/" ||
 			pathname === "/backoffice" ||
-			/^\/(topics|articles)(\/\d+)?\/?$/.test(pathname);
+			/^\/(topics|articles)(\/(new|\d+))?\/?$/.test(pathname);
 
 		if (isBackofficeRoute) {
 			const ui = await Deno.readTextFile(

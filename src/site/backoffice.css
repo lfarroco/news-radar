@@ -227,10 +227,19 @@ body {
 }
 
 .topics-layout,
+.create-topic-layout,
 .detail-layout {
 	display: grid;
 	grid-template-columns: repeat(12, minmax(0, 1fr));
 	gap: 0.8rem;
+}
+
+.topics-layout .topics-list-panel {
+	grid-column: span 12;
+}
+
+.create-topic-layout .create-topic-panel {
+	grid-column: 3 / span 8;
 }
 
 .topics-layout .panel:first-child {
@@ -487,6 +496,7 @@ input[readonly] {
 		opacity: 0;
 		transform: translateY(5px);
 	}
+
 	to {
 		opacity: 1;
 		transform: translateY(0);
@@ -514,6 +524,7 @@ input[readonly] {
 
 	.topics-layout .panel:first-child,
 	.topics-layout .panel:last-child,
+	.create-topic-layout .create-topic-panel,
 	.detail-layout .panel:nth-child(1),
 	.detail-layout .panel:nth-child(2),
 	.detail-layout .panel:nth-child(3),

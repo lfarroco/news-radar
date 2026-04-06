@@ -67,6 +67,7 @@ function parseRoute(pathname) {
 	const path = normalizePath(pathname);
 	if (path === "/" || path === "/backoffice") return { name: "dashboard" };
 	if (path === "/topics") return { name: "topics-list" };
+	if (path === "/topics/new") return { name: "topic-create" };
 	if (path === "/articles") return { name: "articles-list" };
 
 	const topicMatch = path.match(/^\/topics\/(\d+)$/);
@@ -284,21 +285,13 @@ function renderTopicsList() {
 
 	view.innerHTML = `
 		<section class="topics-layout">
-			<article class="panel">
-				<h3>Create Topic</h3>
-				<form id="topic-create-form" class="stack-form">
-					<label for="new-topic-name">Name</label>
-					<input type="text" id="new-topic-name" name="name" placeholder="e.g. Web Performance" required />
-					<label for="new-topic-slug">Slug</label>
-					<input type="text" id="new-topic-slug" name="slug" placeholder="e.g. web-performance" />
-					<p class="hint" id="new-topic-slug-preview">Slug preview: -</p>
-					<button class="btn btn-primary" type="submit">Create Topic</button>
-				</form>
-			</article>
-			<article class="panel">
+			<article class="panel topics-list-panel">
 				<div class="panel-head">
 					<h3>Topics</h3>
-					<span>${filtered.length} / ${state.topics.length}</span>
+					<div class="button-row">
+						<span>${filtered.length} / ${state.topics.length}</span>
+						<a class="btn btn-primary" href="/topics/new" data-link="internal">Create Topic</a>
+					</div>
 				</div>
 				<input
 					type="search"
@@ -320,11 +313,36 @@ function renderTopicsList() {
 			</article>
 		</section>
 	`;
+}
+
+function renderTopicCreate() {
+	const view = document.getElementById("route-view");
+	if (!view) return;
+
+	state.newTopicSlugEdited = false;
+
+	view.innerHTML = `
+		<section class="create-topic-layout">
+			<article class="panel create-topic-panel">
+				<div class="panel-head">
+					<h3>Create Topic</h3>
+					<a href="/topics" data-link="internal" class="ghost-link">Back to topics</a>
+				</div>
+				<form id="topic-create-form" class="stack-form">
+					<label for="new-topic-name">Name</label>
+					<input type="text" id="new-topic-name" name="name" placeholder="e.g. Web Performance" required />
+					<label for="new-topic-slug">Slug</label>
+					<input type="text" id="new-topic-slug" name="slug" placeholder="e.g. web-performance" />
+					<p class="hint" id="new-topic-slug-preview">Slug preview: -</p>
+					<button class="btn btn-primary" type="submit">Create Topic</button>
+				</form>
+			</article>
+		</section>
+	`;
 
 	const nameInput = document.getElementById("new-topic-name");
 	const slugInput = document.getElementById("new-topic-slug");
 	const slugPreview = document.getElementById("new-topic-slug-preview");
-	if (slugPreview) slugPreview.textContent = "Slug preview: -";
 
 	nameInput?.addEventListener("input", () => {
 		if (!slugInput) return;
@@ -549,9 +567,15 @@ async function renderCurrentRoute() {
 		}
 
 		if (route.name === "topics-list") {
-			setPageMeta("Topics", "Browse, search, and create topics.");
+			setPageMeta("Topics", "Browse and search topics.");
 			await loadTopics();
 			renderTopicsList();
+			return;
+		}
+
+		if (route.name === "topic-create") {
+			setPageMeta("Create Topic", "Define a new editorial topic and slug.");
+			renderTopicCreate();
 			return;
 		}
 
@@ -679,8 +703,7 @@ function initializeFormsAndInputs() {
 				const created = await createTopic(name, slug);
 				showStatus(`Topic \"${created.name}\" created`, "success");
 				state.newTopicSlugEdited = false;
-				await loadTopics();
-				renderTopicsList();
+				navigate(`/topics/${Number(created.topic_id)}`);
 			} catch (error) {
 				showStatus(`Failed to create topic: ${error.message}`, "error");
 			}
@@ -775,6 +798,11 @@ function initializeAutoRefresh() {
 			if (route.name === "topics-list") {
 				await loadTopics();
 				renderTopicsList();
+				return;
+			}
+
+			if (route.name === "topic-create") {
+				renderTopicCreate();
 				return;
 			}
 
