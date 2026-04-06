@@ -53,3 +53,7 @@ remove-category:
 list-latest-articles:
 	docker exec news-radar_postgres_1 psql -U root -c "SELECT id, title, source, status, created_at FROM info ORDER BY created_at DESC LIMIT 20;"
 
+clean-db:
+	docker exec news-radar_postgres_1 psql -U root -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"
+	docker exec news-radar_postgres_1 psql -U root < seed.sql
+
