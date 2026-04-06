@@ -13,6 +13,11 @@ import { logger } from "../logger.ts";
 const TOPIC_NOTE_TYPE_MAX_LENGTH = 48;
 const TOPIC_NOTE_CONTENT_MAX_LENGTH = 420;
 
+export type TopicNoteWriteResult = {
+	id: number;
+	action: "inserted" | "updated";
+};
+
 const sanitizeTopicNote = (noteType: string, content: string) => ({
 	noteType: compactText((noteType ?? "note").trim(), TOPIC_NOTE_TYPE_MAX_LENGTH) || "note",
 	content:
@@ -100,6 +105,10 @@ const ensureSchema = async () => {
 
 		CREATE INDEX IF NOT EXISTS idx_topic_notes_topic_active
 			ON topic_notes(topic_id, is_active, updated_at DESC);
+
+		CREATE UNIQUE INDEX IF NOT EXISTS idx_topic_notes_unique_source
+			ON topic_notes(topic_id, note_type, source_url)
+			WHERE source_url IS NOT NULL;
 	`);
 };
 
@@ -448,20 +457,46 @@ export const getAllTopicProfiles = async (): Promise<TopicProfile[]> => {
 
 // ── topic notes (knowledge base) ───────────────────────────────────────────
 
-export const addTopicNote = (
+export const addTopicNote = async (
 	topicSlug: string,
 	noteType: string,
 	content: string,
 	sourceUrl: string | null,
 	addedByAgent: string,
-) => {
+): Promise<TopicNoteWriteResult> => {
 	const sanitized = sanitizeTopicNote(noteType, content);
 
-	return client.queryArray(
+	if (!sourceUrl) {
+		const { rows } = await client.queryObject<{ id: number }>(
+			`INSERT INTO topic_notes (topic_id, note_type, content, source_url, added_by_agent)
+				 VALUES ((SELECT id FROM topics WHERE slug = $1), $2, $3, $4, $5)
+				 RETURNING id;`,
+			[topicSlug, sanitized.noteType, sanitized.content, sourceUrl, addedByAgent],
+		);
+
+		return {
+			id: rows[0].id,
+			action: "inserted",
+		};
+	}
+
+	const { rows } = await client.queryObject<{ id: number; inserted: boolean }>(
 		`INSERT INTO topic_notes (topic_id, note_type, content, source_url, added_by_agent)
-		 VALUES ((SELECT id FROM topics WHERE slug = $1), $2, $3, $4, $5);`,
+			 VALUES ((SELECT id FROM topics WHERE slug = $1), $2, $3, $4, $5)
+			 ON CONFLICT (topic_id, note_type, source_url) WHERE source_url IS NOT NULL
+			 DO UPDATE SET
+				content = EXCLUDED.content,
+				added_by_agent = EXCLUDED.added_by_agent,
+				is_active = true,
+				updated_at = now()
+			 RETURNING id, (xmax = 0) AS inserted;`,
 		[topicSlug, sanitized.noteType, sanitized.content, sourceUrl, addedByAgent],
 	);
+
+	return {
+		id: rows[0].id,
+		action: rows[0].inserted ? "inserted" : "updated",
+	};
 };
 
 export const searchTopicNotes = async (

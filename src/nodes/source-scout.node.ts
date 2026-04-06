@@ -35,17 +35,39 @@ export const sourceScoutNode = async (): Promise<void> => {
 
 	logger.info({ topicCount: profiles.length }, "source-scout: starting");
 
-	let sourcesAdded = 0;
+	let sourcesFound = 0;
+	let sourcesInserted = 0;
+	let sourcesUpdated = 0;
 	let topicsProcessed = 0;
 
 	for (const profile of profiles) {
 		topicsProcessed++;
 		try {
 			const queries = buildSourceQueries(profile.name);
+			let topicSourcesFound = 0;
+			let topicSourcesInserted = 0;
+			let topicSourcesUpdated = 0;
 
 			for (const { type, query } of queries) {
 				try {
 					const sources = await searchOnlineSources(query, 3);
+					topicSourcesFound += sources.length;
+					sourcesFound += sources.length;
+
+					logger.info(
+						{
+							topic: profile.name,
+							queryType: type,
+							query,
+							found: sources.length,
+							items: sources.map((source) => ({
+								title: compactText(source.title, 120),
+								url: source.url,
+								score: source.score,
+							})),
+						},
+						"source-scout: query results",
+					);
 
 					for (const source of sources) {
 						const summary = compactText(source.content, 220);
@@ -55,7 +77,7 @@ export const sourceScoutNode = async (): Promise<void> => {
 							`Fact: ${summary || "Potentially relevant source discovered."}`,
 						].join("\n");
 
-						await addTopicNote(
+						const noteResult = await addTopicNote(
 							profile.slug,
 							type,
 							noteContent,
@@ -63,10 +85,28 @@ export const sourceScoutNode = async (): Promise<void> => {
 							"source-scout-agent",
 						);
 
-						sourcesAdded++;
+						if (noteResult.action === "inserted") {
+							topicSourcesInserted++;
+							sourcesInserted++;
+						} else {
+							topicSourcesUpdated++;
+							sourcesUpdated++;
+						}
+
+						logger.info(
+							{
+								topic: profile.name,
+								queryType: type,
+								title: compactText(source.title, 120),
+								url: source.url,
+								action: noteResult.action,
+								noteId: noteResult.id,
+							},
+							"source-scout: source recorded",
+						);
 					}
 				} catch (err) {
-					logger.debug(
+					logger.warn(
 						{ err, topic: profile.name, queryType: type },
 						"source-scout: search failed for query type",
 					);
@@ -74,7 +114,12 @@ export const sourceScoutNode = async (): Promise<void> => {
 			}
 
 			logger.info(
-				{ topic: profile.name, added: sourcesAdded },
+				{
+					topic: profile.name,
+					found: topicSourcesFound,
+					inserted: topicSourcesInserted,
+					updated: topicSourcesUpdated,
+				},
 				"source-scout: processed topic",
 			);
 		} catch (err) {
@@ -83,7 +128,7 @@ export const sourceScoutNode = async (): Promise<void> => {
 	}
 
 	logger.info(
-		{ topicsProcessed, sourcesAdded },
+		{ topicsProcessed, sourcesFound, sourcesInserted, sourcesUpdated },
 		"source-scout: completed",
 	);
 };
