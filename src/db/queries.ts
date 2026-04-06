@@ -7,7 +7,7 @@ import {
 	TopicNote,
 } from "../models.ts";
 import { TopicProfile } from "../topics/types.ts";
-import { compactText } from "../utils.ts";
+import { compactText, stripLeadingTopicLabel } from "../utils.ts";
 import { logger } from "../logger.ts";
 
 const TOPIC_NOTE_TYPE_MAX_LENGTH = 48;
@@ -120,7 +120,7 @@ export const connect = async (hostname: string, port: number) => {
 // ── article reads ──────────────────────────────────────────────────────────
 
 export const getLatestArticles = async (): Promise<Article[]> => {
-	const { rows } = await client.queryObject<Article & { date: Date }>(`
+	const { rows } = await client.queryObject<Article & { date: Date; topic_name: string }>(`
 		SELECT
 			a.id,
 			a.title AS article_title,
@@ -128,6 +128,7 @@ export const getLatestArticles = async (): Promise<Article[]> => {
 			a.slug,
 			a.url,
 			a.published_at AS date,
+			tp.name AS topic_name,
 			c.title,
 			c.url AS link,
 			c.source,
@@ -136,6 +137,7 @@ export const getLatestArticles = async (): Promise<Article[]> => {
 			''::text AS original,
 			''::text AS article
 		FROM articles a
+		INNER JOIN topics tp ON tp.id = a.topic_id
 		INNER JOIN article_tasks t ON t.id = a.task_id
 		INNER JOIN candidates c ON c.id = t.candidate_id
 		ORDER BY a.published_at DESC
@@ -143,21 +145,23 @@ export const getLatestArticles = async (): Promise<Article[]> => {
 
 	return rows.map((r) => ({
 		...r,
+		article_title: stripLeadingTopicLabel(r.article_title, r.topic_name),
 		formattedDate: r.date.toISOString().split("T")[0].replace(/-/g, "/"),
-		title: r.article_title,
+		title: stripLeadingTopicLabel(r.article_title, r.topic_name),
 	}));
 };
 
 export const getLatestArticlesByTopic = async (
 	topic: string,
 ): Promise<Article[]> => {
-	const { rows } = await client.queryObject<Article & { date: Date }>(`
+	const { rows } = await client.queryObject<Article & { date: Date; topic_name: string }>(`
 		SELECT
 			a.title AS article_title,
 			a.body AS article_content,
 			a.published_at AS date,
 			a.slug,
 			a.url,
+			topics.name AS topic_name,
 			c.title,
 			c.url AS link,
 			c.source,
@@ -175,8 +179,9 @@ export const getLatestArticlesByTopic = async (
 
 	return rows.map((row) => ({
 		...row,
+		article_title: stripLeadingTopicLabel(row.article_title, row.topic_name),
 		formattedDate: row.date.toISOString().split("T")[0].replace(/-/g, "/"),
-		title: row.article_title,
+		title: stripLeadingTopicLabel(row.article_title, row.topic_name),
 		article: row.article_content,
 	}));
 };
@@ -208,6 +213,7 @@ export const getTopicArticles = async (topicId: number) => {
 		article_content: string;
 		slug: string;
 		date: Date;
+		topic_name: string;
 	}>(`
     SELECT
       a.id::text as id,
@@ -215,11 +221,16 @@ export const getTopicArticles = async (topicId: number) => {
       a.slug,
       a.title as article_title,
       a.body as article_content,
-      a.published_at as date
+      a.published_at as date,
+      t.name as topic_name
     FROM articles a
+    INNER JOIN topics t ON t.id = a.topic_id
     WHERE a.topic_id = $1
     ORDER BY a.published_at DESC`, [topicId]);
-	return rows;
+	return rows.map((row) => ({
+		...row,
+		article_title: stripLeadingTopicLabel(row.article_title, row.topic_name),
+	}));
 };
 
 // ── pipeline reads ─────────────────────────────────────────────────────────

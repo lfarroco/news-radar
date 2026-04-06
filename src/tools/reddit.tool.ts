@@ -59,7 +59,7 @@ export const redditTool = new DynamicStructuredTool({
 		await Promise.all(
 			entries.map(async (entry: unknown) => {
 				const elem = $(entry as Parameters<typeof $>[0]);
-				const title = topic + " - " + elem.find("a.title.outbound").text();
+				const title = elem.find("a.title.outbound").text().trim();
 				const link = elem.find(".title a").attr("href") ?? "";
 				const published = elem.find(".tagline time").attr("datetime") ?? "";
 				const date = new Date(published);

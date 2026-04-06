@@ -11,7 +11,7 @@ import {
 } from "../db/queries.ts";
 import { logger } from "../logger.ts";
 import { loadConfig } from "../config.ts";
-import { compactText, slugify } from "../utils.ts";
+import { compactText, slugify, stripLeadingTopicLabel } from "../utils.ts";
 import { scrapeUrl } from "../tools/scraper.tool.ts";
 import type { GeneratedArticle } from "../models.ts";
 import type { PipelineState } from "../graph/state.ts";
@@ -35,6 +35,7 @@ Write a complete article in 300-500 words with:
 - Key facts and practical developer impact
 - Neutral, informative tone
 - A short call to action at the end (for example: read release notes, patch now, or review migration steps)
+- Do not prepend the topic or language name to the headline unless it is required for clarity
 Knowledge base policy:
 - Knowledge base notes are short memory cues, not canonical source text.
 - Use them only as compact background hints that can guide verification.
@@ -66,6 +67,13 @@ const summarizeNotes = (notes: string[]): string => {
 	return notes.slice(0, 6).map((note) => compactText(note, 180)).join("\n\n---\n\n");
 };
 
+const sanitizeEditorNotes = (editorNotes: string, topicName: string): string =>
+	editorNotes.replace(
+		/^Candidate title:\s*(.+)$/m,
+		(_match, rawTitle: string) =>
+			`Candidate title: ${stripLeadingTopicLabel(rawTitle, topicName)}`,
+	);
+
 export const writerNode = async (
 	state: PipelineState,
 ): Promise<Partial<PipelineState>> => {
@@ -95,30 +103,36 @@ export const writerNode = async (
 			const sourceContent = scraped.ok
 				? scraped.content.slice(0, MAX_SOURCE_TEXT)
 				: task.candidate_snippet;
+			const cleanCandidateTitle = stripLeadingTopicLabel(
+				task.candidate_title,
+				task.topic_name,
+			);
 			logger.debug(
 				{ taskId: task.id, scraped: scraped.ok, sourceChars: sourceContent.length },
 				"writer: source prepared",
 			);
 
-			const kbNotes = await searchTopicNotes(task.topic_slug, task.candidate_title, 6);
+			const kbNotes = await searchTopicNotes(task.topic_slug, cleanCandidateTitle, 6);
 			const knowledgeNotes = summarizeNotes(kbNotes.map((n) => n.content));
+			const editorNotes = sanitizeEditorNotes(task.editor_notes, task.topic_name);
 
 			const result = await chain.invoke({
 				topicName: task.topic_name,
-				candidateTitle: task.candidate_title,
+				candidateTitle: cleanCandidateTitle,
 				candidateUrl: task.candidate_url,
 				candidateSnippet: task.candidate_snippet,
-				editorNotes: task.editor_notes,
+				editorNotes,
 				knowledgeNotes,
 				sourceContent,
 			});
 
-			const slug = slugify(result.title);
+			const articleTitle = stripLeadingTopicLabel(result.title, task.topic_name);
+			const slug = slugify(articleTitle);
 			const url = `/articles/${formatToday()}/${slug}/`;
 			const inserted = await insertGeneratedArticle(
 				task.id,
 				task.topic_id,
-				result.title,
+				articleTitle,
 				result.content,
 				slug,
 				url,
@@ -128,15 +142,15 @@ export const writerNode = async (
 			await completeArticleTask(task.id, "completed");
 			await setCandidateStatus(task.candidate_id, "published");
 			logger.info(
-				{ taskId: task.id, articleTitle: result.title, inserted: Boolean(inserted) },
+				{ taskId: task.id, articleTitle, inserted: Boolean(inserted) },
 				"writer: task completed",
 			);
 			await addTopicNote(
 				task.topic_slug,
 				"summary",
 				[
-					`Published: ${result.title}`,
-					`Angle: ${compactText(task.editor_notes, 160)}`,
+					`Published: ${articleTitle}`,
+					`Angle: ${compactText(editorNotes, 160)}`,
 					`Takeaway: ${compactText(result.content, 180)}`,
 				].join("\n"),
 				task.candidate_url,

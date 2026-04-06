@@ -64,9 +64,7 @@ export const rssTool = new DynamicStructuredTool({
 		await Promise.all(
 			feed.entries.map(async (item) => {
 				const rawTitle = (item.title as { value?: string })?.value ?? "";
-				const title = topics.length
-					? `${topics.join(", ")} - ${rawTitle}`
-					: rawTitle;
+				const title = rawTitle.trim();
 				const link: string =
 					(item.links as Array<{ href: string }>)?.[0]?.href ?? "";
 				const pub = (item.published ?? item.updated) as Date | undefined;

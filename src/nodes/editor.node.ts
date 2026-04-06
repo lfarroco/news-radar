@@ -15,7 +15,7 @@ import {
 	searchOnlineSources,
 	type ResearchSource,
 } from "../tools/tavily.tool.ts";
-import { compactText } from "../utils.ts";
+import { compactText, stripLeadingTopicLabel } from "../utils.ts";
 
 const RELEVANCE_THRESHOLD = 7;
 const MAX_CANDIDATES_PER_RUN = 30;
@@ -136,9 +136,10 @@ export const editorNode = async (
 			"editor: reviewing candidate",
 		);
 		try {
+			const cleanTitle = stripLeadingTopicLabel(candidate.title, candidate.topic_name);
 			const relevance = await chain.invoke({
 				topic: candidate.topic_name,
-				title: candidate.title,
+				title: cleanTitle,
 				snippet: candidate.snippet || "(empty)",
 				source: candidate.source,
 			});
@@ -157,11 +158,11 @@ export const editorNode = async (
 				continue;
 			}
 
-			const researchQuery = `${candidate.topic_name} ${candidate.title} official announcement changelog security`;
+			const researchQuery = `${candidate.topic_name} ${cleanTitle} official announcement changelog security`;
 			const sources = await searchOnlineSources(researchQuery, 4);
 			const researchNotes = summarizeResearch(sources);
 			const taskNotes = buildTaskNotes(
-				candidate,
+				{ ...candidate, title: cleanTitle },
 				relevance.score,
 				relevance.rationale,
 				researchNotes,
@@ -187,7 +188,7 @@ export const editorNode = async (
 				candidate.topic_slug,
 				"fact",
 				[
-					`Candidate: ${candidate.title}`,
+					`Candidate: ${cleanTitle}`,
 					`Editorial score: ${relevance.score}/10`,
 					`Rationale: ${compactText(relevance.rationale, 120)}`,
 					`Research: ${compactText(researchNotes, 180)}`,

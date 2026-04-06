@@ -78,3 +78,32 @@ export const compactText = (text: string, maxLength: number): string => {
 
   return `${clipped.slice(0, boundary).trim()}...`;
 };
+
+const normalizeTopicLabel = (text: string): string =>
+  (text ?? "")
+    .toLowerCase()
+    .replace(/[._/-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+export const stripLeadingTopicLabel = (
+  title: string,
+  topicName?: string,
+): string => {
+  const normalizedTitle = (title ?? "").replace(/\s+/g, " ").trim();
+  if (!normalizedTitle || !topicName) return normalizedTitle;
+
+  const separator = " - ";
+  const separatorIndex = normalizedTitle.indexOf(separator);
+  if (separatorIndex === -1) return normalizedTitle;
+
+  const prefix = normalizedTitle.slice(0, separatorIndex).trim();
+  const rest = normalizedTitle.slice(separatorIndex + separator.length).trim();
+  if (!prefix || !rest) return normalizedTitle;
+
+  if (normalizeTopicLabel(prefix) !== normalizeTopicLabel(topicName)) {
+    return normalizedTitle;
+  }
+
+  return rest;
+};
