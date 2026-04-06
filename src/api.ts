@@ -9,6 +9,7 @@ import {
 } from "./db.ts";
 import { loadConfig } from "./config.ts";
 import { logger } from "./logger.ts";
+import { allTopics } from "./topics/profiles.ts";
 
 const config = loadConfig();
 
@@ -36,6 +37,61 @@ const toSlug = (value: string): string =>
 
 const getErrorMessage = (error: unknown): string =>
 	error instanceof Error ? error.message : String(error);
+
+type TopicProfileResponse = {
+	topic_id: number;
+	name: string;
+	slug: string;
+	article_count: number;
+	description: string | null;
+	officialSources: Array<{ label: string; url: string }>;
+	communityForums: Array<{ label: string; url: string }>;
+	rssFeedUrls: string[];
+	redditSubreddits: string[];
+	tavilySearchTerms: string[];
+	editorialNotes: string | null;
+};
+
+const createEmptyTopicProfile = () => ({
+	description: "",
+	officialSources: [],
+	communityForums: [],
+	rssFeedUrls: [],
+	redditSubreddits: [],
+	tavilySearchTerms: [],
+	editorialNotes: "",
+});
+
+const findDefaultTopicProfile = (name: string, slug: string) => {
+	const slugKey = toSlug(slug);
+	const nameKey = toSlug(name);
+	return allTopics.find((topic) => toSlug(topic.slug) === slugKey || toSlug(topic.name) === nameKey) ?? null;
+};
+
+const mergeTopicProfileFallback = (profile: TopicProfileResponse): TopicProfileResponse => {
+	const fallback = findDefaultTopicProfile(profile.name, profile.slug);
+
+	return {
+		...profile,
+		description: profile.description?.trim() || fallback?.description || null,
+		officialSources: Array.isArray(profile.officialSources) && profile.officialSources.length > 0
+			? profile.officialSources
+			: (fallback?.officialSources ?? []),
+		communityForums: Array.isArray(profile.communityForums) && profile.communityForums.length > 0
+			? profile.communityForums
+			: (fallback?.communityForums ?? []),
+		rssFeedUrls: Array.isArray(profile.rssFeedUrls) && profile.rssFeedUrls.length > 0
+			? profile.rssFeedUrls
+			: (fallback?.rssFeedUrls ?? []),
+		redditSubreddits: Array.isArray(profile.redditSubreddits) && profile.redditSubreddits.length > 0
+			? profile.redditSubreddits
+			: (fallback?.redditSubreddits ?? []),
+		tavilySearchTerms: Array.isArray(profile.tavilySearchTerms) && profile.tavilySearchTerms.length > 0
+			? profile.tavilySearchTerms
+			: (fallback?.tavilySearchTerms ?? []),
+		editorialNotes: profile.editorialNotes?.trim() || fallback?.editorialNotes || null,
+	};
+};
 
 async function handleRequest(req: Request): Promise<Response> {
 	const url = new URL(req.url);
@@ -101,16 +157,19 @@ async function handleRequest(req: Request): Promise<Response> {
 				});
 			}
 
+			const defaultProfile = findDefaultTopicProfile(name, slug);
+			const initialProfile = defaultProfile ?? createEmptyTopicProfile();
+
 			const created = await db.queryObject<{
 				topic_id: number;
 				name: string;
 				slug: string;
 				article_count: number;
 			}>(
-				`INSERT INTO topics (name, slug)
-				 VALUES ($1, $2)
+				`INSERT INTO topics (name, slug, profile)
+				 VALUES ($1, $2, $3::jsonb)
 				 RETURNING id AS topic_id, name, slug, 0::int AS article_count`,
-				[name, slug],
+				[name, slug, JSON.stringify(initialProfile)],
 			);
 
 			return new Response(JSON.stringify(created.rows[0]), {
@@ -121,19 +180,7 @@ async function handleRequest(req: Request): Promise<Response> {
 
 		if (pathname.match(/^\/api\/topics\/\d+$/) && req.method === "GET") {
 			const topicId = Number(pathname.split("/")[3]);
-			const result = await db.queryObject<{
-				topic_id: number;
-				name: string;
-				slug: string;
-				article_count: number;
-				description: string | null;
-				officialSources: Array<{ label: string; url: string }> | null;
-				communityForums: Array<{ label: string; url: string }> | null;
-				rssFeedUrls: string[] | null;
-				redditSubreddits: string[] | null;
-				tavilySearchTerms: string[] | null;
-				editorialNotes: string | null;
-			}>(
+			const result = await db.queryObject<TopicProfileResponse>(
 				`SELECT
 					t.id AS topic_id,
 					t.name,
@@ -160,7 +207,7 @@ async function handleRequest(req: Request): Promise<Response> {
 				});
 			}
 
-			return new Response(JSON.stringify(result.rows[0]), { headers });
+			return new Response(JSON.stringify(mergeTopicProfileFallback(result.rows[0])), { headers });
 		}
 
 		if (pathname.match(/^\/api\/topics\/\d+$/) && req.method === "PUT") {
