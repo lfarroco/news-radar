@@ -5,15 +5,14 @@ services:
     env_file:
       - .env
     depends_on:
-      - postgres
+      - db
     command: deno task api
     volumes:
       - ./:/usr/src/app/
     ports:
-      - "3001:3000"
-      - "8001:8000"
+      - "8000:8000"
 
-  postgres:
+  db:
     image: postgres:14.1-alpine
     restart: always
     environment:
@@ -21,6 +20,32 @@ services:
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=root
     ports:
-      - "15432:5432"
+      - "5432:5432"
     volumes:
       - ./seed.sql:/docker-entrypoint-initdb.d/seed.sql
+    networks:
+      default:
+        aliases:
+          - postgres
+
+  lume:
+    build: .
+    working_dir: /usr/src/app
+    env_file:
+      - .env
+    depends_on:
+      - db
+    command: deno task serve
+    volumes:
+      - ./:/usr/src/app/
+    ports:
+      - "3000:3000"
+
+  backoffice:
+    build: .
+    working_dir: /usr/src/app
+    command: deno run --allow-read --allow-net https://deno.land/std@0.208.0/http/file_server.ts --port 4000 ./src/site
+    volumes:
+      - ./:/usr/src/app/
+    ports:
+      - "4000:4000"
