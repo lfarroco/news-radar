@@ -1,5 +1,9 @@
 import { logger } from "../logger.ts";
-import { addTopicNote, getAllTopicProfiles } from "../db/queries.ts";
+import {
+	addTopicNote,
+	getAllTopicProfiles,
+	getIgnoredTopicSourceUrls,
+} from "../db/queries.ts";
 import { searchOnlineSources } from "../tools/tavily.tool.ts";
 import { compactText } from "../utils.ts";
 
@@ -38,15 +42,18 @@ export const sourceScoutNode = async (): Promise<void> => {
 	let sourcesFound = 0;
 	let sourcesInserted = 0;
 	let sourcesUpdated = 0;
+	let sourcesSkippedIgnored = 0;
 	let topicsProcessed = 0;
 
 	for (const profile of profiles) {
 		topicsProcessed++;
 		try {
+			const ignoredSourceUrls = new Set(await getIgnoredTopicSourceUrls(profile.slug));
 			const queries = buildSourceQueries(profile.name);
 			let topicSourcesFound = 0;
 			let topicSourcesInserted = 0;
 			let topicSourcesUpdated = 0;
+			let topicSourcesSkippedIgnored = 0;
 
 			for (const { type, query } of queries) {
 				try {
@@ -70,6 +77,22 @@ export const sourceScoutNode = async (): Promise<void> => {
 					);
 
 					for (const source of sources) {
+						if (ignoredSourceUrls.has(source.url)) {
+							topicSourcesSkippedIgnored++;
+							sourcesSkippedIgnored++;
+
+							logger.info(
+								{
+									topic: profile.name,
+									queryType: type,
+									title: compactText(source.title, 120),
+									url: source.url,
+								},
+								"source-scout: skipped ignored source",
+							);
+							continue;
+						}
+
 						const summary = compactText(source.content, 220);
 						const noteContent = [
 							`Type: ${SOURCE_TYPES[type]}`,
@@ -119,6 +142,7 @@ export const sourceScoutNode = async (): Promise<void> => {
 					found: topicSourcesFound,
 					inserted: topicSourcesInserted,
 					updated: topicSourcesUpdated,
+					skippedIgnored: topicSourcesSkippedIgnored,
 				},
 				"source-scout: processed topic",
 			);
@@ -128,7 +152,7 @@ export const sourceScoutNode = async (): Promise<void> => {
 	}
 
 	logger.info(
-		{ topicsProcessed, sourcesFound, sourcesInserted, sourcesUpdated },
+		{ topicsProcessed, sourcesFound, sourcesInserted, sourcesUpdated, sourcesSkippedIgnored },
 		"source-scout: completed",
 	);
 };

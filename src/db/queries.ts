@@ -552,3 +552,33 @@ export const searchTopicNotes = async (
 
 	return fallback.rows;
 };
+
+export const getIgnoredTopicSourceUrls = async (topicSlug: string): Promise<string[]> => {
+	const { rows } = await client.queryObject<{ source_url: string }>(
+		`SELECT DISTINCT n.source_url
+			FROM topic_notes n
+			INNER JOIN topics t ON t.id = n.topic_id
+			WHERE t.slug = $1
+				AND n.source_url IS NOT NULL
+				AND n.is_active = false;`,
+		[topicSlug],
+	);
+
+	return rows.map((row) => row.source_url);
+};
+
+export const setTopicNoteActiveState = async (
+	noteId: number,
+	isActive: boolean,
+): Promise<boolean> => {
+	const { rows } = await client.queryObject<{ id: number }>(
+		`UPDATE topic_notes
+			SET is_active = $2,
+				updated_at = now()
+			WHERE id = $1
+			RETURNING id;`,
+		[noteId, isActive],
+	);
+
+	return Boolean(rows[0]);
+};

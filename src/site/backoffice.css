@@ -355,8 +355,33 @@ main {
 	text-decoration: none;
 }
 
+.kb-note-actions {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+}
+
 .kb-note-source:hover {
 	text-decoration: underline;
+}
+
+.kb-note-ignore {
+	padding: 0.2rem 0.55rem;
+	background: rgba(239, 68, 68, 0.14);
+	border: 1px solid rgba(239, 68, 68, 0.35);
+	border-radius: 999px;
+	color: #fecaca;
+	cursor: pointer;
+	font-size: 0.75rem;
+	font-weight: 600;
+	transition: all 0.2s;
+}
+
+.kb-note-ignore:hover {
+	background: rgba(239, 68, 68, 0.24);
+	border-color: rgba(239, 68, 68, 0.55);
 }
 
 .topic-item,

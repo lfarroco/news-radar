@@ -1,5 +1,12 @@
 import { serve } from "https://deno.land/std@0.208.0/http/server.ts";
-import { connect, getTopicsList, getTopicArticles, getLatestArticles, client as db } from "./db.ts";
+import {
+	connect,
+	getTopicsList,
+	getTopicArticles,
+	getLatestArticles,
+	setTopicNoteActiveState,
+	client as db,
+} from "./db.ts";
 import { loadConfig } from "./config.ts";
 import { logger } from "./logger.ts";
 
@@ -243,6 +250,20 @@ async function handleRequest(req: Request): Promise<Response> {
 			);
 
 			return new Response(JSON.stringify(notes.rows), { headers });
+		}
+
+		if (pathname.match(/^\/api\/topic-notes\/\d+\/ignore$/) && req.method === "POST") {
+			const noteId = Number(pathname.split("/")[3]);
+			const updated = await setTopicNoteActiveState(noteId, false);
+
+			if (!updated) {
+				return new Response(JSON.stringify({ error: "Knowledge base note not found" }), {
+					status: 404,
+					headers,
+				});
+			}
+
+			return new Response(JSON.stringify({ success: true, noteId }), { headers });
 		}
 
 		if (pathname === "/api/articles" && req.method === "GET") {

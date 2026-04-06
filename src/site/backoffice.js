@@ -370,6 +370,27 @@ async function loadKnowledgeBaseByTopic(topicId) {
 	}
 }
 
+async function ignoreKnowledgeBaseNote(noteId) {
+	if (!selectedTopic) return;
+
+	try {
+		showStatus("Ignoring source for future scout runs...", "loading");
+		const response = await fetch(`${API_BASE}/api/topic-notes/${noteId}/ignore`, {
+			method: "POST",
+		});
+		const payload = await response.json();
+
+		if (!response.ok) {
+			throw new Error(payload.error || `HTTP ${response.status}`);
+		}
+
+		showStatus("Source will be skipped on future scout runs", "success");
+		await loadKnowledgeBaseByTopic(selectedTopic.topic_id);
+	} catch (error) {
+		showStatus(`Failed to ignore source: ${error.message}`, "error");
+	}
+}
+
 function renderKnowledgeBase() {
 	const container = document.getElementById("knowledge-base-list");
 	if (!container) return;
@@ -393,7 +414,12 @@ function renderKnowledgeBase() {
 				<span class="kb-note-date">${formatDateTime(note.updated_at)}</span>
 			</div>
 			<div class="kb-note-content">${escapeHtml(note.content || "")}</div>
-			${note.source_url ? `<a class="kb-note-source" href="${escapeHtml(note.source_url)}" target="_blank" rel="noopener noreferrer">Source</a>` : ""}
+			${note.source_url ? `
+				<div class="kb-note-actions">
+					<a class="kb-note-source" href="${escapeHtml(note.source_url)}" target="_blank" rel="noopener noreferrer">Source</a>
+					<button class="kb-note-ignore" onclick="ignoreKnowledgeBaseNote(${Number(note.id)})">Ignore URL</button>
+				</div>
+			` : ""}
 		</div>
 	`
 		)
@@ -622,4 +648,5 @@ Object.assign(window, {
 	compileWebsite,
 	runScout,
 	filterArticles,
+	ignoreKnowledgeBaseNote,
 });
