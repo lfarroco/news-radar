@@ -209,14 +209,49 @@ header {
 
 .disclaimer {
   font-family: "Manrope", "Avenir Next", "Segoe UI", sans-serif;
-  font-size: 0.86rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
   color: var(--muted);
   text-align: left;
-  margin: 0 0 1.4rem;
-  background: linear-gradient(135deg, #f2f7f5, #fbfdf9);
+  margin: 0 0 1rem;
+  background: var(--surface-soft);
   border: 1px solid var(--line);
-  padding: 0.8rem 0.9rem;
+  padding: 0.55rem 0.8rem;
   border-radius: var(--radius-md);
+}
+
+[data-theme="dark"] .disclaimer {
+  background: #1a2926;
+  color: #c2d2cf;
+  border-color: #2f4340;
+}
+
+.article-references {
+  margin-top: 1.6rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.article-references__title {
+  font-family: "Manrope", "Avenir Next", "Segoe UI", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 800;
+  margin-bottom: 0.65rem;
+}
+
+.article-references__list {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.article-references__list li {
+  margin: 0.2rem 0;
+}
+
+.article-references__list a {
+  font-family: "Manrope", "Avenir Next", "Segoe UI", sans-serif;
+  font-size: 0.86rem;
 }
 
 h1,

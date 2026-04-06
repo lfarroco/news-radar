@@ -12,9 +12,21 @@ layout: main.njk
 	</div>
 	<div class="card-body">
 		<div class="disclaimer">
-			This article was written by an AI 🤖. The original article can be found <a href="{{link}}" target="_blank"> here</a>.
-			If you want to learn more about how this works, check out <a href="https://github.com/lfarroco/news-radar" target="_blank">our repo</a>.
+			AI-generated summary. Verify important details with official sources.
 		</div>
 		{{ content | md | safe }}
+
+		{% if references and references.length %}
+		<section class="article-references">
+			<h2 class="article-references__title">References</h2>
+			<ul class="article-references__list">
+				{% for ref in references %}
+					<li>
+						<a href="{{ ref.url }}" target="_blank" rel="noopener noreferrer">{{ ref.label }}</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</section>
+		{% endif %}
 	</div>
 </article>
