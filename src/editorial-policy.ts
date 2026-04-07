@@ -1,53 +1,10 @@
 import type { TopicProfile } from "./topics/types.ts";
 
-const PERSONAL_BLOG_HOST_PATTERNS = [
-	"medium.com",
-	"substack.com",
-	"dev.to",
-	"hashnode.dev",
-	"ghost.io",
-	"blogspot.",
-	"wordpress.com",
-	"bearblog.dev",
-	"write.as",
-];
-
-const PERSONAL_BLOG_PATH_PATTERNS = [
-	/\/\@[a-z0-9_.-]+\/?$/i,
-	/\/~[a-z0-9_.-]+\/?$/i,
-	/\/users?\/[a-z0-9_.-]+\/?$/i,
-	/\/u\/[a-z0-9_.-]+\/?$/i,
-];
-
-const PERSONAL_BLOG_TEXT_PATTERNS = [
-	/\bmy\s+blog\b/i,
-	/\bpersonal\s+blog\b/i,
-	/\bmy\s+notes\b/i,
-	/\bopinion\b/i,
-	/\bthoughts\b/i,
-];
-
 const normalizeSpaces = (text: string): string =>
 	(text ?? "").replace(/\s+/g, " ").trim();
 
 const normalizeForComparison = (text: string): string =>
 	normalizeSpaces(text).toLowerCase();
-
-const safeHostname = (url: string): string => {
-	try {
-		return new URL(url).hostname.toLowerCase();
-	} catch {
-		return "";
-	}
-};
-
-const safePathname = (url: string): string => {
-	try {
-		return new URL(url).pathname.toLowerCase();
-	} catch {
-		return "";
-	}
-};
 
 const normalizePathPrefix = (pathname: string): string => {
 	const normalized = (pathname || "/").replace(/\/+/g, "/").replace(/\/+$/g, "");
@@ -98,36 +55,6 @@ export const isOfficialTopicSourceUrl = (
 ): boolean => {
 	if (!profile) return false;
 	return isOfficialSourceUrl(url, getOfficialSourceUrls(profile));
-};
-
-const isPersonalBlogHost = (hostname: string): boolean => {
-	if (!hostname) return false;
-	return PERSONAL_BLOG_HOST_PATTERNS.some((pattern) =>
-		hostname === pattern || hostname.endsWith(`.${pattern}`) || hostname.includes(pattern)
-	);
-};
-
-const isPersonalBlogPath = (pathname: string): boolean =>
-	PERSONAL_BLOG_PATH_PATTERNS.some((pattern) => pattern.test(pathname));
-
-const hasPersonalBlogTextSignal = (text: string): boolean =>
-	PERSONAL_BLOG_TEXT_PATTERNS.some((pattern) => pattern.test(text));
-
-export const isLikelyPersonalBlogCandidate = (candidate: {
-	url: string;
-	title: string;
-	snippet?: string;
-	source?: string;
-}): boolean => {
-	const hostname = safeHostname(candidate.url);
-	const pathname = safePathname(candidate.url);
-	const text = `${candidate.title}\n${candidate.snippet ?? ""}\n${candidate.source ?? ""}`;
-
-	if (isPersonalBlogHost(hostname)) return true;
-	if (isPersonalBlogPath(pathname)) return true;
-	if (hasPersonalBlogTextSignal(text)) return true;
-
-	return false;
 };
 
 const splitSentences = (text: string): string[] =>

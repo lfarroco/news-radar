@@ -4,7 +4,6 @@ import {
 	findVerbatimSentenceMatches,
 	isOfficialSourceUrl,
 	isOfficialTopicSourceUrl,
-	isLikelyPersonalBlogCandidate,
 } from "../src/editorial-policy.ts";
 import type { TopicProfile } from "../src/topics/types.ts";
 
@@ -22,31 +21,6 @@ const rustProfile: TopicProfile = {
 	tavilySearchTerms: [],
 	editorialNotes: "",
 };
-
-Deno.test("editorial policy: flags likely personal blog hosts", () => {
-	assertEquals(
-		isLikelyPersonalBlogCandidate({
-			url: "https://dev.to/janedoe/awesome-trick",
-			title: "A quick trick",
-			snippet: "",
-			source: "reddit-typescript",
-		}),
-		true,
-	);
-});
-
-Deno.test("editorial policy: does not flag common official release sources", () => {
-	assertEquals(
-		isLikelyPersonalBlogCandidate({
-			url: "https://go.dev/doc/devel/release",
-			title: "Go 1.25 release",
-			snippet: "Release notes and migration details",
-			source: "https://go.dev/blog/feed.atom",
-		}),
-		false,
-	);
-});
-
 Deno.test("editorial policy: official source match allows child paths under official base", () => {
 	assertEquals(
 		isOfficialSourceUrl(
