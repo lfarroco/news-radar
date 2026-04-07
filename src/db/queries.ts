@@ -110,6 +110,33 @@ const ensureSchema = async () => {
 			ON topic_notes(topic_id, note_type, source_url)
 			WHERE source_url IS NOT NULL;
 	`);
+
+	// Additive migrations: safe to re-run on existing databases
+	await client.queryArray(`
+		ALTER TABLE topics ADD COLUMN IF NOT EXISTS last_scouted_at TIMESTAMPTZ;
+
+		CREATE TABLE IF NOT EXISTS source_selectors (
+			id SERIAL PRIMARY KEY,
+			source_url TEXT NOT NULL UNIQUE,
+			topic_slug TEXT NOT NULL,
+			source_type TEXT NOT NULL DEFAULT 'unknown',
+			feed_url TEXT,
+			index_item_selector TEXT,
+			index_title_selector TEXT,
+			index_link_selector TEXT,
+			index_date_selector TEXT,
+			detail_title_selector TEXT,
+			detail_content_selector TEXT,
+			detail_date_selector TEXT,
+			needs_reindex BOOLEAN NOT NULL DEFAULT false,
+			last_indexed_at TIMESTAMPTZ,
+			created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+			updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+		);
+
+		CREATE INDEX IF NOT EXISTS idx_source_selectors_topic_slug
+			ON source_selectors(topic_slug);
+	`);
 };
 
 export const connect = async (hostname: string, port: number) => {
@@ -625,4 +652,119 @@ export const deactivateTopicNotesByIds = async (
 	);
 
 	return rows.map((row) => row.id);
+};
+
+// ── source selectors ───────────────────────────────────────────────────────
+
+export type SourceSelector = {
+	id: number;
+	source_url: string;
+	topic_slug: string;
+	source_type: string;
+	feed_url: string | null;
+	index_item_selector: string | null;
+	index_title_selector: string | null;
+	index_link_selector: string | null;
+	index_date_selector: string | null;
+	detail_title_selector: string | null;
+	detail_content_selector: string | null;
+	detail_date_selector: string | null;
+	needs_reindex: boolean;
+	last_indexed_at: Date | null;
+	created_at: Date;
+	updated_at: Date;
+};
+
+export const touchSourceSelector = async (
+	sourceUrl: string,
+	topicSlug: string,
+): Promise<void> => {
+	await client.queryArray(
+		`INSERT INTO source_selectors (source_url, topic_slug)
+		 VALUES ($1, $2)
+		 ON CONFLICT (source_url) DO NOTHING;`,
+		[sourceUrl, topicSlug],
+	);
+};
+
+export const setSourceSelectorFeedUrl = async (
+	sourceUrl: string,
+	feedUrl: string,
+): Promise<void> => {
+	await client.queryArray(
+		`UPDATE source_selectors
+		 SET feed_url = $2, needs_reindex = false, updated_at = now()
+		 WHERE source_url = $1;`,
+		[sourceUrl, feedUrl],
+	);
+};
+
+export type IndexSelectors = {
+	indexItemSelector: string;
+	indexTitleSelector: string;
+	indexLinkSelector: string;
+	indexDateSelector: string | null;
+};
+
+export const setSourceSelectorIndexSelectors = async (
+	sourceUrl: string,
+	selectors: IndexSelectors,
+): Promise<void> => {
+	await client.queryArray(
+		`UPDATE source_selectors
+		 SET
+			index_item_selector = $2,
+			index_title_selector = $3,
+			index_link_selector = $4,
+			index_date_selector = $5,
+			needs_reindex = false,
+			last_indexed_at = now(),
+			updated_at = now()
+		 WHERE source_url = $1;`,
+		[
+			sourceUrl,
+			selectors.indexItemSelector,
+			selectors.indexTitleSelector,
+			selectors.indexLinkSelector,
+			selectors.indexDateSelector ?? null,
+		],
+	);
+};
+
+export const markSourceSelectorNeedsReindex = async (
+	sourceUrl: string,
+): Promise<void> => {
+	await client.queryArray(
+		`UPDATE source_selectors
+		 SET needs_reindex = true, updated_at = now()
+		 WHERE source_url = $1;`,
+		[sourceUrl],
+	);
+};
+
+export const getSourceSelectorsByTopicSlug = async (
+	topicSlug: string,
+): Promise<SourceSelector[]> => {
+	const { rows } = await client.queryObject<SourceSelector>(
+		`SELECT * FROM source_selectors WHERE topic_slug = $1;`,
+		[topicSlug],
+	);
+	return rows;
+};
+
+export const markTopicScoutedNow = async (topicSlug: string): Promise<void> => {
+	await client.queryArray(
+		`UPDATE topics SET last_scouted_at = now() WHERE slug = $1;`,
+		[topicSlug],
+	);
+};
+
+export const getTopicLastScoutedAt = async (
+	topicSlug: string,
+): Promise<Date | null> => {
+	const { rows } = await client.queryObject<{ last_scouted_at: Date | null }>(
+		`SELECT last_scouted_at FROM topics WHERE slug = $1;`,
+		[topicSlug],
+	);
+	return rows[0]?.last_scouted_at ?? null;
 };

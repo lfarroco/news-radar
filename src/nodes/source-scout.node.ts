@@ -3,11 +3,16 @@ import {
 	addTopicNote,
 	getAllTopicProfiles,
 	getIgnoredTopicSourceUrls,
+	getTopicLastScoutedAt,
+	markTopicScoutedNow,
+	touchSourceSelector,
 } from "../db/queries.ts";
 import { searchOnlineSources } from "../tools/tavily.tool.ts";
 import { compactText } from "../utils.ts";
 
 const BLOCKED_HOST_PATTERN = /(reddit\.com|youtube\.com|youtu\.be|instagram\.com|facebook\.com|tiktok\.com)/i;
+
+const SOURCE_SCOUT_INTERVAL_HOURS = 6;
 
 const isEligibleDiscoveredSource = (url: string, score?: number): boolean => {
 	try {
@@ -62,6 +67,19 @@ export const sourceScoutNode = async (): Promise<void> => {
 	for (const profile of profiles) {
 		topicsProcessed++;
 		try {
+			// Throttle: skip if scouted recently
+			const lastScoutedAt = await getTopicLastScoutedAt(profile.slug);
+			if (lastScoutedAt) {
+				const hoursSince = (Date.now() - lastScoutedAt.getTime()) / 3_600_000;
+				if (hoursSince < SOURCE_SCOUT_INTERVAL_HOURS) {
+					logger.info(
+						{ topic: profile.name, hoursSince: hoursSince.toFixed(1) },
+						`source-scout: skipping topic (scouted ${hoursSince.toFixed(1)}h ago, interval ${SOURCE_SCOUT_INTERVAL_HOURS}h)`,
+					);
+					continue;
+				}
+			}
+
 			const ignoredSourceUrls = new Set(await getIgnoredTopicSourceUrls(profile.slug));
 			const queries = buildSourceQueries(profile.name);
 			let topicSourcesFound = 0;
@@ -119,6 +137,9 @@ export const sourceScoutNode = async (): Promise<void> => {
 							"source-scout-agent",
 						);
 
+						// Register the URL in source_selectors so the scanner can track it
+						await touchSourceSelector(source.url, profile.slug);
+
 						if (noteResult.action === "inserted") {
 							topicSourcesInserted++;
 							sourcesInserted++;
@@ -157,6 +178,8 @@ export const sourceScoutNode = async (): Promise<void> => {
 				},
 				"source-scout: processed topic",
 			);
+
+			await markTopicScoutedNow(profile.slug);
 		} catch (err) {
 			logger.error({ err, topic: profile.name }, "source-scout: topic processing failed");
 		}
