@@ -16,7 +16,11 @@ import {
 	type ResearchSource,
 } from "../tools/tavily.tool.ts";
 import { compactText, stripLeadingTopicLabel } from "../utils.ts";
-import { isLikelyPersonalBlogCandidate } from "../editorial-policy.ts";
+import {
+	isLikelyPersonalBlogCandidate,
+	isOfficialTopicSourceUrl,
+} from "../editorial-policy.ts";
+import { loadRuntimeTopicProfiles } from "../topics/runtime.ts";
 
 const RELEVANCE_THRESHOLD = 7;
 const MAX_CANDIDATES_PER_RUN = 30;
@@ -122,6 +126,8 @@ export const editorNode = async (
 	}
 
 	logger.info({ count: candidates.length }, "editor: reviewing candidates");
+	const topicProfiles = await loadRuntimeTopicProfiles();
+	const profileBySlug = new Map(topicProfiles.map((profile) => [profile.slug, profile]));
 
 	const llm = makeLlm(0).withStructuredOutput(relevanceSchema);
 	const chain = relevancePrompt.pipe(llm);
@@ -138,6 +144,22 @@ export const editorNode = async (
 			"editor: reviewing candidate",
 		);
 		try {
+			const topicProfile = profileBySlug.get(candidate.topic_slug);
+			if (!isOfficialTopicSourceUrl(topicProfile, candidate.url)) {
+				rejected++;
+				await setCandidateStatus(
+					candidate.id,
+					"rejected",
+					0,
+					"Rejected by editorial policy: candidate URL is not in this topic's official source allowlist.",
+				);
+				logger.info(
+					{ candidateId: candidate.id, topic: candidate.topic_slug, url: candidate.url },
+					"editor: candidate rejected by official-source policy",
+				);
+				continue;
+			}
+
 			if (isLikelyPersonalBlogCandidate(candidate)) {
 				rejected++;
 				await setCandidateStatus(
@@ -177,7 +199,10 @@ export const editorNode = async (
 
 			const researchQuery = `${candidate.topic_name} ${cleanTitle} official announcement changelog security`;
 			const sources = await searchOnlineSources(researchQuery, 4);
-			const researchNotes = summarizeResearch(sources);
+			const officialSources = sources.filter((source) =>
+				isOfficialTopicSourceUrl(topicProfile, source.url)
+			);
+			const researchNotes = summarizeResearch(officialSources);
 			const taskNotes = buildTaskNotes(
 				{ ...candidate, title: cleanTitle },
 				relevance.score,

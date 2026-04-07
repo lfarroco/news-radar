@@ -2,8 +2,26 @@ import { assertEquals } from "https://deno.land/std@0.224.0/assert/mod.ts";
 import {
 	enforceQuotesForCopiedText,
 	findVerbatimSentenceMatches,
+	isOfficialSourceUrl,
+	isOfficialTopicSourceUrl,
 	isLikelyPersonalBlogCandidate,
 } from "../src/editorial-policy.ts";
+import type { TopicProfile } from "../src/topics/types.ts";
+
+const rustProfile: TopicProfile = {
+	name: "Rust",
+	slug: "rust",
+	description: "",
+	officialSources: [
+		{ label: "Rust Blog", url: "https://blog.rust-lang.org" },
+		{ label: "Rust Releases", url: "https://github.com/rust-lang/rust/releases" },
+	],
+	communityForums: [],
+	rssFeedUrls: [],
+	redditSubreddits: [],
+	tavilySearchTerms: [],
+	editorialNotes: "",
+};
 
 Deno.test("editorial policy: flags likely personal blog hosts", () => {
 	assertEquals(
@@ -25,6 +43,50 @@ Deno.test("editorial policy: does not flag common official release sources", () 
 			snippet: "Release notes and migration details",
 			source: "https://go.dev/blog/feed.atom",
 		}),
+		false,
+	);
+});
+
+Deno.test("editorial policy: official source match allows child paths under official base", () => {
+	assertEquals(
+		isOfficialSourceUrl(
+			"https://github.com/rust-lang/rust/releases/tag/1.89.0",
+			["https://github.com/rust-lang/rust/releases"],
+		),
+		true,
+	);
+});
+
+Deno.test("editorial policy: official source match rejects unrelated custom domains", () => {
+	assertEquals(
+		isOfficialTopicSourceUrl(
+			rustProfile,
+			"https://fasterthanli.me/articles/some-rust-post",
+		),
+		false,
+	);
+});
+
+Deno.test("editorial policy: official source match rejects sibling product blog on same host", () => {
+	const typescriptProfile: TopicProfile = {
+		name: "TypeScript",
+		slug: "typescript",
+		description: "",
+		officialSources: [
+			{ label: "TypeScript Blog", url: "https://devblogs.microsoft.com/typescript/" },
+		],
+		communityForums: [],
+		rssFeedUrls: [],
+		redditSubreddits: [],
+		tavilySearchTerms: [],
+		editorialNotes: "",
+	};
+
+	assertEquals(
+		isOfficialTopicSourceUrl(
+			typescriptProfile,
+			"https://devblogs.microsoft.com/dotnet/another-post",
+		),
 		false,
 	);
 });

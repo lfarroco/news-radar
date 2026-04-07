@@ -1,3 +1,5 @@
+import type { TopicProfile } from "./topics/types.ts";
+
 const PERSONAL_BLOG_HOST_PATTERNS = [
 	"medium.com",
 	"substack.com",
@@ -45,6 +47,57 @@ const safePathname = (url: string): string => {
 	} catch {
 		return "";
 	}
+};
+
+const normalizePathPrefix = (pathname: string): string => {
+	const normalized = (pathname || "/").replace(/\/+/g, "/").replace(/\/+$/g, "");
+	return normalized || "/";
+};
+
+const parseUrlParts = (url: string): { hostname: string; pathPrefix: string } | null => {
+	try {
+		const parsed = new URL(url);
+		return {
+			hostname: parsed.hostname.toLowerCase(),
+			pathPrefix: normalizePathPrefix(parsed.pathname.toLowerCase()),
+		};
+	} catch {
+		return null;
+	}
+};
+
+const isPathWithinPrefix = (pathname: string, prefix: string): boolean => {
+	if (prefix === "/") return true;
+	return pathname === prefix || pathname.startsWith(`${prefix}/`);
+};
+
+export const isOfficialSourceUrl = (
+	url: string,
+	officialSourceUrls: string[],
+): boolean => {
+	const candidate = parseUrlParts(url);
+	if (!candidate) return false;
+	if (officialSourceUrls.length === 0) return false;
+
+	return officialSourceUrls.some((officialUrl) => {
+		const official = parseUrlParts(officialUrl);
+		if (!official) return false;
+		if (candidate.hostname !== official.hostname) return false;
+		return isPathWithinPrefix(candidate.pathPrefix, official.pathPrefix);
+	});
+};
+
+export const getOfficialSourceUrls = (profile: TopicProfile): string[] =>
+	(profile.officialSources ?? [])
+		.map((source) => source.url)
+		.filter(Boolean);
+
+export const isOfficialTopicSourceUrl = (
+	profile: TopicProfile | null | undefined,
+	url: string,
+): boolean => {
+	if (!profile) return false;
+	return isOfficialSourceUrl(url, getOfficialSourceUrls(profile));
 };
 
 const isPersonalBlogHost = (hostname: string): boolean => {

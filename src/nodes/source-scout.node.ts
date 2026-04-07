@@ -6,6 +6,7 @@ import {
 } from "../db/queries.ts";
 import { searchOnlineSources } from "../tools/tavily.tool.ts";
 import { compactText } from "../utils.ts";
+import { isOfficialTopicSourceUrl } from "../editorial-policy.ts";
 
 const SOURCE_TYPES = {
 	official_blog: "Official blog / announcement channel",
@@ -57,7 +58,9 @@ export const sourceScoutNode = async (): Promise<void> => {
 
 			for (const { type, query } of queries) {
 				try {
-					const sources = await searchOnlineSources(query, 3);
+					const sources = (await searchOnlineSources(query, 3)).filter((source) =>
+						isOfficialTopicSourceUrl(profile, source.url)
+					);
 					topicSourcesFound += sources.length;
 					sourcesFound += sources.length;
 

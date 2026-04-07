@@ -18,7 +18,9 @@ import type { PipelineState } from "../graph/state.ts";
 import {
 	enforceQuotesForCopiedText,
 	findVerbatimSentenceMatches,
+	isOfficialTopicSourceUrl,
 } from "../editorial-policy.ts";
+import { loadRuntimeTopicProfiles } from "../topics/runtime.ts";
 
 const config = loadConfig();
 const MAX_TASKS_PER_RUN = 3;
@@ -92,6 +94,8 @@ export const writerNode = async (
 	const chain = prompt.pipe(llm);
 	const publishedArticles: GeneratedArticle[] = [];
 	let attemptedTasks = 0;
+	const topicProfiles = await loadRuntimeTopicProfiles();
+	const profileBySlug = new Map(topicProfiles.map((profile) => [profile.slug, profile]));
 
 	logger.info({ maxTasks: MAX_TASKS_PER_RUN }, "writer: starting");
 
@@ -109,6 +113,18 @@ export const writerNode = async (
 		);
 
 		try {
+			const topicProfile = profileBySlug.get(task.topic_slug);
+			if (!isOfficialTopicSourceUrl(topicProfile, task.candidate_url)) {
+				logger.warn(
+					{ taskId: task.id, topic: task.topic_slug, url: task.candidate_url },
+					"writer: rejected queued task because candidate is not from an official source",
+				);
+				await completeArticleTask(task.id, "failed");
+				await setCandidateStatus(task.candidate_id, "rejected", 0,
+					"Rejected by writer safety check: queued task is not in this topic's official source allowlist.");
+				continue;
+			}
+
 			const scraped = await scrapeUrl(task.candidate_url);
 			const sourceContent = scraped.ok
 				? scraped.content.slice(0, MAX_SOURCE_TEXT)
@@ -122,7 +138,9 @@ export const writerNode = async (
 				"writer: source prepared",
 			);
 
-			const kbNotes = await searchTopicNotes(task.topic_slug, cleanCandidateTitle, 6);
+			const kbNotes = (await searchTopicNotes(task.topic_slug, cleanCandidateTitle, 6)).filter((note) =>
+				note.source_url ? isOfficialTopicSourceUrl(topicProfile, note.source_url) : true
+			);
 			const knowledgeNotes = summarizeNotes(kbNotes.map((n) => n.content));
 			const editorNotes = sanitizeEditorNotes(task.editor_notes, task.topic_name);
 
