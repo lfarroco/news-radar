@@ -6,6 +6,9 @@ import {
 	upsertTopic,
 } from "../db/queries.ts";
 import { slugify } from "../utils.ts";
+import { loadConfig } from "../config.ts";
+
+const { MAX_AGE_DAYS } = loadConfig();
 
 const RESTRICTED_DOMAINS = [
 	"youtube.com",
@@ -22,8 +25,6 @@ const RESTRICTED_DOMAINS = [
 	"redd.it",
 	"i.redd.it",
 ];
-
-const MAX_AGE_DAYS = 3;
 
 const isRestricted = (url: string) =>
 	RESTRICTED_DOMAINS.some((d) => url.includes(d));

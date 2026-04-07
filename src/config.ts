@@ -14,6 +14,7 @@ const configSchema = z.object({
 	DB_NAME: z.string().optional().default("root"),
 	API_PORT: z.string().optional().default("8000"),
 	PROJECT_ROOT: z.string().optional().default("/usr/src/app"),
+	MAX_AGE_DAYS: z.coerce.number().optional().default(30),
 });
 
 export type Config = z.infer<typeof configSchema>;
@@ -33,6 +34,7 @@ export const loadConfig = (): Config => {
 		DB_NAME: Deno.env.get("DB_NAME"),
 		API_PORT: Deno.env.get("API_PORT"),
 		PROJECT_ROOT: Deno.env.get("PROJECT_ROOT"),
+		MAX_AGE_DAYS: Deno.env.get("MAX_AGE_DAYS"),
 	};
 
 	const result = configSchema.safeParse(raw);
