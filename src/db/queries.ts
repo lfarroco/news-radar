@@ -11,7 +11,7 @@ import { compactText, stripLeadingTopicLabel } from "../utils.ts";
 import { logger } from "../logger.ts";
 
 const TOPIC_NOTE_TYPE_MAX_LENGTH = 48;
-const TOPIC_NOTE_CONTENT_MAX_LENGTH = 420;
+const TOPIC_NOTE_CONTENT_MAX_LENGTH = 280;
 
 export type TopicNoteWriteResult = {
 	id: number;
@@ -581,4 +581,26 @@ export const setTopicNoteActiveState = async (
 	);
 
 	return Boolean(rows[0]);
+};
+
+export const deactivateTopicNotesByIds = async (
+	topicSlug: string,
+	noteIds: number[],
+): Promise<number[]> => {
+	if (noteIds.length === 0) return [];
+
+	const { rows } = await client.queryObject<{ id: number }>(
+		`UPDATE topic_notes n
+			SET is_active = false,
+				updated_at = now()
+			FROM topics t
+			WHERE n.topic_id = t.id
+				AND t.slug = $1
+				AND n.id = ANY($2)
+				AND n.is_active = true
+			RETURNING n.id;`,
+		[topicSlug, noteIds],
+	);
+
+	return rows.map((row) => row.id);
 };

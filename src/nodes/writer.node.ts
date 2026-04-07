@@ -1,4 +1,5 @@
 import { ChatPromptTemplate } from "@langchain/core/prompts";
+import { AIMessage, HumanMessage, SystemMessage } from "@langchain/core/messages";
 import { z } from "zod";
 import { makeLlm } from "../llm.ts";
 import {
@@ -6,13 +7,13 @@ import {
 	claimNextPendingArticleTask,
 	completeArticleTask,
 	insertGeneratedArticle,
-	searchTopicNotes,
 	setCandidateStatus,
 } from "../db/queries.ts";
 import { logger } from "../logger.ts";
 import { loadConfig } from "../config.ts";
 import { compactText, slugify, stripLeadingTopicLabel } from "../utils.ts";
 import { scrapeUrl } from "../tools/scraper.tool.ts";
+import { knowledgeBaseTool } from "../tools/knowledge-base.tool.ts";
 import type { GeneratedArticle } from "../models.ts";
 import type { PipelineState } from "../graph/state.ts";
 import {
@@ -45,10 +46,6 @@ Write a complete article in 300-500 words with:
 - Never return the whole article as one large paragraph
 - A short call to action at the end (for example: read release notes, patch now, or review migration steps)
 - Do not prepend the topic or language name to the headline unless it is required for clarity
-Knowledge base policy:
-- Knowledge base notes are short memory cues, not canonical source text.
-- Use them only as compact background hints that can guide verification.
-- Never treat knowledge base notes as full article content or quote them verbatim.
 Do not invent facts and do not include markdown links.`,
 	],
 	[
@@ -61,8 +58,8 @@ Candidate snippet: {candidateSnippet}
 Editor notes:
 {editorNotes}
 
-Knowledge base notes:
-{knowledgeNotes}
+Background context:
+{backgroundContext}
 
 Originality check feedback:
 {originalityFeedback}
@@ -74,9 +71,25 @@ Source content:
 
 const formatToday = () => new Date().toISOString().split("T")[0].replace(/-/g, "/");
 
-const summarizeNotes = (notes: string[]): string => {
-	if (notes.length === 0) return "No knowledge base notes found.";
-	return notes.slice(0, 6).map((note) => compactText(note, 180)).join("\n\n---\n\n");
+const fetchKbContext = async (topicSlug: string, query: string): Promise<string> => {
+	const researchLlm = makeLlm(0).bindTools([knowledgeBaseTool]);
+	const response = await researchLlm.invoke([
+		new SystemMessage(
+			"You are preparing background context for a tech news article. " +
+			"Call get_topic_knowledge with action='search' if topic-specific facts would improve article accuracy. " +
+			"If notes are clearly irrelevant or stale for this topic, you may call get_topic_knowledge with action='deactivate_matching' and a short cleanup reason. " +
+			"Skip tool calls if the article is self-contained.",
+		),
+		new HumanMessage(`Topic: ${topicSlug}. Article: ${query}`),
+	]);
+	const toolCalls = (response as AIMessage).tool_calls ?? [];
+	if (toolCalls.length === 0) return "None.";
+	const results = await Promise.all(
+		toolCalls.map((tc) =>
+			knowledgeBaseTool.invoke(tc.args as { slug: string; query?: string })
+		),
+	);
+	return results.filter(Boolean).join("\n\n") || "None.";
 };
 
 const sanitizeEditorNotes = (editorNotes: string, topicName: string): string =>
@@ -138,11 +151,10 @@ export const writerNode = async (
 				"writer: source prepared",
 			);
 
-			const kbNotes = (await searchTopicNotes(task.topic_slug, cleanCandidateTitle, 6)).filter((note) =>
-				note.source_url ? isOfficialTopicSourceUrl(topicProfile, note.source_url) : true
-			);
-			const knowledgeNotes = summarizeNotes(kbNotes.map((n) => n.content));
-			const editorNotes = sanitizeEditorNotes(task.editor_notes, task.topic_name);
+			const [backgroundContext, editorNotes] = await Promise.all([
+				fetchKbContext(task.topic_slug, cleanCandidateTitle),
+				Promise.resolve(sanitizeEditorNotes(task.editor_notes, task.topic_name)),
+			]);
 
 			let result = await chain.invoke({
 				topicName: task.topic_name,
@@ -150,7 +162,7 @@ export const writerNode = async (
 				candidateUrl: task.candidate_url,
 				candidateSnippet: task.candidate_snippet,
 				editorNotes,
-				knowledgeNotes,
+				backgroundContext,
 				originalityFeedback:
 					"Use original wording. If a direct quote is essential, keep it short and wrap it in double quotes.",
 				sourceContent,
@@ -169,7 +181,7 @@ export const writerNode = async (
 					candidateUrl: task.candidate_url,
 					candidateSnippet: task.candidate_snippet,
 					editorNotes,
-					knowledgeNotes,
+					backgroundContext,
 					originalityFeedback: [
 						`Previous draft copied ${copiedSentences.length} sentence(s) from source text.`,
 						"Rewrite using original phrasing.",
@@ -215,11 +227,7 @@ export const writerNode = async (
 			await addTopicNote(
 				task.topic_slug,
 				"summary",
-				[
-					`Published: ${articleTitle}`,
-					`Angle: ${compactText(editorNotes, 160)}`,
-					`Takeaway: ${compactText(originalityGuard.content, 180)}`,
-				].join("\n"),
+				`Published: ${compactText(articleTitle, 120)}. ${compactText(originalityGuard.content, 140)}`,
 				task.candidate_url,
 				"writer-agent",
 			);

@@ -210,12 +210,7 @@ export const editorNode = async (
 			await addTopicNote(
 				candidate.topic_slug,
 				"fact",
-				[
-					`Candidate: ${cleanTitle}`,
-					`Editorial score: ${relevance.score}/10`,
-					`Rationale: ${compactText(relevance.rationale, 120)}`,
-					`Research: ${compactText(researchNotes, 180)}`,
-				].join("\n"),
+				compactText(relevance.rationale, 240),
 				candidate.url,
 				"editor-agent",
 			);

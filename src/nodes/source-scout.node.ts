@@ -96,12 +96,7 @@ export const sourceScoutNode = async (): Promise<void> => {
 							continue;
 						}
 
-						const summary = compactText(source.content, 220);
-						const noteContent = [
-							`Type: ${SOURCE_TYPES[type]}`,
-							`Title: ${source.title}`,
-							`Fact: ${summary || "Potentially relevant source discovered."}`,
-						].join("\n");
+						const noteContent = `${SOURCE_TYPES[type]}: ${compactText(source.title, 180)}`;
 
 						const noteResult = await addTopicNote(
 							profile.slug,
