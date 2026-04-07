@@ -16,6 +16,9 @@ open-db:
 build-pages:
 	docker-compose run --rm app deno task build
 
+deploy-pages-local:
+	./scripts/deploy-pages-local.sh
+
 stats:
 	docker exec news-radar-db-1 psql -U root -c "SELECT COUNT(status), status from info GROUP BY status;"
 

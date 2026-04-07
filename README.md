@@ -73,6 +73,56 @@ The `_site` directory is a generated build artifact and should not be committed
 to git. Rebuild it from the database and templates when you need to publish or
 serve the site.
 
+### Cloudflare Pages
+
+This project is not a pure static source tree. The published `_site` output is
+generated at build time by Lume, and that build reads articles and topics from
+Postgres.
+
+For Cloudflare Pages:
+
+1. Set the build command to `./scripts/cloudflare-build.sh`
+2. Set the output directory to `_site`
+3. Make sure your build environment can reach your Postgres instance
+4. Add the required environment variables in Pages settings:
+
+```sh
+GROQ_API_KEY=gsk_...
+GROQ_MODEL=llama-3.3-70b-versatile
+DB_HOST=<your-postgres-host>
+DB_PORT=5432
+DB_USER=root
+DB_PASSWORD=root
+DB_NAME=root
+```
+
+Important: the default local `DB_HOST=postgres` only works inside this repo's
+Docker Compose network. Cloudflare Pages must use a real hostname or IP for a
+reachable database.
+
+### Local deploy to Cloudflare Pages
+
+If your database only exists locally, use direct deploy from your machine
+instead of Cloudflare's git build.
+
+1. Authenticate once:
+
+```sh
+npx wrangler login
+```
+
+2. Build from local DB and deploy generated `_site`:
+
+```sh
+make deploy-pages-local
+```
+
+If you prefer running Wrangler directly after building, this also works:
+
+```sh
+npx wrangler pages deploy _site
+```
+
 Running `make serve` will build the static website and serve it at port `3000`.
 
 Running `sh cron.sh` will scan, rebuild the site locally, and refresh the local

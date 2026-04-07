@@ -1,7 +1,10 @@
 import { connect } from "./db.ts"
+import { loadConfig } from "./config.ts";
 import lume from "lume/mod.ts";
 
-await connect("postgres", 5432)
+const config = loadConfig();
+
+await connect(config.DB_HOST, Number(config.DB_PORT));
 
 const site = lume({
 	src: "./src/site",
