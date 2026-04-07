@@ -368,49 +368,42 @@ export const createArticleTask = (
 		[candidateId, editorNotes, priority],
 	);
 
+export const CLAIM_NEXT_PENDING_TASK_SQL = `
+	WITH next_task AS (
+		SELECT id
+		FROM article_tasks
+		WHERE status = 'pending'
+		ORDER BY priority DESC, created_at ASC
+		FOR UPDATE SKIP LOCKED
+		LIMIT 1
+	), claimed AS (
+		UPDATE article_tasks at
+		SET status = 'in_progress', picked_at = now(), updated_at = now()
+		FROM next_task nt
+		WHERE at.id = nt.id
+		RETURNING at.id
+	)
+	SELECT
+		at.id,
+		at.candidate_id,
+		c.topic_id,
+		t.slug AS topic_slug,
+		t.name AS topic_name,
+		c.title AS candidate_title,
+		c.url AS candidate_url,
+		c.snippet AS candidate_snippet,
+		at.editor_notes,
+		at.priority,
+		at.status,
+		at.created_at
+	FROM claimed cl
+	INNER JOIN article_tasks at ON at.id = cl.id
+	INNER JOIN candidates c ON c.id = at.candidate_id
+	INNER JOIN topics t ON t.id = c.topic_id;
+`;
+
 export const claimNextPendingArticleTask = async (): Promise<ArticleTask | null> => {
-	const { rows: [nextTask] } = await client.queryObject<{
-		id: number;
-		candidate_id: number;
-	}>(`
-    SELECT id, candidate_id
-    FROM article_tasks
-    WHERE status = 'pending'
-    ORDER BY priority DESC, created_at ASC
-    LIMIT 1
-    FOR UPDATE SKIP LOCKED
-  `);
-
-	if (!nextTask) return null;
-
-	await client.queryArray(
-		`UPDATE article_tasks
-     SET status = 'in_progress', picked_at = now(), updated_at = now()
-     WHERE id = $1;`,
-		[nextTask.id],
-	);
-
-	const { rows } = await client.queryObject<ArticleTask>(`
-    SELECT
-      at.id,
-      at.candidate_id,
-      c.topic_id,
-      t.slug AS topic_slug,
-      t.name AS topic_name,
-      c.title AS candidate_title,
-      c.url AS candidate_url,
-      c.snippet AS candidate_snippet,
-      at.editor_notes,
-      at.priority,
-      at.status,
-      at.created_at
-    FROM article_tasks at
-    INNER JOIN candidates c ON c.id = at.candidate_id
-    INNER JOIN topics t ON t.id = c.topic_id
-    WHERE at.id = $1;
-  `,
-		[nextTask.id],
-	);
+	const { rows } = await client.queryObject<ArticleTask>(CLAIM_NEXT_PENDING_TASK_SQL);
 
 	return rows[0] ?? null;
 };

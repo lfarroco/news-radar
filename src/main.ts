@@ -4,35 +4,41 @@ const config = loadConfig();
 import { buildGraph } from "./graph/index.ts";
 import { logger } from "./logger.ts";
 import { ensureTopicsSeeded } from "./topics/seed.ts";
+import { hasPipelineErrors } from "./pipeline/outcome.ts";
 
-const runId = crypto.randomUUID().slice(0, 8);
-const runLogger = logger.child({ runId });
-const startedAt = Date.now();
+export const runPipeline = async () => {
+	const runId = crypto.randomUUID().slice(0, 8);
+	const runLogger = logger.child({ runId });
+	const startedAt = Date.now();
 
-try {
-	runLogger.info({ dbHost: config.DB_HOST, dbPort: Number(config.DB_PORT) }, "pipeline: connecting");
-	await connect(config.DB_HOST, Number(config.DB_PORT));
-	await ensureTopicsSeeded();
+	try {
+		runLogger.info({ dbHost: config.DB_HOST, dbPort: Number(config.DB_PORT) }, "pipeline: connecting");
+		await connect(config.DB_HOST, Number(config.DB_PORT));
+		await ensureTopicsSeeded();
 
-	runLogger.info("pipeline: starting graph");
-	const graph = buildGraph();
-	const result = await graph.invoke({});
+		runLogger.info("pipeline: starting graph");
+		const graph = buildGraph();
+		const result = await graph.invoke({});
 
-	const summary = {
-		durationMs: Date.now() - startedAt,
-		errorCount: result.errors?.length ?? 0,
-		publishedCount: result.publishedArticles?.length ?? 0,
-		metrics: result.metrics,
-	};
+		const summary = {
+			durationMs: Date.now() - startedAt,
+			errorCount: result.errors?.length ?? 0,
+			publishedCount: result.publishedArticles?.length ?? 0,
+			metrics: result.metrics,
+		};
 
-	console.log(summary)
+		if (hasPipelineErrors(result.errors)) {
+			runLogger.error({ ...summary, errors: result.errors }, "pipeline: completed with errors");
+			throw new Error("pipeline completed with errors");
+		}
 
-	if (result.errors?.length) {
-		runLogger.error({ ...summary, errors: result.errors }, "pipeline: completed with errors");
-	} else {
 		runLogger.info(summary, "pipeline: completed successfully");
+	} catch (err) {
+		runLogger.error({ err, durationMs: Date.now() - startedAt }, "pipeline: crashed");
+		throw err;
 	}
-} catch (err) {
-	runLogger.error({ err, durationMs: Date.now() - startedAt }, "pipeline: crashed");
-	throw err;
+};
+
+if (import.meta.main) {
+	await runPipeline();
 }
