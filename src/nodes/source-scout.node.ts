@@ -7,7 +7,7 @@ import {
 	markTopicScoutedNow,
 	touchSourceSelector,
 } from "../db/queries.ts";
-import { searchOnlineSources } from "../tools/tavily.tool.ts";
+import { searchOnlineSources } from "../tools/research.tool.ts";
 import { compactText } from "../utils.ts";
 
 const BLOCKED_HOST_PATTERN = /(reddit\.com|youtube\.com|youtu\.be|instagram\.com|facebook\.com|tiktok\.com)/i;

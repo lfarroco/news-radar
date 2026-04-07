@@ -14,7 +14,7 @@ import type { PipelineState } from "../graph/state.ts";
 import {
 	searchOnlineSources,
 	type ResearchSource,
-} from "../tools/tavily.tool.ts";
+} from "../tools/research.tool.ts";
 import { compactText, stripLeadingTopicLabel } from "../utils.ts";
 import { isOfficialTopicSourceUrl } from "../editorial-policy.ts";
 import { loadRuntimeTopicProfiles } from "../topics/runtime.ts";

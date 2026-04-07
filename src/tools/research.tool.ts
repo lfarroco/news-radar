@@ -84,7 +84,6 @@ const parseWithCheerio = async (url: string, query: string): Promise<ResearchSou
 
 	if (candidates.length > 0) return candidates;
 
-	// Fallback when no structured list is found: synthesize one item from page text.
 	const pageTitle = compactText($("title, h1").first().text() || url, 180);
 	const pageContent = compactText($("main, article, body").first().text(), 420);
 	if (!pageContent) return [];
@@ -139,10 +138,10 @@ export const searchOnlineSources = async (
 	const profile = profiles.find((entry) => {
 		const byName = normalizedQuery.includes(normalizeForMatch(entry.name));
 		const bySlug = normalizedQuery.includes(normalizeForMatch(entry.slug));
-		const byTerms = (entry.tavilySearchTerms ?? []).some((term) =>
+		const byQueries = (entry.researchQueries ?? []).some((term) =>
 			normalizedQuery.includes(normalizeForMatch(term))
 		);
-		return byName || bySlug || byTerms;
+		return byName || bySlug || byQueries;
 	});
 
 	const seedUrls = [
@@ -185,10 +184,10 @@ export const researchTopic = (
 	return searchOnlineSources(query, maxResults);
 };
 
-export const tavilyResearchTool = new DynamicStructuredTool({
+export const researchSourcesTool = new DynamicStructuredTool({
 	name: "search_online_sources",
 	description:
-		"Searches the web for developer-focused sources for a given topic or query and returns concise source snippets.",
+		"Browses configured official developer sources for a given topic or query and returns concise source snippets.",
 	schema: z.object({
 		query: z.string().min(2).describe("Search query or topic name"),
 		maxResults: z.number().int().min(1).max(10).optional().default(5),

@@ -1,10 +1,10 @@
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { makeLlm, plannerOutputSchema } from "../llm.ts";
-import { setArticleStatus } from "../db/queries.ts";
+import { setCandidateStatus } from "../db/queries.ts";
 import { logger } from "../logger.ts";
-import { Article, ArticlePlan } from "../models.ts";
+import { Candidate, ArticlePlan } from "../models.ts";
 import type { PipelineState } from "../graph/state.ts";
-import type { ResearchSource } from "../tools/tavily.tool.ts";
+import type { ResearchSource } from "../tools/research.tool.ts";
 
 const MAX_CANDIDATES = 40;
 const MAX_PLANS = 6;
@@ -35,12 +35,12 @@ const prompt = ChatPromptTemplate.fromMessages([
 	["human", HUMAN],
 ]);
 
-const buildItemsText = (articles: Article[]): string =>
+const buildItemsText = (articles: Candidate[]): string =>
 	articles
 		.map((article) => {
-			const date = article.date instanceof Date
-				? article.date.toISOString().split("T")[0]
-				: String(article.date);
+			const date = article.discovered_at instanceof Date
+				? article.discovered_at.toISOString().split("T")[0]
+				: String(article.discovered_at);
 			return [
 				`ID: ${article.id}`,
 				`Title: ${article.title}`,
@@ -69,8 +69,8 @@ const buildResearchContext = (
 };
 
 const normalizePlans = (
-	plans: ArticlePlan[],
-	availableById: Map<number, Article>,
+	plans: Array<Omit<ArticlePlan, "id">>,
+	availableById: Map<number, Candidate>,
 ): ArticlePlan[] => {
 	const out: ArticlePlan[] = [];
 
@@ -96,7 +96,7 @@ const normalizePlans = (
 	return out;
 };
 
-const buildFallbackPlans = (articles: Article[]): ArticlePlan[] =>
+const buildFallbackPlans = (articles: Candidate[]): ArticlePlan[] =>
 	articles.slice(0, 3).map((article, idx) => ({
 		id: `fallback-${idx + 1}-${article.id}`,
 		title: article.title,
@@ -109,8 +109,8 @@ const buildFallbackPlans = (articles: Article[]): ArticlePlan[] =>
 export const plannerNode = async (
 	state: PipelineState,
 ): Promise<Partial<PipelineState>> => {
-	const candidates = [...state.pendingArticles]
-		.sort((a, b) => +new Date(b.date) - +new Date(a.date))
+	const candidates = [...state.pendingCandidates]
+		.sort((a, b) => +new Date(b.discovered_at) - +new Date(a.discovered_at))
 		.slice(0, MAX_CANDIDATES);
 
 	if (candidates.length === 0) {
@@ -145,7 +145,7 @@ export const plannerNode = async (
 
 	await Promise.all(
 		candidates.map((article) =>
-			setArticleStatus(article.id, selectedIds.has(article.id) ? "approved" : "rejected")
+			setCandidateStatus(article.id, selectedIds.has(article.id) ? "approved" : "rejected")
 		),
 	);
 

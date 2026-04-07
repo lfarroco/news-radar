@@ -21,7 +21,7 @@ export const python: TopicProfile = {
 		"https://blog.python.org/feeds/posts/default?alt=rss",
 	],
 	redditSubreddits: ["Python"],
-	tavilySearchTerms: [
+	researchQueries: [
 		"Python release",
 		"Python PEP accepted",
 		"Python stdlib update",
@@ -54,7 +54,7 @@ export const rust: TopicProfile = {
 		"https://blog.rust-lang.org/inside-rust/feed.xml",
 	],
 	redditSubreddits: ["rust"],
-	tavilySearchTerms: [
+	researchQueries: [
 		"Rust release",
 		"Rust RFC merged",
 		"Rust edition",
@@ -86,7 +86,7 @@ export const typescript: TopicProfile = {
 		"https://devblogs.microsoft.com/typescript/feed/",
 	],
 	redditSubreddits: ["typescript"],
-	tavilySearchTerms: [
+	researchQueries: [
 		"TypeScript release",
 		"TypeScript new feature",
 		"tsc update",
@@ -112,7 +112,7 @@ export const golang: TopicProfile = {
 		"https://blog.golang.org/feed.atom",
 	],
 	redditSubreddits: ["golang"],
-	tavilySearchTerms: [
+	researchQueries: [
 		"Go release",
 		"Golang update",
 		"Go standard library",
@@ -141,7 +141,7 @@ export const nodejs: TopicProfile = {
 		"https://nodejs.org/en/feed/blog.xml",
 	],
 	redditSubreddits: ["node"],
-	tavilySearchTerms: [
+	researchQueries: [
 		"Node.js release",
 		"Node.js LTS",
 		"npm package",
@@ -168,7 +168,7 @@ export const react: TopicProfile = {
 	],
 	rssFeedUrls: [],
 	redditSubreddits: ["reactjs"],
-	tavilySearchTerms: [
+	researchQueries: [
 		"React release",
 		"React Server Components",
 		"React hook",
@@ -196,7 +196,7 @@ export const deno: TopicProfile = {
 	],
 	rssFeedUrls: [],
 	redditSubreddits: ["deno"],
-	tavilySearchTerms: [
+	researchQueries: [
 		"Deno release",
 		"Deno Deploy",
 		"JSR package",
@@ -223,7 +223,7 @@ export const angular: TopicProfile = {
 	],
 	rssFeedUrls: [],
 	redditSubreddits: ["angular"],
-	tavilySearchTerms: [
+	researchQueries: [
 		"Angular release",
 		"Angular signals",
 		"Angular SSR",

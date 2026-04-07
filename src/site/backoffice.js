@@ -415,8 +415,8 @@ function renderTopicDetail(routeId) {
 					${renderLinkList(details.redditSubreddits, (subreddit) => `r/${escapeHtml(subreddit)}`)}
 				</div>
 				<div class="profile-group">
-					<h4>Scout Search Terms</h4>
-					${renderLinkList(details.tavilySearchTerms, (term) => escapeHtml(term))}
+					<h4>Research Queries</h4>
+					${renderLinkList(details.researchQueries, (term) => escapeHtml(term))}
 				</div>
 				<div class="profile-group">
 					<h4>Editorial Notes</h4>

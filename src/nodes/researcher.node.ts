@@ -1,5 +1,5 @@
 import { logger } from "../logger.ts";
-import { searchOnlineSources, type ResearchSource } from "../tools/tavily.tool.ts";
+import { searchOnlineSources, type ResearchSource } from "../tools/research.tool.ts";
 import type { PipelineState } from "../graph/state.ts";
 import { loadRuntimeTopicProfiles } from "../topics/runtime.ts";
 
@@ -38,9 +38,10 @@ const parseTopicsFromTitle = (title: string): string[] => {
 const collectTopics = (state: PipelineState): string[] => {
 	const topics = new Set<string>();
 
-	for (const article of state.pendingArticles) {
-		for (const topic of parseTopicsField(article.topics)) topics.add(topic);
-		for (const topic of parseTopicsFromTitle(article.title)) topics.add(topic);
+	for (const candidate of state.pendingCandidates) {
+		for (const topic of parseTopicsField(undefined)) topics.add(topic);
+		for (const topic of parseTopicsFromTitle(candidate.title)) topics.add(topic);
+		if (candidate.topic_name) topics.add(candidate.topic_name);
 	}
 
 	return [...topics].slice(0, MAX_TOPICS_PER_RUN);
@@ -62,10 +63,10 @@ const runConcurrent = async <T, R>(
 
 const buildTopicQuery = (topic: string, profile?: {
 	name: string;
-	tavilySearchTerms?: string[];
+	researchQueries?: string[];
 }) => {
-	const terms = Array.isArray(profile?.tavilySearchTerms)
-		? profile.tavilySearchTerms.slice(0, 3)
+	const terms = Array.isArray(profile?.researchQueries)
+		? profile.researchQueries.slice(0, 3)
 		: [];
 
 	if (profile?.name && terms.length > 0) {

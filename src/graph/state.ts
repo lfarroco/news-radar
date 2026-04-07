@@ -1,5 +1,7 @@
 import { Annotation } from "@langchain/langgraph";
 import { ArticleTask, Candidate, GeneratedArticle } from "../models.ts";
+import type { ArticlePlan } from "../models.ts";
+import type { ResearchSource } from "../tools/research.tool.ts";
 
 export const PipelineAnnotation = Annotation.Root({
 	pendingCandidates: Annotation<Candidate[]>({
@@ -11,6 +13,18 @@ export const PipelineAnnotation = Annotation.Root({
 		default: () => [],
 	}),
 	publishedArticles: Annotation<GeneratedArticle[]>({
+		reducer: (_a, b) => b,
+		default: () => [],
+	}),
+	topicResearch: Annotation<Record<string, ResearchSource[]>>({
+		reducer: (_a, b) => b,
+		default: () => ({}),
+	}),
+	plannedArticles: Annotation<ArticlePlan[]>({
+		reducer: (_a, b) => b,
+		default: () => [],
+	}),
+	approvedArticles: Annotation<Candidate[]>({
 		reducer: (_a, b) => b,
 		default: () => [],
 	}),

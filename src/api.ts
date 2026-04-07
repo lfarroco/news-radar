@@ -48,7 +48,7 @@ type TopicProfileResponse = {
 	communityForums: Array<{ label: string; url: string }>;
 	rssFeedUrls: string[];
 	redditSubreddits: string[];
-	tavilySearchTerms: string[];
+	researchQueries: string[];
 	editorialNotes: string | null;
 };
 
@@ -58,7 +58,7 @@ const createEmptyTopicProfile = () => ({
 	communityForums: [],
 	rssFeedUrls: [],
 	redditSubreddits: [],
-	tavilySearchTerms: [],
+	researchQueries: [],
 	editorialNotes: "",
 });
 
@@ -86,9 +86,9 @@ const mergeTopicProfileFallback = (profile: TopicProfileResponse): TopicProfileR
 		redditSubreddits: Array.isArray(profile.redditSubreddits) && profile.redditSubreddits.length > 0
 			? profile.redditSubreddits
 			: (fallback?.redditSubreddits ?? []),
-		tavilySearchTerms: Array.isArray(profile.tavilySearchTerms) && profile.tavilySearchTerms.length > 0
-			? profile.tavilySearchTerms
-			: (fallback?.tavilySearchTerms ?? []),
+		researchQueries: Array.isArray(profile.researchQueries) && profile.researchQueries.length > 0
+			? profile.researchQueries
+			: (fallback?.researchQueries ?? []),
 		editorialNotes: profile.editorialNotes?.trim() || fallback?.editorialNotes || null,
 	};
 };
@@ -191,7 +191,7 @@ async function handleRequest(req: Request): Promise<Response> {
 					COALESCE((t.profile->'communityForums')::jsonb, '[]'::jsonb) AS "communityForums",
 					COALESCE((t.profile->'rssFeedUrls')::jsonb, '[]'::jsonb) AS "rssFeedUrls",
 					COALESCE((t.profile->'redditSubreddits')::jsonb, '[]'::jsonb) AS "redditSubreddits",
-					COALESCE((t.profile->'tavilySearchTerms')::jsonb, '[]'::jsonb) AS "tavilySearchTerms",
+					COALESCE((t.profile->'researchQueries')::jsonb, '[]'::jsonb) AS "researchQueries",
 					t.profile->>'editorialNotes' AS "editorialNotes"
 				 FROM topics t
 				 LEFT JOIN articles a ON a.topic_id = t.id

@@ -137,6 +137,13 @@ const ensureSchema = async () => {
 		CREATE INDEX IF NOT EXISTS idx_source_selectors_topic_slug
 			ON source_selectors(topic_slug);
 	`);
+
+	await client.queryArray(`
+		UPDATE topics
+		SET profile = (profile - 'tavilySearchTerms') || jsonb_build_object('researchQueries', COALESCE(profile->'tavilySearchTerms', '[]'::jsonb))
+		WHERE profile ? 'tavilySearchTerms'
+			AND NOT (profile ? 'researchQueries');
+	`);
 };
 
 export const connect = async (hostname: string, port: number) => {

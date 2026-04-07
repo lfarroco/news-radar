@@ -18,7 +18,7 @@ const rustProfile: TopicProfile = {
 	communityForums: [],
 	rssFeedUrls: [],
 	redditSubreddits: [],
-	tavilySearchTerms: [],
+	researchQueries: [],
 	editorialNotes: "",
 };
 Deno.test("editorial policy: official source match allows child paths under official base", () => {
@@ -52,7 +52,7 @@ Deno.test("editorial policy: official source match rejects sibling product blog 
 		communityForums: [],
 		rssFeedUrls: [],
 		redditSubreddits: [],
-		tavilySearchTerms: [],
+		researchQueries: [],
 		editorialNotes: "",
 	};
 

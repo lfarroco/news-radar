@@ -6,6 +6,6 @@ export type TopicProfile = {
 	communityForums: { label: string; url: string }[];
 	rssFeedUrls: string[];
 	redditSubreddits: string[];
-	tavilySearchTerms: string[];
+	researchQueries: string[];
 	editorialNotes: string;
 };
