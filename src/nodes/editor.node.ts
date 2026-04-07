@@ -112,6 +112,7 @@ export const editorNode = async (
 	state: PipelineState,
 ): Promise<Partial<PipelineState>> => {
 	const startedAt = Date.now();
+	const selectionSource = state.pendingCandidates.length > 0 ? "graph-state" : "database";
 	const candidates = state.pendingCandidates.length > 0
 		? state.pendingCandidates.slice(0, MAX_CANDIDATES_PER_RUN)
 		: await getPendingCandidates(MAX_CANDIDATES_PER_RUN);
@@ -121,7 +122,20 @@ export const editorNode = async (
 		return {};
 	}
 
-	logger.info({ count: candidates.length }, "editor: reviewing candidates");
+	const topicCounts = candidates.reduce<Record<string, number>>((acc, candidate) => {
+		acc[candidate.topic_slug] = (acc[candidate.topic_slug] ?? 0) + 1;
+		return acc;
+	}, {});
+
+	logger.info(
+		{
+			count: candidates.length,
+			selectionSource,
+			maxCandidatesPerRun: MAX_CANDIDATES_PER_RUN,
+			topicCounts,
+		},
+		"editor: selecting candidates to evaluate",
+	);
 	const topicProfiles = await loadRuntimeTopicProfiles();
 	const profileBySlug = new Map(topicProfiles.map((profile) => [profile.slug, profile]));
 
@@ -133,11 +147,18 @@ export const editorNode = async (
 	let rejected = 0;
 	let researched = 0;
 
-	for (const candidate of candidates) {
+	for (const [index, candidate] of candidates.entries()) {
 		reviewed++;
-		logger.debug(
-			{ candidateId: candidate.id, topic: candidate.topic_slug, source: candidate.source },
-			"editor: reviewing candidate",
+		logger.info(
+			{
+				index: index + 1,
+				total: candidates.length,
+				candidateId: candidate.id,
+				topic: candidate.topic_slug,
+				source: candidate.source,
+				title: compactText(candidate.title, 120),
+			},
+			"editor: evaluating candidate",
 		);
 		try {
 			const topicProfile = profileBySlug.get(candidate.topic_slug);
@@ -157,12 +178,27 @@ export const editorNode = async (
 			}
 
 			const cleanTitle = stripLeadingTopicLabel(candidate.title, candidate.topic_name);
+			logger.info(
+				{ candidateId: candidate.id, topic: candidate.topic_slug, title: compactText(cleanTitle, 120) },
+				"editor: requesting relevance score",
+			);
 			const relevance = await chain.invoke({
 				topic: candidate.topic_name,
 				title: cleanTitle,
 				snippet: candidate.snippet || "(empty)",
 				source: candidate.source,
 			});
+
+			logger.info(
+				{
+					candidateId: candidate.id,
+					topic: candidate.topic_slug,
+					score: relevance.score,
+					threshold: RELEVANCE_THRESHOLD,
+					rationale: compactText(relevance.rationale, 180),
+				},
+				"editor: relevance score received",
+			);
 
 			if (relevance.score < RELEVANCE_THRESHOLD) {
 				rejected++;
@@ -182,6 +218,15 @@ export const editorNode = async (
 			const sources = await searchOnlineSources(researchQuery, 4);
 			const officialSources = sources.filter((source) =>
 				isOfficialTopicSourceUrl(topicProfile, source.url)
+			);
+			logger.info(
+				{
+					candidateId: candidate.id,
+					topic: candidate.topic_slug,
+					researchSourceCount: sources.length,
+					officialSourceCount: officialSources.length,
+				},
+				"editor: research sources collected",
 			);
 			const researchNotes = summarizeResearch(officialSources);
 			const taskNotes = buildTaskNotes(
@@ -204,7 +249,7 @@ export const editorNode = async (
 					"editor: article task created",
 				);
 			} else {
-				logger.debug({ candidateId: candidate.id }, "editor: open task already exists");
+				logger.info({ candidateId: candidate.id }, "editor: open task already exists");
 			}
 
 			await addTopicNote(
@@ -215,7 +260,15 @@ export const editorNode = async (
 				"editor-agent",
 			);
 		} catch (err) {
-			logger.error({ err, candidateId: candidate.id }, "editor: failed candidate review");
+			logger.error(
+				{
+					err,
+					candidateId: candidate.id,
+					topic: candidate.topic_slug,
+					title: compactText(candidate.title, 120),
+				},
+				"editor: failed candidate review",
+			);
 			await setCandidateStatus(candidate.id, "editor-error");
 		}
 	}

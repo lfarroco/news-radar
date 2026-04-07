@@ -23,7 +23,7 @@ const RESTRICTED_DOMAINS = [
 	"i.redd.it",
 ];
 
-const MAX_AGE_DAYS = 1;
+const MAX_AGE_DAYS = 3;
 
 const isRestricted = (url: string) =>
 	RESTRICTED_DOMAINS.some((d) => url.includes(d));
