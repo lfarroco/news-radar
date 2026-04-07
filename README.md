@@ -27,8 +27,9 @@ TAVILY_API_KEY=tvly_...
 The system performs the following steps:
 
 1 - Scanner\
-Collects raw story candidates from RSS + Reddit (and topic feeds). Results are
-stored in `candidates` with `status = pending`.
+Runs the source scout agent, discovers topic sources dynamically, resolves
+RSS/Atom feeds from discovered URLs, and ingests fresh story candidates into
+`candidates` with `status = pending`.
 
 2 - Editor\
 Scores each pending candidate for developer relevance (0-10), gathers

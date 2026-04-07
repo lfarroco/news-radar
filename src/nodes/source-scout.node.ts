@@ -6,7 +6,20 @@ import {
 } from "../db/queries.ts";
 import { searchOnlineSources } from "../tools/tavily.tool.ts";
 import { compactText } from "../utils.ts";
-import { isOfficialTopicSourceUrl } from "../editorial-policy.ts";
+
+const BLOCKED_HOST_PATTERN = /(reddit\.com|youtube\.com|youtu\.be|instagram\.com|facebook\.com|tiktok\.com)/i;
+
+const isEligibleDiscoveredSource = (url: string, score?: number): boolean => {
+	try {
+		const parsed = new URL(url);
+		if (!["http:", "https:"].includes(parsed.protocol)) return false;
+		if (BLOCKED_HOST_PATTERN.test(parsed.hostname)) return false;
+		if (typeof score === "number" && score < 0.45) return false;
+		return true;
+	} catch {
+		return false;
+	}
+};
 
 const SOURCE_TYPES = {
 	official_blog: "Official blog / announcement channel",
@@ -59,7 +72,7 @@ export const sourceScoutNode = async (): Promise<void> => {
 			for (const { type, query } of queries) {
 				try {
 					const sources = (await searchOnlineSources(query, 3)).filter((source) =>
-						isOfficialTopicSourceUrl(profile, source.url)
+						isEligibleDiscoveredSource(source.url, source.score)
 					);
 					topicSourcesFound += sources.length;
 					sourcesFound += sources.length;

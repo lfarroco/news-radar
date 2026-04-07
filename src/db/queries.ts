@@ -567,6 +567,28 @@ export const getIgnoredTopicSourceUrls = async (topicSlug: string): Promise<stri
 	return rows.map((row) => row.source_url);
 };
 
+export type ScoutTopicSource = {
+	topic_slug: string;
+	topic_name: string;
+	source_url: string;
+};
+
+export const getActiveScoutTopicSources = async (): Promise<ScoutTopicSource[]> => {
+	const { rows } = await client.queryObject<ScoutTopicSource>(
+		`SELECT DISTINCT
+			t.slug AS topic_slug,
+			t.name AS topic_name,
+			n.source_url
+		FROM topic_notes n
+		INNER JOIN topics t ON t.id = n.topic_id
+		WHERE n.is_active = true
+			AND n.source_url IS NOT NULL
+			AND n.added_by_agent = 'source-scout-agent';`,
+	);
+
+	return rows;
+};
+
 export const setTopicNoteActiveState = async (
 	noteId: number,
 	isActive: boolean,
