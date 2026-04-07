@@ -1,6 +1,8 @@
 import { logger } from "../logger.ts";
 import { cheerio } from "../deps.ts";
 import { rssTool } from "../tools/rss.tool.ts";
+import { isOfficialSourceUrl } from "../editorial-policy.ts";
+import { loadRuntimeTopicProfiles } from "../topics/runtime.ts";
 import {
 	getActiveScoutTopicSources,
 	getPendingCandidates,
@@ -101,8 +103,27 @@ export const scannerNode = async (
 		};
 	}
 
+	const topicProfiles = await loadRuntimeTopicProfiles();
+	const officialUrlsByTopic = new Map(
+		topicProfiles.map((profile) => [
+			profile.slug,
+			(profile.officialSources ?? []).map((source) => source.url).filter(Boolean),
+		]),
+	);
+
 	const topicSources = new Map<string, { topicSlug: string; topicName: string; sourceUrls: Set<string> }>();
+	let skippedNonOfficialSources = 0;
 	for (const row of discoveredSources) {
+		const officialSourceUrls = officialUrlsByTopic.get(row.topic_slug) ?? [];
+		if (!isOfficialSourceUrl(row.source_url, officialSourceUrls)) {
+			skippedNonOfficialSources++;
+			logger.debug(
+				{ topic: row.topic_slug, sourceUrl: row.source_url },
+				"scanner: skipping discovered source outside official allowlist",
+			);
+			continue;
+		}
+
 		const key = row.topic_slug;
 		const existing = topicSources.get(key);
 		if (!existing) {
@@ -155,6 +176,8 @@ export const scannerNode = async (
 
 	logger.info(
 		{
+			discoveredSources: discoveredSources.length,
+			skippedNonOfficialSources,
 			topicCount: topicSources.size,
 			rssTaskCount,
 			unresolvedSourceCount,
