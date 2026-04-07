@@ -25,6 +25,8 @@ try {
 		metrics: result.metrics,
 	};
 
+	console.log(summary)
+
 	if (result.errors?.length) {
 		runLogger.error({ ...summary, errors: result.errors }, "pipeline: completed with errors");
 	} else {

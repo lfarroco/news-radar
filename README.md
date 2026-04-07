@@ -19,7 +19,6 @@ Then edit `.env` and add your Groq key.
 ```
 GROQ_API_KEY=gsk_...
 GROQ_MODEL=llama-3.3-70b-versatile
-TAVILY_API_KEY=tvly_...
 ```
 
 ### How it works:
@@ -33,7 +32,7 @@ RSS/Atom feeds from discovered URLs, and ingests fresh story candidates into
 
 2 - Editor\
 Scores each pending candidate for developer relevance (0-10), gathers
-additional research context (Tavily, when configured), updates per-topic
+additional research context by parsing official source pages (Cheerio + selector logic), updates per-topic
 knowledge notes, and creates prioritized `article_tasks`.
 
 3 - Writer\

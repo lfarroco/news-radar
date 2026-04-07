@@ -12,7 +12,7 @@ import { compactText } from "../utils.ts";
 
 const BLOCKED_HOST_PATTERN = /(reddit\.com|youtube\.com|youtu\.be|instagram\.com|facebook\.com|tiktok\.com)/i;
 
-const SOURCE_SCOUT_INTERVAL_HOURS = 6;
+const SOURCE_SCOUT_INTERVAL_HOURS = 0.01;
 
 const isEligibleDiscoveredSource = (url: string, score?: number): boolean => {
 	try {
