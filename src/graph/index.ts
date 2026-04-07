@@ -3,6 +3,7 @@ import { PipelineAnnotation } from "./state.ts";
 import { scannerNode } from "../nodes/scanner.node.ts";
 import { writerNode } from "../nodes/writer.node.ts";
 import { editorNode } from "../nodes/editor.node.ts";
+import { reviewerNode } from "../nodes/reviewer.node.ts";
 import { publisherNode } from "../nodes/publisher.node.ts";
 import { logger } from "../logger.ts";
 import type { PipelineState } from "./state.ts";
@@ -49,13 +50,14 @@ export const buildGraph = () => {
 		.addNode("scanner", withNodeLogging("scanner", scannerNode))
 		.addNode("editor", withNodeLogging("editor", editorNode))
 		.addNode("writer", withNodeLogging("writer", writerNode))
+		.addNode("reviewer", withNodeLogging("reviewer", reviewerNode))
 		.addNode("publisher", withNodeLogging("publisher", publisherNode))
 		.addEdge("__start__", "scanner")
 		.addEdge("scanner", "editor")
 		.addEdge("editor", "writer")
+		.addEdge("writer", "reviewer")
+		.addEdge("reviewer", "publisher")
 		.addEdge("publisher", END);
-
-	graph.addEdge("writer", "publisher");
 
 	return graph.compile();
 };

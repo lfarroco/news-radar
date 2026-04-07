@@ -446,6 +446,57 @@ export const insertGeneratedArticle = async (
 	return rows[0] ?? null;
 };
 
+export type ArticleReviewContext = {
+	article_id: number;
+	topic_slug: string;
+	topic_name: string;
+	candidate_title: string;
+	candidate_url: string;
+	candidate_snippet: string;
+	editor_notes: string;
+};
+
+export const getArticleReviewContext = async (
+	articleId: number,
+): Promise<ArticleReviewContext | null> => {
+	const { rows } = await client.queryObject<ArticleReviewContext>(
+		`SELECT
+       a.id AS article_id,
+       t.slug AS topic_slug,
+       t.name AS topic_name,
+       c.title AS candidate_title,
+       c.url AS candidate_url,
+       c.snippet AS candidate_snippet,
+       at.editor_notes
+     FROM articles a
+     INNER JOIN article_tasks at ON at.id = a.task_id
+     INNER JOIN candidates c ON c.id = at.candidate_id
+     INNER JOIN topics t ON t.id = a.topic_id
+     WHERE a.id = $1
+     LIMIT 1;`,
+		[articleId],
+	);
+
+	return rows[0] ?? null;
+};
+
+export const updateGeneratedArticle = (
+	articleId: number,
+	title: string,
+	body: string,
+	slug: string,
+	url: string,
+) =>
+	client.queryArray(
+		`UPDATE articles
+     SET title = $2,
+         body = $3,
+         slug = $4,
+         url = $5
+     WHERE id = $1;`,
+		[articleId, title, body, slug, url],
+	);
+
 export const markTopicCrawledNow = (topicSlug: string) =>
 	client.queryArray(
 		`UPDATE topics SET last_crawl_time = now() WHERE slug = $1;`,

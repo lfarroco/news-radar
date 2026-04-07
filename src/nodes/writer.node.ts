@@ -17,8 +17,6 @@ import { knowledgeBaseTool } from "../tools/knowledge-base.tool.ts";
 import type { GeneratedArticle } from "../models.ts";
 import type { PipelineState } from "../graph/state.ts";
 import {
-	enforceQuotesForCopiedText,
-	findVerbatimSentenceMatches,
 	isOfficialTopicSourceUrl,
 } from "../editorial-policy.ts";
 import { loadRuntimeTopicProfiles } from "../topics/runtime.ts";
@@ -46,6 +44,14 @@ Write a complete article in 300-500 words with:
 - Never return the whole article as one large paragraph
 - A short call to action at the end (for example: read release notes, patch now, or review migration steps)
 - Do not prepend the topic or language name to the headline unless it is required for clarity
+Originality requirements:
+- Never copy source sentences verbatim
+- Rewrite all source information in original phrasing
+- Avoid sentence-level overlap with the source text
+- If a direct quote is essential, keep only one short quote (max 20 words) wrapped in double quotes
+Content quality requirements:
+- Do not produce thin summaries; explain what changed and why it matters to developers
+- Use background context and editor notes to add relevant technical details when they are available
 Do not invent facts and do not include markdown links.`,
 	],
 	[
@@ -107,6 +113,38 @@ export const writerNode = async (
 	const chain = prompt.pipe(llm);
 	const publishedArticles: GeneratedArticle[] = [];
 	let attemptedTasks = 0;
+	const originalityReviewSchema = z.object({
+		needsRewrite: z.boolean(),
+		reason: z.string(),
+		rewrittenContent: z.string().default(""),
+	});
+	const originalityReviewPrompt = ChatPromptTemplate.fromMessages([
+		[
+			"system",
+			`You are an internal editorial originality reviewer.
+Assess whether the draft is too close to the source wording.
+Rules:
+- Prefer original paraphrasing across the entire article.
+- Keep at most one short direct quote (<= 20 words) if absolutely necessary.
+- Keep the article factual, with a neutral tone, and no markdown links.
+- If rewrite is needed, return a full rewritten article body (300-500 words) that improves originality while preserving core facts.
+- If rewrite is not needed, return rewrittenContent as an empty string.
+`,
+		],
+		[
+			"human",
+			`Source content:
+{sourceContent}
+
+Draft article:
+{draftContent}
+
+Output must follow the structured schema.`,
+		],
+	]);
+	const originalityReviewChain = originalityReviewPrompt.pipe(
+		makeLlm(0.2).withStructuredOutput(originalityReviewSchema),
+	);
 	const topicProfiles = await loadRuntimeTopicProfiles();
 	const profileBySlug = new Map(topicProfiles.map((profile) => [profile.slug, profile]));
 
@@ -164,44 +202,40 @@ export const writerNode = async (
 				editorNotes,
 				backgroundContext,
 				originalityFeedback:
-					"Use original wording. If a direct quote is essential, keep it short and wrap it in double quotes.",
+					"Use original wording. Do not copy source sentences. If a direct quote is essential, use at most one short quote in double quotes.",
 				sourceContent,
 			});
 
-			let copiedSentences = findVerbatimSentenceMatches(result.content, sourceContent);
-			if (copiedSentences.length > 0) {
+			let originalityReview = await originalityReviewChain.invoke({
+				sourceContent,
+				draftContent: result.content,
+			});
+			let rewrittenContent = originalityReview.rewrittenContent ?? "";
+
+			if (originalityReview.needsRewrite && rewrittenContent.trim().length > 0) {
 				logger.warn(
-					{ taskId: task.id, copiedSentences: copiedSentences.length },
-					"writer: detected verbatim source overlap, requesting rewrite",
+					{ taskId: task.id, reason: compactText(originalityReview.reason, 180) },
+					"writer: originality reviewer requested rewrite",
 				);
+				result = {
+					...result,
+					content: rewrittenContent.trim(),
+				};
 
-				result = await chain.invoke({
-					topicName: task.topic_name,
-					candidateTitle: cleanCandidateTitle,
-					candidateUrl: task.candidate_url,
-					candidateSnippet: task.candidate_snippet,
-					editorNotes,
-					backgroundContext,
-					originalityFeedback: [
-						`Previous draft copied ${copiedSentences.length} sentence(s) from source text.`,
-						"Rewrite using original phrasing.",
-						"If you keep any exact source sentence, it must be a short quote in double quotes.",
-					].join(" "),
+				originalityReview = await originalityReviewChain.invoke({
 					sourceContent,
+					draftContent: result.content,
 				});
-
-				copiedSentences = findVerbatimSentenceMatches(result.content, sourceContent);
+				rewrittenContent = originalityReview.rewrittenContent ?? "";
 			}
 
-			const originalityGuard = enforceQuotesForCopiedText(result.content, sourceContent);
-			if (originalityGuard.copiedSentenceCount > 0) {
+			if (originalityReview.needsRewrite) {
 				logger.warn(
 					{
 						taskId: task.id,
-						copiedSentences: originalityGuard.copiedSentenceCount,
-						quotedSentences: originalityGuard.quotedSentenceCount,
+						reason: compactText(originalityReview.reason, 180),
 					},
-					"writer: applied quote guard for copied source text",
+					"writer: originality reviewer still flagged overlap after rewrite attempt",
 				);
 			}
 
@@ -212,7 +246,7 @@ export const writerNode = async (
 				task.id,
 				task.topic_id,
 				articleTitle,
-				originalityGuard.content,
+				result.content,
 				slug,
 				url,
 				config.GROQ_MODEL,
@@ -227,7 +261,7 @@ export const writerNode = async (
 			await addTopicNote(
 				task.topic_slug,
 				"summary",
-				`Published: ${compactText(articleTitle, 120)}. ${compactText(originalityGuard.content, 140)}`,
+				`Published: ${compactText(articleTitle, 120)}. ${compactText(result.content, 140)}`,
 				task.candidate_url,
 				"writer-agent",
 			);
