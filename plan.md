@@ -19,22 +19,22 @@
 
 - [x] Remove or archive legacy workflow modules that still target old schema
 	- [x] Review and migrate/remove: `src/writer.ts`, `src/candidates.ts`, `src/rss.ts`, `src/scrapper.ts`
-	- [ ] Keep only one canonical pipeline path (graph-based)
+	- [x] Keep only one canonical pipeline path (graph-based)
 - [x] Fix operational command drift in `Makefile`
 	- [x] Replace old `info`/`article_topic` SQL with `candidates`/`article_tasks`/`articles`
 	- [x] Add safe helper targets for modern schema (retry failed task, list queue depth, etc.)
 - [ ] Update documentation to match actual runtime behavior
-	- [ ] Clarify source-scout behavior (discovery vs official-source refresh)
-	- [ ] Keep status transition table in README aligned with implemented nodes
+	- [x] Clarify source-scout behavior (discovery vs official-source refresh)
+	- [x] Keep status transition table in README aligned with implemented nodes
 
 ## P1 - Testing and Quality Gates
 
 - [ ] Expand automated tests to cover workflow behavior
 	- [x] Graph integration test: scanner -> editor -> writer -> reviewer -> publisher
 	- [ ] DB transition tests for candidate and article task state changes
-	- [ ] Publisher failure test verifies run is marked failed
+	- [x] Publisher failure test verifies run is marked failed
 - [ ] Resolve stale/untracked test harness issues
-	- [ ] Remove or migrate `__tests__/main.test.ts` (Jest-style) to Deno test format
+	- [x] Remove or migrate `__tests__/main.test.ts` (Jest-style) to Deno test format
 	- [ ] Ensure CI/test command executes all intended tests consistently
 
 ## P2 - Throughput and Cost Controls

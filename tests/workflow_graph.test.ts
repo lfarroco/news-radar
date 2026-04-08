@@ -1,7 +1,12 @@
 import { assertEquals } from "https://deno.land/std@0.224.0/assert/mod.ts";
 import { buildGraphWithNodes } from "../src/graph/build.ts";
+import { hasPipelineErrors } from "../src/pipeline/outcome.ts";
 
-Deno.test("workflow graph: executes scanner->editor->writer->reviewer->publisher transitions", async () => {
+Deno.test({
+	name: "workflow graph: executes scanner->editor->writer->reviewer->publisher transitions",
+	sanitizeOps: false,
+	sanitizeResources: false,
+}, async () => {
 	const order: string[] = [];
 
 	const graph = buildGraphWithNodes({
@@ -93,4 +98,25 @@ Deno.test("workflow graph: executes scanner->editor->writer->reviewer->publisher
 	assertEquals(result.metrics, { scanned: 1, reviewed: 1, tasksCreated: 1, written: 1 });
 	assertEquals(result.publishedArticles.length, 1);
 	assertEquals(result.publishedArticles[0].title.endsWith("(Reviewed)"), true);
+});
+
+Deno.test({
+	name: "workflow graph: publisher failure is reported in pipeline errors",
+	sanitizeOps: false,
+	sanitizeResources: false,
+}, async () => {
+	const graph = buildGraphWithNodes({
+		scanner: () => Promise.resolve({}),
+		editor: () => Promise.resolve({}),
+		writer: () => Promise.resolve({}),
+		reviewer: () => Promise.resolve({}),
+		publisher: () => Promise.resolve({
+			errors: [{ node: "publisher", message: "lume build failed" }],
+		}),
+	});
+
+	const result = await graph.invoke({});
+
+	assertEquals(hasPipelineErrors(result.errors), true);
+	assertEquals(result.errors?.[0]?.node, "publisher");
 });

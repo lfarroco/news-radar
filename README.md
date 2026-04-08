@@ -26,8 +26,9 @@ GROQ_MODEL=llama-3.3-70b-versatile
 The system performs the following steps:
 
 1 - Scanner\
-Runs the source scout agent, discovers topic sources dynamically, resolves
-RSS/Atom feeds from discovered URLs, and ingests fresh story candidates into
+Runs the source scout agent, refreshes source notes from configured official
+topic sources, resolves RSS/Atom feeds from known/discovered source URLs, and
+ingests fresh story candidates into
 `candidates` with `status = pending`.
 
 2 - Editor\
@@ -40,7 +41,11 @@ Picks highest-priority pending tasks, reads candidate + editor notes + topic
 knowledge notes, optionally scrapes source pages, and generates a 300-500 word
 article with the LLM. Output is saved in `articles`.
 
-4 - Publisher\
+4 - Reviewer\
+Runs a final quality pass over newly generated articles and can improve title
+and body before publish artifacts are built.
+
+5 - Publisher\
 Processed items are published to a static website using Lume.
 
 ### Workflow:
@@ -58,6 +63,8 @@ writer claims task -> article_tasks.status=in_progress
 writer success -> article_tasks.status=completed + candidates.status=published + row in articles
 
 writer failure -> article_tasks.status=failed + candidates.status=writer-error
+
+editor failure -> candidates.status=editor-error
 
 ### Running
 
@@ -124,6 +131,17 @@ npx wrangler pages deploy _site
 ```
 
 Running `make serve` will build the static website and serve it at port `3000`.
+
+### Useful operational commands
+
+```sh
+make stats
+make list-candidates
+make list-tasks
+make list-latest-articles
+make retry-editor-errors
+make retry-writer-errors
+```
 
 Running `sh cron.sh` will scan, rebuild the site locally, and refresh the local
 database dump. It runs every hour.
