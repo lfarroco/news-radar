@@ -19,7 +19,7 @@ import type { PipelineState } from "../graph/state.ts";
 import {
 	isOfficialTopicSourceUrl,
 } from "../editorial-policy.ts";
-import { loadRuntimeTopicProfiles } from "../topics/runtime.ts";
+import { findTopicProfile, loadRuntimeTopicProfiles } from "../topics/runtime.ts";
 
 const config = loadConfig();
 const MAX_TASKS_PER_RUN = 3;
@@ -146,7 +146,6 @@ Output must follow the structured schema.`,
 		makeLlm(0.2).withStructuredOutput(originalityReviewSchema),
 	);
 	const topicProfiles = await loadRuntimeTopicProfiles();
-	const profileBySlug = new Map(topicProfiles.map((profile) => [profile.slug, profile]));
 
 	logger.info({ maxTasks: MAX_TASKS_PER_RUN }, "writer: starting");
 
@@ -164,7 +163,10 @@ Output must follow the structured schema.`,
 		);
 
 		try {
-			const topicProfile = profileBySlug.get(task.topic_slug);
+			const topicProfile = findTopicProfile(topicProfiles, {
+				slug: task.topic_slug,
+				name: task.topic_name,
+			});
 			if (!isOfficialTopicSourceUrl(topicProfile, task.candidate_url)) {
 				logger.warn(
 					{ taskId: task.id, topic: task.topic_slug, url: task.candidate_url },

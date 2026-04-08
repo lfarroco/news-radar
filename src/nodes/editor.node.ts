@@ -17,7 +17,7 @@ import {
 } from "../tools/research.tool.ts";
 import { compactText, stripLeadingTopicLabel } from "../utils.ts";
 import { isOfficialTopicSourceUrl } from "../editorial-policy.ts";
-import { loadRuntimeTopicProfiles } from "../topics/runtime.ts";
+import { findTopicProfile, loadRuntimeTopicProfiles } from "../topics/runtime.ts";
 
 const RELEVANCE_THRESHOLD = 7;
 const MAX_CANDIDATES_PER_RUN = 30;
@@ -137,7 +137,6 @@ export const editorNode = async (
 		"editor: selecting candidates to evaluate",
 	);
 	const topicProfiles = await loadRuntimeTopicProfiles();
-	const profileBySlug = new Map(topicProfiles.map((profile) => [profile.slug, profile]));
 
 	const llm = makeLlm(0).withStructuredOutput(relevanceSchema);
 	const chain = relevancePrompt.pipe(llm);
@@ -161,7 +160,10 @@ export const editorNode = async (
 			"editor: evaluating candidate",
 		);
 		try {
-			const topicProfile = profileBySlug.get(candidate.topic_slug);
+			const topicProfile = findTopicProfile(topicProfiles, {
+				slug: candidate.topic_slug,
+				name: candidate.topic_name,
+			});
 			if (!isOfficialTopicSourceUrl(topicProfile, candidate.url)) {
 				rejected++;
 				await setCandidateStatus(

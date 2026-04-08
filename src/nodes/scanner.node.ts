@@ -2,7 +2,7 @@ import { logger } from "../logger.ts";
 import { cheerio } from "../deps.ts";
 import { rssTool } from "../tools/rss.tool.ts";
 import { isOfficialSourceUrl } from "../editorial-policy.ts";
-import { loadRuntimeTopicProfiles } from "../topics/runtime.ts";
+import { findTopicProfile, loadRuntimeTopicProfiles } from "../topics/runtime.ts";
 import {
 	getActiveScoutTopicSources,
 	getSourceSelectorCoverageStats,
@@ -111,17 +111,17 @@ export const scannerNode = async (
 	}
 
 	const topicProfiles = await loadRuntimeTopicProfiles();
-	const officialUrlsByTopic = new Map(
-		topicProfiles.map((profile) => [
-			profile.slug,
-			(profile.officialSources ?? []).map((source) => source.url).filter(Boolean),
-		]),
-	);
 
 	const topicSources = new Map<string, { topicSlug: string; topicName: string; sourceUrls: Set<string> }>();
 	let skippedNonOfficialSources = 0;
 	for (const row of discoveredSources) {
-		const officialSourceUrls = officialUrlsByTopic.get(row.topic_slug) ?? [];
+		const matchedProfile = findTopicProfile(topicProfiles, {
+			slug: row.topic_slug,
+			name: row.topic_name,
+		});
+		const officialSourceUrls = (matchedProfile?.officialSources ?? [])
+			.map((source) => source.url)
+			.filter(Boolean);
 		if (!isOfficialSourceUrl(row.source_url, officialSourceUrls)) {
 			skippedNonOfficialSources++;
 			logger.debug(
