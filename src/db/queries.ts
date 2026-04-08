@@ -328,6 +328,14 @@ export const insertCandidate = async (
 	);
 };
 
+export const SET_CANDIDATE_STATUS_SQL = `UPDATE candidates
+	 SET
+		 status = $1,
+		 relevance_score = COALESCE($3, relevance_score),
+		 research_notes = COALESCE($4, research_notes),
+		 updated_at = now()
+	 WHERE id = $2;`;
+
 export const setCandidateStatus = (
 	id: number,
 	status: string,
@@ -335,13 +343,7 @@ export const setCandidateStatus = (
 	researchNotes?: string,
 ) =>
 	client.queryArray(
-		`UPDATE candidates
-     SET
-       status = $1,
-       relevance_score = COALESCE($3, relevance_score),
-       research_notes = COALESCE($4, research_notes),
-       updated_at = now()
-     WHERE id = $2;`,
+		SET_CANDIDATE_STATUS_SQL,
 		[status, id, relevanceScore ?? null, researchNotes ?? null],
 	);
 
@@ -408,14 +410,16 @@ export const claimNextPendingArticleTask = async (): Promise<ArticleTask | null>
 	return rows[0] ?? null;
 };
 
+export const COMPLETE_ARTICLE_TASK_SQL = `UPDATE article_tasks
+   SET status = $2, updated_at = now()
+   WHERE id = $1;`;
+
 export const completeArticleTask = (
 	taskId: number,
 	status: "completed" | "failed",
 ) =>
 	client.queryArray(
-		`UPDATE article_tasks
-     SET status = $2, updated_at = now()
-     WHERE id = $1;`,
+		COMPLETE_ARTICLE_TASK_SQL,
 		[taskId, status],
 	);
 

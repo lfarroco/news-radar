@@ -31,7 +31,7 @@
 
 - [ ] Expand automated tests to cover workflow behavior
 	- [x] Graph integration test: scanner -> editor -> writer -> reviewer -> publisher
-	- [ ] DB transition tests for candidate and article task state changes
+	- [x] DB transition tests for candidate and article task state changes
 	- [x] Publisher failure test verifies run is marked failed
 - [ ] Resolve stale/untracked test harness issues
 	- [x] Remove or migrate `__tests__/main.test.ts` (Jest-style) to Deno test format

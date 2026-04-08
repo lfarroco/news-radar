@@ -4,39 +4,21 @@ const config = loadConfig();
 import { buildGraph } from "./graph/index.ts";
 import { logger } from "./logger.ts";
 import { ensureTopicsSeeded } from "./topics/seed.ts";
-import { hasPipelineErrors } from "./pipeline/outcome.ts";
+import { runPipelineWithDeps } from "./pipeline/runner.ts";
 
 export const runPipeline = async () => {
 	const runId = crypto.randomUUID().slice(0, 8);
 	const runLogger = logger.child({ runId });
 	const startedAt = Date.now();
+	runLogger.info({ dbHost: config.DB_HOST, dbPort: Number(config.DB_PORT) }, "pipeline: connecting");
 
-	try {
-		runLogger.info({ dbHost: config.DB_HOST, dbPort: Number(config.DB_PORT) }, "pipeline: connecting");
-		await connect(config.DB_HOST, Number(config.DB_PORT));
-		await ensureTopicsSeeded();
-
-		runLogger.info("pipeline: starting graph");
-		const graph = buildGraph();
-		const result = await graph.invoke({});
-
-		const summary = {
-			durationMs: Date.now() - startedAt,
-			errorCount: result.errors?.length ?? 0,
-			publishedCount: result.publishedArticles?.length ?? 0,
-			metrics: result.metrics,
-		};
-
-		if (hasPipelineErrors(result.errors)) {
-			runLogger.error({ ...summary, errors: result.errors }, "pipeline: completed with errors");
-			throw new Error("pipeline completed with errors");
-		}
-
-		runLogger.info(summary, "pipeline: completed successfully");
-	} catch (err) {
-		runLogger.error({ err, durationMs: Date.now() - startedAt }, "pipeline: crashed");
-		throw err;
-	}
+	await runPipelineWithDeps({
+		runLogger,
+		startedAt,
+		connect: () => connect(config.DB_HOST, Number(config.DB_PORT)),
+		ensureTopicsSeeded,
+		buildGraph,
+	});
 };
 
 if (import.meta.main) {
