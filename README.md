@@ -48,23 +48,48 @@ and body before publish artifacts are built.
 5 - Publisher\
 Processed items are published to a static website using Lume.
 
-### Workflow:
+### Workflow
 
-The possible status transitions for each candidate/task:
+The runtime pipeline is a fixed graph:
 
-scan -> create candidates with status=pending
+`scanner -> editor -> writer -> reviewer -> publisher`
 
-editor -> relevance score + research
+Simple ASCII flowchart (linear execution order):
 
-candidate relevant ? yes -> (status=researched + task created) / no -> (status=rejected)
+```text
+[Start: connect DB + seed topics]
+              |
+              v
+[Scanner: discover sources + ingest candidates as pending]
+              |
+              v
+[Editor: score/research + set candidate statuses + create tasks]
+              |
+              v
+[Writer: claim task + write article + update task/candidate statuses]
+              |
+              v
+[Reviewer: optionally improve title/body of written articles]
+              |
+              v
+[Publisher: run deno task build to generate _site]
+              |
+              v
+[End: success or pipeline error if site build fails]
+```
 
-writer claims task -> article_tasks.status=in_progress
+Notes:
 
-writer success -> article_tasks.status=completed + candidates.status=published + row in articles
-
-writer failure -> article_tasks.status=failed + candidates.status=writer-error
-
-editor failure -> candidates.status=editor-error
+- The scanner inserts candidates as `pending` and may skip discovered sources
+	that are outside the topic's official-source allowlist.
+- The editor only creates a task after setting the candidate to `researched`.
+- The writer is the step that inserts into `articles` and marks the candidate as
+	`published`.
+- The reviewer does not change candidate or task status; it only updates the
+	generated article when it decides improvements are needed.
+- The publisher does not publish an article record to the database. It rebuilds
+	the static site from the database, and a failed site build is reported as a
+	pipeline error.
 
 ### Running
 
