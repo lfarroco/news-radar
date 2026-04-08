@@ -168,5 +168,15 @@ make retry-editor-errors
 make retry-writer-errors
 ```
 
-Running `sh cron.sh` will scan, rebuild the site locally, and refresh the local
-database dump. It runs every hour.
+Running `sh cron.sh` performs a single scheduled run: scan pipeline, site build,
+and local database dump refresh.
+
+To run hourly, configure your scheduler to invoke it once per hour (example
+crontab entry):
+
+```sh
+0 * * * * cd /path/to/news-radar && sh cron.sh >> /var/log/news-radar-cron.log 2>&1
+```
+
+If `ALERT_WEBHOOK_URL` is set, `cron.sh` sends a best-effort failure
+notification payload when a step fails.

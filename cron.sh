@@ -1,24 +1,38 @@
-#!/bin/sh  
-while true  
-do  
-  echo "Starting automated run at $(date)"
+#!/bin/sh
 
-  if ! make run ; then
-    echo "Failed to run scanner"
-    break
+set -eu
+
+log() {
+  echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] $*"
+}
+
+notify_failure() {
+  step="$1"
+  code="$2"
+  log "ERROR: ${step} failed with exit code ${code}"
+
+  if [ -n "${ALERT_WEBHOOK_URL:-}" ] && command -v curl >/dev/null 2>&1; then
+    curl -fsS -X POST -H "Content-Type: application/json" \
+      -d "{\"text\":\"news-radar cron failed at step '${step}' (exit ${code})\"}" \
+      "$ALERT_WEBHOOK_URL" >/dev/null || true
   fi
+}
 
-  if ! make build-pages ; then
-    echo "Failed to build pages"
-    break
+run_step() {
+  step="$1"
+  shift
+  log "Starting: ${step}"
+  if "$@"; then
+    log "Finished: ${step}"
+  else
+    code=$?
+    notify_failure "$step" "$code"
+    exit "$code"
   fi
+}
 
-  if ! make dump-db ; then
-    echo "Failed to dump database backup"
-    break
-  fi
-
-  echo "Finished running at $(date)"
-  #every hour 
-  sleep 3600
-done
+log "Starting scheduled one-shot run"
+run_step "pipeline run" make run
+run_step "build pages" make build-pages
+run_step "database dump" make dump-db
+log "Scheduled one-shot run finished successfully"

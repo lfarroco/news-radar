@@ -59,8 +59,8 @@
 	- [ ] Align Dockerfile `WORKDIR` with compose/config expectations
 	- [ ] Verify local, compose, and deploy scripts all use consistent paths
 - [ ] Make cron strategy production-safe
-	- [ ] Replace long-running `while true` loop with scheduler-friendly one-shot command
-	- [ ] Add explicit exit/alert behavior for failed runs
+	- [x] Replace long-running `while true` loop with scheduler-friendly one-shot command
+	- [x] Add explicit exit/alert behavior for failed runs
 
 ## P3 - Product/UX Backlog
 
