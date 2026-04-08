@@ -11,7 +11,7 @@ export default async function* () {
 		topics: topics.map(t => ({
 			...t,
 			url: `/topics/${t.slug}/`,
-			feedUrl: `/topics/${t.slug}/feed/`,
+			feedUrl: `/topics/${t.slug}/feed.xml`,
 		}))
 	}
 }

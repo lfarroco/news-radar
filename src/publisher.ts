@@ -11,11 +11,17 @@ const site = lume({
 	dest: "./_site",
 });
 
-site.process([".html"], (page) => {
+site.process([".html", ".xml"], (page) => {
 	const pageUrl = typeof page.data.url === "string" ? page.data.url : "";
-	if (!/\/topics\/[^/]+\/feed\/$/.test(pageUrl)) {
+	if (!/\/topics\/[^/]+\/feed(?:\.xml|\/)$/i.test(pageUrl)) {
 		return;
 	}
+
+	if (/\/topics\/[^/]+\/feed\/$/i.test(pageUrl)) {
+		page.data.url = pageUrl.replace(/\/feed\/$/i, "/feed.xml");
+		page.data.prettyUrls = false;
+	}
+
 	if (!page.content) {
 		return;
 	}

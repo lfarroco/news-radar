@@ -27,7 +27,7 @@ export default async function* () {
 			layout: "topic.njk",
 			title: name,
 			slug,
-			feedUrl: `/topics/${slug}/feed/`,
+			feedUrl: `/topics/${slug}/feed.xml`,
 			articles
 		};
 
@@ -37,7 +37,7 @@ export default async function* () {
 			contentType: "application/rss+xml; charset=UTF-8",
 			title: `${name} News`,
 			description: `Latest ${name} headlines from Dev Radar`,
-			feedUrl: toAbsoluteUrl(`/topics/${slug}/feed/`),
+			feedUrl: toAbsoluteUrl(`/topics/${slug}/feed.xml`),
 			topicUrl: toAbsoluteUrl(`/topics/${slug}/`),
 			lastBuildDate: new Date().toUTCString(),
 			articles: articles.slice(0, 30).map((article) => ({
