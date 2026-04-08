@@ -1,6 +1,6 @@
 FROM denoland/deno
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
 # Prefer not to run as root.
 USER deno

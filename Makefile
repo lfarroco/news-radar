@@ -4,6 +4,9 @@ serve:
 run:
 	docker-compose run --rm app deno run -A src/main.ts
 
+test:
+	docker-compose run --rm app deno task test
+
 scout:
 	docker-compose run --rm app deno task scout
 
@@ -26,7 +29,7 @@ source-selector-stats:
 	docker exec news-radar-db-1 psql -U root -c "SELECT COUNT(*) AS total_rows, COUNT(*) FILTER (WHERE feed_url IS NULL AND index_item_selector IS NULL AND index_title_selector IS NULL AND index_link_selector IS NULL) AS url_only_rows, COUNT(*) FILTER (WHERE feed_url IS NOT NULL) AS feed_backed_rows, COUNT(*) FILTER (WHERE index_item_selector IS NOT NULL AND index_title_selector IS NOT NULL AND index_link_selector IS NOT NULL) AS selector_backed_rows, COUNT(*) FILTER (WHERE source_type = 'unknown') AS unknown_type_rows FROM source_selectors;"
 
 retry-writer-errors:
-	docker exec news-radar-db-1 psql -U root -c "UPDATE article_tasks SET status = 'pending', updated_at = now() WHERE status = 'failed' AND candidate_id IN (SELECT id FROM candidates WHERE status = 'writer-error'); UPDATE candidates SET status = 'researched', updated_at = now() WHERE status = 'writer-error';"
+	docker exec news-radar-db-1 psql -U root -c "WITH reset_tasks AS (UPDATE article_tasks at SET status = 'pending', picked_at = NULL, updated_at = now() FROM candidates c WHERE at.candidate_id = c.id AND at.status = 'failed' AND c.status = 'writer-error' RETURNING at.candidate_id), reset_candidates AS (UPDATE candidates c SET status = 'researched', updated_at = now() WHERE c.id IN (SELECT candidate_id FROM reset_tasks) RETURNING c.id) SELECT (SELECT COUNT(*)::int FROM reset_tasks) AS tasks_reset, (SELECT COUNT(*)::int FROM reset_candidates) AS candidates_reset;"
 
 retry-editor-errors:
 	docker exec news-radar-db-1 psql -U root -c "UPDATE candidates SET status = 'pending', updated_at = now() WHERE status = 'editor-error';"

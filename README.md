@@ -91,6 +91,29 @@ Notes:
 	the static site from the database, and a failed site build is reported as a
 	pipeline error.
 
+### Status model
+
+Candidate statuses (`candidates.status`):
+
+- `pending`: newly ingested and waiting for editor evaluation.
+- `researched`: passed editor checks, enriched with notes, and eligible for writer.
+- `published`: article was generated and persisted.
+- `rejected`: filtered out by policy/relevance or writer safety checks.
+- `editor-error`: editor step failed unexpectedly.
+- `writer-error`: writer step failed unexpectedly.
+
+Article task statuses (`article_tasks.status`):
+
+- `pending`: task queued and claimable by writer.
+- `in_progress`: atomically claimed by writer and currently being processed.
+- `completed`: writer successfully finished task and article insertion path.
+- `failed`: writer processing failed (retryable through operational commands).
+
+Implemented transition paths:
+
+- Candidate: `pending -> researched|rejected|editor-error`, `researched -> published|writer-error|rejected`, `editor-error -> pending`, `writer-error -> researched`.
+- Article task: `pending -> in_progress`, `in_progress -> completed|failed`, `failed -> pending`.
+
 ### Running
 
 Running `make run` scans sources, evaluates candidates, queues article tasks,
@@ -156,6 +179,37 @@ npx wrangler pages deploy _site
 ```
 
 Running `make serve` will build the static website and serve it at port `3000`.
+
+### Testing
+
+Canonical test command:
+
+```sh
+deno task test
+```
+
+Containerized equivalent:
+
+```sh
+make test
+```
+
+### Runtime limits
+
+You can tune run throughput and scout cadence via environment variables:
+
+- `MAX_CANDIDATES_PER_RUN` (default: `30`): maximum pending candidates editor evaluates per run.
+- `MAX_TASKS_PER_RUN` (default: `3`): maximum article tasks writer attempts per run.
+- `SOURCE_SCOUT_INTERVAL_HOURS` (default: `0.01`): minimum hours between source-scout passes per topic.
+
+If a value is missing or invalid (non-numeric or non-positive), News Radar falls back to the default.
+
+Queue-aware writer tuning:
+
+- The writer starts from `MAX_TASKS_PER_RUN` and adjusts per run using queue health.
+- Backlog boost: pending tasks `>= 20` adds `+2`, pending tasks `>= 50` adds `+4`.
+- Error-rate guardrail: if 24h writer failure rate is `>= 30%`, budget is reduced by `1`; if `>= 50%`, reduced by `2`.
+- Final per-run writer budget is clamped between `1` and `12` tasks.
 
 ### Useful operational commands
 

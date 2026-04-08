@@ -1,11 +1,12 @@
 import { Client } from "../deps.ts";
 import {
-	Article,
-	ArticleTask,
-	Candidate,
-	GeneratedArticle,
-	TopicNote,
+    Article,
+    ArticleTask,
+    Candidate,
+    GeneratedArticle,
+    TopicNote,
 } from "../models.ts";
+import type { ArticleTaskStatus, CandidateStatus } from "../statuses.ts";
 import { TopicProfile } from "../topics/types.ts";
 import { compactText, stripLeadingTopicLabel } from "../utils.ts";
 import { logger } from "../logger.ts";
@@ -14,15 +15,15 @@ const TOPIC_NOTE_TYPE_MAX_LENGTH = 48;
 const TOPIC_NOTE_CONTENT_MAX_LENGTH = 280;
 
 export type TopicNoteWriteResult = {
-	id: number;
-	action: "inserted" | "updated";
+    id: number;
+    action: "inserted" | "updated";
 };
 
 const sanitizeTopicNote = (noteType: string, content: string) => ({
-	noteType: compactText((noteType ?? "note").trim(), TOPIC_NOTE_TYPE_MAX_LENGTH) || "note",
-	content:
-		compactText((content ?? "").trim(), TOPIC_NOTE_CONTENT_MAX_LENGTH) ||
-		"No details provided.",
+    noteType: compactText((noteType ?? "note").trim(), TOPIC_NOTE_TYPE_MAX_LENGTH) || "note",
+    content:
+        compactText((content ?? "").trim(), TOPIC_NOTE_CONTENT_MAX_LENGTH) ||
+        "No details provided.",
 });
 
 // ── connection ─────────────────────────────────────────────────────────────
@@ -30,7 +31,7 @@ const sanitizeTopicNote = (noteType: string, content: string) => ({
 export let client: Client;
 
 const ensureSchema = async () => {
-	await client.queryArray(`
+    await client.queryArray(`
 		CREATE TABLE IF NOT EXISTS topics (
 			id SERIAL PRIMARY KEY,
 			name VARCHAR(128),
@@ -111,8 +112,8 @@ const ensureSchema = async () => {
 			WHERE source_url IS NOT NULL;
 	`);
 
-	// Additive migrations: safe to re-run on existing databases
-	await client.queryArray(`
+    // Additive migrations: safe to re-run on existing databases
+    await client.queryArray(`
 		ALTER TABLE topics ADD COLUMN IF NOT EXISTS last_scouted_at TIMESTAMPTZ;
 
 		CREATE TABLE IF NOT EXISTS source_selectors (
@@ -138,7 +139,7 @@ const ensureSchema = async () => {
 			ON source_selectors(topic_slug);
 	`);
 
-	await client.queryArray(`
+    await client.queryArray(`
 		UPDATE topics
 		SET profile = (profile - 'tavilySearchTerms') || jsonb_build_object('researchQueries', COALESCE(profile->'tavilySearchTerms', '[]'::jsonb))
 		WHERE profile ? 'tavilySearchTerms'
@@ -147,23 +148,23 @@ const ensureSchema = async () => {
 };
 
 export const connect = async (hostname: string, port: number) => {
-	logger.info({ hostname, port }, "db: connecting");
-	client = new Client({
-		user: "root",
-		hostname,
-		password: "root",
-		database: "root",
-		port,
-	});
-	await client.connect();
-	await ensureSchema();
-	logger.info("db: connected and schema ensured");
+    logger.info({ hostname, port }, "db: connecting");
+    client = new Client({
+        user: "root",
+        hostname,
+        password: "root",
+        database: "root",
+        port,
+    });
+    await client.connect();
+    await ensureSchema();
+    logger.info("db: connected and schema ensured");
 };
 
 // ── article reads ──────────────────────────────────────────────────────────
 
 export const getLatestArticles = async (): Promise<Article[]> => {
-	const { rows } = await client.queryObject<Article & { date: Date; topic_name: string }>(`
+    const { rows } = await client.queryObject<Article & { date: Date; topic_name: string }>(`
 		SELECT
 			a.id,
 			a.title AS article_title,
@@ -186,18 +187,18 @@ export const getLatestArticles = async (): Promise<Article[]> => {
 		ORDER BY a.published_at DESC
 		LIMIT 20`);
 
-	return rows.map((r) => ({
-		...r,
-		article_title: stripLeadingTopicLabel(r.article_title, r.topic_name),
-		formattedDate: r.date.toISOString().split("T")[0].replace(/-/g, "/"),
-		title: stripLeadingTopicLabel(r.article_title, r.topic_name),
-	}));
+    return rows.map((r) => ({
+        ...r,
+        article_title: stripLeadingTopicLabel(r.article_title, r.topic_name),
+        formattedDate: r.date.toISOString().split("T")[0].replace(/-/g, "/"),
+        title: stripLeadingTopicLabel(r.article_title, r.topic_name),
+    }));
 };
 
 export const getLatestArticlesByTopic = async (
-	topic: string,
+    topic: string,
 ): Promise<Article[]> => {
-	const { rows } = await client.queryObject<Article & { date: Date; topic_name: string }>(`
+    const { rows } = await client.queryObject<Article & { date: Date; topic_name: string }>(`
 		SELECT
 			a.title AS article_title,
 			a.body AS article_content,
@@ -220,22 +221,22 @@ export const getLatestArticlesByTopic = async (
 		ORDER BY a.published_at DESC
 		LIMIT 5`, [topic]);
 
-	return rows.map((row) => ({
-		...row,
-		article_title: stripLeadingTopicLabel(row.article_title, row.topic_name),
-		formattedDate: row.date.toISOString().split("T")[0].replace(/-/g, "/"),
-		title: stripLeadingTopicLabel(row.article_title, row.topic_name),
-		article: row.article_content,
-	}));
+    return rows.map((row) => ({
+        ...row,
+        article_title: stripLeadingTopicLabel(row.article_title, row.topic_name),
+        formattedDate: row.date.toISOString().split("T")[0].replace(/-/g, "/"),
+        title: stripLeadingTopicLabel(row.article_title, row.topic_name),
+        article: row.article_content,
+    }));
 };
 
 export const getTopicsList = async () => {
-	const { rows } = await client.queryObject<{
-		topic_id: number;
-		name: string;
-		article_count: number;
-		slug: string;
-	}>(`
+    const { rows } = await client.queryObject<{
+        topic_id: number;
+        name: string;
+        article_count: number;
+        slug: string;
+    }>(`
 		SELECT
 			topics.id as topic_id,
 			topics.slug,
@@ -245,19 +246,19 @@ export const getTopicsList = async () => {
 		LEFT JOIN articles a ON a.topic_id = topics.id
 		GROUP BY topics.id, topics.name, topics.slug
     ORDER BY article_count DESC`);
-	return rows;
+    return rows;
 };
 
 export const getTopicArticles = async (topicId: number) => {
-	const { rows } = await client.queryObject<{
-		id: string;
-		url: string;
-		article_title: string;
-		article_content: string;
-		slug: string;
-		date: Date;
-		topic_name: string;
-	}>(`
+    const { rows } = await client.queryObject<{
+        id: string;
+        url: string;
+        article_title: string;
+        article_content: string;
+        slug: string;
+        date: Date;
+        topic_name: string;
+    }>(`
     SELECT
       a.id::text as id,
       a.url,
@@ -270,16 +271,16 @@ export const getTopicArticles = async (topicId: number) => {
     INNER JOIN topics t ON t.id = a.topic_id
     WHERE a.topic_id = $1
     ORDER BY a.published_at DESC`, [topicId]);
-	return rows.map((row) => ({
-		...row,
-		article_title: stripLeadingTopicLabel(row.article_title, row.topic_name),
-	}));
+    return rows.map((row) => ({
+        ...row,
+        article_title: stripLeadingTopicLabel(row.article_title, row.topic_name),
+    }));
 };
 
 // ── pipeline reads ─────────────────────────────────────────────────────────
 
 export const getPendingCandidates = async (limit = 40): Promise<Candidate[]> => {
-	const { rows } = await client.queryObject<Candidate>(`
+    const { rows } = await client.queryObject<Candidate>(`
     SELECT
       c.id,
       c.topic_id,
@@ -298,34 +299,34 @@ export const getPendingCandidates = async (limit = 40): Promise<Candidate[]> => 
     WHERE c.status = 'pending'
     ORDER BY c.discovered_at DESC
     LIMIT $1`, [limit]);
-	return rows;
+    return rows;
 };
 
 // ── article writes ─────────────────────────────────────────────────────────
 
 export const insertCandidate = async (
-	title: string,
-	url: string,
-	snippet: string,
-	source: string,
-	discoveredAt: Date,
-	topicSlug: string,
-	topicName?: string,
+    title: string,
+    url: string,
+    snippet: string,
+    source: string,
+    discoveredAt: Date,
+    topicSlug: string,
+    topicName?: string,
 ) => {
-	if (topicName) {
-		await upsertTopic(topicName, topicSlug);
-	}
+    if (topicName) {
+        await upsertTopic(topicName, topicSlug);
+    }
 
-	await client.queryArray(
-		`INSERT INTO candidates (topic_id, title, url, snippet, source, discovered_at, status)
+    await client.queryArray(
+        `INSERT INTO candidates (topic_id, title, url, snippet, source, discovered_at, status)
      VALUES ((SELECT id FROM topics WHERE slug = $1), $2, $3, $4, $5, $6, 'pending')
      ON CONFLICT (topic_id, url)
      DO UPDATE SET
        snippet = EXCLUDED.snippet,
        discovered_at = GREATEST(candidates.discovered_at, EXCLUDED.discovered_at),
        updated_at = now();`,
-		[topicSlug, title, url, snippet, source, discoveredAt],
-	);
+        [topicSlug, title, url, snippet, source, discoveredAt],
+    );
 };
 
 export const SET_CANDIDATE_STATUS_SQL = `UPDATE candidates
@@ -337,38 +338,38 @@ export const SET_CANDIDATE_STATUS_SQL = `UPDATE candidates
 	 WHERE id = $2;`;
 
 export const setCandidateStatus = (
-	id: number,
-	status: string,
-	relevanceScore?: number,
-	researchNotes?: string,
+    id: number,
+    status: CandidateStatus,
+    relevanceScore?: number,
+    researchNotes?: string,
 ) =>
-	client.queryArray(
-		SET_CANDIDATE_STATUS_SQL,
-		[status, id, relevanceScore ?? null, researchNotes ?? null],
-	);
+    client.queryArray(
+        SET_CANDIDATE_STATUS_SQL,
+        [status, id, relevanceScore ?? null, researchNotes ?? null],
+    );
 
 export const hasOpenTaskForCandidate = async (candidateId: number): Promise<boolean> => {
-	const { rows } = await client.queryObject<{ exists: boolean }>(
-		`SELECT EXISTS(
+    const { rows } = await client.queryObject<{ exists: boolean }>(
+        `SELECT EXISTS(
        SELECT 1 FROM article_tasks
        WHERE candidate_id = $1
          AND status IN ('pending', 'in_progress')
      ) AS exists;`,
-		[candidateId],
-	);
-	return rows[0]?.exists ?? false;
+        [candidateId],
+    );
+    return rows[0]?.exists ?? false;
 };
 
 export const createArticleTask = (
-	candidateId: number,
-	editorNotes: string,
-	priority: number,
+    candidateId: number,
+    editorNotes: string,
+    priority: number,
 ) =>
-	client.queryArray(
-		`INSERT INTO article_tasks (candidate_id, editor_notes, priority, status)
+    client.queryArray(
+        `INSERT INTO article_tasks (candidate_id, editor_notes, priority, status)
      VALUES ($1, $2, $3, 'pending');`,
-		[candidateId, editorNotes, priority],
-	);
+        [candidateId, editorNotes, priority],
+    );
 
 export const CLAIM_NEXT_PENDING_TASK_SQL = `
 	WITH next_task AS (
@@ -405,9 +406,9 @@ export const CLAIM_NEXT_PENDING_TASK_SQL = `
 `;
 
 export const claimNextPendingArticleTask = async (): Promise<ArticleTask | null> => {
-	const { rows } = await client.queryObject<ArticleTask>(CLAIM_NEXT_PENDING_TASK_SQL);
+    const { rows } = await client.queryObject<ArticleTask>(CLAIM_NEXT_PENDING_TASK_SQL);
 
-	return rows[0] ?? null;
+    return rows[0] ?? null;
 };
 
 export const COMPLETE_ARTICLE_TASK_SQL = `UPDATE article_tasks
@@ -415,49 +416,104 @@ export const COMPLETE_ARTICLE_TASK_SQL = `UPDATE article_tasks
    WHERE id = $1;`;
 
 export const completeArticleTask = (
-	taskId: number,
-	status: "completed" | "failed",
+    taskId: number,
+    status: Extract<ArticleTaskStatus, "completed" | "failed">,
 ) =>
-	client.queryArray(
-		COMPLETE_ARTICLE_TASK_SQL,
-		[taskId, status],
-	);
+    client.queryArray(
+        COMPLETE_ARTICLE_TASK_SQL,
+        [taskId, status],
+    );
+
+export const RETRY_FAILED_WRITER_TASKS_SQL = `
+    WITH reset_tasks AS (
+        UPDATE article_tasks at
+        SET status = 'pending', picked_at = NULL, updated_at = now()
+        FROM candidates c
+        WHERE at.candidate_id = c.id
+            AND at.status = 'failed'
+            AND c.status = 'writer-error'
+        RETURNING at.candidate_id
+    ), reset_candidates AS (
+        UPDATE candidates c
+        SET status = 'researched', updated_at = now()
+        WHERE c.id IN (SELECT candidate_id FROM reset_tasks)
+        RETURNING c.id
+    )
+    SELECT
+        (SELECT COUNT(*)::int FROM reset_tasks) AS tasks_reset,
+        (SELECT COUNT(*)::int FROM reset_candidates) AS candidates_reset;
+`;
+
+export const retryFailedWriterTasks = async (): Promise<{
+    tasks_reset: number;
+    candidates_reset: number;
+}> => {
+    const { rows } = await client.queryObject<{ tasks_reset: number; candidates_reset: number }>(
+        RETRY_FAILED_WRITER_TASKS_SQL,
+    );
+
+    return rows[0] ?? { tasks_reset: 0, candidates_reset: 0 };
+};
+
+export const getWriterQueueHealth = async (): Promise<{
+    pendingTasks: number;
+    failedLast24h: number;
+    completedLast24h: number;
+}> => {
+    const { rows } = await client.queryObject<{
+        pending_tasks: number;
+        failed_last_24h: number;
+        completed_last_24h: number;
+    }>(`
+		SELECT
+			(SELECT COUNT(*)::int FROM article_tasks WHERE status = 'pending') AS pending_tasks,
+			(SELECT COUNT(*)::int FROM article_tasks WHERE status = 'failed' AND updated_at >= now() - interval '24 hours') AS failed_last_24h,
+			(SELECT COUNT(*)::int FROM article_tasks WHERE status = 'completed' AND updated_at >= now() - interval '24 hours') AS completed_last_24h;
+	`);
+
+    const row = rows[0];
+    return {
+        pendingTasks: row?.pending_tasks ?? 0,
+        failedLast24h: row?.failed_last_24h ?? 0,
+        completedLast24h: row?.completed_last_24h ?? 0,
+    };
+};
 
 export const insertGeneratedArticle = async (
-	taskId: number,
-	topicId: number,
-	title: string,
-	body: string,
-	slug: string,
-	url: string,
-	authorAgentVersion: string,
+    taskId: number,
+    topicId: number,
+    title: string,
+    body: string,
+    slug: string,
+    url: string,
+    authorAgentVersion: string,
 ): Promise<GeneratedArticle | null> => {
-	const { rows } = await client.queryObject<GeneratedArticle>(
-		`INSERT INTO articles (task_id, topic_id, title, body, slug, url, author_agent_version)
+    const { rows } = await client.queryObject<GeneratedArticle>(
+        `INSERT INTO articles (task_id, topic_id, title, body, slug, url, author_agent_version)
      VALUES ($1, $2, $3, $4, $5, $6, $7)
      ON CONFLICT (task_id) DO NOTHING
      RETURNING *;`,
-		[taskId, topicId, title, body, slug, url, authorAgentVersion],
-	);
+        [taskId, topicId, title, body, slug, url, authorAgentVersion],
+    );
 
-	return rows[0] ?? null;
+    return rows[0] ?? null;
 };
 
 export type ArticleReviewContext = {
-	article_id: number;
-	topic_slug: string;
-	topic_name: string;
-	candidate_title: string;
-	candidate_url: string;
-	candidate_snippet: string;
-	editor_notes: string;
+    article_id: number;
+    topic_slug: string;
+    topic_name: string;
+    candidate_title: string;
+    candidate_url: string;
+    candidate_snippet: string;
+    editor_notes: string;
 };
 
 export const getArticleReviewContext = async (
-	articleId: number,
+    articleId: number,
 ): Promise<ArticleReviewContext | null> => {
-	const { rows } = await client.queryObject<ArticleReviewContext>(
-		`SELECT
+    const { rows } = await client.queryObject<ArticleReviewContext>(
+        `SELECT
        a.id AS article_id,
        t.slug AS topic_slug,
        t.name AS topic_name,
@@ -471,99 +527,99 @@ export const getArticleReviewContext = async (
      INNER JOIN topics t ON t.id = a.topic_id
      WHERE a.id = $1
      LIMIT 1;`,
-		[articleId],
-	);
+        [articleId],
+    );
 
-	return rows[0] ?? null;
+    return rows[0] ?? null;
 };
 
 export const updateGeneratedArticle = (
-	articleId: number,
-	title: string,
-	body: string,
-	slug: string,
-	url: string,
+    articleId: number,
+    title: string,
+    body: string,
+    slug: string,
+    url: string,
 ) =>
-	client.queryArray(
-		`UPDATE articles
+    client.queryArray(
+        `UPDATE articles
      SET title = $2,
          body = $3,
          slug = $4,
          url = $5
      WHERE id = $1;`,
-		[articleId, title, body, slug, url],
-	);
+        [articleId, title, body, slug, url],
+    );
 
 export const markTopicCrawledNow = (topicSlug: string) =>
-	client.queryArray(
-		`UPDATE topics SET last_crawl_time = now() WHERE slug = $1;`,
-		[topicSlug],
-	);
+    client.queryArray(
+        `UPDATE topics SET last_crawl_time = now() WHERE slug = $1;`,
+        [topicSlug],
+    );
 
 // ── topic writes ───────────────────────────────────────────────────────────
 
 export const upsertTopic = (name: string, slug: string) =>
-	client.queryArray(
-		`INSERT INTO topics (name, slug) VALUES ($1, $2)
+    client.queryArray(
+        `INSERT INTO topics (name, slug) VALUES ($1, $2)
      ON CONFLICT (slug) DO UPDATE SET name = EXCLUDED.name;`,
-		[name, slug],
-	);
+        [name, slug],
+    );
 
 // ── topic knowledge base ───────────────────────────────────────────────────
 
 export const upsertTopicProfile = (slug: string, profile: TopicProfile) =>
-	client.queryArray(
-		`UPDATE topics SET profile = $2 WHERE slug = $1;`,
-		[slug, JSON.stringify(profile)],
-	);
+    client.queryArray(
+        `UPDATE topics SET profile = $2 WHERE slug = $1;`,
+        [slug, JSON.stringify(profile)],
+    );
 
 export const getTopicProfile = async (
-	slug: string,
+    slug: string,
 ): Promise<TopicProfile | null> => {
-	const { rows } = await client.queryObject<{ profile: TopicProfile }>(
-		`SELECT profile FROM topics WHERE slug = $1;`,
-		[slug],
-	);
-	return rows[0]?.profile ?? null;
+    const { rows } = await client.queryObject<{ profile: TopicProfile }>(
+        `SELECT profile FROM topics WHERE slug = $1;`,
+        [slug],
+    );
+    return rows[0]?.profile ?? null;
 };
 
 export const getAllTopicProfiles = async (): Promise<TopicProfile[]> => {
-	const { rows } = await client.queryObject<{ profile: TopicProfile | null }>(
-		`SELECT profile FROM topics WHERE profile IS NOT NULL;`,
-	);
+    const { rows } = await client.queryObject<{ profile: TopicProfile | null }>(
+        `SELECT profile FROM topics WHERE profile IS NOT NULL;`,
+    );
 
-	return rows
-		.map((row) => row.profile)
-		.filter((profile): profile is TopicProfile => profile !== null);
+    return rows
+        .map((row) => row.profile)
+        .filter((profile): profile is TopicProfile => profile !== null);
 };
 
 // ── topic notes (knowledge base) ───────────────────────────────────────────
 
 export const addTopicNote = async (
-	topicSlug: string,
-	noteType: string,
-	content: string,
-	sourceUrl: string | null,
-	addedByAgent: string,
+    topicSlug: string,
+    noteType: string,
+    content: string,
+    sourceUrl: string | null,
+    addedByAgent: string,
 ): Promise<TopicNoteWriteResult> => {
-	const sanitized = sanitizeTopicNote(noteType, content);
+    const sanitized = sanitizeTopicNote(noteType, content);
 
-	if (!sourceUrl) {
-		const { rows } = await client.queryObject<{ id: number }>(
-			`INSERT INTO topic_notes (topic_id, note_type, content, source_url, added_by_agent)
+    if (!sourceUrl) {
+        const { rows } = await client.queryObject<{ id: number }>(
+            `INSERT INTO topic_notes (topic_id, note_type, content, source_url, added_by_agent)
 				 VALUES ((SELECT id FROM topics WHERE slug = $1), $2, $3, $4, $5)
 				 RETURNING id;`,
-			[topicSlug, sanitized.noteType, sanitized.content, sourceUrl, addedByAgent],
-		);
+            [topicSlug, sanitized.noteType, sanitized.content, sourceUrl, addedByAgent],
+        );
 
-		return {
-			id: rows[0].id,
-			action: "inserted",
-		};
-	}
+        return {
+            id: rows[0].id,
+            action: "inserted",
+        };
+    }
 
-	const { rows } = await client.queryObject<{ id: number; inserted: boolean }>(
-		`INSERT INTO topic_notes (topic_id, note_type, content, source_url, added_by_agent)
+    const { rows } = await client.queryObject<{ id: number; inserted: boolean }>(
+        `INSERT INTO topic_notes (topic_id, note_type, content, source_url, added_by_agent)
 			 VALUES ((SELECT id FROM topics WHERE slug = $1), $2, $3, $4, $5)
 			 ON CONFLICT (topic_id, note_type, source_url) WHERE source_url IS NOT NULL
 			 DO UPDATE SET
@@ -572,22 +628,22 @@ export const addTopicNote = async (
 				is_active = true,
 				updated_at = now()
 			 RETURNING id, (xmax = 0) AS inserted;`,
-		[topicSlug, sanitized.noteType, sanitized.content, sourceUrl, addedByAgent],
-	);
+        [topicSlug, sanitized.noteType, sanitized.content, sourceUrl, addedByAgent],
+    );
 
-	return {
-		id: rows[0].id,
-		action: rows[0].inserted ? "inserted" : "updated",
-	};
+    return {
+        id: rows[0].id,
+        action: rows[0].inserted ? "inserted" : "updated",
+    };
 };
 
 export const searchTopicNotes = async (
-	topicSlug: string,
-	query: string,
-	limit = 6,
+    topicSlug: string,
+    query: string,
+    limit = 6,
 ): Promise<TopicNote[]> => {
-	const { rows } = await client.queryObject<TopicNote>(
-		`SELECT
+    const { rows } = await client.queryObject<TopicNote>(
+        `SELECT
 				n.id,
 				n.topic_id,
 				n.note_type,
@@ -607,13 +663,13 @@ export const searchTopicNotes = async (
 				)
 			ORDER BY n.updated_at DESC
 			LIMIT $3;`,
-		[topicSlug, `%${query}%`, limit],
-	);
+        [topicSlug, `%${query}%`, limit],
+    );
 
-	if (rows.length >= limit) return rows;
+    if (rows.length >= limit) return rows;
 
-	const fallback = await client.queryObject<TopicNote>(
-		`SELECT
+    const fallback = await client.queryObject<TopicNote>(
+        `SELECT
 				n.id,
 				n.topic_id,
 				n.note_type,
@@ -629,35 +685,35 @@ export const searchTopicNotes = async (
 				AND n.is_active = true
 			ORDER BY n.updated_at DESC
 			LIMIT $2;`,
-		[topicSlug, limit],
-	);
+        [topicSlug, limit],
+    );
 
-	return fallback.rows;
+    return fallback.rows;
 };
 
 export const getIgnoredTopicSourceUrls = async (topicSlug: string): Promise<string[]> => {
-	const { rows } = await client.queryObject<{ source_url: string }>(
-		`SELECT DISTINCT n.source_url
+    const { rows } = await client.queryObject<{ source_url: string }>(
+        `SELECT DISTINCT n.source_url
 			FROM topic_notes n
 			INNER JOIN topics t ON t.id = n.topic_id
 			WHERE t.slug = $1
 				AND n.source_url IS NOT NULL
 				AND n.is_active = false;`,
-		[topicSlug],
-	);
+        [topicSlug],
+    );
 
-	return rows.map((row) => row.source_url);
+    return rows.map((row) => row.source_url);
 };
 
 export type ScoutTopicSource = {
-	topic_slug: string;
-	topic_name: string;
-	source_url: string;
+    topic_slug: string;
+    topic_name: string;
+    source_url: string;
 };
 
 export const getActiveScoutTopicSources = async (): Promise<ScoutTopicSource[]> => {
-	const { rows } = await client.queryObject<ScoutTopicSource>(
-		`SELECT DISTINCT
+    const { rows } = await client.queryObject<ScoutTopicSource>(
+        `SELECT DISTINCT
 			t.slug AS topic_slug,
 			t.name AS topic_name,
 			n.source_url
@@ -666,35 +722,35 @@ export const getActiveScoutTopicSources = async (): Promise<ScoutTopicSource[]> 
 		WHERE n.is_active = true
 			AND n.source_url IS NOT NULL
 			AND n.added_by_agent = 'source-scout-agent';`,
-	);
+    );
 
-	return rows;
+    return rows;
 };
 
 export const setTopicNoteActiveState = async (
-	noteId: number,
-	isActive: boolean,
+    noteId: number,
+    isActive: boolean,
 ): Promise<boolean> => {
-	const { rows } = await client.queryObject<{ id: number }>(
-		`UPDATE topic_notes
+    const { rows } = await client.queryObject<{ id: number }>(
+        `UPDATE topic_notes
 			SET is_active = $2,
 				updated_at = now()
 			WHERE id = $1
 			RETURNING id;`,
-		[noteId, isActive],
-	);
+        [noteId, isActive],
+    );
 
-	return Boolean(rows[0]);
+    return Boolean(rows[0]);
 };
 
 export const deactivateTopicNotesByIds = async (
-	topicSlug: string,
-	noteIds: number[],
+    topicSlug: string,
+    noteIds: number[],
 ): Promise<number[]> => {
-	if (noteIds.length === 0) return [];
+    if (noteIds.length === 0) return [];
 
-	const { rows } = await client.queryObject<{ id: number }>(
-		`UPDATE topic_notes n
+    const { rows } = await client.queryObject<{ id: number }>(
+        `UPDATE topic_notes n
 			SET is_active = false,
 				updated_at = now()
 			FROM topics t
@@ -703,39 +759,39 @@ export const deactivateTopicNotesByIds = async (
 				AND n.id = ANY($2)
 				AND n.is_active = true
 			RETURNING n.id;`,
-		[topicSlug, noteIds],
-	);
+        [topicSlug, noteIds],
+    );
 
-	return rows.map((row) => row.id);
+    return rows.map((row) => row.id);
 };
 
 // ── source selectors ───────────────────────────────────────────────────────
 
 export type SourceSelector = {
-	id: number;
-	source_url: string;
-	topic_slug: string;
-	source_type: string;
-	feed_url: string | null;
-	index_item_selector: string | null;
-	index_title_selector: string | null;
-	index_link_selector: string | null;
-	index_date_selector: string | null;
-	detail_title_selector: string | null;
-	detail_content_selector: string | null;
-	detail_date_selector: string | null;
-	needs_reindex: boolean;
-	last_indexed_at: Date | null;
-	created_at: Date;
-	updated_at: Date;
+    id: number;
+    source_url: string;
+    topic_slug: string;
+    source_type: string;
+    feed_url: string | null;
+    index_item_selector: string | null;
+    index_title_selector: string | null;
+    index_link_selector: string | null;
+    index_date_selector: string | null;
+    detail_title_selector: string | null;
+    detail_content_selector: string | null;
+    detail_date_selector: string | null;
+    needs_reindex: boolean;
+    last_indexed_at: Date | null;
+    created_at: Date;
+    updated_at: Date;
 };
 
 export type SourceSelectorCoverageStats = {
-	total_rows: number;
-	url_only_rows: number;
-	feed_backed_rows: number;
-	selector_backed_rows: number;
-	unknown_type_rows: number;
+    total_rows: number;
+    url_only_rows: number;
+    feed_backed_rows: number;
+    selector_backed_rows: number;
+    unknown_type_rows: number;
 };
 
 export const TOUCH_SOURCE_SELECTOR_SQL = `INSERT INTO source_selectors (source_url, topic_slug)
@@ -749,14 +805,14 @@ export const TOUCH_SOURCE_SELECTOR_SQL = `INSERT INTO source_selectors (source_u
 		updated_at = now();`;
 
 export const touchSourceSelector = async (
-	sourceUrl: string,
-	topicSlug: string,
-	sourceType = "unknown",
+    sourceUrl: string,
+    topicSlug: string,
+    sourceType = "unknown",
 ): Promise<void> => {
-	await client.queryArray(
-		TOUCH_SOURCE_SELECTOR_SQL,
-		[sourceUrl, topicSlug, sourceType],
-	);
+    await client.queryArray(
+        TOUCH_SOURCE_SELECTOR_SQL,
+        [sourceUrl, topicSlug, sourceType],
+    );
 };
 
 export const SET_SOURCE_SELECTOR_FEED_URL_SQL = `UPDATE source_selectors
@@ -772,20 +828,20 @@ export const SET_SOURCE_SELECTOR_FEED_URL_SQL = `UPDATE source_selectors
 	 WHERE source_url = $1;`;
 
 export const setSourceSelectorFeedUrl = async (
-	sourceUrl: string,
-	feedUrl: string,
+    sourceUrl: string,
+    feedUrl: string,
 ): Promise<void> => {
-	await client.queryArray(
-		SET_SOURCE_SELECTOR_FEED_URL_SQL,
-		[sourceUrl, feedUrl],
-	);
+    await client.queryArray(
+        SET_SOURCE_SELECTOR_FEED_URL_SQL,
+        [sourceUrl, feedUrl],
+    );
 };
 
 export type IndexSelectors = {
-	indexItemSelector: string;
-	indexTitleSelector: string;
-	indexLinkSelector: string;
-	indexDateSelector: string | null;
+    indexItemSelector: string;
+    indexTitleSelector: string;
+    indexLinkSelector: string;
+    indexDateSelector: string | null;
 };
 
 export const SET_SOURCE_SELECTOR_INDEX_SELECTORS_SQL = `UPDATE source_selectors
@@ -801,19 +857,19 @@ export const SET_SOURCE_SELECTOR_INDEX_SELECTORS_SQL = `UPDATE source_selectors
 	 WHERE source_url = $1;`;
 
 export const setSourceSelectorIndexSelectors = async (
-	sourceUrl: string,
-	selectors: IndexSelectors,
+    sourceUrl: string,
+    selectors: IndexSelectors,
 ): Promise<void> => {
-	await client.queryArray(
-		SET_SOURCE_SELECTOR_INDEX_SELECTORS_SQL,
-		[
-			sourceUrl,
-			selectors.indexItemSelector,
-			selectors.indexTitleSelector,
-			selectors.indexLinkSelector,
-			selectors.indexDateSelector ?? null,
-		],
-	);
+    await client.queryArray(
+        SET_SOURCE_SELECTOR_INDEX_SELECTORS_SQL,
+        [
+            sourceUrl,
+            selectors.indexItemSelector,
+            selectors.indexTitleSelector,
+            selectors.indexLinkSelector,
+            selectors.indexDateSelector ?? null,
+        ],
+    );
 };
 
 export const MARK_SOURCE_SELECTOR_INDEXED_NOW_SQL = `UPDATE source_selectors
@@ -823,47 +879,47 @@ export const MARK_SOURCE_SELECTOR_INDEXED_NOW_SQL = `UPDATE source_selectors
 	 WHERE source_url = $1;`;
 
 export const markSourceSelectorIndexedNow = async (
-	sourceUrl: string,
+    sourceUrl: string,
 ): Promise<void> => {
-	await client.queryArray(
-		MARK_SOURCE_SELECTOR_INDEXED_NOW_SQL,
-		[sourceUrl],
-	);
+    await client.queryArray(
+        MARK_SOURCE_SELECTOR_INDEXED_NOW_SQL,
+        [sourceUrl],
+    );
 };
 
 export const markSourceSelectorNeedsReindex = async (
-	sourceUrl: string,
+    sourceUrl: string,
 ): Promise<void> => {
-	await client.queryArray(
-		`UPDATE source_selectors
+    await client.queryArray(
+        `UPDATE source_selectors
 		 SET needs_reindex = true, updated_at = now()
 		 WHERE source_url = $1;`,
-		[sourceUrl],
-	);
+        [sourceUrl],
+    );
 };
 
 export const getSourceSelectorsByTopicSlug = async (
-	topicSlug: string,
+    topicSlug: string,
 ): Promise<SourceSelector[]> => {
-	const { rows } = await client.queryObject<SourceSelector>(
-		`SELECT * FROM source_selectors WHERE topic_slug = $1;`,
-		[topicSlug],
-	);
-	return rows;
+    const { rows } = await client.queryObject<SourceSelector>(
+        `SELECT * FROM source_selectors WHERE topic_slug = $1;`,
+        [topicSlug],
+    );
+    return rows;
 };
 
 export const getSourceSelectorCoverageStats = async (): Promise<SourceSelectorCoverageStats> => {
-	const { rows } = await client.queryObject<SourceSelectorCoverageStats>(
-		GET_SOURCE_SELECTOR_COVERAGE_STATS_SQL,
-	);
+    const { rows } = await client.queryObject<SourceSelectorCoverageStats>(
+        GET_SOURCE_SELECTOR_COVERAGE_STATS_SQL,
+    );
 
-	return rows[0] ?? {
-		total_rows: 0,
-		url_only_rows: 0,
-		feed_backed_rows: 0,
-		selector_backed_rows: 0,
-		unknown_type_rows: 0,
-	};
+    return rows[0] ?? {
+        total_rows: 0,
+        url_only_rows: 0,
+        feed_backed_rows: 0,
+        selector_backed_rows: 0,
+        unknown_type_rows: 0,
+    };
 };
 
 export const GET_SOURCE_SELECTOR_COVERAGE_STATS_SQL = `SELECT
@@ -884,18 +940,18 @@ export const GET_SOURCE_SELECTOR_COVERAGE_STATS_SQL = `SELECT
 		FROM source_selectors;`;
 
 export const markTopicScoutedNow = async (topicSlug: string): Promise<void> => {
-	await client.queryArray(
-		`UPDATE topics SET last_scouted_at = now() WHERE slug = $1;`,
-		[topicSlug],
-	);
+    await client.queryArray(
+        `UPDATE topics SET last_scouted_at = now() WHERE slug = $1;`,
+        [topicSlug],
+    );
 };
 
 export const getTopicLastScoutedAt = async (
-	topicSlug: string,
+    topicSlug: string,
 ): Promise<Date | null> => {
-	const { rows } = await client.queryObject<{ last_scouted_at: Date | null }>(
-		`SELECT last_scouted_at FROM topics WHERE slug = $1;`,
-		[topicSlug],
-	);
-	return rows[0]?.last_scouted_at ?? null;
+    const { rows } = await client.queryObject<{ last_scouted_at: Date | null }>(
+        `SELECT last_scouted_at FROM topics WHERE slug = $1;`,
+        [topicSlug],
+    );
+    return rows[0]?.last_scouted_at ?? null;
 };

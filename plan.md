@@ -10,10 +10,10 @@
 - [x] Fail pipeline run with non-zero exit when terminal graph errors exist
 	- [x] Update `src/main.ts` to throw/exit when `result.errors` is non-empty
 	- [x] Confirm `make run` returns non-zero on publisher/build failure
-- [ ] Harden status transitions for idempotency and recovery
-	- [ ] Ensure failed tasks can be safely retried
-	- [ ] Document all valid candidate/task statuses in code + README
-- [ ] Fix `source_selectors` enrichment reliability
+- [x] Harden status transitions for idempotency and recovery
+	- [x] Ensure failed tasks can be safely retried
+	- [x] Document all valid candidate/task statuses in code + README
+- [x] Fix `source_selectors` enrichment reliability
 	- [x] Ensure discovered rows are populated with `source_type` and either `feed_url` or learned index selectors
 	- [x] Add fallback/update path so existing URL-only rows are backfilled on subsequent scans
 	- [x] Add visibility query/metric: count URL-only rows vs enriched rows per run
@@ -27,37 +27,37 @@
 - [x] Fix operational command drift in `Makefile`
 	- [x] Replace old `info`/`article_topic` SQL with `candidates`/`article_tasks`/`articles`
 	- [x] Add safe helper targets for modern schema (retry failed task, list queue depth, etc.)
-- [ ] Update documentation to match actual runtime behavior
+- [x] Update documentation to match actual runtime behavior
 	- [x] Clarify source-scout behavior (discovery vs official-source refresh)
 	- [x] Keep status transition table in README aligned with implemented nodes
 
 ## P1 - Testing and Quality Gates
 
-- [ ] Expand automated tests to cover workflow behavior
+- [x] Expand automated tests to cover workflow behavior
 	- [x] Graph integration test: scanner -> editor -> writer -> reviewer -> publisher
 	- [x] DB transition tests for candidate and article task state changes
 	- [x] Publisher failure test verifies run is marked failed
-- [ ] Resolve stale/untracked test harness issues
+- [x] Resolve stale/untracked test harness issues
 	- [x] Remove or migrate `__tests__/main.test.ts` (Jest-style) to Deno test format
-	- [ ] Ensure CI/test command executes all intended tests consistently
+	- [x] Ensure CI/test command executes all intended tests consistently
 
 ## P2 - Throughput and Cost Controls
 
-- [ ] Make per-run limits configurable via env
-	- [ ] `MAX_CANDIDATES_PER_RUN`, `MAX_TASKS_PER_RUN`, scout interval
-	- [ ] Add sane defaults + docs
-- [ ] Add queue-aware tuning
-	- [ ] Increase writer throughput when backlog/age grows
-	- [ ] Reduce throughput when error rate spikes
+- [x] Make per-run limits configurable via env
+	- [x] `MAX_CANDIDATES_PER_RUN`, `MAX_TASKS_PER_RUN`, scout interval
+	- [x] Add sane defaults + docs
+- [x] Add queue-aware tuning
+	- [x] Increase writer throughput when backlog/age grows
+	- [x] Reduce throughput when error rate spikes
 - [ ] Revisit source scout interval (`SOURCE_SCOUT_INTERVAL_HOURS`)
 	- [ ] Set production-safe default cadence
 	- [ ] Add telemetry for scout hit rate and useful-source yield
 
 ## P2 - Environment and Deployment Consistency
 
-- [ ] Normalize working directory assumptions
-	- [ ] Align Dockerfile `WORKDIR` with compose/config expectations
-	- [ ] Verify local, compose, and deploy scripts all use consistent paths
+- [x] Normalize working directory assumptions
+	- [x] Align Dockerfile `WORKDIR` with compose/config expectations
+	- [x] Verify local, compose, and deploy scripts all use consistent paths
 - [ ] Make cron strategy production-safe
 	- [x] Replace long-running `while true` loop with scheduler-friendly one-shot command
 	- [x] Add explicit exit/alert behavior for failed runs

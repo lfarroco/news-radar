@@ -2,35 +2,43 @@ import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { z } from "zod";
 import { makeLlm } from "../llm.ts";
 import {
-	addTopicNote,
-	createArticleTask,
-	getPendingCandidates,
-	hasOpenTaskForCandidate,
-	setCandidateStatus,
+    addTopicNote,
+    createArticleTask,
+    getPendingCandidates,
+    hasOpenTaskForCandidate,
+    setCandidateStatus,
 } from "../db/queries.ts";
 import { logger } from "../logger.ts";
 import type { Candidate } from "../models.ts";
 import type { PipelineState } from "../graph/state.ts";
 import {
-	searchOnlineSources,
-	type ResearchSource,
+    searchOnlineSources,
+    type ResearchSource,
 } from "../tools/research.tool.ts";
 import { compactText, stripLeadingTopicLabel } from "../utils.ts";
 import { isOfficialTopicSourceUrl } from "../editorial-policy.ts";
 import { findTopicProfile, loadRuntimeTopicProfiles } from "../topics/runtime.ts";
 
 const RELEVANCE_THRESHOLD = 7;
-const MAX_CANDIDATES_PER_RUN = 30;
+
+const parsePositiveIntEnv = (name: string, fallback: number): number => {
+    const raw = Deno.env.get(name);
+    if (!raw) return fallback;
+    const value = Number.parseInt(raw, 10);
+    return Number.isFinite(value) && value > 0 ? value : fallback;
+};
+
+const MAX_CANDIDATES_PER_RUN = parsePositiveIntEnv("MAX_CANDIDATES_PER_RUN", 30);
 
 const relevanceSchema = z.object({
-	score: z.number().min(0).max(10),
-	rationale: z.string(),
+    score: z.number().min(0).max(10),
+    rationale: z.string(),
 });
 
 const relevancePrompt = ChatPromptTemplate.fromMessages([
-	[
-		"system",
-		`You are the editor for a developer news site. Score only substantive technical news (7-10).
+    [
+        "system",
+        `You are the editor for a developer news site. Score only substantive technical news (7-10).
 
 Knowledge base policy:
 - The topic knowledge base is for concise facts and durable reference notes only.
@@ -57,236 +65,236 @@ SCORE 0-6 (REJECT):
 - Podcast/newsletter announcements
 - Beginner guides
 - Duplicate/old news`,
-	],
-	[
-		"human",
-		`Topic: {topic}
+    ],
+    [
+        "human",
+        `Topic: {topic}
 Title: {title}
 Snippet: {snippet}
 Source: {source}
 
 Only score 7+ if this is substantive breaking news or a major update.`,
-	],
+    ],
 ]);
 
 const summarizeResearch = (sources: ResearchSource[]): string => {
-	if (sources.length === 0) {
-		return "No additional sources found during editor research.";
-	}
+    if (sources.length === 0) {
+        return "No additional sources found during editor research.";
+    }
 
-	return sources
-		.slice(0, 3)
-		.map((source, idx) => {
-			const snippet = compactText(source.content, 140);
-			return [
-				`Source ${idx + 1}: ${source.title}`,
-				`Snippet: ${snippet}`,
-			].join("\n");
-		})
-		.join("\n\n");
+    return sources
+        .slice(0, 3)
+        .map((source, idx) => {
+            const snippet = compactText(source.content, 140);
+            return [
+                `Source ${idx + 1}: ${source.title}`,
+                `Snippet: ${snippet}`,
+            ].join("\n");
+        })
+        .join("\n\n");
 };
 
 const computePriority = (candidate: Candidate, score: number): number => {
-	const ageHours = (Date.now() - new Date(candidate.discovered_at).getTime()) / 3_600_000;
-	const recencyBoost = Math.max(0, 72 - ageHours);
-	return Math.round(score * 100 + recencyBoost);
+    const ageHours = (Date.now() - new Date(candidate.discovered_at).getTime()) / 3_600_000;
+    const recencyBoost = Math.max(0, 72 - ageHours);
+    return Math.round(score * 100 + recencyBoost);
 };
 
 const buildTaskNotes = (
-	candidate: Candidate,
-	score: number,
-	rationale: string,
-	researchNotes: string,
+    candidate: Candidate,
+    score: number,
+    rationale: string,
+    researchNotes: string,
 ): string => {
-	return [
-		`Candidate title: ${candidate.title}`,
-		`Candidate URL: ${candidate.url}`,
-		`Relevance score: ${score}/10`,
-		`Editor rationale: ${rationale}`,
-		"Research notes:",
-		researchNotes,
-	].join("\n\n");
+    return [
+        `Candidate title: ${candidate.title}`,
+        `Candidate URL: ${candidate.url}`,
+        `Relevance score: ${score}/10`,
+        `Editor rationale: ${rationale}`,
+        "Research notes:",
+        researchNotes,
+    ].join("\n\n");
 };
 
 export const editorNode = async (
-	state: PipelineState,
+    state: PipelineState,
 ): Promise<Partial<PipelineState>> => {
-	const startedAt = Date.now();
-	const selectionSource = state.pendingCandidates.length > 0 ? "graph-state" : "database";
-	const candidates = state.pendingCandidates.length > 0
-		? state.pendingCandidates.slice(0, MAX_CANDIDATES_PER_RUN)
-		: await getPendingCandidates(MAX_CANDIDATES_PER_RUN);
+    const startedAt = Date.now();
+    const selectionSource = state.pendingCandidates.length > 0 ? "graph-state" : "database";
+    const candidates = state.pendingCandidates.length > 0
+        ? state.pendingCandidates.slice(0, MAX_CANDIDATES_PER_RUN)
+        : await getPendingCandidates(MAX_CANDIDATES_PER_RUN);
 
-	if (candidates.length === 0) {
-		logger.info("editor: no pending candidates");
-		return {};
-	}
+    if (candidates.length === 0) {
+        logger.info("editor: no pending candidates");
+        return {};
+    }
 
-	const topicCounts = candidates.reduce<Record<string, number>>((acc, candidate) => {
-		acc[candidate.topic_slug] = (acc[candidate.topic_slug] ?? 0) + 1;
-		return acc;
-	}, {});
+    const topicCounts = candidates.reduce<Record<string, number>>((acc, candidate) => {
+        acc[candidate.topic_slug] = (acc[candidate.topic_slug] ?? 0) + 1;
+        return acc;
+    }, {});
 
-	logger.info(
-		{
-			count: candidates.length,
-			selectionSource,
-			maxCandidatesPerRun: MAX_CANDIDATES_PER_RUN,
-			topicCounts,
-		},
-		"editor: selecting candidates to evaluate",
-	);
-	const topicProfiles = await loadRuntimeTopicProfiles();
+    logger.info(
+        {
+            count: candidates.length,
+            selectionSource,
+            maxCandidatesPerRun: MAX_CANDIDATES_PER_RUN,
+            topicCounts,
+        },
+        "editor: selecting candidates to evaluate",
+    );
+    const topicProfiles = await loadRuntimeTopicProfiles();
 
-	const llm = makeLlm(0).withStructuredOutput(relevanceSchema);
-	const chain = relevancePrompt.pipe(llm);
+    const llm = makeLlm(0).withStructuredOutput(relevanceSchema);
+    const chain = relevancePrompt.pipe(llm);
 
-	let reviewed = 0;
-	let tasksCreated = 0;
-	let rejected = 0;
-	let researched = 0;
+    let reviewed = 0;
+    let tasksCreated = 0;
+    let rejected = 0;
+    let researched = 0;
 
-	for (const [index, candidate] of candidates.entries()) {
-		reviewed++;
-		logger.info(
-			{
-				index: index + 1,
-				total: candidates.length,
-				candidateId: candidate.id,
-				topic: candidate.topic_slug,
-				source: candidate.source,
-				title: compactText(candidate.title, 120),
-			},
-			"editor: evaluating candidate",
-		);
-		try {
-			const topicProfile = findTopicProfile(topicProfiles, {
-				slug: candidate.topic_slug,
-				name: candidate.topic_name,
-			});
-			if (!isOfficialTopicSourceUrl(topicProfile, candidate.url)) {
-				rejected++;
-				await setCandidateStatus(
-					candidate.id,
-					"rejected",
-					0,
-					"Rejected by editorial policy: candidate URL is not in this topic's official source allowlist.",
-				);
-				logger.info(
-					{ candidateId: candidate.id, topic: candidate.topic_slug, url: candidate.url },
-					"editor: candidate rejected by official-source policy",
-				);
-				continue;
-			}
+    for (const [index, candidate] of candidates.entries()) {
+        reviewed++;
+        logger.info(
+            {
+                index: index + 1,
+                total: candidates.length,
+                candidateId: candidate.id,
+                topic: candidate.topic_slug,
+                source: candidate.source,
+                title: compactText(candidate.title, 120),
+            },
+            "editor: evaluating candidate",
+        );
+        try {
+            const topicProfile = findTopicProfile(topicProfiles, {
+                slug: candidate.topic_slug,
+                name: candidate.topic_name,
+            });
+            if (!isOfficialTopicSourceUrl(topicProfile, candidate.url)) {
+                rejected++;
+                await setCandidateStatus(
+                    candidate.id,
+                    "rejected",
+                    0,
+                    "Rejected by editorial policy: candidate URL is not in this topic's official source allowlist.",
+                );
+                logger.info(
+                    { candidateId: candidate.id, topic: candidate.topic_slug, url: candidate.url },
+                    "editor: candidate rejected by official-source policy",
+                );
+                continue;
+            }
 
-			const cleanTitle = stripLeadingTopicLabel(candidate.title, candidate.topic_name);
-			logger.info(
-				{ candidateId: candidate.id, topic: candidate.topic_slug, title: compactText(cleanTitle, 120) },
-				"editor: requesting relevance score",
-			);
-			const relevance = await chain.invoke({
-				topic: candidate.topic_name,
-				title: cleanTitle,
-				snippet: candidate.snippet || "(empty)",
-				source: candidate.source,
-			});
+            const cleanTitle = stripLeadingTopicLabel(candidate.title, candidate.topic_name);
+            logger.info(
+                { candidateId: candidate.id, topic: candidate.topic_slug, title: compactText(cleanTitle, 120) },
+                "editor: requesting relevance score",
+            );
+            const relevance = await chain.invoke({
+                topic: candidate.topic_name,
+                title: cleanTitle,
+                snippet: candidate.snippet || "(empty)",
+                source: candidate.source,
+            });
 
-			logger.info(
-				{
-					candidateId: candidate.id,
-					topic: candidate.topic_slug,
-					score: relevance.score,
-					threshold: RELEVANCE_THRESHOLD,
-					rationale: compactText(relevance.rationale, 180),
-				},
-				"editor: relevance score received",
-			);
+            logger.info(
+                {
+                    candidateId: candidate.id,
+                    topic: candidate.topic_slug,
+                    score: relevance.score,
+                    threshold: RELEVANCE_THRESHOLD,
+                    rationale: compactText(relevance.rationale, 180),
+                },
+                "editor: relevance score received",
+            );
 
-			if (relevance.score < RELEVANCE_THRESHOLD) {
-				rejected++;
-				logger.info(
-					{
-						candidateId: candidate.id,
-						score: relevance.score,
-						threshold: RELEVANCE_THRESHOLD,
-					},
-					"editor: candidate rejected by relevance threshold",
-				);
-				await setCandidateStatus(candidate.id, "rejected", relevance.score);
-				continue;
-			}
+            if (relevance.score < RELEVANCE_THRESHOLD) {
+                rejected++;
+                logger.info(
+                    {
+                        candidateId: candidate.id,
+                        score: relevance.score,
+                        threshold: RELEVANCE_THRESHOLD,
+                    },
+                    "editor: candidate rejected by relevance threshold",
+                );
+                await setCandidateStatus(candidate.id, "rejected", relevance.score);
+                continue;
+            }
 
-			const researchQuery = `${candidate.topic_name} ${cleanTitle} official announcement changelog security`;
-			const sources = await searchOnlineSources(researchQuery, 4);
-			const officialSources = sources.filter((source) =>
-				isOfficialTopicSourceUrl(topicProfile, source.url)
-			);
-			logger.info(
-				{
-					candidateId: candidate.id,
-					topic: candidate.topic_slug,
-					researchSourceCount: sources.length,
-					officialSourceCount: officialSources.length,
-				},
-				"editor: research sources collected",
-			);
-			const researchNotes = summarizeResearch(officialSources);
-			const taskNotes = buildTaskNotes(
-				{ ...candidate, title: cleanTitle },
-				relevance.score,
-				relevance.rationale,
-				researchNotes,
-			);
-			const priority = computePriority(candidate, relevance.score);
+            const researchQuery = `${candidate.topic_name} ${cleanTitle} official announcement changelog security`;
+            const sources = await searchOnlineSources(researchQuery, 4);
+            const officialSources = sources.filter((source) =>
+                isOfficialTopicSourceUrl(topicProfile, source.url)
+            );
+            logger.info(
+                {
+                    candidateId: candidate.id,
+                    topic: candidate.topic_slug,
+                    researchSourceCount: sources.length,
+                    officialSourceCount: officialSources.length,
+                },
+                "editor: research sources collected",
+            );
+            const researchNotes = summarizeResearch(officialSources);
+            const taskNotes = buildTaskNotes(
+                { ...candidate, title: cleanTitle },
+                relevance.score,
+                relevance.rationale,
+                researchNotes,
+            );
+            const priority = computePriority(candidate, relevance.score);
 
-			await setCandidateStatus(candidate.id, "researched", relevance.score, researchNotes);
-			researched++;
+            await setCandidateStatus(candidate.id, "researched", relevance.score, researchNotes);
+            researched++;
 
-			const alreadyQueued = await hasOpenTaskForCandidate(candidate.id);
-			if (!alreadyQueued) {
-				await createArticleTask(candidate.id, taskNotes, priority);
-				tasksCreated++;
-				logger.info(
-					{ candidateId: candidate.id, priority },
-					"editor: article task created",
-				);
-			} else {
-				logger.info({ candidateId: candidate.id }, "editor: open task already exists");
-			}
+            const alreadyQueued = await hasOpenTaskForCandidate(candidate.id);
+            if (!alreadyQueued) {
+                await createArticleTask(candidate.id, taskNotes, priority);
+                tasksCreated++;
+                logger.info(
+                    { candidateId: candidate.id, priority },
+                    "editor: article task created",
+                );
+            } else {
+                logger.info({ candidateId: candidate.id }, "editor: open task already exists");
+            }
 
-			await addTopicNote(
-				candidate.topic_slug,
-				"fact",
-				compactText(relevance.rationale, 240),
-				candidate.url,
-				"editor-agent",
-			);
-		} catch (err) {
-			logger.error(
-				{
-					err,
-					candidateId: candidate.id,
-					topic: candidate.topic_slug,
-					title: compactText(candidate.title, 120),
-				},
-				"editor: failed candidate review",
-			);
-			await setCandidateStatus(candidate.id, "editor-error");
-		}
-	}
+            await addTopicNote(
+                candidate.topic_slug,
+                "fact",
+                compactText(relevance.rationale, 240),
+                candidate.url,
+                "editor-agent",
+            );
+        } catch (err) {
+            logger.error(
+                {
+                    err,
+                    candidateId: candidate.id,
+                    topic: candidate.topic_slug,
+                    title: compactText(candidate.title, 120),
+                },
+                "editor: failed candidate review",
+            );
+            await setCandidateStatus(candidate.id, "editor-error");
+        }
+    }
 
-	logger.info(
-		{ reviewed, tasksCreated, rejected, researched, durationMs: Date.now() - startedAt },
-		"editor: finished",
-	);
+    logger.info(
+        { reviewed, tasksCreated, rejected, researched, durationMs: Date.now() - startedAt },
+        "editor: finished",
+    );
 
-	return {
-		metrics: {
-			...(state.metrics ?? { scanned: 0, reviewed: 0, tasksCreated: 0, written: 0 }),
-			reviewed,
-			tasksCreated,
-			written: state.metrics?.written ?? 0,
-			scanned: state.metrics?.scanned ?? candidates.length,
-		},
-	};
+    return {
+        metrics: {
+            ...(state.metrics ?? { scanned: 0, reviewed: 0, tasksCreated: 0, written: 0 }),
+            reviewed,
+            tasksCreated,
+            written: state.metrics?.written ?? 0,
+            scanned: state.metrics?.scanned ?? candidates.length,
+        },
+    };
 };
