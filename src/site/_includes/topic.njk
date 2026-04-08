@@ -6,7 +6,7 @@ layout: main.njk
 	<div class="card-header">
 		<div class="topic-page__header">
 			<h1 class="mb-0">{{ title }}</h1>
-			<a class="rss-icon-link" href="{{ feedUrl }}" title="Subscribe to {{ title }} RSS" aria-label="Subscribe to {{ title }} RSS">
+			<a class="rss-icon-link" href="{{ feedUrl or '/topics/' ~ slug ~ '/feed/' }}" title="Subscribe to {{ title }} RSS" aria-label="Subscribe to {{ title }} RSS">
 				<svg viewBox="0 0 24 24" role="presentation" focusable="false" aria-hidden="true">
 					<circle cx="5" cy="19" r="2"></circle>
 					<path d="M4 11a9 9 0 0 1 9 9"></path>

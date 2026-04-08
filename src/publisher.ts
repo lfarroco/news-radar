@@ -15,5 +15,6 @@ site.copy("logo.png");
 site.copy("styles.css");
 site.copy("favicon-32x32.png");
 site.copy("robots.txt");
+site.copy("_redirects");
 
 export default site

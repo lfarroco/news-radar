@@ -3,12 +3,14 @@ const API_BASE = "";
 const state = {
 	topics: [],
 	articles: [],
+	candidates: [],
 	knowledgeBase: [],
 	activeTopicDetails: null,
 	activeTopicArticles: [],
 	activeArticle: null,
 	topicSearch: "",
 	articleSearch: "",
+	candidateSearch: "",
 	newTopicSlugEdited: false,
 	activePath: "/",
 };
@@ -69,6 +71,7 @@ function parseRoute(pathname) {
 	if (path === "/topics") return { name: "topics-list" };
 	if (path === "/topics/new") return { name: "topic-create" };
 	if (path === "/articles") return { name: "articles-list" };
+	if (path === "/candidates") return { name: "candidates-list" };
 
 	const topicMatch = path.match(/^\/topics\/(\d+)$/);
 	if (topicMatch) {
@@ -88,10 +91,12 @@ function setNavActive(pathname) {
 	const navHome = document.getElementById("nav-home");
 	const navTopics = document.getElementById("nav-topics");
 	const navArticles = document.getElementById("nav-articles");
+	const navCandidates = document.getElementById("nav-candidates");
 
 	navHome?.classList.remove("active");
 	navTopics?.classList.remove("active");
 	navArticles?.classList.remove("active");
+	navCandidates?.classList.remove("active");
 
 	if (path === "/" || path === "/backoffice") {
 		navHome?.classList.add("active");
@@ -105,6 +110,11 @@ function setNavActive(pathname) {
 
 	if (path === "/articles" || path.startsWith("/articles/")) {
 		navArticles?.classList.add("active");
+		return;
+	}
+
+	if (path === "/candidates" || path.startsWith("/candidates/")) {
+		navCandidates?.classList.add("active");
 	}
 }
 
@@ -147,6 +157,10 @@ async function loadTopics() {
 
 async function loadArticles() {
 	state.articles = await requestJson("/api/articles");
+}
+
+async function loadCandidates() {
+	state.candidates = await requestJson("/api/candidates");
 }
 
 async function loadTopicDetails(topicId) {
@@ -536,6 +550,66 @@ function renderArticlesList() {
 	`;
 }
 
+function renderCandidatesList() {
+	const view = document.getElementById("route-view");
+	if (!view) return;
+
+	const query = state.candidateSearch.toLowerCase();
+	const filtered = query
+		? state.candidates.filter((candidate) =>
+			(candidate.title || "").toLowerCase().includes(query) ||
+			(candidate.topic_name || "").toLowerCase().includes(query) ||
+			(candidate.source || "").toLowerCase().includes(query) ||
+			(candidate.status || "").toLowerCase().includes(query),
+		)
+		: state.candidates;
+
+	const statusClass = (status) => {
+		const normalized = String(status || "pending").toLowerCase();
+		if (normalized === "selected" || normalized === "published") return "status-pill status-good";
+		if (normalized === "rejected" || normalized === "error") return "status-pill status-bad";
+		if (normalized === "in_progress") return "status-pill status-warn";
+		return "status-pill";
+	};
+
+	view.innerHTML = `
+		<section class="panel">
+			<div class="panel-head">
+				<h3>Candidates</h3>
+				<span>${filtered.length} / ${state.candidates.length}</span>
+			</div>
+			<input
+				type="search"
+				id="candidates-search"
+				placeholder="Search by title, topic, source, or status..."
+				value="${escapeHtml(state.candidateSearch)}"
+			/>
+			<div class="candidates-grid-head">
+				<span>Title</span>
+				<span>Topic</span>
+				<span>Source</span>
+				<span>Status</span>
+				<span>Discovered</span>
+				<span>Action</span>
+			</div>
+			<div class="collection-list candidates-grid-list">
+				${filtered.length === 0 ? '<p class="loading">No matching candidates.</p>' : filtered.map((candidate) => `
+					<div class="collection-item candidates-grid-row">
+						<div class="candidate-title-cell">
+							<h4>${escapeHtml(candidate.title || "Untitled candidate")}</h4>
+						</div>
+						<div>${escapeHtml(candidate.topic_name || "No topic")}</div>
+						<div>${escapeHtml(candidate.source || "unknown")}</div>
+						<div><span class="${statusClass(candidate.status)}">${escapeHtml(candidate.status || "pending")}</span></div>
+						<div>${formatDateTime(candidate.discovered_at)}</div>
+						<a class="btn btn-subtle" href="${escapeHtml(candidate.url || "#")}" target="_blank" rel="noopener noreferrer">Source</a>
+					</div>
+				`).join("")}
+			</div>
+		</section>
+	`;
+}
+
 function renderArticleDetail(routeId) {
 	const view = document.getElementById("route-view");
 	if (!view) return;
@@ -581,6 +655,7 @@ function renderNotFound() {
 				<a href="/" class="btn btn-subtle" data-link="internal">Dashboard</a>
 				<a href="/topics" class="btn btn-subtle" data-link="internal">Topics</a>
 				<a href="/articles" class="btn btn-subtle" data-link="internal">Articles</a>
+				<a href="/candidates" class="btn btn-subtle" data-link="internal">Candidates</a>
 			</div>
 		</section>
 	`;
@@ -628,6 +703,13 @@ async function renderCurrentRoute() {
 			setPageMeta("Articles", "Search and open articles for editing.");
 			await loadArticles();
 			renderArticlesList();
+			return;
+		}
+
+		if (route.name === "candidates-list") {
+			setPageMeta("Candidates", "Browse discovered source candidates and their status.");
+			await loadCandidates();
+			renderCandidatesList();
 			return;
 		}
 
@@ -714,6 +796,12 @@ function initializeFormsAndInputs() {
 		if (target.id === "articles-search") {
 			state.articleSearch = target.value || "";
 			renderArticlesList();
+			return;
+		}
+
+		if (target.id === "candidates-search") {
+			state.candidateSearch = target.value || "";
+			renderCandidatesList();
 		}
 	});
 
@@ -918,6 +1006,12 @@ function initializeAutoRefresh() {
 			if (route.name === "articles-list") {
 				await loadArticles();
 				renderArticlesList();
+				return;
+			}
+
+			if (route.name === "candidates-list") {
+				await loadCandidates();
+				renderCandidatesList();
 				return;
 			}
 

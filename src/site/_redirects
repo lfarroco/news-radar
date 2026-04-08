@@ -1,0 +1,1 @@
+/topics/*/feed.xml /topics/:splat/feed/ 301

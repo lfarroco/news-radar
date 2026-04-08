@@ -370,6 +370,39 @@ async function handleRequest(req: Request): Promise<Response> {
 			return new Response(JSON.stringify(articles), { headers });
 		}
 
+		if (pathname === "/api/candidates" && req.method === "GET") {
+			const result = await db.queryObject<{
+				id: number;
+				topic_id: number;
+				topic_name: string;
+				topic_slug: string;
+				title: string;
+				url: string;
+				source: string;
+				discovered_at: Date;
+				status: string;
+				relevance_score: number | null;
+			}>(
+				`SELECT
+					c.id,
+					c.topic_id,
+					t.name AS topic_name,
+					t.slug AS topic_slug,
+					c.title,
+					c.url,
+					c.source,
+					c.discovered_at,
+					c.status,
+					c.relevance_score
+				 FROM candidates c
+				 INNER JOIN topics t ON t.id = c.topic_id
+				 ORDER BY c.discovered_at DESC
+				 LIMIT 200`,
+			);
+
+			return new Response(JSON.stringify(result.rows), { headers });
+		}
+
 		if (pathname.match(/^\/api\/articles\/\d+$/) && req.method === "GET") {
 			const articleId = Number(pathname.split("/")[3]);
 			const articles = await getLatestArticles();
@@ -559,7 +592,7 @@ async function handleRequest(req: Request): Promise<Response> {
 		const isBackofficeRoute =
 			pathname === "/" ||
 			pathname === "/backoffice" ||
-			/^\/(topics|articles)(\/(new|\d+))?\/?$/.test(pathname);
+			/^\/(topics|articles|candidates)(\/(new|\d+))?\/?$/.test(pathname);
 
 		if (isBackofficeRoute) {
 			const ui = await Deno.readTextFile(
