@@ -3,6 +3,7 @@ import type { TopicProfile } from "./types.ts";
 export const python: TopicProfile = {
 	name: "Python",
 	slug: "python",
+	icon: "🐍",
 	description:
 		"Python is a high-level general-purpose programming language known for its readability and large ecosystem. Relevant for web backends (Django, Flask, FastAPI), data science, ML/AI tooling, and scripting.",
 	officialSources: [
@@ -34,6 +35,7 @@ export const python: TopicProfile = {
 export const rust: TopicProfile = {
 	name: "Rust",
 	slug: "rust",
+	icon: "🦀",
 	description:
 		"Rust is a systems programming language emphasising memory safety without a garbage collector. Widely used for CLI tools, WebAssembly, embedded systems, and increasingly in web backends.",
 	officialSources: [
@@ -67,6 +69,7 @@ export const rust: TopicProfile = {
 export const typescript: TopicProfile = {
 	name: "TypeScript",
 	slug: "typescript",
+	icon: "🔷",
 	description:
 		"TypeScript is a strongly typed superset of JavaScript developed by Microsoft. Used across frontend and backend JavaScript development.",
 	officialSources: [
@@ -98,6 +101,7 @@ export const typescript: TopicProfile = {
 export const golang: TopicProfile = {
 	name: "Go",
 	slug: "go",
+	icon: "🐹",
 	description:
 		"Go (Golang) is a statically typed, compiled language by Google, popular for cloud-native services, CLIs, and microservices.",
 	officialSources: [
@@ -125,6 +129,7 @@ export const golang: TopicProfile = {
 export const nodejs: TopicProfile = {
 	name: "Node.js",
 	slug: "node-js",
+	icon: "🟢",
 	description:
 		"Node.js is a JavaScript runtime built on Chrome's V8 engine. The dominant platform for server-side JavaScript.",
 	officialSources: [
@@ -154,6 +159,7 @@ export const nodejs: TopicProfile = {
 export const react: TopicProfile = {
 	name: "React",
 	slug: "react",
+	icon: "⚛️",
 	description:
 		"React is a declarative UI library by Meta. The most widely used frontend library in the JavaScript ecosystem.",
 	officialSources: [
@@ -181,6 +187,7 @@ export const react: TopicProfile = {
 export const deno: TopicProfile = {
 	name: "Deno",
 	slug: "deno",
+	icon: "🦕",
 	description:
 		"Deno is a secure JavaScript/TypeScript runtime built on V8 and Rust, developed by Ryan Dahl as the successor to Node.js.",
 	officialSources: [
@@ -209,6 +216,7 @@ export const deno: TopicProfile = {
 export const javascript: TopicProfile = {
 	name: "JavaScript",
 	slug: "javascript",
+	icon: "🟨",
 	description:
 		"JavaScript is the programming language of the web, standardised as ECMAScript. Covers core language evolution, TC39 proposals, browser APIs, and the broader JS ecosystem.",
 	officialSources: [
@@ -236,6 +244,7 @@ export const javascript: TopicProfile = {
 export const angular: TopicProfile = {
 	name: "Angular",
 	slug: "angular",
+	icon: "🅰️",
 	description:
 		"Angular is a TypeScript-based frontend framework by Google for building single-page applications.",
 	officialSources: [

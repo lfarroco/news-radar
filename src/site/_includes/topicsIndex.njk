@@ -12,7 +12,7 @@ layout: main.njk
 		{% for topic in topics %}
 			<div class="topics-index__card">
 				<a class="topics-index__open" href="{{ topic.url }}">
-					<span class="topics-index__name">{{ topic.name }}</span>
+					<span class="topics-index__name">{{ topic.icon or '📰' }} {{ topic.name }}</span>
 					<span class="topics-index__count">{{ topic.article_count }} articles</span>
 				</a>
 				<a class="rss-icon-link" href="{{ topic.feedUrl or '/topics/' ~ topic.slug ~ '/feed.xml' }}" title="Subscribe to {{ topic.name }} RSS" aria-label="Subscribe to {{ topic.name }} RSS">

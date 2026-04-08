@@ -18,7 +18,7 @@ const toDescription = (value: string): string =>
 export default async function* () {
 	const rows = await getTopicsList();
 
-	for (const { topic_id, name, slug } of rows) {
+	for (const { topic_id, name, slug, icon } of rows) {
 
 		const articles = await getArticles(topic_id)
 
@@ -26,6 +26,7 @@ export default async function* () {
 			url: `/topics/${slug}/`,
 			layout: "topic.njk",
 			title: name,
+			icon,
 			slug,
 			feedUrl: `/topics/${slug}/feed.xml`,
 			articles

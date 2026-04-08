@@ -19,7 +19,7 @@ const parsePositiveNumberEnv = (name: string, fallback: number): number => {
     return Number.isFinite(value) && value > 0 ? value : fallback;
 };
 
-const SOURCE_SCOUT_INTERVAL_HOURS = parsePositiveNumberEnv("SOURCE_SCOUT_INTERVAL_HOURS", 0.01);
+const SOURCE_SCOUT_INTERVAL_HOURS = parsePositiveNumberEnv("SOURCE_SCOUT_INTERVAL_HOURS", 6);
 
 const isEligibleDiscoveredSource = (url: string, score?: number): boolean => {
     try {
@@ -70,6 +70,8 @@ export const sourceScoutNode = async (): Promise<void> => {
     let sourcesUpdated = 0;
     let sourcesSkippedIgnored = 0;
     let topicsProcessed = 0;
+    let queriesAttempted = 0;
+    let queriesWithResults = 0;
 
     for (const profile of profiles) {
         topicsProcessed++;
@@ -95,10 +97,14 @@ export const sourceScoutNode = async (): Promise<void> => {
             let topicSourcesSkippedIgnored = 0;
 
             for (const { type, query } of queries) {
+                queriesAttempted++;
                 try {
                     const sources = (await searchOnlineSources(query, 3)).filter((source) =>
                         isEligibleDiscoveredSource(source.url, source.score)
                     );
+                    if (sources.length > 0) {
+                        queriesWithResults++;
+                    }
                     topicSourcesFound += sources.length;
                     sourcesFound += sources.length;
 
@@ -192,8 +198,23 @@ export const sourceScoutNode = async (): Promise<void> => {
         }
     }
 
+    const usefulSources = sourcesInserted + sourcesUpdated;
+    const queryHitRate = queriesAttempted > 0 ? queriesWithResults / queriesAttempted : 0;
+    const usefulSourceYield = sourcesFound > 0 ? usefulSources / sourcesFound : 0;
+
     logger.info(
-        { topicsProcessed, sourcesFound, sourcesInserted, sourcesUpdated, sourcesSkippedIgnored },
+        {
+            topicsProcessed,
+            sourcesFound,
+            sourcesInserted,
+            sourcesUpdated,
+            sourcesSkippedIgnored,
+            queriesAttempted,
+            queriesWithResults,
+            queryHitRate,
+            usefulSourceYield,
+            intervalHours: SOURCE_SCOUT_INTERVAL_HOURS,
+        },
         "source-scout: completed",
     );
 };

@@ -236,15 +236,17 @@ export const getTopicsList = async () => {
         name: string;
         article_count: number;
         slug: string;
+        icon: string;
     }>(`
 		SELECT
 			topics.id as topic_id,
 			topics.slug,
 			topics.name,
+            COALESCE(topics.profile->>'icon', '📰') AS icon,
 			count(a.id)::int as article_count
 		FROM topics
 		LEFT JOIN articles a ON a.topic_id = topics.id
-		GROUP BY topics.id, topics.name, topics.slug
+        GROUP BY topics.id, topics.name, topics.slug, topics.profile
     ORDER BY article_count DESC`);
     return rows;
 };

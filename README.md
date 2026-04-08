@@ -200,7 +200,7 @@ You can tune run throughput and scout cadence via environment variables:
 
 - `MAX_CANDIDATES_PER_RUN` (default: `30`): maximum pending candidates editor evaluates per run.
 - `MAX_TASKS_PER_RUN` (default: `3`): maximum article tasks writer attempts per run.
-- `SOURCE_SCOUT_INTERVAL_HOURS` (default: `0.01`): minimum hours between source-scout passes per topic.
+- `SOURCE_SCOUT_INTERVAL_HOURS` (default: `6`): minimum hours between source-scout passes per topic.
 
 If a value is missing or invalid (non-numeric or non-positive), News Radar falls back to the default.
 
@@ -210,6 +210,11 @@ Queue-aware writer tuning:
 - Backlog boost: pending tasks `>= 20` adds `+2`, pending tasks `>= 50` adds `+4`.
 - Error-rate guardrail: if 24h writer failure rate is `>= 30%`, budget is reduced by `1`; if `>= 50%`, reduced by `2`.
 - Final per-run writer budget is clamped between `1` and `12` tasks.
+
+Source-scout telemetry:
+
+- Each scout run logs `queryHitRate` (`queriesWithResults / queriesAttempted`).
+- Each scout run logs `usefulSourceYield` (`(sourcesInserted + sourcesUpdated) / sourcesFound`).
 
 ### Useful operational commands
 

@@ -49,26 +49,26 @@
 - [x] Add queue-aware tuning
 	- [x] Increase writer throughput when backlog/age grows
 	- [x] Reduce throughput when error rate spikes
-- [ ] Revisit source scout interval (`SOURCE_SCOUT_INTERVAL_HOURS`)
-	- [ ] Set production-safe default cadence
-	- [ ] Add telemetry for scout hit rate and useful-source yield
+- [x] Revisit source scout interval (`SOURCE_SCOUT_INTERVAL_HOURS`)
+	- [x] Set production-safe default cadence
+	- [x] Add telemetry for scout hit rate and useful-source yield
 
 ## P2 - Environment and Deployment Consistency
 
 - [x] Normalize working directory assumptions
 	- [x] Align Dockerfile `WORKDIR` with compose/config expectations
 	- [x] Verify local, compose, and deploy scripts all use consistent paths
-- [ ] Make cron strategy production-safe
+- [x] Make cron strategy production-safe
 	- [x] Replace long-running `while true` loop with scheduler-friendly one-shot command
 	- [x] Add explicit exit/alert behavior for failed runs
 
 ## P3 - Product/UX Backlog
 
-- [ ] Add icon to each topic
+- [x] Add icon to each topic
 
 ## Definition of Done
 
-- [ ] `make run` and `make build-pages` are reliable and fail fast on real errors
-- [ ] No legacy code path can mutate production data accidentally
-- [ ] Docs, commands, and schema are aligned
-- [ ] Tests cover critical workflow transitions and failure modes
+- [x] `make run` and `make build-pages` are reliable and fail fast on real errors
+- [x] No legacy code path can mutate production data accidentally
+- [x] Docs, commands, and schema are aligned
+- [x] Tests cover critical workflow transitions and failure modes
