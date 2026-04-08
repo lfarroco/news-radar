@@ -3,11 +3,12 @@
 
 ## P0 - Reliability and Correctness
 
+
 - [ ] Make article task claiming atomic in `claimNextPendingArticleTask`
-	- [ ] Use one transaction (or one `UPDATE ... RETURNING`) to avoid claim races
+	- [x] Use one transaction (or one `UPDATE ... RETURNING`) to avoid claim races
 	- [ ] Add test coverage for concurrent task claiming behavior
 - [ ] Fail pipeline run with non-zero exit when terminal graph errors exist
-	- [ ] Update `src/main.ts` to throw/exit when `result.errors` is non-empty
+	- [x] Update `src/main.ts` to throw/exit when `result.errors` is non-empty
 	- [ ] Confirm `make run` returns non-zero on publisher/build failure
 - [ ] Harden status transitions for idempotency and recovery
 	- [ ] Ensure failed tasks can be safely retried
@@ -15,12 +16,13 @@
 
 ## P1 - Workflow Alignment and Cleanup
 
-- [ ] Remove or archive legacy workflow modules that still target old schema
-	- [ ] Review and migrate/remove: `src/writer.ts`, `src/candidates.ts`, `src/rss.ts`, `src/scrapper.ts`
+
+- [x] Remove or archive legacy workflow modules that still target old schema
+	- [x] Review and migrate/remove: `src/writer.ts`, `src/candidates.ts`, `src/rss.ts`, `src/scrapper.ts`
 	- [ ] Keep only one canonical pipeline path (graph-based)
-- [ ] Fix operational command drift in `Makefile`
-	- [ ] Replace old `info`/`article_topic` SQL with `candidates`/`article_tasks`/`articles`
-	- [ ] Add safe helper targets for modern schema (retry failed task, list queue depth, etc.)
+- [x] Fix operational command drift in `Makefile`
+	- [x] Replace old `info`/`article_topic` SQL with `candidates`/`article_tasks`/`articles`
+	- [x] Add safe helper targets for modern schema (retry failed task, list queue depth, etc.)
 - [ ] Update documentation to match actual runtime behavior
 	- [ ] Clarify source-scout behavior (discovery vs official-source refresh)
 	- [ ] Keep status transition table in README aligned with implemented nodes
@@ -28,7 +30,7 @@
 ## P1 - Testing and Quality Gates
 
 - [ ] Expand automated tests to cover workflow behavior
-	- [ ] Graph integration test: scanner -> editor -> writer -> reviewer -> publisher
+	- [x] Graph integration test: scanner -> editor -> writer -> reviewer -> publisher
 	- [ ] DB transition tests for candidate and article task state changes
 	- [ ] Publisher failure test verifies run is marked failed
 - [ ] Resolve stale/untracked test harness issues

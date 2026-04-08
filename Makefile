@@ -1,5 +1,5 @@
 serve:
-	docker-compose run --rm --service-ports app task serve
+	docker-compose run --rm --service-ports app deno task serve
 
 run:
 	docker-compose run --rm app deno run -A src/main.ts
@@ -20,10 +20,13 @@ deploy-pages-local:
 	./scripts/deploy-pages-local.sh
 
 stats:
-	docker exec news-radar-db-1 psql -U root -c "SELECT COUNT(status), status from info GROUP BY status;"
+	docker exec news-radar-db-1 psql -U root -c "SELECT COUNT(*), status FROM candidates GROUP BY status ORDER BY status;"
 
-retry-scrape:
-	docker exec news-radar-db-1 psql -U root -c "UPDATE info SET status = 'approved' WHERE status = 'error-scraping';"
+retry-writer-errors:
+	docker exec news-radar-db-1 psql -U root -c "UPDATE article_tasks SET status = 'pending', updated_at = now() WHERE status = 'failed' AND candidate_id IN (SELECT id FROM candidates WHERE status = 'writer-error'); UPDATE candidates SET status = 'researched', updated_at = now() WHERE status = 'writer-error';"
+
+retry-editor-errors:
+	docker exec news-radar-db-1 psql -U root -c "UPDATE candidates SET status = 'pending', updated_at = now() WHERE status = 'editor-error';"
 
 dump-schema:
 	docker exec news-radar-db-1 pg_dump --schema-only -U root > seed.sql
@@ -39,22 +42,21 @@ query:
 
 # manually adds an item to the db
 insert:
-	docker exec -it news-radar-db-1 psql -U root -c "INSERT INTO info (title, link, date, status, source) VALUES ('$(url)', '$(url)', '$(shell date)', 'pending', 'manual'); INSERT INTO article_topic (article_id, topic_id) VALUES ((SELECT id FROM info WHERE link = '$(url)'), (SELECT id FROM topics WHERE name = '$(topic)'));"
+	docker exec -it news-radar-db-1 psql -U root -c "INSERT INTO candidates (topic_id, title, url, snippet, source, discovered_at, status) VALUES ((SELECT id FROM topics WHERE slug = '$(topic)'), '$(title)', '$(url)', 'manually inserted', 'manual', now(), 'pending') ON CONFLICT (topic_id, url) DO UPDATE SET updated_at = now();"
 
 # receives an id and rejects it
 # usage: make reject id=1
 reject:
-	docker exec news-radar-db-1 psql -U root -c "UPDATE info SET status = 'rejected' WHERE id = '$(id)';"
+	docker exec news-radar-db-1 psql -U root -c "UPDATE candidates SET status = 'rejected', updated_at = now() WHERE id = '$(id)';"
 
-#receives an article id and category name and adds it to the article_topic table
-category:
-	docker exec news-radar-db-1 psql -U root -c "INSERT INTO article_topic (article_id, topic_id) VALUES ('$(article_id)', (SELECT id FROM topics WHERE slug = '$(name)'));"
+list-candidates:
+	docker exec news-radar-db-1 psql -U root -c "SELECT c.id, t.slug AS topic, c.title, c.status, c.discovered_at FROM candidates c INNER JOIN topics t ON t.id = c.topic_id ORDER BY c.discovered_at DESC LIMIT 30;"
 
-remove-category:
-	docker exec news-radar-db-1 psql -U root -c "DELETE FROM article_topic WHERE article_id = '$(article_id)' AND topic_id = (SELECT id FROM topics WHERE slug = '$(name)');"
+list-tasks:
+	docker exec news-radar-db-1 psql -U root -c "SELECT id, candidate_id, priority, status, created_at, picked_at FROM article_tasks ORDER BY created_at DESC LIMIT 30;"
 
 list-latest-articles:
-	docker exec news-radar-db-1 psql -U root -c "SELECT id, title, source, status, created_at FROM info ORDER BY created_at DESC LIMIT 20;"
+	docker exec news-radar-db-1 psql -U root -c "SELECT a.id, t.slug AS topic, a.title, a.published_at FROM articles a INNER JOIN topics t ON t.id = a.topic_id ORDER BY a.published_at DESC LIMIT 20;"
 
 clean-db:
 	docker exec news-radar-db-1 psql -U root -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"
