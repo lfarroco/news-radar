@@ -4,9 +4,9 @@
 ## P0 - Reliability and Correctness
 
 
-- [ ] Make article task claiming atomic in `claimNextPendingArticleTask`
+- [x] Make article task claiming atomic in `claimNextPendingArticleTask`
 	- [x] Use one transaction (or one `UPDATE ... RETURNING`) to avoid claim races
-	- [ ] Add test coverage for concurrent task claiming behavior
+	- [x] Add test coverage for concurrent task claiming behavior
 - [ ] Fail pipeline run with non-zero exit when terminal graph errors exist
 	- [x] Update `src/main.ts` to throw/exit when `result.errors` is non-empty
 	- [ ] Confirm `make run` returns non-zero on publisher/build failure
