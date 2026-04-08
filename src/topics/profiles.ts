@@ -206,6 +206,33 @@ export const deno: TopicProfile = {
 		"Cover Deno runtime releases, Deno Deploy updates, and JSR registry milestones.",
 };
 
+export const javascript: TopicProfile = {
+	name: "JavaScript",
+	slug: "javascript",
+	description:
+		"JavaScript is the programming language of the web, standardised as ECMAScript. Covers core language evolution, TC39 proposals, browser APIs, and the broader JS ecosystem.",
+	officialSources: [
+		{ label: "TC39 Blog", url: "https://tc39.es/blog/" },
+		{ label: "V8 Blog", url: "https://v8.dev/blog" },
+		{ label: "MDN Blog", url: "https://developer.mozilla.org/en-US/blog/" },
+	],
+	communityForums: [
+		{ label: "r/javascript", url: "https://reddit.com/r/javascript" },
+	],
+	rssFeedUrls: [
+		"https://v8.dev/blog.atom",
+	],
+	redditSubreddits: ["javascript"],
+	researchQueries: [
+		"ECMAScript proposal stage 4",
+		"TC39 proposal",
+		"JavaScript new feature",
+		"ECMAScript release",
+	],
+	editorialNotes:
+		"Focus on ECMAScript spec milestones, TC39 proposals reaching Stage 4, and significant engine updates. Avoid framework-specific news (covered by React, Angular, etc.) and beginner tutorials.",
+};
+
 export const angular: TopicProfile = {
 	name: "Angular",
 	slug: "angular",
@@ -236,6 +263,7 @@ export const allTopics: TopicProfile[] = [
 	python,
 	rust,
 	typescript,
+	javascript,
 	golang,
 	nodejs,
 	react,
