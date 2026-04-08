@@ -79,6 +79,34 @@ export const compactText = (text: string, maxLength: number): string => {
   return `${clipped.slice(0, boundary).trim()}...`;
 };
 
+const MARKDOWN_BLOCK_HINT = /^\s*(#{1,6}\s|[-*+]\s|\d+\.\s|>\s|```)/m;
+
+export const normalizeArticleBody = (body: string): string => {
+  const normalized = (body ?? "").replace(/\r\n?/g, "\n").trim();
+  if (!normalized) return "";
+
+  // Keep existing paragraph structure and markdown block formatting untouched.
+  if (/\n\s*\n/.test(normalized) || MARKDOWN_BLOCK_HINT.test(normalized)) {
+    return normalized;
+  }
+
+  const singleLine = normalized.replace(/\n+/g, " ").replace(/\s+/g, " ").trim();
+  const sentenceMatches = singleLine.match(/[^.!?]+[.!?]+(?:["')\]]+)?|[^.!?]+$/g) ?? [];
+  const sentences = sentenceMatches.map((sentence) => sentence.trim()).filter(Boolean);
+
+  // Very short content is left as-is to avoid awkward artificial paragraphing.
+  if (sentences.length < 4) {
+    return singleLine;
+  }
+
+  const paragraphs: string[] = [];
+  for (let index = 0; index < sentences.length; index += 3) {
+    paragraphs.push(sentences.slice(index, index + 3).join(" "));
+  }
+
+  return paragraphs.join("\n\n");
+};
+
 const normalizeTopicLabel = (text: string): string =>
   (text ?? "")
     .toLowerCase()

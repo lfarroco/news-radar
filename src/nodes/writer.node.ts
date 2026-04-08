@@ -11,7 +11,7 @@ import {
 } from "../db/queries.ts";
 import { logger } from "../logger.ts";
 import { loadConfig } from "../config.ts";
-import { compactText, slugify, stripLeadingTopicLabel } from "../utils.ts";
+import { compactText, normalizeArticleBody, slugify, stripLeadingTopicLabel } from "../utils.ts";
 import { scrapeUrl } from "../tools/scraper.tool.ts";
 import { knowledgeBaseTool } from "../tools/knowledge-base.tool.ts";
 import type { GeneratedArticle } from "../models.ts";
@@ -127,6 +127,8 @@ Rules:
 - Prefer original paraphrasing across the entire article.
 - Keep at most one short direct quote (<= 20 words) if absolutely necessary.
 - Keep the article factual, with a neutral tone, and no markdown links.
+- Use short paragraphs separated by blank lines (3-5 sentences each).
+- Never return the rewritten article as one large paragraph.
 - If rewrite is needed, return a full rewritten article body (300-500 words) that improves originality while preserving core facts.
 - If rewrite is not needed, return rewrittenContent as an empty string.
 `,
@@ -207,6 +209,10 @@ Output must follow the structured schema.`,
 					"Use original wording. Do not copy source sentences. If a direct quote is essential, use at most one short quote in double quotes.",
 				sourceContent,
 			});
+			result = {
+				...result,
+				content: normalizeArticleBody(result.content),
+			};
 
 			let originalityReview = await originalityReviewChain.invoke({
 				sourceContent,
@@ -221,7 +227,7 @@ Output must follow the structured schema.`,
 				);
 				result = {
 					...result,
-					content: rewrittenContent.trim(),
+					content: normalizeArticleBody(rewrittenContent),
 				};
 
 				originalityReview = await originalityReviewChain.invoke({

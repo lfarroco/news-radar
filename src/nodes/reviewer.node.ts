@@ -7,7 +7,7 @@ import {
 	updateGeneratedArticle,
 } from "../db/queries.ts";
 import { logger } from "../logger.ts";
-import { slugify, stripLeadingTopicLabel, compactText } from "../utils.ts";
+import { slugify, stripLeadingTopicLabel, compactText, normalizeArticleBody } from "../utils.ts";
 import type { PipelineState } from "../graph/state.ts";
 import type { GeneratedArticle } from "../models.ts";
 
@@ -97,7 +97,7 @@ export const reviewerNode = async (
 				review.improvedTitle?.trim() || article.title,
 				context.topic_name,
 			);
-			const nextBody = review.improvedContent?.trim() || article.body;
+			const nextBody = normalizeArticleBody(review.improvedContent?.trim() || article.body);
 			const shouldUpdate =
 				review.needsImprovement ||
 				!review.hasSufficientContent ||
