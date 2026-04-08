@@ -1,5 +1,7 @@
 import { client } from "../db.ts";
+import { filterOfficialTopicSourceUrls } from "../editorial-policy.ts";
 import { Article } from "../models.ts";
+import { allTopics } from "../topics/profiles.ts";
 import { stripLeadingTopicLabel } from "../utils.ts";
 
 export const layout = "article.njk";
@@ -25,8 +27,29 @@ const toReferenceLabel = (url: string): string => {
   }
 };
 
-const buildReferences = (primaryUrl: string, editorNotes: string | null): ArticleReference[] => {
-  const uniqueUrls = Array.from(new Set([primaryUrl, ...extractUrls(editorNotes)]));
+const normalizeTopicKey = (value: string): string =>
+  (value ?? "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+const getTopicProfile = (topicSlug: string) => {
+  const normalized = normalizeTopicKey(topicSlug);
+  if (!normalized) return undefined;
+  return allTopics.find((profile) => normalizeTopicKey(profile.slug) === normalized);
+};
+
+const buildReferences = (
+  primaryUrl: string,
+  editorNotes: string | null,
+  topicSlug: string,
+): ArticleReference[] => {
+  const topicProfile = getTopicProfile(topicSlug);
+  const uniqueUrls = filterOfficialTopicSourceUrls(topicProfile, [
+    primaryUrl,
+    ...extractUrls(editorNotes),
+  ]);
   return uniqueUrls.map((url) => ({
     url,
     label: toReferenceLabel(url),
@@ -37,6 +60,7 @@ export default async function* () {
   const { rows } = await client.queryObject<Article & {
     url: string;
     link: string;
+    topic_slug: string;
     topic_name: string;
     editor_notes: string;
   }>(`
@@ -47,6 +71,7 @@ export default async function* () {
       a.slug,
       a.url,
       a.published_at AS date,
+      t.slug AS topic_slug,
       t.name AS topic_name,
       c.title,
       c.url AS link,
@@ -65,7 +90,7 @@ export default async function* () {
 
   for (const row of rows) {
     const date = new Date(row.date as unknown as string).toISOString().split('T')[0].replace(/-/g, '/');
-    const references = buildReferences(row.link, row.editor_notes);
+    const references = buildReferences(row.link, row.editor_notes, row.topic_slug);
 
     yield {
       ...row,

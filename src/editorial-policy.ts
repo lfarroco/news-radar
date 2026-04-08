@@ -57,6 +57,25 @@ export const isOfficialTopicSourceUrl = (
 	return isOfficialSourceUrl(url, getOfficialSourceUrls(profile));
 };
 
+export const filterOfficialTopicSourceUrls = (
+	profile: TopicProfile | null | undefined,
+	urls: Array<string | null | undefined>,
+): string[] => {
+	if (!profile || urls.length === 0) return [];
+
+	const unique = new Set<string>();
+	for (const rawUrl of urls) {
+		const url = (rawUrl ?? "").trim();
+		if (!url) continue;
+		if (!/^https?:\/\//i.test(url)) continue;
+		if (isOfficialTopicSourceUrl(profile, url)) {
+			unique.add(url);
+		}
+	}
+
+	return Array.from(unique);
+};
+
 const splitSentences = (text: string): string[] =>
 	normalizeSpaces(text)
 		.split(/(?<=[.!?])\s+/)

@@ -1,6 +1,7 @@
 import { assertEquals } from "https://deno.land/std@0.224.0/assert/mod.ts";
 import {
 	enforceQuotesForCopiedText,
+	filterOfficialTopicSourceUrls,
 	findVerbatimSentenceMatches,
 	isOfficialSourceUrl,
 	isOfficialTopicSourceUrl,
@@ -84,4 +85,22 @@ Deno.test("editorial policy: wraps copied text in quotes", () => {
 		guarded.content.includes("\"The release introduces incremental compilation for large monorepos with up to fifty percent faster rebuilds.\""),
 		true,
 	);
+});
+
+Deno.test("editorial policy: filters references to official topic source URLs", () => {
+	const filtered = filterOfficialTopicSourceUrls(rustProfile, [
+		"https://github.com/rust-lang/rust/releases/tag/1.89.0",
+		"https://docs.github.com/get-started/accessibility/keyboard-shortcuts",
+	]);
+
+	assertEquals(filtered, ["https://github.com/rust-lang/rust/releases/tag/1.89.0"]);
+});
+
+Deno.test("editorial policy: deduplicates official topic source URLs", () => {
+	const filtered = filterOfficialTopicSourceUrls(rustProfile, [
+		"https://blog.rust-lang.org/2026/04/08/release",
+		"https://blog.rust-lang.org/2026/04/08/release",
+	]);
+
+	assertEquals(filtered, ["https://blog.rust-lang.org/2026/04/08/release"]);
 });
