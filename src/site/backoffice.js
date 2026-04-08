@@ -173,11 +173,11 @@ function createTopic(name, slug) {
 	});
 }
 
-function updateTopic(topicId, name, slug) {
+function updateTopic(topicId, payload) {
 	return requestJson(`/api/topics/${topicId}`, {
 		method: "PUT",
 		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({ name, slug }),
+		body: JSON.stringify(payload),
 	});
 }
 
@@ -301,13 +301,12 @@ function renderTopicsList() {
 				/>
 				<div class="collection-list">
 					${filtered.length === 0 ? '<p class="loading">No matching topics.</p>' : filtered.map((topic) => `
-						<div class="collection-item">
+						<a class="collection-item collection-item-link" href="/topics/${topic.topic_id}" data-link="internal">
 							<div>
 								<h4>${escapeHtml(topic.name)}</h4>
 								<p>/${escapeHtml(topic.slug || "-")} · ${escapeHtml(String(topic.article_count ?? 0))} articles</p>
 							</div>
-							<a class="btn btn-subtle" href="/topics/${topic.topic_id}" data-link="internal">Open</a>
-						</div>
+						</a>
 					`).join("")}
 				</div>
 			</article>
@@ -361,11 +360,44 @@ function renderTopicCreate() {
 	});
 }
 
-function renderLinkList(items, formatter) {
-	if (!items || items.length === 0) {
-		return '<p class="hint">None configured.</p>';
+function renderSourceRows(items, listName) {
+	const rows = Array.isArray(items) && items.length > 0 ? items : [{ label: "", url: "" }];
+	return rows
+		.map((item) => `
+			<div class="source-row" data-source-row>
+				<input type="text" data-source-label placeholder="Label" value="${escapeHtml(item.label || "")}" />
+				<input type="url" data-source-url placeholder="https://example.com" value="${escapeHtml(item.url || "")}" />
+				<button type="button" class="btn btn-danger btn-compact" data-remove-source-row="${listName}">Remove</button>
+			</div>
+		`)
+		.join("");
+}
+
+function parseLineList(value) {
+	return String(value || "")
+		.split("\n")
+		.map((item) => item.trim())
+		.filter(Boolean);
+}
+
+function collectSourceList(form, listName) {
+	const container = form.querySelector(`[data-source-list="${listName}"]`);
+	if (!(container instanceof HTMLElement)) {
+		return [];
 	}
-	return `<ul class="detail-list">${items.map((item) => `<li>${formatter(item)}</li>`).join("")}</ul>`;
+
+	const rows = Array.from(container.querySelectorAll("[data-source-row]"));
+	return rows
+		.map((row) => {
+			const labelInput = row.querySelector("[data-source-label]");
+			const urlInput = row.querySelector("[data-source-url]");
+			const label = labelInput instanceof HTMLInputElement ? labelInput.value.trim() : "";
+			const url = urlInput instanceof HTMLInputElement ? urlInput.value.trim() : "";
+
+			if (!url) return null;
+			return { label: label || url, url };
+		})
+		.filter(Boolean);
 }
 
 function renderTopicDetail(routeId) {
@@ -380,7 +412,7 @@ function renderTopicDetail(routeId) {
 
 	view.innerHTML = `
 		<section class="detail-layout">
-			<article class="panel">
+			<article class="panel topic-edit-panel">
 				<div class="panel-head">
 					<h3>Edit Topic</h3>
 					<a href="/topics" data-link="internal" class="ghost-link">Back to list</a>
@@ -390,41 +422,43 @@ function renderTopicDetail(routeId) {
 					<input id="topic-edit-name" name="name" type="text" required value="${escapeHtml(details.name || "")}" />
 					<label for="topic-edit-slug">Slug</label>
 					<input id="topic-edit-slug" name="slug" type="text" required value="${escapeHtml(details.slug || "")}" />
+					<label for="topic-edit-description">Description</label>
+					<textarea id="topic-edit-description" name="description" rows="4">${escapeHtml(details.description || "")}</textarea>
+
+					<div class="source-editor-group">
+						<div class="panel-head source-editor-head">
+							<h4>Official Sources</h4>
+							<button type="button" class="btn btn-subtle btn-compact" data-add-source-row="officialSources">Add Source</button>
+						</div>
+						<div class="source-editor-list" data-source-list="officialSources">
+							${renderSourceRows(details.officialSources, "officialSources")}
+						</div>
+					</div>
+
+					<div class="source-editor-group">
+						<div class="panel-head source-editor-head">
+							<h4>Community Sources</h4>
+							<button type="button" class="btn btn-subtle btn-compact" data-add-source-row="communityForums">Add Source</button>
+						</div>
+						<div class="source-editor-list" data-source-list="communityForums">
+							${renderSourceRows(details.communityForums, "communityForums")}
+						</div>
+					</div>
+
+					<label for="topic-edit-rss">RSS Feed URLs (one per line)</label>
+					<textarea id="topic-edit-rss" name="rssFeedUrls" rows="5">${escapeHtml((details.rssFeedUrls || []).join("\n"))}</textarea>
+					<label for="topic-edit-reddit">Reddit Subreddits (one per line, without r/)</label>
+					<textarea id="topic-edit-reddit" name="redditSubreddits" rows="4">${escapeHtml((details.redditSubreddits || []).join("\n"))}</textarea>
+					<label for="topic-edit-queries">Research Queries (one per line)</label>
+					<textarea id="topic-edit-queries" name="researchQueries" rows="5">${escapeHtml((details.researchQueries || []).join("\n"))}</textarea>
+					<label for="topic-edit-notes">Editorial Notes</label>
+					<textarea id="topic-edit-notes" name="editorialNotes" rows="5">${escapeHtml(details.editorialNotes || "")}</textarea>
 					<p class="hint">Articles linked: ${escapeHtml(String(details.article_count ?? 0))}</p>
 					<button type="submit" class="btn btn-primary">Save Topic</button>
 				</form>
 			</article>
 
-			<article class="panel">
-				<h3>Topic Profile</h3>
-				${details.description ? `<p>${escapeHtml(details.description)}</p>` : '<p class="hint">No description provided.</p>'}
-				<div class="profile-group">
-					<h4>Official Sources</h4>
-					${renderLinkList(details.officialSources, (source) => `<a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.label || source.url)}</a>`)}
-				</div>
-				<div class="profile-group">
-					<h4>Community Sources</h4>
-					${renderLinkList(details.communityForums, (source) => `<a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.label || source.url)}</a>`)}
-				</div>
-				<div class="profile-group">
-					<h4>RSS Feeds</h4>
-					${renderLinkList(details.rssFeedUrls, (url) => `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(url)}</a>`)}
-				</div>
-				<div class="profile-group">
-					<h4>Reddit</h4>
-					${renderLinkList(details.redditSubreddits, (subreddit) => `r/${escapeHtml(subreddit)}`)}
-				</div>
-				<div class="profile-group">
-					<h4>Research Queries</h4>
-					${renderLinkList(details.researchQueries, (term) => escapeHtml(term))}
-				</div>
-				<div class="profile-group">
-					<h4>Editorial Notes</h4>
-					${details.editorialNotes ? `<p>${escapeHtml(details.editorialNotes)}</p>` : '<p class="hint">No editorial notes.</p>'}
-				</div>
-			</article>
-
-			<article class="panel">
+			<article class="panel topic-kb-panel">
 				<h3>Knowledge Base Notes</h3>
 				<div class="kb-list">
 					${state.knowledgeBase.length === 0 ? '<p class="hint">No knowledge base notes for this topic.</p>' : state.knowledgeBase.map((note) => `
@@ -445,7 +479,7 @@ function renderTopicDetail(routeId) {
 				</div>
 			</article>
 
-			<article class="panel">
+			<article class="panel topic-articles-panel">
 				<h3>Topic Articles</h3>
 				<div class="collection-list compact">
 					${state.activeTopicArticles.length === 0 ? '<p class="hint">No linked articles yet.</p>' : state.activeTopicArticles.slice(0, 30).map((article) => `
@@ -713,8 +747,18 @@ function initializeFormsAndInputs() {
 		if (form.id === "topic-edit-form") {
 			event.preventDefault();
 			const topicId = Number(form.dataset.topicId);
-			const name = String(new FormData(form).get("name") || "").trim();
-			const slug = slugify(String(new FormData(form).get("slug") || "").trim() || name);
+			const formData = new FormData(form);
+			const name = String(formData.get("name") || "").trim();
+			const slug = slugify(String(formData.get("slug") || "").trim() || name);
+			const description = String(formData.get("description") || "").trim();
+			const editorialNotes = String(formData.get("editorialNotes") || "").trim();
+			const officialSources = collectSourceList(form, "officialSources");
+			const communityForums = collectSourceList(form, "communityForums");
+			const rssFeedUrls = parseLineList(formData.get("rssFeedUrls"));
+			const redditSubreddits = parseLineList(formData.get("redditSubreddits")).map((subreddit) =>
+				subreddit.replace(/^r\//i, "").trim()
+			).filter(Boolean);
+			const researchQueries = parseLineList(formData.get("researchQueries"));
 
 			if (!name || !slug || !Number.isFinite(topicId)) {
 				showStatus("Valid topic name and slug are required", "error");
@@ -723,7 +767,19 @@ function initializeFormsAndInputs() {
 
 			try {
 				showStatus("Saving topic...", "loading");
-				await updateTopic(topicId, name, slug);
+				await updateTopic(topicId, {
+					name,
+					slug,
+					profile: {
+						description,
+						officialSources,
+						communityForums,
+						rssFeedUrls,
+						redditSubreddits,
+						researchQueries,
+						editorialNotes,
+					},
+				});
 				showStatus("Topic saved successfully", "success");
 				await Promise.all([
 					loadTopicDetails(topicId),
@@ -782,6 +838,59 @@ function initializeFormsAndInputs() {
 		} catch (error) {
 			showStatus(`Failed to ignore source: ${error.message}`, "error");
 		}
+	});
+
+	document.addEventListener("click", (event) => {
+		const target = event.target;
+		if (!(target instanceof HTMLElement)) return;
+
+		const addBtn = target.closest("[data-add-source-row]");
+		if (addBtn instanceof HTMLElement) {
+			event.preventDefault();
+			const listName = addBtn.getAttribute("data-add-source-row") || "";
+			if (!listName) return;
+
+			const form = addBtn.closest("form");
+			if (!(form instanceof HTMLFormElement)) return;
+
+			const list = form.querySelector(`[data-source-list="${listName}"]`);
+			if (!(list instanceof HTMLElement)) return;
+
+			const row = document.createElement("div");
+			row.className = "source-row";
+			row.setAttribute("data-source-row", "");
+			row.innerHTML = `
+				<input type="text" data-source-label placeholder="Label" value="" />
+				<input type="url" data-source-url placeholder="https://example.com" value="" />
+				<button type="button" class="btn btn-danger btn-compact" data-remove-source-row="${escapeHtml(listName)}">Remove</button>
+			`;
+			list.appendChild(row);
+			const firstInput = row.querySelector("input");
+			if (firstInput instanceof HTMLInputElement) {
+				firstInput.focus();
+			}
+			return;
+		}
+
+		const removeBtn = target.closest("[data-remove-source-row]");
+		if (!(removeBtn instanceof HTMLElement)) return;
+
+		event.preventDefault();
+		const row = removeBtn.closest("[data-source-row]");
+		if (!(row instanceof HTMLElement)) return;
+
+		const list = row.parentElement;
+		if (!(list instanceof HTMLElement)) return;
+
+		if (list.querySelectorAll("[data-source-row]").length <= 1) {
+			const labelInput = row.querySelector("[data-source-label]");
+			const urlInput = row.querySelector("[data-source-url]");
+			if (labelInput instanceof HTMLInputElement) labelInput.value = "";
+			if (urlInput instanceof HTMLInputElement) urlInput.value = "";
+			return;
+		}
+
+		row.remove();
 	});
 }
 

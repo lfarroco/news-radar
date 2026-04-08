@@ -20,15 +20,15 @@ export default async function* () {
 		url: `/`,
 		latest,
 		topics: [
-			{ name: "JavaScript", slug: "javascript", articles: javascript, },
-			{ name: "Python", slug: "python", articles: python, },
-			{ name: "React", slug: "react", articles: react, },
-			{ name: "TypeScript", slug: "typescript", articles: typescript, },
-			{ name: "Rust", slug: "rust", articles: rust, },
-			{ name: "Go", slug: "go", articles: go, },
-			{ name: "Node.js", slug: "node.js", articles: node, },
-			{ name: "Deno", slug: "deno", articles: deno, },
-			{ name: "Ruby", slug: "ruby", articles: ruby, },
+				{ name: "JavaScript", slug: "javascript", feedUrl: "/topics/javascript/feed.xml", articles: javascript, },
+				{ name: "Python", slug: "python", feedUrl: "/topics/python/feed.xml", articles: python, },
+				{ name: "React", slug: "react", feedUrl: "/topics/react/feed.xml", articles: react, },
+				{ name: "TypeScript", slug: "typescript", feedUrl: "/topics/typescript/feed.xml", articles: typescript, },
+				{ name: "Rust", slug: "rust", feedUrl: "/topics/rust/feed.xml", articles: rust, },
+				{ name: "Go", slug: "go", feedUrl: "/topics/go/feed.xml", articles: go, },
+				{ name: "Node.js", slug: "node.js", feedUrl: "/topics/node.js/feed.xml", articles: node, },
+				{ name: "Deno", slug: "deno", feedUrl: "/topics/deno/feed.xml", articles: deno, },
+				{ name: "Ruby", slug: "ruby", feedUrl: "/topics/ruby/feed.xml", articles: ruby, },
 		]
 
 	};

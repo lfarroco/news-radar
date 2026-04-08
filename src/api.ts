@@ -62,6 +62,47 @@ const createEmptyTopicProfile = () => ({
 	editorialNotes: "",
 });
 
+const sanitizeString = (value: unknown): string =>
+	typeof value === "string" ? value.trim() : "";
+
+const sanitizeStringList = (value: unknown): string[] =>
+	Array.isArray(value)
+		? value
+			.map((item) => sanitizeString(item))
+			.filter(Boolean)
+		: [];
+
+const sanitizeSourceList = (value: unknown): Array<{ label: string; url: string }> => {
+	if (!Array.isArray(value)) return [];
+
+	return value
+		.map((item) => {
+			if (!item || typeof item !== "object") return null;
+			const source = item as { label?: unknown; url?: unknown };
+			const url = sanitizeString(source.url);
+			if (!url) return null;
+			const label = sanitizeString(source.label) || url;
+			return { label, url };
+		})
+		.filter((item): item is { label: string; url: string } => item !== null);
+};
+
+const sanitizeTopicProfileInput = (value: unknown) => {
+	const profile = value && typeof value === "object" ? value as Record<string, unknown> : {};
+
+	return {
+		description: sanitizeString(profile.description),
+		officialSources: sanitizeSourceList(profile.officialSources),
+		communityForums: sanitizeSourceList(profile.communityForums),
+		rssFeedUrls: sanitizeStringList(profile.rssFeedUrls),
+		redditSubreddits: sanitizeStringList(profile.redditSubreddits).map((subreddit) =>
+			subreddit.replace(/^r\//i, "").trim()
+		).filter(Boolean),
+		researchQueries: sanitizeStringList(profile.researchQueries),
+		editorialNotes: sanitizeString(profile.editorialNotes),
+	};
+};
+
 const findDefaultTopicProfile = (name: string, slug: string) => {
 	const slugKey = toSlug(slug);
 	const nameKey = toSlug(name);
@@ -216,6 +257,7 @@ async function handleRequest(req: Request): Promise<Response> {
 			const name = (data?.name ?? "").trim();
 			const rawSlug = (data?.slug ?? "").trim();
 			const slug = toSlug(rawSlug || name);
+			const hasProfilePayload = data && typeof data === "object" && "profile" in data;
 
 			if (!name) {
 				return new Response(JSON.stringify({ error: "Topic name is required" }), {
@@ -243,16 +285,26 @@ async function handleRequest(req: Request): Promise<Response> {
 				});
 			}
 
+			const profilePayload = sanitizeTopicProfileInput(data?.profile);
 			const updated = await db.queryObject<{
 				topic_id: number;
 				name: string;
 				slug: string;
 			}>(
-				`UPDATE topics
-				 SET name = $1, slug = $2
-				 WHERE id = $3
-				 RETURNING id AS topic_id, name, slug`,
-				[name, slug, topicId],
+				hasProfilePayload
+					? `UPDATE topics
+					   SET name = $1,
+					       slug = $2,
+					       profile = (COALESCE(profile, '{}'::jsonb) || $3::jsonb)
+					   WHERE id = $4
+					   RETURNING id AS topic_id, name, slug`
+					: `UPDATE topics
+					   SET name = $1, slug = $2
+					   WHERE id = $3
+					   RETURNING id AS topic_id, name, slug`,
+				hasProfilePayload
+					? [name, slug, JSON.stringify(profilePayload), topicId]
+					: [name, slug, topicId],
 			);
 
 			if (!updated.rows[0]) {

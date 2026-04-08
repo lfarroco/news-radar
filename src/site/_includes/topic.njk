@@ -4,7 +4,16 @@ layout: main.njk
 
 <div class="card">
 	<div class="card-header">
-		<h1 class="mb-0">{{ title }}</h1>
+		<div class="topic-page__header">
+			<h1 class="mb-0">{{ title }}</h1>
+			<a class="rss-icon-link" href="{{ feedUrl }}" title="Subscribe to {{ title }} RSS" aria-label="Subscribe to {{ title }} RSS">
+				<svg viewBox="0 0 24 24" role="presentation" focusable="false" aria-hidden="true">
+					<circle cx="5" cy="19" r="2"></circle>
+					<path d="M4 11a9 9 0 0 1 9 9"></path>
+					<path d="M4 4a16 16 0 0 1 16 16"></path>
+				</svg>
+			</a>
+		</div>
 	</div>
 	<div class="card-body">
 		<ul class="list-group">

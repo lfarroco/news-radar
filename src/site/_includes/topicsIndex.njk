@@ -10,10 +10,19 @@ layout: main.njk
 
 	<div class="topics-index__grid">
 		{% for topic in topics %}
-			<a class="topics-index__card" href="{{ topic.url }}">
-				<span class="topics-index__name">{{ topic.name }}</span>
-				<span class="topics-index__count">{{ topic.article_count }} articles</span>
-			</a>
+			<div class="topics-index__card">
+				<a class="topics-index__open" href="{{ topic.url }}">
+					<span class="topics-index__name">{{ topic.name }}</span>
+					<span class="topics-index__count">{{ topic.article_count }} articles</span>
+				</a>
+				<a class="rss-icon-link" href="{{ topic.feedUrl }}" title="Subscribe to {{ topic.name }} RSS" aria-label="Subscribe to {{ topic.name }} RSS">
+					<svg viewBox="0 0 24 24" role="presentation" focusable="false" aria-hidden="true">
+						<circle cx="5" cy="19" r="2"></circle>
+						<path d="M4 11a9 9 0 0 1 9 9"></path>
+						<path d="M4 4a16 16 0 0 1 16 16"></path>
+					</svg>
+				</a>
+			</div>
 		{% endfor %}
 	</div>
 </section>

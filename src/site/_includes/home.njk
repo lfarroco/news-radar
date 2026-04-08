@@ -40,7 +40,16 @@ layout: main.njk
 				<div class="topic-card">
 					<div class="topic-card__header">
 						<span class="topic-card__name">{{ topic.name }}</span>
-						<a class="topic-card__all" href="/topics/{{ topic.slug }}">All →</a>
+						<div class="topic-card__actions">
+							<a class="topic-card__all" href="/topics/{{ topic.slug }}">All →</a>
+							<a class="rss-icon-link" href="{{ topic.feedUrl }}" title="Subscribe to {{ topic.name }} RSS" aria-label="Subscribe to {{ topic.name }} RSS">
+								<svg viewBox="0 0 24 24" role="presentation" focusable="false" aria-hidden="true">
+									<circle cx="5" cy="19" r="2"></circle>
+									<path d="M4 11a9 9 0 0 1 9 9"></path>
+									<path d="M4 4a16 16 0 0 1 16 16"></path>
+								</svg>
+							</a>
+						</div>
 					</div>
 					<ul class="topic-card__list">
 						{% for article in topic.articles %}

@@ -668,6 +668,12 @@ article pre code {
   border-bottom: 1px solid var(--line);
 }
 
+.topic-card__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
 .topic-card__name {
   font-family: "Manrope", sans-serif;
   font-weight: 800;
@@ -752,9 +758,9 @@ article pre code {
 
 .topics-index__card {
   display: flex;
-  flex-direction: column;
-  gap: 0.22rem;
-  text-decoration: none;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.7rem;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
@@ -768,6 +774,15 @@ article pre code {
   transform: translateY(-1px);
 }
 
+.topics-index__open {
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+  text-decoration: none;
+  min-width: 0;
+  flex: 1;
+}
+
 .topics-index__name {
   font-family: "Manrope", sans-serif;
   font-size: 0.92rem;
@@ -779,6 +794,48 @@ article pre code {
   font-family: "Manrope", sans-serif;
   font-size: 0.78rem;
   color: var(--muted);
+}
+
+.rss-icon-link {
+  width: 1.95rem;
+  height: 1.95rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--brand-strong);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background: var(--surface-soft);
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.rss-icon-link:hover {
+  color: var(--brand);
+  border-color: var(--brand);
+  background: #edf8f6;
+}
+
+.rss-icon-link svg {
+  width: 0.9rem;
+  height: 0.9rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.rss-icon-link svg circle {
+  fill: currentColor;
+  stroke: none;
+}
+
+.topic-page__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
 }
 
 @media (max-width: 900px) {

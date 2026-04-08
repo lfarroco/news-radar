@@ -13,6 +13,7 @@ export default async function* () {
 		yield {
 			url: `/topics/${slug}/`,
 			title: name,
+			feedUrl: `/topics/${slug}/feed.xml`,
 			articles
 		};
 
