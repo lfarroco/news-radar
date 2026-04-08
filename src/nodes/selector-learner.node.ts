@@ -3,7 +3,7 @@ import { cheerio } from "../deps.ts";
 import { makeLlm, systemUserPrompt } from "../llm.ts";
 import { logger } from "../logger.ts";
 import {
-	setSourceSelectorFeedUrl,
+	markSourceSelectorIndexedNow,
 	setSourceSelectorIndexSelectors,
 	markSourceSelectorNeedsReindex,
 	type IndexSelectors,
@@ -260,6 +260,6 @@ export const crawlWithSelectors = async (
 		return null;
 	}
 
-	await setSourceSelectorFeedUrl(sourceUrl, sourceUrl); // keep last_indexed fresh
+	await markSourceSelectorIndexedNow(sourceUrl);
 	return items;
 };

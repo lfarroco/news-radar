@@ -730,26 +730,53 @@ export type SourceSelector = {
 	updated_at: Date;
 };
 
+export type SourceSelectorCoverageStats = {
+	total_rows: number;
+	url_only_rows: number;
+	feed_backed_rows: number;
+	selector_backed_rows: number;
+	unknown_type_rows: number;
+};
+
+export const TOUCH_SOURCE_SELECTOR_SQL = `INSERT INTO source_selectors (source_url, topic_slug)
+	 VALUES ($1, $2)
+	 ON CONFLICT (source_url) DO UPDATE SET
+		topic_slug = EXCLUDED.topic_slug,
+		source_type = CASE
+			WHEN source_selectors.source_type = 'unknown' AND $3 <> 'unknown' THEN $3
+			ELSE source_selectors.source_type
+		END,
+		updated_at = now();`;
+
 export const touchSourceSelector = async (
 	sourceUrl: string,
 	topicSlug: string,
+	sourceType = "unknown",
 ): Promise<void> => {
 	await client.queryArray(
-		`INSERT INTO source_selectors (source_url, topic_slug)
-		 VALUES ($1, $2)
-		 ON CONFLICT (source_url) DO NOTHING;`,
-		[sourceUrl, topicSlug],
+		TOUCH_SOURCE_SELECTOR_SQL,
+		[sourceUrl, topicSlug, sourceType],
 	);
 };
+
+export const SET_SOURCE_SELECTOR_FEED_URL_SQL = `UPDATE source_selectors
+	 SET
+		feed_url = $2,
+		source_type = CASE
+			WHEN source_type = 'unknown' THEN 'feed'
+			ELSE source_type
+		END,
+		needs_reindex = false,
+		last_indexed_at = now(),
+		updated_at = now()
+	 WHERE source_url = $1;`;
 
 export const setSourceSelectorFeedUrl = async (
 	sourceUrl: string,
 	feedUrl: string,
 ): Promise<void> => {
 	await client.queryArray(
-		`UPDATE source_selectors
-		 SET feed_url = $2, needs_reindex = false, updated_at = now()
-		 WHERE source_url = $1;`,
+		SET_SOURCE_SELECTOR_FEED_URL_SQL,
 		[sourceUrl, feedUrl],
 	);
 };
@@ -761,21 +788,24 @@ export type IndexSelectors = {
 	indexDateSelector: string | null;
 };
 
+export const SET_SOURCE_SELECTOR_INDEX_SELECTORS_SQL = `UPDATE source_selectors
+	 SET
+		source_type = 'html_index',
+		index_item_selector = $2,
+		index_title_selector = $3,
+		index_link_selector = $4,
+		index_date_selector = $5,
+		needs_reindex = false,
+		last_indexed_at = now(),
+		updated_at = now()
+	 WHERE source_url = $1;`;
+
 export const setSourceSelectorIndexSelectors = async (
 	sourceUrl: string,
 	selectors: IndexSelectors,
 ): Promise<void> => {
 	await client.queryArray(
-		`UPDATE source_selectors
-		 SET
-			index_item_selector = $2,
-			index_title_selector = $3,
-			index_link_selector = $4,
-			index_date_selector = $5,
-			needs_reindex = false,
-			last_indexed_at = now(),
-			updated_at = now()
-		 WHERE source_url = $1;`,
+		SET_SOURCE_SELECTOR_INDEX_SELECTORS_SQL,
 		[
 			sourceUrl,
 			selectors.indexItemSelector,
@@ -783,6 +813,21 @@ export const setSourceSelectorIndexSelectors = async (
 			selectors.indexLinkSelector,
 			selectors.indexDateSelector ?? null,
 		],
+	);
+};
+
+export const MARK_SOURCE_SELECTOR_INDEXED_NOW_SQL = `UPDATE source_selectors
+	 SET
+		last_indexed_at = now(),
+		updated_at = now()
+	 WHERE source_url = $1;`;
+
+export const markSourceSelectorIndexedNow = async (
+	sourceUrl: string,
+): Promise<void> => {
+	await client.queryArray(
+		MARK_SOURCE_SELECTOR_INDEXED_NOW_SQL,
+		[sourceUrl],
 	);
 };
 
@@ -806,6 +851,37 @@ export const getSourceSelectorsByTopicSlug = async (
 	);
 	return rows;
 };
+
+export const getSourceSelectorCoverageStats = async (): Promise<SourceSelectorCoverageStats> => {
+	const { rows } = await client.queryObject<SourceSelectorCoverageStats>(
+		GET_SOURCE_SELECTOR_COVERAGE_STATS_SQL,
+	);
+
+	return rows[0] ?? {
+		total_rows: 0,
+		url_only_rows: 0,
+		feed_backed_rows: 0,
+		selector_backed_rows: 0,
+		unknown_type_rows: 0,
+	};
+};
+
+export const GET_SOURCE_SELECTOR_COVERAGE_STATS_SQL = `SELECT
+			COUNT(*)::int AS total_rows,
+			COUNT(*) FILTER (
+				WHERE feed_url IS NULL
+					AND index_item_selector IS NULL
+					AND index_title_selector IS NULL
+					AND index_link_selector IS NULL
+			)::int AS url_only_rows,
+			COUNT(*) FILTER (WHERE feed_url IS NOT NULL)::int AS feed_backed_rows,
+			COUNT(*) FILTER (
+				WHERE index_item_selector IS NOT NULL
+					AND index_title_selector IS NOT NULL
+					AND index_link_selector IS NOT NULL
+			)::int AS selector_backed_rows,
+			COUNT(*) FILTER (WHERE source_type = 'unknown')::int AS unknown_type_rows
+		FROM source_selectors;`;
 
 export const markTopicScoutedNow = async (topicSlug: string): Promise<void> => {
 	await client.queryArray(

@@ -138,7 +138,7 @@ export const sourceScoutNode = async (): Promise<void> => {
 						);
 
 						// Register the URL in source_selectors so the scanner can track it
-						await touchSourceSelector(source.url, profile.slug);
+						await touchSourceSelector(source.url, profile.slug, type);
 
 						if (noteResult.action === "inserted") {
 							topicSourcesInserted++;

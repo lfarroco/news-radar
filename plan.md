@@ -13,6 +13,10 @@
 - [ ] Harden status transitions for idempotency and recovery
 	- [ ] Ensure failed tasks can be safely retried
 	- [ ] Document all valid candidate/task statuses in code + README
+- [ ] Fix `source_selectors` enrichment reliability
+	- [x] Ensure discovered rows are populated with `source_type` and either `feed_url` or learned index selectors
+	- [x] Add fallback/update path so existing URL-only rows are backfilled on subsequent scans
+	- [x] Add visibility query/metric: count URL-only rows vs enriched rows per run
 
 ## P1 - Workflow Alignment and Cleanup
 

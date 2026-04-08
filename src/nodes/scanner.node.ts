@@ -5,6 +5,7 @@ import { isOfficialSourceUrl } from "../editorial-policy.ts";
 import { loadRuntimeTopicProfiles } from "../topics/runtime.ts";
 import {
 	getActiveScoutTopicSources,
+	getSourceSelectorCoverageStats,
 	getSourceSelectorsByTopicSlug,
 	getPendingCandidates,
 	markTopicCrawledNow,
@@ -214,7 +215,7 @@ export const scannerNode = async (
 			}
 
 			// 3. No cached info → probe for a feed
-			await touchSourceSelector(sourceUrl, topic.topicSlug);
+			await touchSourceSelector(sourceUrl, topic.topicSlug, stored?.source_type ?? "unknown");
 			const feedUrl = await resolveFeedUrl(sourceUrl);
 
 			if (feedUrl) {
@@ -281,6 +282,8 @@ export const scannerNode = async (
 		await markTopicCrawledNow(topic.topicSlug);
 	}
 
+	const selectorCoverage = await getSourceSelectorCoverageStats();
+
 	logger.info(
 		{
 			discoveredSources: discoveredSources.length,
@@ -290,6 +293,7 @@ export const scannerNode = async (
 			selectorCrawlCount,
 			selectorLearnCount,
 			unresolvedSourceCount,
+			selectorCoverage,
 			totalTasks: tasks.length,
 		},
 		"scanner: running source tasks",
