@@ -1,12 +1,13 @@
 import { connect } from "./db/queries.ts";
 import { loadConfig } from "./config.ts";
-const config = loadConfig();
 import { buildGraph } from "./graph/index.ts";
 import { logger } from "./logger.ts";
 import { ensureTopicsSeeded } from "./topics/seed.ts";
 import { runPipelineWithDeps } from "./pipeline/runner.ts";
+import { runCli } from "./cli.ts";
 
 export const runPipeline = async () => {
+	const config = loadConfig();
 	const runId = crypto.randomUUID().slice(0, 8);
 	const runLogger = logger.child({ runId });
 	const startedAt = Date.now();
@@ -22,5 +23,11 @@ export const runPipeline = async () => {
 };
 
 if (import.meta.main) {
-	await runPipeline();
+	const code = await runCli(
+		runPipeline,
+		(err) => logger.error({ err }, "pipeline: process exiting with failure"),
+	);
+	if (code !== 0) {
+		Deno.exit(code);
+	}
 }

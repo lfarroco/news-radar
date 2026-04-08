@@ -7,9 +7,9 @@
 - [x] Make article task claiming atomic in `claimNextPendingArticleTask`
 	- [x] Use one transaction (or one `UPDATE ... RETURNING`) to avoid claim races
 	- [x] Add test coverage for concurrent task claiming behavior
-- [ ] Fail pipeline run with non-zero exit when terminal graph errors exist
+- [x] Fail pipeline run with non-zero exit when terminal graph errors exist
 	- [x] Update `src/main.ts` to throw/exit when `result.errors` is non-empty
-	- [ ] Confirm `make run` returns non-zero on publisher/build failure
+	- [x] Confirm `make run` returns non-zero on publisher/build failure
 - [ ] Harden status transitions for idempotency and recovery
 	- [ ] Ensure failed tasks can be safely retried
 	- [ ] Document all valid candidate/task statuses in code + README
