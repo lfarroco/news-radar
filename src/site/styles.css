@@ -153,6 +153,7 @@ header {
 .theme-toggle-track {
   position: absolute;
   inset: 3px;
+  --toggle-thumb-size: 28px;
   z-index: 1;
 }
 
@@ -160,16 +161,16 @@ header {
   position: absolute;
   top: 0;
   left: 0;
-  width: 28px;
-  height: 28px;
+  width: var(--toggle-thumb-size);
+  height: var(--toggle-thumb-size);
   border-radius: 50%;
   background: var(--toggle-thumb);
   box-shadow: var(--toggle-thumb-shadow);
-  transition: transform 0.25s ease;
+  transition: left 0.25s ease;
 }
 
 .theme-toggle[data-theme="dark"] .theme-toggle-thumb {
-  transform: translateX(54px);
+  left: calc(100% - var(--toggle-thumb-size));
 }
 
 .theme-toggle[data-theme="dark"] .theme-icon-moon,
