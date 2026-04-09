@@ -85,6 +85,7 @@ export default async function* () {
     INNER JOIN topics t ON t.id = a.topic_id
     INNER JOIN article_tasks at ON at.id = a.task_id
     INNER JOIN candidates c ON c.id = at.candidate_id
+    WHERE a.is_published = true
     ORDER BY a.published_at DESC;
   `);
 

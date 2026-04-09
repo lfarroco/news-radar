@@ -203,6 +203,7 @@ export const getLatestArticles = async (): Promise<Article[]> => {
 		INNER JOIN topics tp ON tp.id = a.topic_id
 		INNER JOIN article_tasks t ON t.id = a.task_id
 		INNER JOIN candidates c ON c.id = t.candidate_id
+        WHERE a.is_published = true
 		ORDER BY a.published_at DESC
 		LIMIT 200`);
 
@@ -236,7 +237,8 @@ export const getLatestArticlesByTopic = async (
 		INNER JOIN topics ON topics.id = a.topic_id
 		INNER JOIN article_tasks t ON t.id = a.task_id
 		INNER JOIN candidates c ON c.id = t.candidate_id
-		WHERE topics.slug = $1
+        WHERE topics.slug = $1
+            AND a.is_published = true
 		ORDER BY a.published_at DESC
 		LIMIT 5`, [topic]);
 
@@ -264,7 +266,7 @@ export const getTopicsList = async () => {
             COALESCE(topics.profile->>'icon', '📰') AS icon,
 			count(a.id)::int as article_count
 		FROM topics
-		LEFT JOIN articles a ON a.topic_id = topics.id
+        LEFT JOIN articles a ON a.topic_id = topics.id AND a.is_published = true
         GROUP BY topics.id, topics.name, topics.slug, topics.profile
     ORDER BY article_count DESC`);
     return rows;
@@ -290,7 +292,8 @@ export const getTopicArticles = async (topicId: number) => {
       t.name as topic_name
     FROM articles a
     INNER JOIN topics t ON t.id = a.topic_id
-    WHERE a.topic_id = $1
+        WHERE a.topic_id = $1
+            AND a.is_published = true
     ORDER BY a.published_at DESC`, [topicId]);
     return rows.map((row) => ({
         ...row,
