@@ -16,8 +16,17 @@ const config = loadConfig();
 // Connect to database
 await connect(config.DB_HOST, Number(config.DB_PORT));
 
+type TaskRuntimeStatus = {
+	status: string;
+	startTime: number;
+	message: string;
+	runId?: number;
+	output?: string;
+	error?: string;
+};
+
 // Task status tracking
-const taskStatus: Record<string, { status: string; startTime: number; message: string; output?: string; error?: string }> = {};
+const taskStatus: Record<string, TaskRuntimeStatus> = {};
 
 const cors = (headers: HeadersInit = {}) => ({
 	"Access-Control-Allow-Origin": "*",
@@ -40,7 +49,88 @@ const getErrorMessage = (error: unknown): string =>
 
 const APP_CWD = "/usr/src/app";
 
-const startBackgroundTask = (
+const insertRunRecord = async (taskKey: string, command: string, args: string[]): Promise<number> => {
+	const result = await db.queryObject<{ id: number }>(
+		`INSERT INTO runs (task_key, status, command, args)
+		 VALUES ($1, 'running', $2, $3::jsonb)
+		 RETURNING id`,
+		[taskKey, command, JSON.stringify(args)],
+	);
+
+	return result.rows[0].id;
+};
+
+const completeRunRecord = async (
+	runId: number,
+	status: "completed" | "failed" | "error",
+	exitCode: number | null,
+	logs: string,
+	error: string | null,
+) => {
+	await db.queryArray(
+		`UPDATE runs
+		 SET status = $1,
+			 finished_at = now(),
+			 exit_code = $2,
+			 logs = $3,
+			 error = $4
+		 WHERE id = $5`,
+		[status, exitCode, logs, error, runId],
+	);
+};
+
+const streamToText = async (
+	stream: ReadableStream<Uint8Array> | null,
+	target: "stdout" | "stderr",
+): Promise<string> => {
+	if (!stream) return "";
+
+	const reader = stream.getReader();
+	const decoder = new TextDecoder();
+	let collected = "";
+
+	while (true) {
+		const { value, done } = await reader.read();
+		if (done) break;
+		if (!value || value.length === 0) continue;
+
+		const chunk = decoder.decode(value, { stream: true });
+		collected += chunk;
+
+		try {
+			if (target === "stdout") {
+				await Deno.stdout.write(value);
+			} else {
+				await Deno.stderr.write(value);
+			}
+		} catch {
+			// Mirror failures should not fail task processing.
+		}
+	}
+
+	collected += decoder.decode();
+	return collected;
+};
+
+const executeTask = async (command: string, args: string[]) => {
+	const child = new Deno.Command(command, {
+		args,
+		cwd: APP_CWD,
+		stdout: "piped",
+		stderr: "piped",
+	}).spawn();
+
+	const [status, stdoutText, stderrText] = await Promise.all([
+		child.status,
+		streamToText(child.stdout, "stdout"),
+		streamToText(child.stderr, "stderr"),
+	]);
+
+	const logs = [stdoutText, stderrText].filter(Boolean).join(stdoutText && stderrText ? "\n" : "");
+	return { status, logs, stderrText };
+};
+
+const startBackgroundTask = async (
 	taskKey: string,
 	runningMessage: string,
 	completedMessage: string,
@@ -48,51 +138,61 @@ const startBackgroundTask = (
 	command: string,
 	args: string[],
 ) => {
+	const runId = await insertRunRecord(taskKey, command, args);
+
 	taskStatus[taskKey] = {
 		status: "running",
 		startTime: Date.now(),
 		message: runningMessage,
+		runId,
 	};
-
-	const child = new Deno.Command(command, {
-		args,
-		cwd: APP_CWD,
-		stdout: "inherit",
-		stderr: "inherit",
-	}).spawn();
 
 	(async () => {
 		try {
-			const status = await child.status;
+			const { status, logs, stderrText } = await executeTask(command, args);
 			if (status.success) {
 				logger.info({ taskKey, command, args }, completedMessage);
+				await completeRunRecord(runId, "completed", status.code, logs, null);
 				taskStatus[taskKey] = {
 					status: "completed",
 					startTime: Date.now(),
 					message: completedMessage,
+					runId,
 				};
 				return;
 			}
 
 			logger.error({ taskKey, command, args, code: status.code }, failedMessage);
+			await completeRunRecord(
+				runId,
+				"failed",
+				status.code,
+				logs,
+				stderrText || `${command} exited with code ${status.code}`,
+			);
 			taskStatus[taskKey] = {
 				status: "failed",
 				startTime: Date.now(),
 				message: failedMessage,
-				error: `${command} exited with code ${status.code}`,
+				runId,
+				error: stderrText || `${command} exited with code ${status.code}`,
 			};
 		} catch (error) {
 			const message = getErrorMessage(error);
 			logger.error({ err: error, taskKey, command, args }, failedMessage);
+			await completeRunRecord(runId, "error", null, "", message);
 			taskStatus[taskKey] = {
 				status: "error",
 				startTime: Date.now(),
 				message: failedMessage,
+				runId,
 				error: message,
 			};
 		}
 	})();
-	};
+
+	return runId;
+};
 
 type TopicProfileResponse = {
 	topic_id: number;
@@ -215,6 +315,29 @@ async function handleRequest(req: Request): Promise<Response> {
 
 		if (pathname === "/api/tasks/status" && req.method === "GET") {
 			return new Response(JSON.stringify(taskStatus), { headers });
+		}
+
+		if (pathname === "/api/runs" && req.method === "GET") {
+			const result = await db.queryObject<{
+				id: number;
+				task_key: string;
+				status: string;
+				triggered_by: string;
+				command: string;
+				args: unknown;
+				started_at: Date;
+				finished_at: Date | null;
+				exit_code: number | null;
+				logs: string;
+				error: string | null;
+			}>(
+				`SELECT id, task_key, status, triggered_by, command, args, started_at, finished_at, exit_code, logs, error
+				 FROM runs
+				 ORDER BY started_at DESC
+				 LIMIT 50`,
+			);
+
+			return new Response(JSON.stringify(result.rows), { headers });
 		}
 
 		if (pathname === "/api/topics" && req.method === "GET") {
@@ -533,7 +656,7 @@ async function handleRequest(req: Request): Promise<Response> {
 		if (pathname === "/api/tasks/run" && req.method === "POST") {
 			// Start the news radar pipeline
 			logger.info("Task: Starting pipeline");
-			startBackgroundTask(
+			const runId = await startBackgroundTask(
 				"run",
 				"Pipeline is running...",
 				"Pipeline completed",
@@ -542,7 +665,7 @@ async function handleRequest(req: Request): Promise<Response> {
 				["run", "-A", "src/main.ts"],
 			);
 
-			return new Response(JSON.stringify({ status: "started", message: "Pipeline started in background" }), {
+			return new Response(JSON.stringify({ status: "started", message: "Pipeline started in background", runId }), {
 				headers,
 			});
 		}
@@ -550,38 +673,49 @@ async function handleRequest(req: Request): Promise<Response> {
 		if (pathname === "/api/tasks/compile" && req.method === "POST") {
 			// Compile the website
 			logger.info("Task: Starting compile");
-			taskStatus.compile = { status: "running", startTime: Date.now(), message: "Compiling website..." };
-			const command = new Deno.Command("deno", {
-				args: ["task", "build"],
-				cwd: APP_CWD,
-				stdout: "piped",
-				stderr: "piped",
-			});
+			const command = "deno";
+			const args = ["task", "build"];
+			const runId = await insertRunRecord("compile", command, args);
+			taskStatus.compile = { status: "running", startTime: Date.now(), message: "Compiling website...", runId };
 
 			try {
-				const output = await command.output();
-				const out = new TextDecoder().decode(output.stdout);
-				const err = new TextDecoder().decode(output.stderr);
+				const { status, logs, stderrText } = await executeTask(command, args);
 
-				if (output.success) {
+				if (status.success) {
 					logger.info("Task: Compile completed successfully");
-					taskStatus.compile = { status: "completed", startTime: Date.now(), message: "Website compiled successfully", output: out };
+					await completeRunRecord(runId, "completed", status.code, logs, null);
+					taskStatus.compile = {
+						status: "completed",
+						startTime: Date.now(),
+						message: "Website compiled successfully",
+						runId,
+						output: logs,
+					};
 					return new Response(
 						JSON.stringify({
 							status: "completed",
 							message: "Website compiled successfully",
-							output: out,
+							runId,
+							output: logs,
 						}),
 						{ headers }
 					);
 				} else {
-					logger.error({ stdout: out, stderr: err }, "Task: Compile failed");
-					taskStatus.compile = { status: "failed", startTime: Date.now(), message: "Failed to compile website", error: err };
+					logger.error({ logs, stderr: stderrText }, "Task: Compile failed");
+					await completeRunRecord(runId, "failed", status.code, logs, stderrText || "Compile failed");
+					taskStatus.compile = {
+						status: "failed",
+						startTime: Date.now(),
+						message: "Failed to compile website",
+						runId,
+						error: stderrText || "Compile failed",
+					};
 					return new Response(
 						JSON.stringify({
 							status: "failed",
 							message: "Failed to compile website",
-							error: err,
+							runId,
+							error: stderrText || "Compile failed",
 						}),
 						{ status: 500, headers }
 					);
@@ -589,11 +723,19 @@ async function handleRequest(req: Request): Promise<Response> {
 			} catch (error) {
 				logger.error(error, "Task: Compile error");
 				const message = getErrorMessage(error);
-				taskStatus.compile = { status: "error", startTime: Date.now(), message: "Error running compile", error: message };
+				await completeRunRecord(runId, "error", null, "", message);
+				taskStatus.compile = {
+					status: "error",
+					startTime: Date.now(),
+					message: "Error running compile",
+					runId,
+					error: message,
+				};
 				return new Response(
 					JSON.stringify({
 						status: "failed",
 						message: "Error running compile",
+						runId,
 						error: message,
 					}),
 					{ status: 500, headers }
@@ -604,7 +746,7 @@ async function handleRequest(req: Request): Promise<Response> {
 		if (pathname === "/api/tasks/scout" && req.method === "POST") {
 			// Run source scout
 			logger.info("Task: Starting scout");
-			startBackgroundTask(
+			const runId = await startBackgroundTask(
 				"scout",
 				"Scout is running...",
 				"Scout completed",
@@ -613,7 +755,7 @@ async function handleRequest(req: Request): Promise<Response> {
 				["task", "scout"],
 			);
 
-			return new Response(JSON.stringify({ status: "started", message: "Scout started in background" }), {
+			return new Response(JSON.stringify({ status: "started", message: "Scout started in background", runId }), {
 				headers,
 			});
 		}
@@ -633,7 +775,7 @@ async function handleRequest(req: Request): Promise<Response> {
 		const isBackofficeRoute =
 			pathname === "/" ||
 			pathname === "/backoffice" ||
-			/^\/(topics|articles|candidates)(\/(new|\d+))?\/?$/.test(pathname);
+			/^\/(topics|articles|candidates|runs)(\/(new|\d+))?\/?$/.test(pathname);
 
 		if (isBackofficeRoute) {
 			const ui = await Deno.readTextFile(

@@ -117,6 +117,23 @@ const ensureSchema = async () => {
 		ALTER TABLE articles ADD COLUMN IF NOT EXISTS is_published BOOLEAN NOT NULL DEFAULT true;
 		ALTER TABLE topics ADD COLUMN IF NOT EXISTS last_scouted_at TIMESTAMPTZ;
 
+        CREATE TABLE IF NOT EXISTS runs (
+            id SERIAL PRIMARY KEY,
+            task_key TEXT NOT NULL,
+            status TEXT NOT NULL,
+            triggered_by TEXT NOT NULL DEFAULT 'backoffice',
+            command TEXT NOT NULL,
+            args JSONB NOT NULL DEFAULT '[]'::jsonb,
+            started_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+            finished_at TIMESTAMPTZ,
+            exit_code INTEGER,
+            logs TEXT NOT NULL DEFAULT '',
+            error TEXT
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_runs_started_at
+            ON runs(started_at DESC);
+
 		CREATE TABLE IF NOT EXISTS source_selectors (
 			id SERIAL PRIMARY KEY,
 			source_url TEXT NOT NULL UNIQUE,

@@ -4,6 +4,7 @@ const state = {
 	topics: [],
 	articles: [],
 	candidates: [],
+	runs: [],
 	knowledgeBase: [],
 	activeTopicDetails: null,
 	activeTopicArticles: [],
@@ -72,6 +73,7 @@ function parseRoute(pathname) {
 	if (path === "/topics/new") return { name: "topic-create" };
 	if (path === "/articles") return { name: "articles-list" };
 	if (path === "/candidates") return { name: "candidates-list" };
+	if (path === "/runs") return { name: "runs-list" };
 
 	const topicMatch = path.match(/^\/topics\/(\d+)$/);
 	if (topicMatch) {
@@ -92,11 +94,13 @@ function setNavActive(pathname) {
 	const navTopics = document.getElementById("nav-topics");
 	const navArticles = document.getElementById("nav-articles");
 	const navCandidates = document.getElementById("nav-candidates");
+	const navRuns = document.getElementById("nav-runs");
 
 	navHome?.classList.remove("active");
 	navTopics?.classList.remove("active");
 	navArticles?.classList.remove("active");
 	navCandidates?.classList.remove("active");
+	navRuns?.classList.remove("active");
 
 	if (path === "/" || path === "/backoffice") {
 		navHome?.classList.add("active");
@@ -115,6 +119,11 @@ function setNavActive(pathname) {
 
 	if (path === "/candidates" || path.startsWith("/candidates/")) {
 		navCandidates?.classList.add("active");
+		return;
+	}
+
+	if (path === "/runs" || path.startsWith("/runs/")) {
+		navRuns?.classList.add("active");
 	}
 }
 
@@ -161,6 +170,10 @@ async function loadArticles() {
 
 async function loadCandidates() {
 	state.candidates = await requestJson("/api/candidates");
+}
+
+async function loadRuns() {
+	state.runs = await requestJson("/api/runs");
 }
 
 async function loadTopicDetails(topicId) {
@@ -636,6 +649,64 @@ function renderCandidatesList() {
 	`;
 }
 
+function renderRunsList() {
+	const view = document.getElementById("route-view");
+	if (!view) return;
+
+	const statusClass = (status) => {
+		const normalized = String(status || "running").toLowerCase();
+		if (normalized === "completed") return "status-pill status-good";
+		if (normalized === "failed" || normalized === "error") return "status-pill status-bad";
+		if (normalized === "running") return "status-pill status-warn";
+		return "status-pill";
+	};
+
+	const formatDuration = (startedAt, finishedAt) => {
+		if (!startedAt) return "-";
+		const started = new Date(startedAt).getTime();
+		const ended = finishedAt ? new Date(finishedAt).getTime() : Date.now();
+		const elapsedMs = Math.max(0, ended - started);
+		const seconds = Math.floor(elapsedMs / 1000);
+		const minutes = Math.floor(seconds / 60);
+		if (minutes > 0) return `${minutes}m ${seconds % 60}s`;
+		return `${seconds}s`;
+	};
+
+	view.innerHTML = `
+		<section class="panel">
+			<div class="panel-head">
+				<h3>Runs</h3>
+				<span>${state.runs.length} recent</span>
+			</div>
+			<div class="runs-list">
+				${state.runs.length === 0 ? '<p class="loading">No runs found.</p>' : state.runs.map((run) => `
+					<article class="run-item">
+						<div class="run-item-head">
+							<div class="run-item-title">
+								<h4>Run #${Number(run.id)} · ${escapeHtml(run.task_key || "task")}</h4>
+								<p>${escapeHtml(run.command || "-")} ${escapeHtml(Array.isArray(run.args) ? run.args.join(" ") : "")}</p>
+							</div>
+							<span class="${statusClass(run.status)}">${escapeHtml(run.status || "unknown")}</span>
+						</div>
+						<div class="run-meta-grid">
+							<div><span>Started</span><strong>${formatDateTime(run.started_at)}</strong></div>
+							<div><span>Finished</span><strong>${run.finished_at ? formatDateTime(run.finished_at) : "-"}</strong></div>
+							<div><span>Duration</span><strong>${formatDuration(run.started_at, run.finished_at)}</strong></div>
+							<div><span>Exit Code</span><strong>${run.exit_code ?? "-"}</strong></div>
+							<div><span>Triggered By</span><strong>${escapeHtml(run.triggered_by || "-")}</strong></div>
+						</div>
+						${run.error ? `<p class="run-error">${escapeHtml(run.error)}</p>` : ""}
+						<details class="run-logs" open>
+							<summary>Logs</summary>
+							<pre>${escapeHtml(run.logs || "(no logs)")}</pre>
+						</details>
+					</article>
+				`).join("")}
+			</div>
+		</section>
+	`;
+}
+
 function renderArticleDetail(routeId) {
 	const view = document.getElementById("route-view");
 	if (!view) return;
@@ -682,6 +753,7 @@ function renderNotFound() {
 				<a href="/topics" class="btn btn-subtle" data-link="internal">Topics</a>
 				<a href="/articles" class="btn btn-subtle" data-link="internal">Articles</a>
 				<a href="/candidates" class="btn btn-subtle" data-link="internal">Candidates</a>
+				<a href="/runs" class="btn btn-subtle" data-link="internal">Runs</a>
 			</div>
 		</section>
 	`;
@@ -736,6 +808,13 @@ async function renderCurrentRoute() {
 			setPageMeta("Candidates", "Browse discovered source candidates and their status.");
 			await loadCandidates();
 			renderCandidatesList();
+			return;
+		}
+
+		if (route.name === "runs-list") {
+			setPageMeta("Runs", "Review recent task runs, metadata, and complete execution logs.");
+			await loadRuns();
+			renderRunsList();
 			return;
 		}
 
@@ -1057,6 +1136,12 @@ function initializeAutoRefresh() {
 			if (route.name === "candidates-list") {
 				await loadCandidates();
 				renderCandidatesList();
+				return;
+			}
+
+			if (route.name === "runs-list") {
+				await loadRuns();
+				renderRunsList();
 				return;
 			}
 
