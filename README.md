@@ -194,6 +194,17 @@ Containerized equivalent:
 make test
 ```
 
+### Logging
+
+By default, runtime logs print only the message text (for example,
+`pipeline: completed successfully`) to keep console output compact.
+
+To restore structured JSON logs, set:
+
+```sh
+LOG_MSG_ONLY=false
+```
+
 ### Runtime limits
 
 You can tune run throughput and scout cadence via environment variables:
