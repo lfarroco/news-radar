@@ -14,7 +14,7 @@ const configSchema = z.object({
 	DB_NAME: z.string().optional().default("root"),
 	API_PORT: z.string().optional().default("8000"),
 	PROJECT_ROOT: z.string().optional().default("/usr/src/app"),
-	MAX_AGE_DAYS: z.coerce.number().optional().default(30),
+	MAX_AGE_DAYS: z.coerce.number().optional().default(3),
 });
 
 export type Config = z.infer<typeof configSchema>;

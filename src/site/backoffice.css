@@ -386,6 +386,55 @@ input[readonly] {
 	padding: 0.55rem 0.62rem;
 }
 
+.articles-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.92rem;
+	margin-top: 0.6rem;
+}
+
+.articles-table thead tr {
+	border-bottom: 2px solid var(--line);
+}
+
+.articles-table th {
+	padding: 0.45rem 0.6rem;
+	text-align: left;
+	font-size: 0.75rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: var(--ink-500);
+}
+
+.articles-table tbody tr {
+	border-bottom: 1px solid var(--line);
+	transition: background 120ms ease;
+}
+
+.articles-table tbody tr:last-child {
+	border-bottom: none;
+}
+
+.articles-table tbody tr:hover {
+	background: rgba(15, 118, 110, 0.04);
+}
+
+.articles-table td {
+	padding: 0.6rem 0.6rem;
+	vertical-align: middle;
+}
+
+.articles-table-title a {
+	font-weight: 600;
+	color: var(--accent-strong);
+	text-decoration: none;
+}
+
+.articles-table-title a:hover {
+	text-decoration: underline;
+}
+
 .candidates-grid-head,
 .candidates-grid-row {
 	display: grid;

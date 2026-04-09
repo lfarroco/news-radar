@@ -451,6 +451,28 @@ async function handleRequest(req: Request): Promise<Response> {
 			});
 		}
 
+		if (pathname.match(/^\/api\/articles\/\d+\/toggle-published$/) && req.method === "POST") {
+			const articleId = Number(pathname.split("/")[3]);
+			const result = await db.queryObject<{ id: number; is_published: boolean }>(
+				`UPDATE articles
+				 SET is_published = NOT is_published
+				 WHERE id = $1
+				 RETURNING id, is_published`,
+				[articleId],
+			);
+
+			if (!result.rows[0]) {
+				return new Response(JSON.stringify({ error: "Article not found" }), {
+					status: 404,
+					headers,
+				});
+			}
+
+			return new Response(JSON.stringify({ success: true, id: result.rows[0].id, is_published: result.rows[0].is_published }), {
+				headers,
+			});
+		}
+
 		// Task endpoints
 		if (pathname === "/api/tasks/run" && req.method === "POST") {
 			// Start the news radar pipeline

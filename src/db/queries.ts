@@ -114,6 +114,7 @@ const ensureSchema = async () => {
 
     // Additive migrations: safe to re-run on existing databases
     await client.queryArray(`
+		ALTER TABLE articles ADD COLUMN IF NOT EXISTS is_published BOOLEAN NOT NULL DEFAULT true;
 		ALTER TABLE topics ADD COLUMN IF NOT EXISTS last_scouted_at TIMESTAMPTZ;
 
 		CREATE TABLE IF NOT EXISTS source_selectors (
@@ -172,6 +173,7 @@ export const getLatestArticles = async (): Promise<Article[]> => {
 			a.slug,
 			a.url,
 			a.published_at AS date,
+			a.is_published,
 			tp.name AS topic_name,
 			c.title,
 			c.url AS link,
@@ -185,7 +187,7 @@ export const getLatestArticles = async (): Promise<Article[]> => {
 		INNER JOIN article_tasks t ON t.id = a.task_id
 		INNER JOIN candidates c ON c.id = t.candidate_id
 		ORDER BY a.published_at DESC
-		LIMIT 20`);
+		LIMIT 200`);
 
     return rows.map((r) => ({
         ...r,

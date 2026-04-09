@@ -15,6 +15,7 @@ export type Article = {
     article_title: string;
     article_content: string
     url: string;
+    is_published: boolean;
 };
 
 export type ArticlePlan = {

@@ -203,6 +203,12 @@ function updateArticle(articleId, data) {
 	});
 }
 
+function toggleArticlePublished(articleId) {
+	return requestJson(`/api/articles/${articleId}/toggle-published`, {
+		method: "POST",
+	});
+}
+
 function ignoreKnowledgeBaseNote(noteId) {
 	return requestJson(`/api/topic-notes/${noteId}/ignore`, {
 		method: "POST",
@@ -535,17 +541,37 @@ function renderArticlesList() {
 				placeholder="Search by title or topic..."
 				value="${escapeHtml(state.articleSearch)}"
 			/>
-			<div class="collection-list">
-				${filtered.length === 0 ? '<p class="loading">No matching articles.</p>' : filtered.map((article) => `
-					<div class="collection-item">
-						<div>
-							<h4>${escapeHtml(article.article_title || article.title || "Untitled article")}</h4>
-							<p>${escapeHtml(article.topic_name || article.topics || "No topic")} · ${formatDate(article.date)}</p>
-						</div>
-						<a class="btn btn-subtle" href="/articles/${Number(article.id)}" data-link="internal">Open</a>
-					</div>
-				`).join("")}
-			</div>
+			${filtered.length === 0 ? '<p class="loading">No matching articles.</p>' : `
+				<table class="articles-table">
+					<thead>
+						<tr>
+							<th>Title</th>
+							<th>Topic</th>
+							<th>Date</th>
+							<th>Status</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						${filtered.map((article) => {
+							const isPublished = article.is_published !== false;
+							return `
+								<tr>
+									<td class="articles-table-title">
+										<a href="/articles/${Number(article.id)}" data-link="internal">${escapeHtml(article.article_title || article.title || "Untitled article")}</a>
+									</td>
+									<td>${escapeHtml(article.topic_name || article.topics || "No topic")}</td>
+									<td>${formatDate(article.date)}</td>
+									<td><span class="status-pill ${isPublished ? "status-good" : ""}"> ${isPublished ? "Published" : "Unpublished"}</span></td>
+									<td>
+										<button class="btn btn-subtle btn-compact" data-toggle-published="${Number(article.id)}">${isPublished ? "Unpublish" : "Publish"}</button>
+									</td>
+								</tr>
+							`;
+						}).join("")}
+					</tbody>
+				</table>
+			`}
 		</section>
 	`;
 }
@@ -908,6 +934,25 @@ function initializeFormsAndInputs() {
 	document.addEventListener("click", async (event) => {
 		const target = event.target;
 		if (!(target instanceof HTMLElement)) return;
+
+		const toggleBtn = target.closest("[data-toggle-published]");
+		if (toggleBtn instanceof HTMLElement) {
+			event.preventDefault();
+			const articleId = Number(toggleBtn.getAttribute("data-toggle-published"));
+			if (!Number.isFinite(articleId)) return;
+
+			try {
+				showStatus("Updating article...", "loading");
+				const result = await toggleArticlePublished(articleId);
+				const article = state.articles.find((a) => Number(a.id) === articleId);
+				if (article) article.is_published = result.is_published;
+				showStatus(result.is_published ? "Article published" : "Article unpublished", "success");
+				renderArticlesList();
+			} catch (error) {
+				showStatus(`Failed to update article: ${error.message}`, "error");
+			}
+			return;
+		}
 
 		const ignoreBtn = target.closest("[data-ignore-note]");
 		if (!ignoreBtn) return;
