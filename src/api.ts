@@ -38,6 +38,62 @@ const toSlug = (value: string): string =>
 const getErrorMessage = (error: unknown): string =>
 	error instanceof Error ? error.message : String(error);
 
+const APP_CWD = "/usr/src/app";
+
+const startBackgroundTask = (
+	taskKey: string,
+	runningMessage: string,
+	completedMessage: string,
+	failedMessage: string,
+	command: string,
+	args: string[],
+) => {
+	taskStatus[taskKey] = {
+		status: "running",
+		startTime: Date.now(),
+		message: runningMessage,
+	};
+
+	const child = new Deno.Command(command, {
+		args,
+		cwd: APP_CWD,
+		stdout: "inherit",
+		stderr: "inherit",
+	}).spawn();
+
+	(async () => {
+		try {
+			const status = await child.status;
+			if (status.success) {
+				logger.info({ taskKey, command, args }, completedMessage);
+				taskStatus[taskKey] = {
+					status: "completed",
+					startTime: Date.now(),
+					message: completedMessage,
+				};
+				return;
+			}
+
+			logger.error({ taskKey, command, args, code: status.code }, failedMessage);
+			taskStatus[taskKey] = {
+				status: "failed",
+				startTime: Date.now(),
+				message: failedMessage,
+				error: `${command} exited with code ${status.code}`,
+			};
+		} catch (error) {
+			const message = getErrorMessage(error);
+			logger.error({ err: error, taskKey, command, args }, failedMessage);
+			taskStatus[taskKey] = {
+				status: "error",
+				startTime: Date.now(),
+				message: failedMessage,
+				error: message,
+			};
+		}
+	})();
+	};
+
 type TopicProfileResponse = {
 	topic_id: number;
 	name: string;
@@ -477,33 +533,14 @@ async function handleRequest(req: Request): Promise<Response> {
 		if (pathname === "/api/tasks/run" && req.method === "POST") {
 			// Start the news radar pipeline
 			logger.info("Task: Starting pipeline");
-			taskStatus.run = { status: "running", startTime: Date.now(), message: "Pipeline is running..." };
-			const command = new Deno.Command("bash", {
-				args: ["-c", "cd /usr/src/app && deno task run"],
-				stdout: "piped",
-				stderr: "piped",
-			});
-
-			const child = command.spawn();
-
-			// Log output in background without blocking
-			(async () => {
-				try {
-					const output = await child.output();
-					const out = new TextDecoder().decode(output.stdout);
-					const err = new TextDecoder().decode(output.stderr);
-					if (output.success) {
-						logger.info("Task: Pipeline completed successfully");
-						taskStatus.run = { status: "completed", startTime: Date.now(), message: "Pipeline completed" };
-					} else {
-						logger.error({ stdout: out, stderr: err }, "Task: Pipeline failed");
-						taskStatus.run = { status: "failed", startTime: Date.now(), message: "Pipeline failed", error: err };
-					}
-				} catch (e) {
-					logger.error(e, "Task: Pipeline error");
-					taskStatus.run = { status: "error", startTime: Date.now(), message: "Pipeline error", error: String(e) };
-				}
-			})();
+			startBackgroundTask(
+				"run",
+				"Pipeline is running...",
+				"Pipeline completed",
+				"Pipeline failed",
+				"deno",
+				["run", "-A", "src/main.ts"],
+			);
 
 			return new Response(JSON.stringify({ status: "started", message: "Pipeline started in background" }), {
 				headers,
@@ -514,8 +551,9 @@ async function handleRequest(req: Request): Promise<Response> {
 			// Compile the website
 			logger.info("Task: Starting compile");
 			taskStatus.compile = { status: "running", startTime: Date.now(), message: "Compiling website..." };
-			const command = new Deno.Command("bash", {
-				args: ["-c", "cd /usr/src/app && deno task build"],
+			const command = new Deno.Command("deno", {
+				args: ["task", "build"],
+				cwd: APP_CWD,
 				stdout: "piped",
 				stderr: "piped",
 			});
@@ -566,33 +604,14 @@ async function handleRequest(req: Request): Promise<Response> {
 		if (pathname === "/api/tasks/scout" && req.method === "POST") {
 			// Run source scout
 			logger.info("Task: Starting scout");
-			taskStatus.scout = { status: "running", startTime: Date.now(), message: "Scout is running..." };
-			const command = new Deno.Command("bash", {
-				args: ["-c", "cd /usr/src/app && deno task scout"],
-				stdout: "piped",
-				stderr: "piped",
-			});
-
-			const child = command.spawn();
-
-			// Log output in background without blocking
-			(async () => {
-				try {
-					const output = await child.output();
-					const out = new TextDecoder().decode(output.stdout);
-					const err = new TextDecoder().decode(output.stderr);
-					if (output.success) {
-						logger.info("Task: Scout completed successfully");
-						taskStatus.scout = { status: "completed", startTime: Date.now(), message: "Scout completed" };
-					} else {
-						logger.error({ stdout: out, stderr: err }, "Task: Scout failed");
-						taskStatus.scout = { status: "failed", startTime: Date.now(), message: "Scout failed", error: err };
-					}
-				} catch (e) {
-					logger.error(e, "Task: Scout error");
-					taskStatus.scout = { status: "error", startTime: Date.now(), message: "Scout error", error: String(e) };
-				}
-			})();
+			startBackgroundTask(
+				"scout",
+				"Scout is running...",
+				"Scout completed",
+				"Scout failed",
+				"deno",
+				["task", "scout"],
+			);
 
 			return new Response(JSON.stringify({ status: "started", message: "Scout started in background" }), {
 				headers,
