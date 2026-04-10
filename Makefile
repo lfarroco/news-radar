@@ -10,6 +10,9 @@ test:
 scout:
 	docker-compose run --rm app deno task scout
 
+selector-backfill:
+	docker-compose run --rm app deno task selector-backfill
+
 run-db:
 	docker-compose run postgres
 

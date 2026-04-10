@@ -4,6 +4,7 @@ import {
 	assertStringIncludes,
 } from "https://deno.land/std@0.224.0/assert/mod.ts";
 import {
+	GET_SOURCE_SELECTORS_NEEDING_BACKFILL_SQL,
 	GET_SOURCE_SELECTOR_COVERAGE_STATS_SQL,
 	MARK_SOURCE_SELECTOR_INDEXED_NOW_SQL,
 	SET_SOURCE_SELECTOR_FEED_URL_SQL,
@@ -44,4 +45,13 @@ Deno.test("coverage stats SQL: reports url-only and enriched selector counts", (
 	assertStringIncludes(GET_SOURCE_SELECTOR_COVERAGE_STATS_SQL, "selector_backed_rows");
 	assertStringIncludes(GET_SOURCE_SELECTOR_COVERAGE_STATS_SQL, "unknown_type_rows");
 	assertMatch(GET_SOURCE_SELECTOR_COVERAGE_STATS_SQL, /FROM\s+source_selectors/i);
+});
+
+Deno.test("backfill SQL: selects only non-feed rows missing required index selectors", () => {
+	assertMatch(GET_SOURCE_SELECTORS_NEEDING_BACKFILL_SQL, /feed_url\s+IS\s+NULL/i);
+	assertStringIncludes(GET_SOURCE_SELECTORS_NEEDING_BACKFILL_SQL, "NULLIF(BTRIM(index_item_selector), '') IS NULL");
+	assertStringIncludes(GET_SOURCE_SELECTORS_NEEDING_BACKFILL_SQL, "NULLIF(BTRIM(index_title_selector), '') IS NULL");
+	assertStringIncludes(GET_SOURCE_SELECTORS_NEEDING_BACKFILL_SQL, "NULLIF(BTRIM(index_link_selector), '') IS NULL");
+	assertStringIncludes(GET_SOURCE_SELECTORS_NEEDING_BACKFILL_SQL, "($1::text IS NULL OR topic_slug = $1)");
+	assertMatch(GET_SOURCE_SELECTORS_NEEDING_BACKFILL_SQL, /LIMIT\s+\$2/i);
 });

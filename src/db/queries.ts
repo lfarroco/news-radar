@@ -933,6 +933,29 @@ export const getSourceSelectorsByTopicSlug = async (
     return rows;
 };
 
+export const GET_SOURCE_SELECTORS_NEEDING_BACKFILL_SQL = `SELECT *
+		FROM source_selectors
+		WHERE feed_url IS NULL
+			AND (
+				NULLIF(BTRIM(index_item_selector), '') IS NULL
+				OR NULLIF(BTRIM(index_title_selector), '') IS NULL
+				OR NULLIF(BTRIM(index_link_selector), '') IS NULL
+			)
+			AND ($1::text IS NULL OR topic_slug = $1)
+		ORDER BY updated_at ASC, id ASC
+		LIMIT $2;`;
+
+export const getSourceSelectorsNeedingBackfill = async (
+    limit = 100,
+    topicSlug?: string,
+): Promise<SourceSelector[]> => {
+    const { rows } = await client.queryObject<SourceSelector>(
+        GET_SOURCE_SELECTORS_NEEDING_BACKFILL_SQL,
+        [topicSlug ?? null, limit],
+    );
+    return rows;
+};
+
 export const getSourceSelectorCoverageStats = async (): Promise<SourceSelectorCoverageStats> => {
     const { rows } = await client.queryObject<SourceSelectorCoverageStats>(
         GET_SOURCE_SELECTOR_COVERAGE_STATS_SQL,

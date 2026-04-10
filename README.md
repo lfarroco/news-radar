@@ -188,6 +188,18 @@ Canonical test command:
 deno task test
 ```
 
+Selector backfill command for `source_selectors` rows that still have only a URL:
+
+```sh
+deno task selector-backfill
+```
+
+Optional flags:
+
+```sh
+deno task selector-backfill -- --topic python --limit 25
+```
+
 Containerized equivalent:
 
 ```sh
@@ -231,6 +243,7 @@ Source-scout telemetry:
 
 ```sh
 make stats
+make selector-backfill
 make list-candidates
 make list-tasks
 make list-latest-articles
