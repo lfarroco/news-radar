@@ -268,6 +268,7 @@ export const getTopicsList = async () => {
 		FROM topics
         LEFT JOIN articles a ON a.topic_id = topics.id AND a.is_published = true
         GROUP BY topics.id, topics.name, topics.slug, topics.profile
+        HAVING count(a.id) > 0
     ORDER BY article_count DESC`);
     return rows;
 };

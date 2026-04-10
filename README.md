@@ -210,7 +210,7 @@ LOG_MSG_ONLY=false
 You can tune run throughput and scout cadence via environment variables:
 
 - `MAX_CANDIDATES_PER_RUN` (default: `30`): maximum pending candidates editor evaluates per run.
-- `MAX_TASKS_PER_RUN` (default: `3`): maximum article tasks writer attempts per run.
+- `MAX_TASKS_PER_RUN` (default: `10`): maximum article tasks writer attempts per run.
 - `SOURCE_SCOUT_INTERVAL_HOURS` (default: `6`): minimum hours between source-scout passes per topic.
 
 If a value is missing or invalid (non-numeric or non-positive), News Radar falls back to the default.

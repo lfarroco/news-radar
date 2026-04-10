@@ -32,7 +32,7 @@ const parsePositiveIntEnv = (name: string, fallback: number): number => {
     return Number.isFinite(value) && value > 0 ? value : fallback;
 };
 
-const MAX_TASKS_PER_RUN = parsePositiveIntEnv("MAX_TASKS_PER_RUN", 3);
+const MAX_TASKS_PER_RUN = parsePositiveIntEnv("MAX_TASKS_PER_RUN", 10);
 const MAX_SOURCE_TEXT = 5000;
 
 const writerOutputSchema = z.object({
