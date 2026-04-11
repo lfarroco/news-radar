@@ -52,7 +52,7 @@ export const selectorBackfillNode = async (
 				topic: row.topic_slug,
 				sourceUrl: row.source_url,
 			},
-			"selector-backfill: learning selectors for source",
+			`selector-backfill ${row.source_url}: learning selectors for source`,
 		);
 
 		const result = await learnAndCrawlSource(row.source_url, row.topic_slug, topicName);

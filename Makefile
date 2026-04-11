@@ -4,6 +4,9 @@ serve:
 run:
 	docker-compose run --rm app deno run -A src/main.ts
 
+selectors:
+	docker-compose run --rm app deno task selector-backfill -- --limit 25
+
 test:
 	docker-compose run --rm app deno task test
 

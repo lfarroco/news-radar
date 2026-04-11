@@ -157,13 +157,13 @@ export const learnAndCrawlSource = async (
 		if (!res.ok) {
 			logger.warn(
 				{ sourceUrl, status: res.status },
-				"selector-learner: fetch failed",
+				`selector-learner ${sourceUrl}: fetch failed`,
 			);
 			return null;
 		}
 		html = await res.text();
 	} catch (err) {
-		logger.warn({ sourceUrl, err }, "selector-learner: fetch error");
+		logger.warn({ sourceUrl, err }, `selector-learner ${sourceUrl}: fetch error`);
 		return null;
 	}
 
@@ -176,7 +176,7 @@ export const learnAndCrawlSource = async (
 		const chain = selectorPrompt.pipe(llm);
 		output = await chain.invoke({ url: sourceUrl, html: skeleton });
 	} catch (err) {
-		logger.warn({ sourceUrl, err }, "selector-learner: LLM call failed");
+		logger.warn({ sourceUrl, err }, `selector-learner ${sourceUrl}: LLM call failed`);
 		return null;
 	}
 
@@ -187,13 +187,13 @@ export const learnAndCrawlSource = async (
 			confidence: output.confidence,
 			itemSelector: output.indexItemSelector,
 		},
-		"selector-learner: LLM response",
+		`selector-learner ${sourceUrl}: LLM response`,
 	);
 
 	if (output.pageType !== "index" || output.confidence < CONFIDENCE_THRESHOLD) {
 		logger.info(
 			{ sourceUrl, pageType: output.pageType, confidence: output.confidence },
-			"selector-learner: not an index page or low confidence, skipping",
+			`selector-learner ${sourceUrl}: not an index page or low confidence, skipping`,
 		);
 		await markSourceSelectorNeedsReindex(sourceUrl);
 		return null;
@@ -212,7 +212,7 @@ export const learnAndCrawlSource = async (
 	if (!isValidItemList(items)) {
 		logger.warn(
 			{ sourceUrl, itemCount: items.length },
-			"selector-learner: selectors produced no valid items, marking needs_reindex",
+			`selector-learner ${sourceUrl}: selectors produced no valid items, marking needs_reindex`,
 		);
 		await markSourceSelectorNeedsReindex(sourceUrl);
 		return null;
@@ -227,7 +227,7 @@ export const learnAndCrawlSource = async (
 			itemCount: items.length,
 			selectors,
 		},
-		"selector-learner: selectors learned and saved",
+		`selector-learner ${sourceUrl}: selectors learned and saved`,
 	);
 
 	return { selectors, items };
@@ -245,7 +245,7 @@ export const crawlWithSelectors = async (
 		if (!res.ok) return null;
 		html = await res.text();
 	} catch (err) {
-		logger.warn({ sourceUrl, err }, "selector-learner: crawl fetch error");
+		logger.warn({ sourceUrl, err }, `selector-learner ${sourceUrl}: crawl fetch error`);
 		return null;
 	}
 
@@ -254,7 +254,7 @@ export const crawlWithSelectors = async (
 	if (!isValidItemList(items)) {
 		logger.warn(
 			{ sourceUrl, itemCount: items.length },
-			"selector-learner: stored selectors returned no valid items, marking needs_reindex",
+			`selector-learner ${sourceUrl}: stored selectors returned no valid items, marking needs_reindex`,
 		);
 		await markSourceSelectorNeedsReindex(sourceUrl);
 		return null;
