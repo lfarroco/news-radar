@@ -10,6 +10,7 @@ import { logger } from "../logger.ts";
 import { slugify, stripLeadingTopicLabel, compactText, normalizeArticleBody } from "../utils.ts";
 import type { PipelineState } from "../graph/state.ts";
 import type { GeneratedArticle } from "../models.ts";
+import { logDecision } from "../pipeline/decision-log.ts";
 
 const reviewSchema = z.object({
 	hasSufficientContent: z.boolean(),
@@ -79,6 +80,16 @@ export const reviewerNode = async (
 		try {
 			const context = await getArticleReviewContext(article.id);
 			if (!context) {
+				logger.warn(
+					{ articleId: article.id },
+					"reviewer: skipped article due to missing review context",
+				);
+				logDecision(logger, "warn", "reviewer", "skipped", {
+					entity: "article",
+					article_id: article.id,
+					title: compactText(article.title, 160),
+					reason: "missing review context",
+				});
 				reviewedArticles.push(article);
 				continue;
 			}
@@ -105,6 +116,18 @@ export const reviewerNode = async (
 				nextBody !== article.body;
 
 			if (!shouldUpdate) {
+				logger.info(
+					{ articleId: article.id, topic: context.topic_slug },
+					"reviewer: kept article draft",
+				);
+				logDecision(logger, "info", "reviewer", "kept", {
+					entity: "article",
+					article_id: article.id,
+					topic: context.topic_slug,
+					title: compactText(article.title, 160),
+					url: article.url,
+					reason: "no improvements required",
+				});
 				reviewedArticles.push(article);
 				continue;
 			}
@@ -129,8 +152,30 @@ export const reviewerNode = async (
 				slug,
 				url,
 			});
+			logger.info(
+				{ articleId: article.id, topic: context.topic_slug },
+				"reviewer: improved article draft",
+			);
+			logDecision(logger, "info", "reviewer", "improved", {
+				entity: "article",
+				article_id: article.id,
+				topic: context.topic_slug,
+				title: compactText(nextTitle, 160),
+				url,
+				reason: compactText(review.reviewSummary, 140),
+			});
 		} catch (err) {
-			logger.error({ err, articleId: article.id }, "reviewer: failed to review article");
+			logger.error(
+				{ err, articleId: article.id },
+				"reviewer: failed to review article",
+			);
+			logDecision(logger, "error", "reviewer", "failed", {
+				entity: "article",
+				article_id: article.id,
+				title: compactText(article.title, 160),
+				url: article.url,
+				reason: "unexpected error during review",
+			}, { err, articleId: article.id });
 			reviewedArticles.push(article);
 		}
 	}

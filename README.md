@@ -217,6 +217,29 @@ To restore structured JSON logs, set:
 LOG_MSG_ONLY=false
 ```
 
+Pipeline decision log convention:
+
+- Use the shared helper in [src/pipeline/decision-log.ts](src/pipeline/decision-log.ts) for all select/refuse/write/skip/fail decisions.
+- Always include what and why in the decision fields:
+    - `entity` (`candidate`, `article`, etc.)
+    - `topic` or `category` when relevant
+    - `title`
+    - `url`
+    - `reason`
+- Keep stage names stable (`scanner`, `editor`, `writer`, `reviewer`, `publisher`) so operational search patterns remain consistent.
+
+Example usage in node code:
+
+```ts
+logDecision(logger, "info", "writer", "written", {
+    entity: "article",
+    topic: task.topic_slug,
+    title: articleTitle,
+    url,
+    reason: "article generated and persisted",
+});
+```
+
 ### Runtime limits
 
 You can tune run throughput and scout cadence via environment variables:

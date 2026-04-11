@@ -18,6 +18,7 @@ import {
 import { compactText, stripLeadingTopicLabel } from "../utils.ts";
 import { isOfficialTopicSourceUrl } from "../editorial-policy.ts";
 import { findTopicProfile, loadRuntimeTopicProfiles } from "../topics/runtime.ts";
+import { logDecision } from "../pipeline/decision-log.ts";
 
 const RELEVANCE_THRESHOLD = 7;
 
@@ -142,7 +143,7 @@ export const editorNode = async (
             maxCandidatesPerRun: MAX_CANDIDATES_PER_RUN,
             topicCounts,
         },
-        "editor: selecting candidates to evaluate",
+        `editor: selecting candidates to evaluate count=${candidates.length} source=${selectionSource}`,
     );
     const topicProfiles = await loadRuntimeTopicProfiles();
 
@@ -165,7 +166,7 @@ export const editorNode = async (
                 source: candidate.source,
                 title: compactText(candidate.title, 120),
             },
-            "editor: evaluating candidate",
+            `editor: evaluating index=${index + 1}/${candidates.length} candidate_id=${candidate.id}`,
         );
         try {
             const topicProfile = findTopicProfile(topicProfiles, {
@@ -181,16 +182,29 @@ export const editorNode = async (
                     "Rejected by editorial policy: candidate URL is not in this topic's official source allowlist.",
                 );
                 logger.info(
-                    { candidateId: candidate.id, topic: candidate.topic_slug, url: candidate.url },
+                    {
+                        candidateId: candidate.id,
+                        topic: candidate.topic_slug,
+                        url: candidate.url,
+                        reasonCode: "official-source-policy",
+                    },
                     "editor: candidate rejected by official-source policy",
                 );
+                logDecision(logger, "info", "editor", "refused", {
+                    entity: "candidate",
+                    candidate_id: candidate.id,
+                    topic: candidate.topic_slug,
+                    title: compactText(candidate.title, 140),
+                    url: candidate.url,
+                    reason: "official source policy (url not in allowlist)",
+                });
                 continue;
             }
 
             const cleanTitle = stripLeadingTopicLabel(candidate.title, candidate.topic_name);
             logger.info(
                 { candidateId: candidate.id, topic: candidate.topic_slug, title: compactText(cleanTitle, 120) },
-                "editor: requesting relevance score",
+                `editor: scoring candidate_id=${candidate.id}`,
             );
             const relevance = await chain.invoke({
                 topic: candidate.topic_name,
@@ -217,9 +231,18 @@ export const editorNode = async (
                         candidateId: candidate.id,
                         score: relevance.score,
                         threshold: RELEVANCE_THRESHOLD,
+                        reasonCode: "below-relevance-threshold",
                     },
                     "editor: candidate rejected by relevance threshold",
                 );
+                logDecision(logger, "info", "editor", "refused", {
+                    entity: "candidate",
+                    candidate_id: candidate.id,
+                    topic: candidate.topic_slug,
+                    title: compactText(cleanTitle, 140),
+                    url: candidate.url,
+                    reason: `relevance ${relevance.score} below threshold ${RELEVANCE_THRESHOLD}`,
+                });
                 await setCandidateStatus(candidate.id, "rejected", relevance.score);
                 continue;
             }
@@ -238,6 +261,14 @@ export const editorNode = async (
                 },
                 "editor: research sources collected",
             );
+            logDecision(logger, "info", "editor", "selected", {
+                entity: "candidate",
+                candidate_id: candidate.id,
+                topic: candidate.topic_slug,
+                title: compactText(cleanTitle, 140),
+                url: candidate.url,
+                reason: `relevance ${relevance.score} >= ${RELEVANCE_THRESHOLD}; official_sources=${officialSources.length}`,
+            });
             const researchNotes = summarizeResearch(officialSources);
             const taskNotes = buildTaskNotes(
                 { ...candidate, title: cleanTitle },
@@ -258,8 +289,28 @@ export const editorNode = async (
                     { candidateId: candidate.id, priority },
                     "editor: article task created",
                 );
+                logDecision(logger, "info", "editor", "queued", {
+                    entity: "candidate",
+                    candidate_id: candidate.id,
+                    topic: candidate.topic_slug,
+                    title: compactText(cleanTitle, 140),
+                    url: candidate.url,
+                    priority,
+                    reason: "candidate researched and no open task existed",
+                });
             } else {
-                logger.info({ candidateId: candidate.id }, "editor: open task already exists");
+                logger.info(
+                    { candidateId: candidate.id },
+                    "editor: open task already exists",
+                );
+                logDecision(logger, "info", "editor", "skipped", {
+                    entity: "candidate",
+                    candidate_id: candidate.id,
+                    topic: candidate.topic_slug,
+                    title: compactText(cleanTitle, 140),
+                    url: candidate.url,
+                    reason: "open task already exists",
+                });
             }
 
             await addTopicNote(
@@ -279,6 +330,14 @@ export const editorNode = async (
                 },
                 "editor: failed candidate review",
             );
+            logDecision(logger, "error", "editor", "failed", {
+                entity: "candidate",
+                candidate_id: candidate.id,
+                topic: candidate.topic_slug,
+                title: compactText(candidate.title, 140),
+                url: candidate.url,
+                reason: "unexpected error during editor review",
+            }, { err, candidateId: candidate.id, topic: candidate.topic_slug });
             await setCandidateStatus(candidate.id, "editor-error");
         }
     }

@@ -22,6 +22,7 @@ import {
 } from "../editorial-policy.ts";
 import { findTopicProfile, loadRuntimeTopicProfiles } from "../topics/runtime.ts";
 import { computeWriterTaskBudget } from "../pipeline/throughput.ts";
+import { logDecision } from "../pipeline/decision-log.ts";
 
 const config = loadConfig();
 
@@ -163,7 +164,7 @@ Output must follow the structured schema.`,
 
     logger.info(
         { baseMaxTasks: MAX_TASKS_PER_RUN, taskBudget, queueHealth },
-        "writer: starting",
+        `writer: starting base_max_tasks=${MAX_TASKS_PER_RUN} task_budget=${taskBudget}`,
     );
 
     for (let i = 0; i < taskBudget; i++) {
@@ -178,6 +179,16 @@ Output must follow the structured schema.`,
             { taskId: task.id, topic: task.topic_slug, priority: task.priority },
             "writer: claimed task",
         );
+        logDecision(logger, "info", "writer", "selected", {
+            entity: "candidate",
+            task_id: task.id,
+            candidate_id: task.candidate_id,
+            topic: task.topic_slug,
+            title: compactText(task.candidate_title, 140),
+            url: task.candidate_url,
+            priority: task.priority,
+            reason: "highest pending priority",
+        });
 
         try {
             const topicProfile = findTopicProfile(topicProfiles, {
@@ -189,6 +200,15 @@ Output must follow the structured schema.`,
                     { taskId: task.id, topic: task.topic_slug, url: task.candidate_url },
                     "writer: rejected queued task because candidate is not from an official source",
                 );
+                logDecision(logger, "warn", "writer", "refused", {
+                    entity: "candidate",
+                    task_id: task.id,
+                    candidate_id: task.candidate_id,
+                    topic: task.topic_slug,
+                    title: compactText(task.candidate_title, 140),
+                    url: task.candidate_url,
+                    reason: "official source safety check failed",
+                });
                 await completeArticleTask(task.id, "failed");
                 await setCandidateStatus(task.candidate_id, "rejected", 0,
                     "Rejected by writer safety check: queued task is not in this topic's official source allowlist.");
@@ -240,6 +260,15 @@ Output must follow the structured schema.`,
                     { taskId: task.id, reason: compactText(originalityReview.reason, 180) },
                     "writer: originality reviewer requested rewrite",
                 );
+                logDecision(logger, "warn", "writer", "rewrite", {
+                    entity: "candidate",
+                    task_id: task.id,
+                    candidate_id: task.candidate_id,
+                    topic: task.topic_slug,
+                    title: compactText(task.candidate_title, 140),
+                    url: task.candidate_url,
+                    reason: `originality review requested rewrite: ${compactText(originalityReview.reason, 120)}`,
+                });
                 result = {
                     ...result,
                     content: normalizeArticleBody(rewrittenContent),
@@ -260,6 +289,15 @@ Output must follow the structured schema.`,
                     },
                     "writer: originality reviewer still flagged overlap after rewrite attempt",
                 );
+                logDecision(logger, "warn", "writer", "warn", {
+                    entity: "candidate",
+                    task_id: task.id,
+                    candidate_id: task.candidate_id,
+                    topic: task.topic_slug,
+                    title: compactText(task.candidate_title, 140),
+                    url: task.candidate_url,
+                    reason: `originality overlap persisted: ${compactText(originalityReview.reason, 120)}`,
+                });
             }
 
             const articleTitle = stripLeadingTopicLabel(result.title, task.topic_name);
@@ -278,9 +316,26 @@ Output must follow the structured schema.`,
             await completeArticleTask(task.id, "completed");
             await setCandidateStatus(task.candidate_id, "published");
             logger.info(
-                { taskId: task.id, articleTitle, inserted: Boolean(inserted) },
+                {
+                    taskId: task.id,
+                    articleTitle,
+                    topic: task.topic_slug,
+                    inserted: Boolean(inserted),
+                },
                 "writer: task completed",
             );
+            logDecision(logger, "info", "writer", "written", {
+                entity: "article",
+                task_id: task.id,
+                candidate_id: task.candidate_id,
+                topic: task.topic_slug,
+                category: task.topic_slug,
+                title: compactText(articleTitle, 160),
+                url,
+                source_title: compactText(task.candidate_title, 120),
+                source_url: task.candidate_url,
+                reason: "article generated and persisted",
+            });
             await addTopicNote(
                 task.topic_slug,
                 "summary",
@@ -293,7 +348,19 @@ Output must follow the structured schema.`,
                 publishedArticles.push(inserted);
             }
         } catch (err) {
-            logger.error({ err, taskId: task.id }, "writer: failed task");
+            logger.error(
+                { err, taskId: task.id },
+                "writer: failed task",
+            );
+            logDecision(logger, "error", "writer", "failed", {
+                entity: "candidate",
+                task_id: task.id,
+                candidate_id: task.candidate_id,
+                topic: task.topic_slug,
+                title: compactText(task.candidate_title, 140),
+                url: task.candidate_url,
+                reason: "unexpected writer error",
+            }, { err, taskId: task.id });
             await completeArticleTask(task.id, "failed");
             await setCandidateStatus(task.candidate_id, "writer-error");
         }
