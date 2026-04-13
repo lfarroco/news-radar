@@ -128,6 +128,8 @@ Format guidelines by type:
 General rules:
 - Write for experienced developers, not beginners
 - Include concrete examples, code patterns, or specific tool names where relevant
+- When a code example improves clarity, include one fenced code block using triple backticks and a language tag (for example: \`\`\`ts)
+- Keep code snippets short and practical (about 5-20 lines)
 - Neutral, informative tone
 - Short paragraphs separated by blank lines (3-5 sentences each)
 - Do not include markdown links

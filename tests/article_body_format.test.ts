@@ -19,3 +19,19 @@ Deno.test("normalizeArticleBody preserves markdown list formatting", () => {
 	const input = "- First item\n- Second item\n- Third item";
 	assertEquals(normalizeArticleBody(input), input);
 });
+
+Deno.test("normalizeArticleBody preserves fenced code blocks", () => {
+	const input = [
+		"Use this endpoint to verify service health:",
+		"",
+		"```ts",
+		"const res = await fetch('/api/health');",
+		"const status = await res.json();",
+		"console.log(status.ok);",
+		"```",
+		"",
+		"This should return quickly even under moderate load.",
+	].join("\n");
+
+	assertEquals(normalizeArticleBody(input), input);
+});

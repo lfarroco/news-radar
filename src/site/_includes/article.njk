@@ -11,7 +11,9 @@ layout: main.njk
 
 	</div>
 	<div class="card-body">
-		{{ content | md | safe }}
+		<div class="article-content">
+			{{ content | md | safe }}
+		</div>
 
 		{% if references and references.length %}
 		<section class="article-references">

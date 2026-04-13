@@ -65,6 +65,7 @@ Rules:
 - Keep 300-500 words with short paragraphs separated by blank lines.
 - Never copy source text verbatim; use original wording.
 - You may add relevant context from editor notes and candidate snippet when it improves usefulness.
+- Preserve fenced code blocks when present; if you add a code example, use fenced markdown with a language tag.
 - Do not invent unverifiable facts.
 - Keep tone neutral and practical.
 - Do not include markdown links.

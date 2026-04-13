@@ -63,6 +63,8 @@ Originality requirements:
 Content quality requirements:
 - Do not produce thin summaries; explain what changed and why it matters to developers
 - Use background context and editor notes to add relevant technical details when they are available
+- Include a short fenced code block with a language tag when it adds practical value (for example: \`\`\`ts, \`\`\`js, \`\`\`bash)
+- Keep code snippets concise and focused on the core idea (about 5-20 lines)
 Do not invent facts and do not include markdown links.`,
     ],
     [
