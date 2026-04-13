@@ -21,6 +21,19 @@ import type { PipelineState } from "../graph/state.ts";
 
 const config = loadConfig();
 
+// ── JSON extraction helper ─────────────────────────────────────────────────
+
+const extractJson = (text: string): unknown => {
+	// Try to find JSON in the response (handles markdown fences, preamble, etc.)
+	const fenceMatch = text.match(/```(?:json)?\s*\n?([\s\S]*?)\n?```/);
+	if (fenceMatch) return JSON.parse(fenceMatch[1].trim());
+
+	const braceMatch = text.match(/\{[\s\S]*\}/);
+	if (braceMatch) return JSON.parse(braceMatch[0]);
+
+	return JSON.parse(text);
+};
+
 // ── article idea generation ────────────────────────────────────────────────
 
 const ideaOutputSchema = z.object({
@@ -29,7 +42,8 @@ const ideaOutputSchema = z.object({
 		.describe("The format of the creative article"),
 	title: z.string().describe("A specific, compelling article title"),
 	outline: z
-		.string()
+		.union([z.string(), z.record(z.unknown()), z.array(z.unknown())])
+		.transform((v) => typeof v === "string" ? v : JSON.stringify(v))
 		.describe("A 2-3 sentence outline of what the article should cover"),
 });
 
@@ -169,9 +183,9 @@ export const creativeWriterNode = async (
 		`creative-writer: ${uncoveredTopics.length} topic(s) need creative articles`,
 	);
 
-	const ideaLlm = makeLlm(0.7).withStructuredOutput(ideaOutputSchema, { method: "json_mode" });
+	const ideaLlm = makeLlm(0.7);
 	const ideaChain = ideaPrompt.pipe(ideaLlm);
-	const writerLlm = makeLlm(0.5).withStructuredOutput(creativeWriterOutputSchema, { method: "json_mode" });
+	const writerLlm = makeLlm(0.5);
 	const writerChain = creativeWriterPrompt.pipe(writerLlm);
 
 	const publishedArticles: GeneratedArticle[] = [
@@ -188,13 +202,16 @@ export const creativeWriterNode = async (
 			const recentContext = await getRecentContext(topic.slug);
 
 			// 1. Generate an article idea
-			const idea = await ideaChain.invoke({
+			const ideaRaw = await ideaChain.invoke({
 				topicName: topic.name,
 				topicSlug: topic.slug,
 				topicDescription: profile?.description ?? topic.name,
 				editorialNotes: profile?.editorialNotes ?? "",
 				recentContext,
 			});
+			const idea = ideaOutputSchema.parse(extractJson(
+				typeof ideaRaw.content === "string" ? ideaRaw.content : JSON.stringify(ideaRaw.content),
+			));
 
 			logger.info(
 				{
@@ -214,13 +231,22 @@ export const creativeWriterNode = async (
 
 			// 2. Write the article
 			logger.info({ topic: topic.slug, title: idea.title }, `creative-writer: writing article for ${topic.slug}`);
-			const result = await writerChain.invoke({
+			const writerRaw = await writerChain.invoke({
 				topicName: topic.name,
 				format: idea.format,
 				title: idea.title,
 				outline: idea.outline,
 				backgroundContext: recentContext,
 			});
+			const rawText = typeof writerRaw.content === "string" ? writerRaw.content : JSON.stringify(writerRaw.content);
+			let result: z.infer<typeof creativeWriterOutputSchema>;
+			try {
+				result = creativeWriterOutputSchema.parse(extractJson(rawText));
+			} catch {
+				// LLM returned plain text instead of JSON — wrap it
+				logger.info({ topic: topic.slug }, `creative-writer: LLM returned plain text, wrapping as article body`);
+				result = { title: idea.title, content: rawText, categories: [topic.name] };
+			}
 
 			const content = normalizeArticleBody(result.content);
 			const articleTitle = result.title || idea.title;
