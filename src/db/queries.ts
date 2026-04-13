@@ -1003,3 +1003,50 @@ export const getTopicLastScoutedAt = async (
     );
     return rows[0]?.last_scouted_at ?? null;
 };
+
+// ── source healthcheck ─────────────────────────────────────────────────────
+
+export const getAllSourceSelectors = async (
+    limit = 200,
+    topicSlug?: string,
+): Promise<SourceSelector[]> => {
+    const { rows } = await client.queryObject<SourceSelector>(
+        `SELECT * FROM source_selectors
+         WHERE ($1::text IS NULL OR topic_slug = $1)
+         ORDER BY last_indexed_at ASC NULLS FIRST, updated_at ASC
+         LIMIT $2;`,
+        [topicSlug ?? null, limit],
+    );
+    return rows;
+};
+
+export const deleteSourceSelector = async (
+    sourceUrl: string,
+): Promise<void> => {
+    await client.queryArray(
+        `DELETE FROM source_selectors WHERE source_url = $1;`,
+        [sourceUrl],
+    );
+};
+
+export const deactivateTopicNoteBySourceUrl = async (
+    sourceUrl: string,
+): Promise<void> => {
+    await client.queryArray(
+        `UPDATE topic_notes
+         SET is_active = false, updated_at = now()
+         WHERE source_url = $1 AND is_active = true;`,
+        [sourceUrl],
+    );
+};
+
+export const clearSourceSelectorFeedUrl = async (
+    sourceUrl: string,
+): Promise<void> => {
+    await client.queryArray(
+        `UPDATE source_selectors
+         SET feed_url = NULL, needs_reindex = true, updated_at = now()
+         WHERE source_url = $1;`,
+        [sourceUrl],
+    );
+};

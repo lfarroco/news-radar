@@ -8,6 +8,7 @@
     "seed": "deno run -A src/topics/seed.ts",
     "scout": "deno run -A src/source-scout.ts",
     "selector-backfill": "deno run -A src/selector-backfill.ts",
+    "source-healthcheck": "deno run -A src/source-healthcheck.ts",
     "api": "deno run -A src/api.ts"
   },
   "lock": false,

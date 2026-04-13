@@ -16,6 +16,9 @@ scout:
 selector-backfill:
 	docker-compose run --rm app deno task selector-backfill
 
+source-healthcheck:
+	docker-compose run --rm app deno task source-healthcheck
+
 run-db:
 	docker-compose run postgres
 
