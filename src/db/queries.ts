@@ -1083,6 +1083,8 @@ export const insertCreativeCandidate = async (
              'researched',
              10
          )
+         ON CONFLICT ON CONSTRAINT candidates_topic_url_key
+         DO UPDATE SET snippet = EXCLUDED.snippet
          RETURNING id;`,
         [topicSlug, title, snippet],
     );

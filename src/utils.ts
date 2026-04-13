@@ -59,7 +59,13 @@ export const slugify = (text: string) => {
     return SLUG_ALIASES[text]
   }
 
-  return slug(text).substring(0, 150);
+  // Remove characters the slug library doesn't handle well
+  const cleaned = text
+    .replace(/[''\u2018\u2019]/g, "")    // apostrophes / smart quotes
+    .replace(/[:;]/g, "")                  // colons, semicolons
+    .replace(/\//g, "-");                  // slashes → hyphens
+
+  return slug(cleaned).substring(0, 150);
 };
 
 export const compactText = (text: string, maxLength: number): string => {

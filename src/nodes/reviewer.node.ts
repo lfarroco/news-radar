@@ -12,6 +12,18 @@ import type { PipelineState } from "../graph/state.ts";
 import type { GeneratedArticle } from "../models.ts";
 import { logDecision } from "../pipeline/decision-log.ts";
 
+// ── JSON extraction helper ─────────────────────────────────────────────────
+
+const extractJson = (text: string): unknown => {
+	const fenceMatch = text.match(/```(?:json)?\s*\n?([\s\S]*?)\n?```/);
+	if (fenceMatch) return JSON.parse(fenceMatch[1].trim());
+
+	const braceMatch = text.match(/\{[\s\S]*\}/);
+	if (braceMatch) return JSON.parse(braceMatch[0]);
+
+	return JSON.parse(text);
+};
+
 const reviewSchema = z.object({
 	hasSufficientContent: z.boolean(),
 	needsImprovement: z.boolean(),
@@ -34,6 +46,13 @@ Rules:
 - Do not invent unverifiable facts.
 - Keep tone neutral and practical.
 - Do not include markdown links.
+
+Respond with a JSON object containing these fields:
+- hasSufficientContent (boolean)
+- needsImprovement (boolean)
+- reviewSummary (string)
+- improvedTitle (string)
+- improvedContent (string)
 
 Output contract:
 - Always return improvedTitle and improvedContent.
@@ -71,7 +90,7 @@ export const reviewerNode = async (
 		return {};
 	}
 
-	const llm = makeLlm(0.2).withStructuredOutput(reviewSchema);
+	const llm = makeLlm(0.2);
 	const chain = reviewPrompt.pipe(llm);
 	const reviewedArticles: GeneratedArticle[] = [];
 	let improvedCount = 0;
@@ -94,7 +113,7 @@ export const reviewerNode = async (
 				continue;
 			}
 
-			const review = await chain.invoke({
+			const raw = await chain.invoke({
 				topicName: context.topic_name,
 				candidateTitle: context.candidate_title,
 				candidateUrl: context.candidate_url,
@@ -103,6 +122,8 @@ export const reviewerNode = async (
 				draftTitle: article.title,
 				draftContent: article.body,
 			});
+			const rawText = typeof raw.content === "string" ? raw.content : JSON.stringify(raw.content);
+			const review = reviewSchema.parse(extractJson(rawText));
 
 			const nextTitle = stripLeadingTopicLabel(
 				review.improvedTitle?.trim() || article.title,
@@ -165,17 +186,19 @@ export const reviewerNode = async (
 				reason: compactText(review.reviewSummary, 140),
 			});
 		} catch (err) {
+			const errMsg = err instanceof Error ? err.message : String(err);
+			const errStack = err instanceof Error ? err.stack : undefined;
 			logger.error(
-				{ err, articleId: article.id },
-				"reviewer: failed to review article",
+				{ articleId: article.id, error: errMsg, stack: errStack },
+				`reviewer: failed to review article ${article.id}: ${errMsg}`,
 			);
 			logDecision(logger, "error", "reviewer", "failed", {
 				entity: "article",
 				article_id: article.id,
 				title: compactText(article.title, 160),
 				url: article.url,
-				reason: "unexpected error during review",
-			}, { err, articleId: article.id });
+				reason: `error: ${errMsg}`,
+			}, { articleId: article.id, error: errMsg, stack: errStack });
 			reviewedArticles.push(article);
 		}
 	}
