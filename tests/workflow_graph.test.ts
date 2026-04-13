@@ -3,7 +3,7 @@ import { buildGraphWithNodes } from "../src/graph/build.ts";
 import { hasPipelineErrors } from "../src/pipeline/outcome.ts";
 
 Deno.test({
-	name: "workflow graph: executes scanner->editor->writer->reviewer->publisher transitions",
+	name: "workflow graph: executes scanner->editor->writer->creative-writer->reviewer->publisher transitions",
 	sanitizeOps: false,
 	sanitizeResources: false,
 }, async () => {
@@ -75,6 +75,12 @@ Deno.test({
 				metrics: { scanned: 1, reviewed: 1, tasksCreated: 1, written: 1 },
 			});
 		},
+		creativeWriter: (state) => {
+			order.push("creative-writer");
+			return Promise.resolve({
+				publishedArticles: state.publishedArticles,
+			});
+		},
 		reviewer: (state) => {
 			order.push("reviewer");
 			assertEquals(state.publishedArticles.length, 1);
@@ -94,7 +100,7 @@ Deno.test({
 
 	const result = await graph.invoke({});
 
-	assertEquals(order, ["scanner", "editor", "writer", "reviewer", "publisher"]);
+	assertEquals(order, ["scanner", "editor", "writer", "creative-writer", "reviewer", "publisher"]);
 	assertEquals(result.metrics, { scanned: 1, reviewed: 1, tasksCreated: 1, written: 1 });
 	assertEquals(result.publishedArticles.length, 1);
 	assertEquals(result.publishedArticles[0].title.endsWith("(Reviewed)"), true);
@@ -109,6 +115,7 @@ Deno.test({
 		scanner: () => Promise.resolve({}),
 		editor: () => Promise.resolve({}),
 		writer: () => Promise.resolve({}),
+		creativeWriter: () => Promise.resolve({}),
 		reviewer: () => Promise.resolve({}),
 		publisher: () => Promise.resolve({
 			errors: [{ node: "publisher", message: "lume build failed" }],

@@ -10,6 +10,7 @@ export type PipelineNodes = {
 	scanner: PipelineNode;
 	editor: PipelineNode;
 	writer: PipelineNode;
+	creativeWriter: PipelineNode;
 	reviewer: PipelineNode;
 	publisher: PipelineNode;
 };
@@ -53,12 +54,14 @@ export const buildGraphWithNodes = (nodes: PipelineNodes) => {
 		.addNode("scanner", withNodeLogging("scanner", nodes.scanner))
 		.addNode("editor", withNodeLogging("editor", nodes.editor))
 		.addNode("writer", withNodeLogging("writer", nodes.writer))
+		.addNode("creative-writer", withNodeLogging("creative-writer", nodes.creativeWriter))
 		.addNode("reviewer", withNodeLogging("reviewer", nodes.reviewer))
 		.addNode("publisher", withNodeLogging("publisher", nodes.publisher))
 		.addEdge("__start__", "scanner")
 		.addEdge("scanner", "editor")
 		.addEdge("editor", "writer")
-		.addEdge("writer", "reviewer")
+		.addEdge("writer", "creative-writer")
+		.addEdge("creative-writer", "reviewer")
 		.addEdge("reviewer", "publisher")
 		.addEdge("publisher", END);
 

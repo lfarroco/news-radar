@@ -1050,3 +1050,54 @@ export const clearSourceSelectorFeedUrl = async (
         [sourceUrl],
     );
 };
+
+// ── creative writer ────────────────────────────────────────────────────────
+
+export type TopicRow = {
+    id: number;
+    slug: string;
+    name: string;
+};
+
+export const getAllTopics = async (): Promise<TopicRow[]> => {
+    const { rows } = await client.queryObject<TopicRow>(
+        `SELECT id, slug, name FROM topics ORDER BY name;`,
+    );
+    return rows;
+};
+
+export const insertCreativeCandidate = async (
+    topicSlug: string,
+    title: string,
+    snippet: string,
+): Promise<number> => {
+    const { rows } = await client.queryObject<{ id: number }>(
+        `INSERT INTO candidates (topic_id, title, url, snippet, source, discovered_at, status, relevance_score)
+         VALUES (
+             (SELECT id FROM topics WHERE slug = $1),
+             $2,
+             'creative://' || $1 || '/' || encode(sha256($2::bytea), 'hex'),
+             $3,
+             'creative-writer-agent',
+             now(),
+             'researched',
+             10
+         )
+         RETURNING id;`,
+        [topicSlug, title, snippet],
+    );
+    return rows[0].id;
+};
+
+export const insertCreativeArticleTask = async (
+    candidateId: number,
+    editorNotes: string,
+): Promise<number> => {
+    const { rows } = await client.queryObject<{ id: number }>(
+        `INSERT INTO article_tasks (candidate_id, editor_notes, priority, status, picked_at)
+         VALUES ($1, $2, 0, 'in_progress', now())
+         RETURNING id;`,
+        [candidateId, editorNotes],
+    );
+    return rows[0].id;
+};
