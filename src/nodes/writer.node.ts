@@ -6,6 +6,7 @@ import {
     addTopicNote,
     claimNextPendingArticleTask,
     completeArticleTask,
+    getRecentPublishedArticleTitles,
     getWriterQueueHealth,
     insertGeneratedArticle,
     setCandidateStatus,
@@ -65,6 +66,7 @@ Content quality requirements:
 - Use background context and editor notes to add relevant technical details when they are available
 - Include a short fenced code block with a language tag when it adds practical value (for example: \`\`\`ts, \`\`\`js, \`\`\`bash)
 - Keep code snippets concise and focused on the core idea (about 5-20 lines)
+- Review the recent article title lists and avoid titles that are too similar in wording or pattern
 Do not invent facts and do not include markdown links.`,
     ],
     [
@@ -79,6 +81,12 @@ Editor notes:
 
 Background context:
 {backgroundContext}
+
+Recent titles for this topic:
+{recentTopicTitles}
+
+Recent titles across all topics:
+{recentGlobalTitles}
 
 Originality check feedback:
 {originalityFeedback}
@@ -117,6 +125,11 @@ const sanitizeEditorNotes = (editorNotes: string, topicName: string): string =>
         (_match, rawTitle: string) =>
             `Candidate title: ${stripLeadingTopicLabel(rawTitle, topicName)}`,
     );
+
+const formatRecentTitles = (titles: string[]): string => {
+    if (titles.length === 0) return "None.";
+    return titles.map((title) => `- ${title}`).join("\n");
+};
 
 export const writerNode = async (
     state: PipelineState,
@@ -230,10 +243,24 @@ Output must follow the structured schema.`,
                 "writer: source prepared",
             );
 
-            const [backgroundContext, editorNotes] = await Promise.all([
+            const [
+                backgroundContext,
+                editorNotes,
+                recentTopicTitlesRaw,
+                recentGlobalTitlesRaw,
+            ] = await Promise.all([
                 fetchKbContext(task.topic_slug, cleanCandidateTitle),
                 Promise.resolve(sanitizeEditorNotes(task.editor_notes, task.topic_name)),
+                getRecentPublishedArticleTitles(8, task.topic_slug),
+                getRecentPublishedArticleTitles(16),
             ]);
+
+            const recentTopicTitles = formatRecentTitles(
+                recentTopicTitlesRaw.filter((title) => title !== cleanCandidateTitle),
+            );
+            const recentGlobalTitles = formatRecentTitles(
+                recentGlobalTitlesRaw.filter((title) => title !== cleanCandidateTitle),
+            );
 
             let result = await chain.invoke({
                 topicName: task.topic_name,
@@ -242,6 +269,8 @@ Output must follow the structured schema.`,
                 candidateSnippet: task.candidate_snippet,
                 editorNotes,
                 backgroundContext,
+                recentTopicTitles,
+                recentGlobalTitles,
                 originalityFeedback:
                     "Use original wording. Do not copy source sentences. If a direct quote is essential, use at most one short quote in double quotes.",
                 sourceContent,

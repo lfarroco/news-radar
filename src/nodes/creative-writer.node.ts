@@ -5,6 +5,7 @@ import {
 	addTopicNote,
 	completeArticleTask,
 	getAllTopics,
+	getRecentPublishedArticleTitles,
 	getTopicIdsWithPendingPipeline,
 	insertCreativeArticleTask,
 	insertCreativeCandidate,
@@ -87,6 +88,7 @@ Rules:
 - Focus on specific, actionable content (e.g., "5 lesser-known TypeScript compiler flags that catch real bugs")
 - The title should be specific enough that a writer can produce it without further clarification
 - Avoid topics that overlap with recent articles listed below
+- Avoid title phrasing patterns that are too similar to recent titles
 
 Respond with a JSON object containing: format, title, outline.`,
 	],
@@ -98,6 +100,12 @@ Editorial notes: {editorialNotes}
 
 Recent articles and notes for this topic:
 {recentContext}
+
+Recent titles for this topic:
+{recentTopicTitles}
+
+Recent titles across all topics:
+{recentGlobalTitles}
 
 Propose one creative article idea.`,
 	],
@@ -135,6 +143,7 @@ General rules:
 - Do not include markdown links
 - Do not invent version numbers or release dates
 - End with a practical takeaway or next step
+- Avoid title wording that is too similar to the recent title lists
 
 Respond with a JSON object containing: title, content, categories.`,
 	],
@@ -147,6 +156,12 @@ Outline: {outline}
 
 Background context:
 {backgroundContext}
+
+Recent titles for this topic:
+{recentTopicTitles}
+
+Recent titles across all topics:
+{recentGlobalTitles}
 
 Write the complete article.`,
 	],
@@ -164,6 +179,11 @@ const getRecentContext = async (topicSlug: string): Promise<string> => {
 	return notes
 		.map((n) => `- [${n.note_type}] ${n.content}`)
 		.join("\n");
+};
+
+const formatRecentTitles = (titles: string[]): string => {
+	if (titles.length === 0) return "No recent titles.";
+	return titles.map((title) => `- ${title}`).join("\n");
 };
 
 const getCoveredTopicIds = (state: PipelineState): Set<number> => {
@@ -229,7 +249,13 @@ export const creativeWriterNode = async (
 				name: topic.name,
 			});
 
-			const recentContext = await getRecentContext(topic.slug);
+			const [recentContext, recentTopicTitlesRaw, recentGlobalTitlesRaw] = await Promise.all([
+				getRecentContext(topic.slug),
+				getRecentPublishedArticleTitles(8, topic.slug),
+				getRecentPublishedArticleTitles(16),
+			]);
+			const recentTopicTitles = formatRecentTitles(recentTopicTitlesRaw);
+			const recentGlobalTitles = formatRecentTitles(recentGlobalTitlesRaw);
 
 			// 1. Generate an article idea
 			const ideaRaw = await ideaChain.invoke({
@@ -238,6 +264,8 @@ export const creativeWriterNode = async (
 				topicDescription: profile?.description ?? topic.name,
 				editorialNotes: profile?.editorialNotes ?? "",
 				recentContext,
+				recentTopicTitles,
+				recentGlobalTitles,
 			});
 			const idea = ideaOutputSchema.parse(extractJson(
 				typeof ideaRaw.content === "string" ? ideaRaw.content : JSON.stringify(ideaRaw.content),
@@ -267,6 +295,8 @@ export const creativeWriterNode = async (
 				title: idea.title,
 				outline: idea.outline,
 				backgroundContext: recentContext,
+				recentTopicTitles,
+				recentGlobalTitles,
 			});
 			const rawText = typeof writerRaw.content === "string" ? writerRaw.content : JSON.stringify(writerRaw.content);
 			let result: z.infer<typeof creativeWriterOutputSchema>;

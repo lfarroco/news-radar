@@ -302,6 +302,38 @@ export const getTopicArticles = async (topicId: number) => {
     }));
 };
 
+export const getRecentPublishedArticleTitles = async (
+    limit = 12,
+    topicSlug?: string,
+): Promise<string[]> => {
+    const { rows } = await client.queryObject<{
+        article_title: string;
+        topic_name: string;
+    }>(`
+    SELECT
+      a.title AS article_title,
+      t.name AS topic_name
+    FROM articles a
+    INNER JOIN topics t ON t.id = a.topic_id
+    WHERE a.is_published = true
+      AND ($1::text IS NULL OR t.slug = $1)
+    ORDER BY a.published_at DESC
+    LIMIT $2`, [topicSlug ?? null, limit]);
+
+    const seen = new Set<string>();
+    const titles: string[] = [];
+
+    for (const row of rows) {
+        const normalized = stripLeadingTopicLabel(row.article_title, row.topic_name).trim();
+        if (!normalized) continue;
+        if (seen.has(normalized)) continue;
+        seen.add(normalized);
+        titles.push(normalized);
+    }
+
+    return titles;
+};
+
 // ── pipeline reads ─────────────────────────────────────────────────────────
 
 export const getPendingCandidates = async (limit = 40): Promise<Candidate[]> => {
