@@ -52,7 +52,9 @@ Rules:
 - Avoid generic topics like "Getting Started with X" or "Introduction to X"
 - Focus on specific, actionable content (e.g., "5 lesser-known TypeScript compiler flags that catch real bugs")
 - The title should be specific enough that a writer can produce it without further clarification
-- Avoid topics that overlap with recent articles listed below`,
+- Avoid topics that overlap with recent articles listed below
+
+Respond with a JSON object containing: format, title, outline.`,
 	],
 	[
 		"human",
@@ -96,7 +98,9 @@ General rules:
 - Short paragraphs separated by blank lines (3-5 sentences each)
 - Do not include markdown links
 - Do not invent version numbers or release dates
-- End with a practical takeaway or next step`,
+- End with a practical takeaway or next step
+
+Respond with a JSON object containing: title, content, categories.`,
 	],
 	[
 		"human",
@@ -165,9 +169,9 @@ export const creativeWriterNode = async (
 		`creative-writer: ${uncoveredTopics.length} topic(s) need creative articles`,
 	);
 
-	const ideaLlm = makeLlm(0.7).withStructuredOutput(ideaOutputSchema);
+	const ideaLlm = makeLlm(0.7).withStructuredOutput(ideaOutputSchema, { method: "json_mode" });
 	const ideaChain = ideaPrompt.pipe(ideaLlm);
-	const writerLlm = makeLlm(0.5).withStructuredOutput(creativeWriterOutputSchema);
+	const writerLlm = makeLlm(0.5).withStructuredOutput(creativeWriterOutputSchema, { method: "json_mode" });
 	const writerChain = creativeWriterPrompt.pipe(writerLlm);
 
 	const publishedArticles: GeneratedArticle[] = [
@@ -209,6 +213,7 @@ export const creativeWriterNode = async (
 			});
 
 			// 2. Write the article
+			logger.info({ topic: topic.slug, title: idea.title }, `creative-writer: writing article for ${topic.slug}`);
 			const result = await writerChain.invoke({
 				topicName: topic.name,
 				format: idea.format,
@@ -223,16 +228,19 @@ export const creativeWriterNode = async (
 			const url = `/articles/${formatToday()}/${slug}/`;
 
 			// 3. Create synthetic candidate → task → article
+			logger.info({ topic: topic.slug, articleTitle, slug, url }, `creative-writer: inserting candidate for ${topic.slug}`);
 			const candidateId = await insertCreativeCandidate(
 				topic.slug,
 				articleTitle,
 				idea.outline,
 			);
+			logger.info({ topic: topic.slug, candidateId }, `creative-writer: candidate inserted`);
 
 			const taskId = await insertCreativeArticleTask(
 				candidateId,
 				`Creative article (${idea.format}): ${idea.outline}`,
 			);
+			logger.info({ topic: topic.slug, taskId }, `creative-writer: task inserted`);
 
 			const inserted = await insertGeneratedArticle(
 				taskId,
@@ -243,6 +251,7 @@ export const creativeWriterNode = async (
 				url,
 				config.GROQ_MODEL,
 			);
+			logger.info({ topic: topic.slug, articleId: inserted?.id ?? null }, `creative-writer: article row inserted`);
 
 			await completeArticleTask(taskId, "completed");
 			await setCandidateStatus(candidateId, "published");
@@ -278,14 +287,16 @@ export const creativeWriterNode = async (
 				publishedArticles.push(inserted);
 			}
 		} catch (err) {
+			const errMsg = err instanceof Error ? err.message : String(err);
+			const errStack = err instanceof Error ? err.stack : undefined;
 			logger.error(
-				{ err, topic: topic.slug },
-				`creative-writer: failed for ${topic.slug}`,
+				{ topic: topic.slug, error: errMsg, stack: errStack },
+				`creative-writer: failed for ${topic.slug}: ${errMsg}`,
 			);
 			logDecision(logger, "error", "creative-writer", "failed", {
 				topic: topic.slug,
-				reason: "unexpected error generating creative article",
-			}, { err, topic: topic.slug });
+				reason: `error: ${errMsg}`,
+			}, { topic: topic.slug, error: errMsg, stack: errStack });
 		}
 	}
 

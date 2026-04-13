@@ -1076,7 +1076,7 @@ export const insertCreativeCandidate = async (
          VALUES (
              (SELECT id FROM topics WHERE slug = $1),
              $2,
-             'creative://' || $1 || '/' || encode(sha256($2::bytea), 'hex'),
+             'creative://' || $1 || '/' || md5($2),
              $3,
              'creative-writer-agent',
              now(),
