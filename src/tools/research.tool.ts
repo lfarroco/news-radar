@@ -3,6 +3,7 @@ import { z } from "zod";
 import { cheerio } from "../deps.ts";
 import { loadRuntimeTopicProfiles } from "../topics/runtime.ts";
 import { learnAndCrawlSource } from "../nodes/selector-learner.node.ts";
+import type { TopicProfile } from "../topics/types.ts";
 
 export type ResearchSource = {
 	title: string;
@@ -13,6 +14,9 @@ export type ResearchSource = {
 
 const BLOCKED_HOST_PATTERN = /(reddit\.com|youtube\.com|youtu\.be|instagram\.com|facebook\.com|tiktok\.com)/i;
 const DEFAULT_MAX_SOURCE_URLS = 3;
+const runtimeProfilesCache: { value: TopicProfile[] | null } = { value: null };
+const cheerioSourceCache = new Map<string, ResearchSource[]>();
+const selectorSourceCache = new Map<string, ResearchSource[]>();
 
 const toAbsoluteUrl = (href: string, baseUrl: string): string | null => {
 	try {
@@ -57,7 +61,7 @@ const sourceLooksUseful = (title: string, content: string, query: string): boole
 	return matchCount >= Math.max(1, Math.floor(queryTokens.length / 4));
 };
 
-const parseWithCheerio = async (url: string, query: string): Promise<ResearchSource[]> => {
+const parseWithCheerio = async (url: string): Promise<ResearchSource[]> => {
 	const response = await fetch(url);
 	if (!response.ok) return [];
 
@@ -77,7 +81,6 @@ const parseWithCheerio = async (url: string, query: string): Promise<ResearchSou
 		const content = compactText(container.text(), 320);
 
 		if (!title || !absolute || !content) return;
-		if (!sourceLooksUseful(title, content, query)) return;
 
 		candidates.push({ title, url: absolute, content });
 	});
@@ -93,6 +96,16 @@ const parseWithCheerio = async (url: string, query: string): Promise<ResearchSou
 		url,
 		content: pageContent,
 	}];
+};
+
+const getRuntimeTopicProfiles = async (): Promise<TopicProfile[]> => {
+	if (runtimeProfilesCache.value) {
+		return runtimeProfilesCache.value;
+	}
+
+	const profiles = await loadRuntimeTopicProfiles();
+	runtimeProfilesCache.value = profiles;
+	return profiles;
 };
 
 const parseWithSelectorLogic = async (
@@ -131,8 +144,9 @@ const dedupeSources = (sources: ResearchSource[]): ResearchSource[] => {
 export const searchOnlineSources = async (
 	query: string,
 	maxResults = 5,
+	options?: { profiles?: TopicProfile[] },
 ): Promise<ResearchSource[]> => {
-	const profiles = await loadRuntimeTopicProfiles();
+	const profiles = options?.profiles ?? await getRuntimeTopicProfiles();
 	const normalizedQuery = normalizeForMatch(query);
 
 	const profile = profiles.find((entry) => {
@@ -158,15 +172,33 @@ export const searchOnlineSources = async (
 
 	for (const seedUrl of seedUrls) {
 		try {
-			const cheerioResults = await parseWithCheerio(seedUrl, query);
-			if (cheerioResults.length > 0) {
-				collected.push(...cheerioResults);
+			let cheerioResults = cheerioSourceCache.get(seedUrl);
+			if (!cheerioResults) {
+				cheerioResults = await parseWithCheerio(seedUrl);
+				cheerioSourceCache.set(seedUrl, cheerioResults);
+			}
+
+			const usefulCheerioResults = cheerioResults.filter((source) =>
+				sourceLooksUseful(source.title, source.content, query)
+			);
+
+			if (usefulCheerioResults.length > 0) {
+				collected.push(...usefulCheerioResults);
 				continue;
 			}
 
-			const selectorResults = await parseWithSelectorLogic(seedUrl, topicSlug, topicName);
-			if (selectorResults.length > 0) {
-				collected.push(...selectorResults);
+			let selectorResults = selectorSourceCache.get(seedUrl);
+			if (!selectorResults) {
+				selectorResults = await parseWithSelectorLogic(seedUrl, topicSlug, topicName);
+				selectorSourceCache.set(seedUrl, selectorResults);
+			}
+
+			const usefulSelectorResults = selectorResults.filter((source) =>
+				sourceLooksUseful(source.title, source.content, query)
+			);
+
+			if (usefulSelectorResults.length > 0) {
+				collected.push(...usefulSelectorResults);
 			}
 		} catch {
 			// Continue with next source when a seed page fails.

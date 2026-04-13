@@ -58,11 +58,17 @@ const findAlternateFeedUrl = (html: string, baseUrl: string): string | null => {
 	return match;
 };
 
-const resolveFeedUrl = async (sourceUrl: string): Promise<string | null> => {
-	const githubReleaseFeed = toGithubReleaseFeedUrl(sourceUrl);
-	if (githubReleaseFeed) return githubReleaseFeed;
+type FeedResolution = {
+	feedUrl: string | null;
+	html?: string;
+	responseUrl?: string;
+};
 
-	if (isLikelyFeedUrl(sourceUrl)) return sourceUrl;
+const resolveFeedUrl = async (sourceUrl: string): Promise<FeedResolution> => {
+	const githubReleaseFeed = toGithubReleaseFeedUrl(sourceUrl);
+	if (githubReleaseFeed) return { feedUrl: githubReleaseFeed };
+
+	if (isLikelyFeedUrl(sourceUrl)) return { feedUrl: sourceUrl };
 
 	try {
 		const response = await fetch(sourceUrl);
@@ -71,16 +77,20 @@ const resolveFeedUrl = async (sourceUrl: string): Promise<string | null> => {
 		const responseUrl = response.url || sourceUrl;
 
 		if (FEED_CONTENT_TYPE_PATTERN.test(contentType)) {
-			return responseUrl;
+			return { feedUrl: responseUrl };
 		}
 
 		if (body.trim().startsWith("<?xml") || body.includes("<rss") || body.includes("<feed")) {
-			return responseUrl;
+			return { feedUrl: responseUrl };
 		}
 
-		return findAlternateFeedUrl(body, responseUrl);
+		return {
+			feedUrl: findAlternateFeedUrl(body, responseUrl),
+			html: body,
+			responseUrl,
+		};
 	} catch {
-		return null;
+		return { feedUrl: null };
 	}
 };
 
@@ -216,7 +226,8 @@ export const scannerNode = async (
 
 			// 3. No cached info → probe for a feed
 			await touchSourceSelector(sourceUrl, topic.topicSlug, stored?.source_type ?? "unknown");
-			const feedUrl = await resolveFeedUrl(sourceUrl);
+			const feedResolution = await resolveFeedUrl(sourceUrl);
+			const feedUrl = feedResolution.feedUrl;
 
 			if (feedUrl) {
 				rssTaskCount++;
@@ -233,7 +244,14 @@ export const scannerNode = async (
 				"scanner: no feed found, running selector learner",
 			);
 			tasks.push(
-				learnAndCrawlSource(sourceUrl, topic.topicSlug, topic.topicName).then(
+				learnAndCrawlSource(
+					sourceUrl,
+					topic.topicSlug,
+					topic.topicName,
+					feedResolution.html
+						? { html: feedResolution.html, sourceUrl: feedResolution.responseUrl }
+						: undefined,
+				).then(
 					async (result) => {
 						if (!result) {
 							unresolvedSourceCount++;

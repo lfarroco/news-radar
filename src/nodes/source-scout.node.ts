@@ -99,7 +99,7 @@ export const sourceScoutNode = async (): Promise<void> => {
             for (const { type, query } of queries) {
                 queriesAttempted++;
                 try {
-                    const sources = (await searchOnlineSources(query, 3)).filter((source) =>
+                    const sources = (await searchOnlineSources(query, 3, { profiles })).filter((source) =>
                         isEligibleDiscoveredSource(source.url, source.score)
                     );
                     if (sources.length > 0) {

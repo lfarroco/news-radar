@@ -23,6 +23,11 @@ export type LearnedSelectors = {
 	items: IndexCrawlItem[];
 };
 
+export type PrefetchedSourcePage = {
+	html: string;
+	sourceUrl?: string;
+};
+
 // ── HTML helpers ───────────────────────────────────────────────────────────
 
 const buildHtmlSkeleton = (html: string, maxLen = 7000): string => {
@@ -149,22 +154,27 @@ export const learnAndCrawlSource = async (
 	sourceUrl: string,
 	_topicSlug: string,
 	_topicName: string,
+	prefetched?: PrefetchedSourcePage,
 ): Promise<LearnedSelectors | null> => {
 	// Fetch the page
 	let html: string;
-	try {
-		const res = await fetch(sourceUrl);
-		if (!res.ok) {
-			logger.warn(
-				{ sourceUrl, status: res.status },
-				`selector-learner ${sourceUrl}: fetch failed`,
-			);
+	if (prefetched?.html) {
+		html = prefetched.html;
+	} else {
+		try {
+			const res = await fetch(sourceUrl);
+			if (!res.ok) {
+				logger.warn(
+					{ sourceUrl, status: res.status },
+					`selector-learner ${sourceUrl}: fetch failed`,
+				);
+				return null;
+			}
+			html = await res.text();
+		} catch (err) {
+			logger.warn({ sourceUrl, err }, `selector-learner ${sourceUrl}: fetch error`);
 			return null;
 		}
-		html = await res.text();
-	} catch (err) {
-		logger.warn({ sourceUrl, err }, `selector-learner ${sourceUrl}: fetch error`);
-		return null;
 	}
 
 	const skeleton = buildHtmlSkeleton(html);
