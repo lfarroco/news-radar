@@ -570,7 +570,8 @@ export const updateGeneratedArticle = (
      SET title = $2,
          body = $3,
          slug = $4,
-         url = $5
+         url = $5,
+         is_published = true
      WHERE id = $1;`,
         [articleId, title, body, slug, url],
     );
@@ -1102,4 +1103,43 @@ export const insertCreativeArticleTask = async (
         [candidateId, editorNotes],
     );
     return rows[0].id;
+};
+
+// ── topic pipeline status ──────────────────────────────────────────────────
+
+export const getTopicIdsWithPendingPipeline = async (): Promise<Set<number>> => {
+    const { rows } = await client.queryObject<{ topic_id: number }>(
+        `SELECT DISTINCT c.topic_id
+         FROM article_tasks at
+         INNER JOIN candidates c ON c.id = at.candidate_id
+         WHERE at.status IN ('pending', 'in_progress')
+         UNION
+         SELECT DISTINCT a.topic_id
+         FROM articles a
+         WHERE a.is_published = false;`,
+    );
+    return new Set(rows.map((r) => r.topic_id));
+};
+
+export const markArticleUnpublished = async (articleId: number): Promise<void> => {
+    await client.queryArray(
+        `UPDATE articles SET is_published = false WHERE id = $1;`,
+        [articleId],
+    );
+};
+
+export const getArticlesPendingReview = async (): Promise<
+    Array<{ id: number; task_id: number; topic_id: number; title: string; body: string; slug: string; url: string; published_at: Date; author_agent_version: string }>
+> => {
+    const { rows } = await client.queryObject<{
+        id: number; task_id: number; topic_id: number; title: string; body: string;
+        slug: string; url: string; published_at: Date; author_agent_version: string;
+    }>(
+        `SELECT a.id, a.task_id, a.topic_id, a.title, a.body, a.slug, a.url,
+                a.published_at, a.author_agent_version
+         FROM articles a
+         WHERE a.is_published = false
+         ORDER BY a.id;`,
+    );
+    return rows;
 };

@@ -5,6 +5,7 @@ import {
 	addTopicNote,
 	completeArticleTask,
 	getAllTopics,
+	getTopicIdsWithPendingPipeline,
 	insertCreativeArticleTask,
 	insertCreativeCandidate,
 	insertGeneratedArticle,
@@ -23,15 +24,34 @@ const config = loadConfig();
 
 // ── JSON extraction helper ─────────────────────────────────────────────────
 
+const sanitizeJsonStrings = (text: string): string =>
+	text.replace(
+		/"(?:[^"\\]|\\.)*"/g,
+		(match) =>
+			// deno-lint-ignore no-control-regex
+			match.replace(/[\x00-\x1f]/g, (ch) => {
+				if (ch === "\n") return "\\n";
+				if (ch === "\r") return "\\r";
+				if (ch === "\t") return "\\t";
+				return `\\u${ch.charCodeAt(0).toString(16).padStart(4, "0")}`;
+			}),
+	);
+
 const extractJson = (text: string): unknown => {
-	// Try to find JSON in the response (handles markdown fences, preamble, etc.)
 	const fenceMatch = text.match(/```(?:json)?\s*\n?([\s\S]*?)\n?```/);
-	if (fenceMatch) return JSON.parse(fenceMatch[1].trim());
+	if (fenceMatch) {
+		try { return JSON.parse(fenceMatch[1].trim()); } catch { /* fall through to sanitize */ }
+		return JSON.parse(sanitizeJsonStrings(fenceMatch[1].trim()));
+	}
 
 	const braceMatch = text.match(/\{[\s\S]*\}/);
-	if (braceMatch) return JSON.parse(braceMatch[0]);
+	if (braceMatch) {
+		try { return JSON.parse(braceMatch[0]); } catch { /* fall through to sanitize */ }
+		return JSON.parse(sanitizeJsonStrings(braceMatch[0]));
+	}
 
-	return JSON.parse(text);
+	try { return JSON.parse(text); } catch { /* fall through to sanitize */ }
+	return JSON.parse(sanitizeJsonStrings(text));
 };
 
 // ── article idea generation ────────────────────────────────────────────────
@@ -162,11 +182,19 @@ export const creativeWriterNode = async (
 	const startedAt = Date.now();
 	const allTopics = await getAllTopics();
 	const coveredTopicIds = getCoveredTopicIds(state);
+	const pendingTopicIds = await getTopicIdsWithPendingPipeline();
 	const topicProfiles = await loadRuntimeTopicProfiles();
 
 	const uncoveredTopics = allTopics.filter(
-		(t) => !coveredTopicIds.has(t.id),
+		(t) => !coveredTopicIds.has(t.id) && !pendingTopicIds.has(t.id),
 	);
+
+	if (pendingTopicIds.size > 0) {
+		logger.info(
+			{ pendingTopicIds: [...pendingTopicIds] },
+			`creative-writer: ${pendingTopicIds.size} topic(s) skipped — pending pipeline items`,
+		);
+	}
 
 	if (uncoveredTopics.length === 0) {
 		logger.info("creative-writer: all topics covered by hard news, skipping");

@@ -4,6 +4,8 @@ import { makeLlm } from "../llm.ts";
 import {
 	addTopicNote,
 	getArticleReviewContext,
+	getArticlesPendingReview,
+	markArticleUnpublished,
 	updateGeneratedArticle,
 } from "../db/queries.ts";
 import { logger } from "../logger.ts";
@@ -14,14 +16,34 @@ import { logDecision } from "../pipeline/decision-log.ts";
 
 // ── JSON extraction helper ─────────────────────────────────────────────────
 
+const sanitizeJsonStrings = (text: string): string =>
+	text.replace(
+		/"(?:[^"\\]|\\.)*"/g,
+		(match) =>
+			// deno-lint-ignore no-control-regex
+			match.replace(/[\x00-\x1f]/g, (ch) => {
+				if (ch === "\n") return "\\n";
+				if (ch === "\r") return "\\r";
+				if (ch === "\t") return "\\t";
+				return `\\u${ch.charCodeAt(0).toString(16).padStart(4, "0")}`;
+			}),
+	);
+
 const extractJson = (text: string): unknown => {
 	const fenceMatch = text.match(/```(?:json)?\s*\n?([\s\S]*?)\n?```/);
-	if (fenceMatch) return JSON.parse(fenceMatch[1].trim());
+	if (fenceMatch) {
+		try { return JSON.parse(fenceMatch[1].trim()); } catch { /* fall through to sanitize */ }
+		return JSON.parse(sanitizeJsonStrings(fenceMatch[1].trim()));
+	}
 
 	const braceMatch = text.match(/\{[\s\S]*\}/);
-	if (braceMatch) return JSON.parse(braceMatch[0]);
+	if (braceMatch) {
+		try { return JSON.parse(braceMatch[0]); } catch { /* fall through to sanitize */ }
+		return JSON.parse(sanitizeJsonStrings(braceMatch[0]));
+	}
 
-	return JSON.parse(text);
+	try { return JSON.parse(text); } catch { /* fall through to sanitize */ }
+	return JSON.parse(sanitizeJsonStrings(text));
 };
 
 const reviewSchema = z.object({
@@ -85,7 +107,23 @@ export const reviewerNode = async (
 ): Promise<Partial<PipelineState>> => {
 	const startedAt = Date.now();
 	const published = state.publishedArticles ?? [];
-	if (published.length === 0) {
+
+	// Pick up articles that failed review on a previous run
+	const retries = await getArticlesPendingReview();
+	const retryIds = new Set(retries.map((a) => a.id));
+	const currentRunIds = new Set(published.map((a) => a.id));
+	const retryArticles = retries.filter((a) => !currentRunIds.has(a.id));
+
+	const allArticles: GeneratedArticle[] = [...published, ...retryArticles];
+
+	if (retryArticles.length > 0) {
+		logger.info(
+			{ retryCount: retryArticles.length, retryIds: retryArticles.map((a) => a.id) },
+			`reviewer: retrying ${retryArticles.length} article(s) from previous failed reviews`,
+		);
+	}
+
+	if (allArticles.length === 0) {
 		logger.info("reviewer: no published articles to review");
 		return {};
 	}
@@ -95,7 +133,7 @@ export const reviewerNode = async (
 	const reviewedArticles: GeneratedArticle[] = [];
 	let improvedCount = 0;
 
-	for (const article of published) {
+	for (const article of allArticles) {
 		try {
 			const context = await getArticleReviewContext(article.id);
 			if (!context) {
@@ -137,6 +175,10 @@ export const reviewerNode = async (
 				nextBody !== article.body;
 
 			if (!shouldUpdate) {
+				// Re-publish retry articles that pass review without changes
+				if (retryIds.has(article.id)) {
+					await updateGeneratedArticle(article.id, article.title, article.body, article.slug, article.url);
+				}
 				logger.info(
 					{ articleId: article.id, topic: context.topic_slug },
 					"reviewer: kept article draft",
@@ -199,14 +241,25 @@ export const reviewerNode = async (
 				url: article.url,
 				reason: `error: ${errMsg}`,
 			}, { articleId: article.id, error: errMsg, stack: errStack });
-			reviewedArticles.push(article);
+
+			// Mark unpublished so it gets retried on the next run
+			try {
+				await markArticleUnpublished(article.id);
+				logger.info({ articleId: article.id }, "reviewer: marked article unpublished for retry");
+			} catch (markErr) {
+				logger.error({ articleId: article.id, error: String(markErr) }, "reviewer: failed to mark article unpublished");
+			}
+			// Don't include in reviewedArticles — it won't be published this run
 		}
 	}
 
 	logger.info(
 		{
-			attempted: published.length,
+			attempted: allArticles.length,
+			fromCurrentRun: published.length,
+			retried: retryArticles.length,
 			improved: improvedCount,
+			published: reviewedArticles.length,
 			durationMs: Date.now() - startedAt,
 		},
 		"reviewer: finished",
