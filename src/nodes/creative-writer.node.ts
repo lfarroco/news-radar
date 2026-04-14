@@ -16,44 +16,13 @@ import {
 import { logger } from "../logger.ts";
 import { loadConfig } from "../config.ts";
 import { normalizeArticleBody, slugify } from "../utils.ts";
+import { extractJsonFromLlmText } from "../json-utils.ts";
 import { findTopicProfile, loadRuntimeTopicProfiles } from "../topics/runtime.ts";
 import { logDecision } from "../pipeline/decision-log.ts";
 import type { GeneratedArticle } from "../models.ts";
 import type { PipelineState } from "../graph/state.ts";
 
 const config = loadConfig();
-
-// ── JSON extraction helper ─────────────────────────────────────────────────
-
-const sanitizeJsonStrings = (text: string): string =>
-	text.replace(
-		/"(?:[^"\\]|\\.)*"/g,
-		(match) =>
-			// deno-lint-ignore no-control-regex
-			match.replace(/[\x00-\x1f]/g, (ch) => {
-				if (ch === "\n") return "\\n";
-				if (ch === "\r") return "\\r";
-				if (ch === "\t") return "\\t";
-				return `\\u${ch.charCodeAt(0).toString(16).padStart(4, "0")}`;
-			}),
-	);
-
-const extractJson = (text: string): unknown => {
-	const fenceMatch = text.match(/```(?:json)?\s*\n?([\s\S]*?)\n?```/);
-	if (fenceMatch) {
-		try { return JSON.parse(fenceMatch[1].trim()); } catch { /* fall through to sanitize */ }
-		return JSON.parse(sanitizeJsonStrings(fenceMatch[1].trim()));
-	}
-
-	const braceMatch = text.match(/\{[\s\S]*\}/);
-	if (braceMatch) {
-		try { return JSON.parse(braceMatch[0]); } catch { /* fall through to sanitize */ }
-		return JSON.parse(sanitizeJsonStrings(braceMatch[0]));
-	}
-
-	try { return JSON.parse(text); } catch { /* fall through to sanitize */ }
-	return JSON.parse(sanitizeJsonStrings(text));
-};
 
 // ── article idea generation ────────────────────────────────────────────────
 
@@ -267,7 +236,7 @@ export const creativeWriterNode = async (
 				recentTopicTitles,
 				recentGlobalTitles,
 			});
-			const idea = ideaOutputSchema.parse(extractJson(
+			const idea = ideaOutputSchema.parse(extractJsonFromLlmText(
 				typeof ideaRaw.content === "string" ? ideaRaw.content : JSON.stringify(ideaRaw.content),
 			));
 
@@ -301,7 +270,7 @@ export const creativeWriterNode = async (
 			const rawText = typeof writerRaw.content === "string" ? writerRaw.content : JSON.stringify(writerRaw.content);
 			let result: z.infer<typeof creativeWriterOutputSchema>;
 			try {
-				result = creativeWriterOutputSchema.parse(extractJson(rawText));
+				result = creativeWriterOutputSchema.parse(extractJsonFromLlmText(rawText));
 			} catch {
 				// LLM returned plain text instead of JSON — wrap it
 				logger.info({ topic: topic.slug }, `creative-writer: LLM returned plain text, wrapping as article body`);

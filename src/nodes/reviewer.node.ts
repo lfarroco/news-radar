@@ -10,41 +10,10 @@ import {
 } from "../db/queries.ts";
 import { logger } from "../logger.ts";
 import { slugify, stripLeadingTopicLabel, compactText, normalizeArticleBody } from "../utils.ts";
+import { extractJsonFromLlmText } from "../json-utils.ts";
 import type { PipelineState } from "../graph/state.ts";
 import type { GeneratedArticle } from "../models.ts";
 import { logDecision } from "../pipeline/decision-log.ts";
-
-// ── JSON extraction helper ─────────────────────────────────────────────────
-
-const sanitizeJsonStrings = (text: string): string =>
-	text.replace(
-		/"(?:[^"\\]|\\.)*"/g,
-		(match) =>
-			// deno-lint-ignore no-control-regex
-			match.replace(/[\x00-\x1f]/g, (ch) => {
-				if (ch === "\n") return "\\n";
-				if (ch === "\r") return "\\r";
-				if (ch === "\t") return "\\t";
-				return `\\u${ch.charCodeAt(0).toString(16).padStart(4, "0")}`;
-			}),
-	);
-
-const extractJson = (text: string): unknown => {
-	const fenceMatch = text.match(/```(?:json)?\s*\n?([\s\S]*?)\n?```/);
-	if (fenceMatch) {
-		try { return JSON.parse(fenceMatch[1].trim()); } catch { /* fall through to sanitize */ }
-		return JSON.parse(sanitizeJsonStrings(fenceMatch[1].trim()));
-	}
-
-	const braceMatch = text.match(/\{[\s\S]*\}/);
-	if (braceMatch) {
-		try { return JSON.parse(braceMatch[0]); } catch { /* fall through to sanitize */ }
-		return JSON.parse(sanitizeJsonStrings(braceMatch[0]));
-	}
-
-	try { return JSON.parse(text); } catch { /* fall through to sanitize */ }
-	return JSON.parse(sanitizeJsonStrings(text));
-};
 
 const reviewSchema = z.object({
 	hasSufficientContent: z.boolean(),
@@ -162,7 +131,7 @@ export const reviewerNode = async (
 				draftContent: article.body,
 			});
 			const rawText = typeof raw.content === "string" ? raw.content : JSON.stringify(raw.content);
-			const review = reviewSchema.parse(extractJson(rawText));
+			const review = reviewSchema.parse(extractJsonFromLlmText(rawText));
 
 			const nextTitle = stripLeadingTopicLabel(
 				review.improvedTitle?.trim() || article.title,
