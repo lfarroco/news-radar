@@ -1,30 +1,66 @@
-const sanitizeJsonStrings = (text: string): string =>
-	text.replace(
-		/"(?:[^"\\]|\\.)*"/g,
-		(match) =>
-			// deno-lint-ignore no-control-regex
-			match.replace(/[\x00-\x1f]/g, (ch) => {
-				if (ch === "\n") return "\\n";
-				if (ch === "\r") return "\\r";
-				if (ch === "\t") return "\\t";
-				return `\\u${ch.charCodeAt(0).toString(16).padStart(4, "0")}`;
-			}),
-	);
+const toJsonControlEscape = (ch: string): string => {
+	if (ch === "\n") return "\\n";
+	if (ch === "\r") return "\\r";
+	if (ch === "\t") return "\\t";
+	return `\\u${ch.charCodeAt(0).toString(16).padStart(4, "0")}`;
+};
 
-const sanitizeInvalidJsonControls = (text: string): string =>
-	// deno-lint-ignore no-control-regex
-	text.replace(/[\x00-\x08\x0b\x0c\x0e-\x1f]/g, " ");
+const sanitizeJsonControlsStateful = (text: string): string => {
+	let out = "";
+	let inString = false;
+	let escaping = false;
+
+	for (let i = 0; i < text.length; i++) {
+		const ch = text[i];
+
+		if (inString) {
+			if (escaping) {
+				out += ch;
+				escaping = false;
+				continue;
+			}
+
+			if (ch === "\\") {
+				out += ch;
+				escaping = true;
+				continue;
+			}
+
+			if (ch === '"') {
+				out += ch;
+				inString = false;
+				continue;
+			}
+
+			const code = ch.charCodeAt(0);
+			if (code <= 0x1f) {
+				out += toJsonControlEscape(ch);
+				continue;
+			}
+
+			out += ch;
+			continue;
+		}
+
+		if (ch === '"') {
+			out += ch;
+			inString = true;
+			continue;
+		}
+
+		const code = ch.charCodeAt(0);
+		const isIllegalOutsideString = code <= 0x1f && ch !== "\n" && ch !== "\r" && ch !== "\t";
+		out += isIllegalOutsideString ? " " : ch;
+	}
+
+	return out;
+};
 
 const parseJsonWithSanitization = (text: string): unknown => {
 	try {
 		return JSON.parse(text);
 	} catch {
-		const sanitizedStrings = sanitizeJsonStrings(text);
-		try {
-			return JSON.parse(sanitizedStrings);
-		} catch {
-			return JSON.parse(sanitizeInvalidJsonControls(sanitizedStrings));
-		}
+		return JSON.parse(sanitizeJsonControlsStateful(text));
 	}
 };
 

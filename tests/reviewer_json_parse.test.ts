@@ -25,3 +25,23 @@ Deno.test("reviewer JSON extraction tolerates control chars outside JSON strings
 	assertEquals(parsed.needsImprovement, false);
 	assertEquals(parsed.improvedTitle, "Title");
 });
+
+Deno.test("reviewer JSON extraction escapes control chars inside JSON strings", () => {
+	const verticalTab = String.fromCharCode(0x0b);
+	const raw = [
+		"{",
+		'  "hasSufficientContent": true,',
+		'  "needsImprovement": false,',
+		`  "reviewSummary": "Looks good${verticalTab}with caveat",`,
+		'  "improvedTitle": "Title",',
+		'  "improvedContent": "Content"',
+		"}",
+	].join("\n");
+
+	const parsed = extractJsonFromLlmText(raw) as {
+		reviewSummary: string;
+	};
+
+	assertEquals(parsed.reviewSummary.includes("Looks good"), true);
+	assertEquals(parsed.reviewSummary.includes("with caveat"), true);
+});

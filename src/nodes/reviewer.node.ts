@@ -104,6 +104,7 @@ export const reviewerNode = async (
 	let improvedCount = 0;
 
 	for (const article of allArticles) {
+		let reviewerRawPayload: string | undefined;
 		try {
 			const context = await getArticleReviewContext(article.id);
 			if (!context) {
@@ -130,8 +131,8 @@ export const reviewerNode = async (
 				draftTitle: article.title,
 				draftContent: article.body,
 			});
-			const rawText = typeof raw.content === "string" ? raw.content : JSON.stringify(raw.content);
-			const review = reviewSchema.parse(extractJsonFromLlmText(rawText));
+			reviewerRawPayload = typeof raw.content === "string" ? raw.content : JSON.stringify(raw.content);
+			const review = reviewSchema.parse(extractJsonFromLlmText(reviewerRawPayload));
 
 			const nextTitle = stripLeadingTopicLabel(
 				review.improvedTitle?.trim() || article.title,
@@ -200,9 +201,17 @@ export const reviewerNode = async (
 		} catch (err) {
 			const errMsg = err instanceof Error ? err.message : String(err);
 			const errStack = err instanceof Error ? err.stack : undefined;
+			const payloadLog = reviewerRawPayload && reviewerRawPayload.length > 0
+				? reviewerRawPayload
+				: "<empty payload>";
 			logger.error(
-				{ articleId: article.id, error: errMsg, stack: errStack },
-				`reviewer: failed to review article ${article.id}: ${errMsg}`,
+				{
+					articleId: article.id,
+					error: errMsg,
+					stack: errStack,
+					rawPayload: reviewerRawPayload,
+				},
+				`reviewer: failed to review article ${article.id}: ${errMsg}\nreviewer: failing payload for article ${article.id}:\n${payloadLog}`,
 			);
 			logDecision(logger, "error", "reviewer", "failed", {
 				entity: "article",
@@ -210,7 +219,12 @@ export const reviewerNode = async (
 				title: compactText(article.title, 160),
 				url: article.url,
 				reason: `error: ${errMsg}`,
-			}, { articleId: article.id, error: errMsg, stack: errStack });
+			}, {
+				articleId: article.id,
+				error: errMsg,
+				stack: errStack,
+				rawPayload: reviewerRawPayload,
+			});
 
 			// Mark unpublished so it gets retried on the next run
 			try {
